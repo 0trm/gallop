@@ -1,0 +1,360 @@
+<title>Intake Algorithm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Chicago and Monaco, the real faces. local() first so a Mac uses what it has. */
+@font-face{font-family:"Chicago";font-style:normal;font-weight:400;font-display:swap;
+  src:local("Chicago"),local("ChicagoFLF")}
+@font-face{font-family:"Monaco";font-style:normal;font-weight:400;font-display:swap;
+  src:local("Monaco")}
+</style>
+<style>
+:root{
+  --pasture:#D9DEE4; --pasture-shade:#B2BAC5; --vellum:#E9E3D3;
+  --ink:#000000; --paper:#FFFFFF;
+  --f-chrome:"Chicago",system-ui,sans-serif;
+  --f-body:"Geneva","Public Sans",-apple-system,"Helvetica Neue",sans-serif;
+  --f-mono:"Monaco","IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --hair:1px solid var(--ink);
+  --drop:3px 3px 0 var(--pasture-shade);
+}
+*{box-sizing:border-box}
+html{background:var(--pasture)}
+body{margin:0;background:var(--pasture);color:var(--ink);font-family:var(--f-body);
+     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.desk{max-width:1080px;margin:0 auto;padding:48px 26px 96px;display:flex;flex-direction:column;gap:34px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.win{background:var(--paper);border:var(--hair);box-shadow:var(--drop)}
+.bar{height:24px;border-bottom:var(--hair);display:flex;align-items:center;gap:8px;padding:0 7px;
+     background-color:var(--paper);
+     background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px);
+     background-clip:padding-box}
+.close{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto}
+.bar h2{font-family:var(--f-chrome);font-size:11px;font-weight:400;letter-spacing:.04em;margin:0;
+        background:var(--paper);padding:1px 9px;white-space:nowrap}
+.bar .grow{flex:1}
+.bar .size{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto;position:relative}
+.bar .size::after{content:"";position:absolute;left:2px;top:2px;width:5px;height:5px;border:var(--hair)}
+.body{padding:32px}
+
+.label{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.tag{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:10px;
+     font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
+.mono{font-family:var(--f-mono)}
+.wm{font-family:var(--f-chrome);text-transform:lowercase;letter-spacing:0}
+h1{font-family:var(--f-chrome);font-size:38px;font-weight:400;line-height:1.05;margin:0;letter-spacing:.01em}
+h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+h4{font-size:15px;font-weight:700;margin:0 0 5px}
+p{margin:0}
+.lead{font-size:17px;line-height:1.5;max-width:56ch}
+.cap{font-size:12px;line-height:1.45}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:16px}
+.mark{background:var(--vellum);padding:0 3px}
+.glyph{color:var(--ink);display:block}
+.glyph svg{display:block;width:33px;height:33px}
+
+.laws{background:var(--pasture);border:var(--hair)}
+.laws p{padding:14px 20px;font-size:14px;line-height:1.45}
+.laws p+p{border-top:1px solid var(--pasture-shade)}
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;padding:0 2px}
+
+/* diagram */
+figure.dg{margin:0}
+.dg svg{display:block;width:100%;height:auto;max-width:100%}
+.dg text{font-family:var(--f-body);fill:var(--ink)}
+.dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
+.dg .t-sub{font-size:11.5px}
+.dg .t-give{font-size:10.5px;opacity:.62}
+.dg .t-q{font-size:12px}
+.dg .t-edge{font-family:var(--f-mono);font-size:10.5px}
+.dg .t-note{font-size:9.5px;opacity:.62}
+.dg .node{fill:var(--paper);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .sel{fill:var(--vellum);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
+.dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.dg .head{fill:var(--ink)}
+figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity:.8}
+@media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
+
+@media print{
+  html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .win{box-shadow:none}
+  figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
+  h3,h4,.sec{break-after:avoid}
+}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:start}
+.panels{display:grid;grid-template-columns:1.12fr 1fr;gap:34px;align-items:start}
+.two-up{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+
+/* the key: a 1-bit band standing in for the original's tints */
+.keyed .body{padding-left:44px;position:relative}
+.keyed .body::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;
+                     border-right:var(--hair);background-color:var(--paper)}
+.k-hatch .body::before{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
+.k-vert  .body::before{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
+.keyto{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+       opacity:.55;display:block;margin-bottom:14px}
+
+.meth{width:100%;border-collapse:collapse;font-size:13px}
+.meth th{text-align:left;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;padding:0 0 9px;border-bottom:var(--hair)}
+.meth td{padding:11px 14px 11px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
+.meth td:first-child{font-family:var(--f-chrome);font-size:11px;white-space:nowrap;padding-right:20px}
+.meth tr:last-child td{border-bottom:none}
+.warn{display:flex;gap:16px;align-items:flex-start;margin-top:20px;padding-top:18px;
+      border-top:1px solid var(--pasture-shade)}
+.opts{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.opts li{display:flex;gap:12px;font-size:13.5px;line-height:1.45}
+.opts li::before{content:"";flex:0 0 7px;height:7px;background:var(--ink);margin-top:7px}
+
+.legend{display:flex;gap:26px;flex-wrap:wrap;margin-top:22px;padding-top:18px;
+        border-top:1px solid var(--pasture-shade)}
+.legend div{display:flex;align-items:center;gap:9px;font-size:11.5px}
+.legend i{width:16px;height:26px;border:var(--hair);display:block;background-color:var(--paper)}
+.l-solid{background-color:var(--ink)!important}
+.l-horiz{background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px)}
+.l-dot{background-image:radial-gradient(var(--ink) .6px,transparent .7px);background-size:3px 3px}
+.l-vert{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
+.l-hatch{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
+@media (max-width:880px){ .hero{grid-template-columns:1fr} .panels{grid-template-columns:1fr} .two-up{grid-template-columns:1fr} }
+
+.dg .t-title{font-size:15px}
+.dg .t-sub{font-size:12.5px}
+.dg .t-give{font-size:11.5px}
+.dg .t-q{font-size:13px}
+.dg .t-edge{font-size:11.5px}
+.dg .t-note{font-size:10.5px}
+.dg .key{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .pk{fill:var(--ink)}
+.dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
+.dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div class="desk">
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>intake</h2><span class="grow"></span><span class="size"></span></div>
+  <div class="body hero">
+    <div>
+      <span class="tag">PDS Method Map · intake</span>
+      <h1 style="margin-top:18px">Run this on<br>every question</h1>
+      <p class="lead" style="margin-top:16px">One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
+    </div>
+    <span class="glyph"><svg viewBox="0 0 33 33" width="84" height="84" fill="currentColor" shape-rendering="crispEdges"><rect x="17" y="0" width="3" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="19" y="4" width="2" height="1"/><rect x="15" y="5" width="1" height="1"/><rect x="19" y="5" width="1" height="1"/><rect x="10" y="6" width="5" height="1"/><rect x="18" y="6" width="3" height="1"/><rect x="8" y="7" width="2" height="1"/><rect x="21" y="7" width="1" height="1"/><rect x="28" y="7" width="3" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="21" y="8" width="1" height="1"/><rect x="27" y="8" width="1" height="1"/><rect x="30" y="8" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="22" y="9" width="1" height="1"/><rect x="27" y="9" width="1" height="1"/><rect x="30" y="9" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="23" y="10" width="1" height="1"/><rect x="26" y="10" width="1" height="1"/><rect x="29" y="10" width="1" height="1"/><rect x="6" y="11" width="1" height="1"/><rect x="10" y="11" width="4" height="1"/><rect x="24" y="11" width="2" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="9" y="12" width="1" height="1"/><rect x="13" y="12" width="1" height="1"/><rect x="20" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="6" y="13" width="1" height="1"/><rect x="9" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="20" y="13" width="2" height="1"/><rect x="27" y="13" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="12" y="14" width="1" height="1"/><rect x="20" y="14" width="1" height="1"/><rect x="22" y="14" width="1" height="1"/><rect x="26" y="14" width="1" height="1"/><rect x="7" y="15" width="1" height="1"/><rect x="10" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="19" y="15" width="1" height="1"/><rect x="23" y="15" width="3" height="1"/><rect x="7" y="16" width="1" height="1"/><rect x="10" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="19" y="16" width="1" height="1"/><rect x="7" y="17" width="3" height="1"/><rect x="11" y="17" width="1" height="1"/><rect x="19" y="17" width="1" height="1"/><rect x="11" y="18" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/><rect x="4" y="19" width="2" height="1"/><rect x="10" y="19" width="1" height="1"/><rect x="20" y="19" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="6" y="20" width="2" height="1"/><rect x="10" y="20" width="1" height="1"/><rect x="20" y="20" width="1" height="1"/><rect x="2" y="21" width="1" height="1"/><rect x="8" y="21" width="2" height="1"/><rect x="21" y="21" width="1" height="1"/><rect x="2" y="22" width="1" height="1"/><rect x="15" y="22" width="2" height="1"/><rect x="21" y="22" width="1" height="1"/><rect x="1" y="23" width="1" height="1"/><rect x="4" y="23" width="2" height="1"/><rect x="14" y="23" width="1" height="1"/><rect x="16" y="23" width="1" height="1"/><rect x="22" y="23" width="1" height="1"/><rect x="1" y="24" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="6" y="24" width="1" height="1"/><rect x="13" y="24" width="1" height="1"/><rect x="17" y="24" width="1" height="1"/><rect x="22" y="24" width="1" height="1"/><rect x="2" y="25" width="2" height="1"/><rect x="7" y="25" width="2" height="1"/><rect x="12" y="25" width="1" height="1"/><rect x="17" y="25" width="1" height="1"/><rect x="22" y="25" width="1" height="1"/><rect x="9" y="26" width="3" height="1"/><rect x="17" y="26" width="1" height="1"/><rect x="22" y="26" width="1" height="1"/><rect x="18" y="27" width="1" height="1"/><rect x="22" y="27" width="1" height="1"/><rect x="18" y="28" width="1" height="1"/><rect x="22" y="28" width="1" height="1"/><rect x="18" y="29" width="1" height="1"/><rect x="22" y="29" width="1" height="1"/><rect x="18" y="30" width="1" height="1"/><rect x="23" y="30" width="2" height="1"/><rect x="1" y="31" width="7" height="1"/><rect x="18" y="31" width="1" height="1"/><rect x="25" y="31" width="1" height="1"/><rect x="19" y="32" width="6" height="1"/></svg></span>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>algorithm</h2></div>
+  <div class="body">
+    <figure class="dg"><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+    <pattern id="px-h" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="pk"/></pattern>
+    <pattern id="px-v" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="pk"/></pattern>
+    <pattern id="px-d" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="pk"/></pattern>
+    <pattern id="px-x" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0,4 L4,0 M-1,1 L1,-1 M3,5 L5,3" class="ps"/></pattern>
+  </defs>
+
+  <rect x="40" y="-100" width="1220" height="62" class="band"/>
+  <rect x="40" y="-100" width="14" height="62" class="key" fill="#FFF"/>
+  <text class="t-title" x="80" y="-62">Theory Layer</text>
+  <text class="t-sub" x="360" y="-72">knowledge repo &#183; what was already tried on this surface, wins and losses alike</text>
+  <text class="t-sub" x="360" y="-50">prior store &#183; what this metric has actually moved by, so the MDE is a number</text>
+  <text class="t-note" x="1258" y="-110" text-anchor="end">read before the question is scoped, written when the decision is made</text>
+
+  <line x1="190" y1="-36" x2="190" y2="22" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="204" y="-8">settled, stale, or new? and what is the prior?</text>
+
+  <rect x="86" y="24" width="208" height="40" rx="20" class="node"/>
+  <text class="t-title" x="190" y="50" text-anchor="middle">a question arrives</text>
+
+  <polygon points="190,82 342,126 190,170 38,126" class="node"/>
+    <text class="t-q" x="190" y="122" text-anchor="middle">do I trust the metric</text>
+    <text class="t-q" x="190" y="139" text-anchor="middle">and the definition of success?</text>
+  <polygon points="190,222 342,266 190,310 38,266" class="node"/>
+    <text class="t-q" x="190" y="262" text-anchor="middle">is this description,</text>
+    <text class="t-q" x="190" y="279" text-anchor="middle">or is it about a change?</text>
+  <polygon points="190,362 342,406 190,450 38,406" class="node"/>
+    <text class="t-q" x="190" y="402" text-anchor="middle">is the decision made once,</text>
+    <text class="t-q" x="190" y="419" text-anchor="middle">or continuously?</text>
+  <polygon points="190,522 342,566 190,610 38,566" class="node"/>
+    <text class="t-q" x="190" y="562" text-anchor="middle">who assigned</text>
+    <text class="t-q" x="190" y="579" text-anchor="middle">the treatment?</text>
+
+  <rect x="530" y="84" width="360" height="84" class="node"/>
+    <rect x="530" y="84" width="14" height="84" class="key" fill="#000"/>
+    <text class="t-title" x="566" y="112">Measurement Framework</text>
+    <text class="t-sub" x="566" y="133">fix the definition, the source of truth, the registry</text>
+    <text class="t-give" x="566" y="152">hands back: a number the rest of the map can stand on</text>
+  <rect x="530" y="224" width="360" height="84" class="node"/>
+    <rect x="530" y="224" width="14" height="84" class="key" fill="url(#px-h)"/>
+    <text class="t-title" x="566" y="252">Exploratory Analytics</text>
+    <text class="t-sub" x="566" y="273">deep dives · funnels · segmentation · opp sizing</text>
+    <text class="t-give" x="566" y="292">hands back: a hypothesis</text>
+  <rect x="530" y="364" width="360" height="84" class="node"/>
+    <rect x="530" y="364" width="14" height="84" class="key" fill="url(#px-d)"/>
+    <text class="t-title" x="566" y="392">Statistical Modeling</text>
+    <text class="t-sub" x="566" y="413">forecast · optimizer · uplift model</text>
+    <text class="t-give" x="566" y="432">hands back: a ranking, an allocation, a prediction</text>
+  <rect x="530" y="472" width="360" height="80" class="node"/>
+    <rect x="530" y="472" width="14" height="80" class="key" fill="url(#px-v)"/>
+    <text class="t-title" x="566" y="500">Experimentation</text>
+    <text class="t-sub" x="566" y="521">A/B · switchback · power · sequential · HTE</text>
+    <text class="t-give" x="566" y="540">hands back: an effect size</text>
+  <rect x="530" y="580" width="360" height="80" class="node"/>
+    <rect x="530" y="580" width="14" height="80" class="key" fill="url(#px-x)"/>
+    <text class="t-title" x="566" y="608">Causal Inference</text>
+    <text class="t-sub" x="566" y="629">match the method to how assignment happened</text>
+    <text class="t-give" x="566" y="648">hands back: an effect size, plus its assumptions</text>
+
+  <ellipse cx="1150" cy="566" rx="96" ry="46" class="sel"/>
+  <text class="t-title" x="1150" y="561" text-anchor="middle">Decision</text>
+  <text class="t-sub" x="1150" y="581" text-anchor="middle">ship · kill · reallocate</text>
+
+  <line x1="190" y1="64" x2="190" y2="80" class="path" marker-end="url(#ah)"/>
+  <line x1="190" y1="170" x2="190" y2="220" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="198">yes</text>
+  <line x1="190" y1="310" x2="190" y2="360" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="352">a change</text>
+  <line x1="190" y1="450" x2="190" y2="520" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="481">once</text>
+  <text class="t-note" x="202" y="496">one ship-or-kill call</text>
+
+  <line x1="342" y1="126" x2="528" y2="126" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="117" text-anchor="middle">no</text>
+  <line x1="342" y1="266" x2="528" y2="266" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="257" text-anchor="middle">description</text>
+  <text class="t-note" x="437" y="283" text-anchor="middle">what · where · how many · who</text>
+  <line x1="342" y1="406" x2="528" y2="406" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="397" text-anchor="middle">continuously</text>
+  <text class="t-note" x="437" y="423" text-anchor="middle">per user · per day · at volume</text>
+
+  <polyline points="342,566 372,566 372,512 528,512" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="450" y="505" text-anchor="middle">you can, or could have</text>
+  <polyline points="342,566 372,566 372,620 528,620" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="450" y="613" text-anchor="middle">it already happened</text>
+
+  <polyline points="890,512 1010,512 1010,566" class="path"/>
+  <polyline points="890,620 1010,620 1010,566" class="path"/>
+  <line x1="1010" y1="566" x2="1050" y2="566" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="950" y="505" text-anchor="middle">effect size</text>
+  <text class="t-edge" x="950" y="613" text-anchor="middle">effect size</text>
+
+  <line x1="570" y1="448" x2="570" y2="470" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="584" y="464">the model itself still needs an experiment to prove it moves anything</text>
+
+  <polyline points="610,308 610,336 208,336" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="410" y="330" text-anchor="middle">a hypothesis is a change question, so it re-enters here</text>
+
+  <polyline points="1150,612 1150,736 44,736 44,44 84,44" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="620" y="728" text-anchor="middle">what ships changes the data, so the next question enters a different world</text>
+
+  <line x1="1150" y1="520" x2="1150" y2="-36" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="1164" y="300">what we learned</text>
+</svg>
+      <div class="legend">
+        <div><i class="l-solid"></i><span>Measurement Framework</span></div>
+        <div><i class="l-horiz"></i><span>Exploratory Analytics</span></div>
+        <div><i class="l-dot"></i><span>Statistical Modeling</span></div>
+        <div><i class="l-vert"></i><span>Experimentation</span></div>
+        <div><i class="l-hatch"></i><span>Causal Inference</span></div>
+      </div>
+      <figcaption>Solid is the path a question travels; dashed is what feeds back into it. The band down the left edge of each exit is that exit's key, and the two panels below carry the band of the exit they belong to. The gate sits first because it is the floor: every exit above it inherits a wrong definition of success without ever raising an error. The band across the top is the theory layer, read before the question is scoped and written when the decision is made; its key is drawn empty because it is not a method.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="panels">
+  <section class="win keyed k-hatch">
+    <div class="bar"><span class="close"></span><h2>it already happened</h2></div>
+    <div class="body">
+      <span class="keyto">keyed to causal inference</span>
+      <h3>Pick by how</h3>
+      <table class="meth">
+        <thead><tr><th>Method</th><th>Use it when</th></tr></thead>
+        <tbody>
+          <tr><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
+          <tr><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
+          <tr><td>Synthetic<br>control</td><td>one treated unit, many untreated ones to blend</td></tr>
+          <tr><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
+          <tr><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <span class="glyph"><svg viewBox="0 0 33 33" width="30" height="30" fill="currentColor" shape-rendering="crispEdges"><rect x="21" y="0" width="1" height="1"/><rect x="29" y="0" width="1" height="1"/><rect x="28" y="1" width="1" height="1"/><rect x="22" y="2" width="1" height="1"/><rect x="27" y="2" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="26" y="3" width="1" height="1"/><rect x="19" y="4" width="1" height="1"/><rect x="23" y="4" width="1" height="1"/><rect x="21" y="5" width="1" height="1"/><rect x="12" y="6" width="5" height="1"/><rect x="27" y="6" width="1" height="1"/><rect x="29" y="6" width="1" height="1"/><rect x="31" y="6" width="1" height="1"/><rect x="11" y="7" width="1" height="1"/><rect x="17" y="7" width="2" height="1"/><rect x="22" y="7" width="3" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="19" y="8" width="3" height="1"/><rect x="10" y="9" width="1" height="1"/><rect x="27" y="9" width="1" height="1"/><rect x="10" y="10" width="1" height="1"/><rect x="21" y="10" width="1" height="1"/><rect x="24" y="10" width="1" height="1"/><rect x="28" y="10" width="1" height="1"/><rect x="7" y="11" width="7" height="1"/><rect x="20" y="11" width="1" height="1"/><rect x="29" y="11" width="1" height="1"/><rect x="7" y="12" width="7" height="1"/><rect x="19" y="12" width="1" height="1"/><rect x="24" y="12" width="1" height="1"/><rect x="30" y="12" width="1" height="1"/><rect x="7" y="13" width="7" height="1"/><rect x="5" y="14" width="11" height="1"/><rect x="24" y="14" width="1" height="1"/><rect x="3" y="15" width="15" height="1"/><rect x="3" y="16" width="15" height="1"/><rect x="2" y="17" width="17" height="1"/><rect x="2" y="18" width="17" height="1"/><rect x="1" y="19" width="4" height="1"/><rect x="6" y="19" width="14" height="1"/><rect x="1" y="20" width="19" height="1"/><rect x="1" y="21" width="3" height="1"/><rect x="5" y="21" width="15" height="1"/><rect x="1" y="22" width="3" height="1"/><rect x="5" y="22" width="15" height="1"/><rect x="1" y="23" width="3" height="1"/><rect x="5" y="23" width="15" height="1"/><rect x="1" y="24" width="19" height="1"/><rect x="1" y="25" width="4" height="1"/><rect x="6" y="25" width="14" height="1"/><rect x="2" y="26" width="17" height="1"/><rect x="2" y="27" width="5" height="1"/><rect x="8" y="27" width="11" height="1"/><rect x="3" y="28" width="15" height="1"/><rect x="3" y="29" width="15" height="1"/><rect x="5" y="30" width="11" height="1"/><rect x="7" y="31" width="7" height="1"/></svg></span>
+        <p class="cap">If none of these fit, you do not have a comparison group. Say that out loud rather than shipping the number anyway.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="win keyed k-vert">
+    <div class="bar"><span class="close"></span><h2>the diamond</h2></div>
+    <div class="body">
+      <span class="keyto">keyed to experimentation</span>
+      <h3>Before it ships, it is a choice</h3>
+      <p class="cap">Once it has launched, <span class="mark">can you randomize?</span> is a fact about the past. Asked early, it is a design decision you still own:</p>
+      <ul class="opts">
+        <li>hold out a slice of users</li>
+        <li>stagger the rollout by market or by cohort</li>
+        <li>randomise the prompt, not the feature</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="win keyed k-vert" style="grid-column:1/-1">
+    <div class="bar"><span class="close"></span><h2>the platform</h2></div>
+    <div class="body">
+      <span class="keyto">keyed to experimentation</span>
+      <h3>Two checklists, and a platform that runs them for you</h3>
+      <p class="cap">On a mature team almost none of this is a matter of remembering. You file an experiment the way you file a pull request: the metric comes from a registry rather than a text box, the detectable effect is filled in from the prior store for that metric, guardrails attach themselves, and randomisation, the ratio check, variance reduction and the sequential test are defaults you would have to work to switch off. Where the platform does not do it for you, these are the lists you run by hand.</p>
+      <div class="two-up" style="margin-top:22px">
+        <div>
+          <span class="keyto">before it starts &#183; no plan, no flag</span>
+          <ul class="opts">
+            <li>the metric comes from the registry, not from a text box</li>
+            <li>the MDE comes from the prior store, not from what would be nice</li>
+            <li>guardrails attached up front: crashes, latency, refunds</li>
+            <li>behind a flag, logging exposure rather than eligibility</li>
+            <li>one live test per surface, in its own layer</li>
+            <li>switchback or clusters if treating one unit touches another</li>
+            <li>the decision rule written before launch, not after the readout</li>
+          </ul>
+        </div>
+        <div>
+          <span class="keyto">before you believe it</span>
+          <ul class="opts">
+            <li>sample ratio check: did randomisation actually hold?</li>
+            <li>exposure counts: did the variant reach anyone at all?</li>
+            <li>sequential or always-valid, so the day-three peek was licensed</li>
+            <li>guardrails read before the primary metric</li>
+            <li>the segment you pre-registered, not the eleven on offer</li>
+            <li>CUPED against the pre-period, before you ask for more traffic</li>
+            <li>the estimate shrunk toward the prior, because raw winners are inflated</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn">
+        <span class="glyph"><svg viewBox="0 0 33 33" width="30" height="30" shape-rendering="crispEdges" fill="currentColor"><rect x="3" y="1" width="24" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="26" y="2" width="2" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="26" y="3" width="1" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="26" y="4" width="1" height="1"/><rect x="28" y="4" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/><rect x="26" y="5" width="1" height="1"/><rect x="28" y="5" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="8" y="6" width="3" height="1"/><rect x="13" y="6" width="9" height="1"/><rect x="26" y="6" width="2" height="1"/><rect x="3" y="7" width="1" height="1"/><rect x="28" y="7" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="28" y="8" width="1" height="1"/><rect x="3" y="9" width="1" height="1"/><rect x="8" y="9" width="3" height="1"/><rect x="13" y="9" width="9" height="1"/><rect x="28" y="9" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="26" y="10" width="2" height="1"/><rect x="3" y="11" width="1" height="1"/><rect x="26" y="11" width="1" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="3" y="12" width="1" height="1"/><rect x="8" y="12" width="3" height="1"/><rect x="13" y="12" width="9" height="1"/><rect x="26" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="3" y="13" width="1" height="1"/><rect x="26" y="13" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="26" y="14" width="2" height="1"/><rect x="3" y="15" width="1" height="1"/><rect x="8" y="15" width="3" height="1"/><rect x="13" y="15" width="9" height="1"/><rect x="26" y="15" width="1" height="1"/><rect x="28" y="15" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="26" y="16" width="1" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="26" y="17" width="1" height="1"/><rect x="28" y="17" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="8" y="18" width="3" height="1"/><rect x="13" y="18" width="9" height="1"/><rect x="26" y="18" width="2" height="1"/><rect x="3" y="19" width="1" height="1"/><rect x="26" y="19" width="1" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="26" y="20" width="1" height="1"/><rect x="28" y="20" width="1" height="1"/><rect x="3" y="21" width="1" height="1"/><rect x="8" y="21" width="3" height="1"/><rect x="13" y="21" width="9" height="1"/><rect x="26" y="21" width="1" height="1"/><rect x="28" y="21" width="1" height="1"/><rect x="3" y="22" width="1" height="1"/><rect x="26" y="22" width="2" height="1"/><rect x="3" y="23" width="1" height="1"/><rect x="26" y="23" width="1" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="8" y="24" width="3" height="1"/><rect x="13" y="24" width="9" height="1"/><rect x="26" y="24" width="1" height="1"/><rect x="28" y="24" width="1" height="1"/><rect x="3" y="25" width="1" height="1"/><rect x="26" y="25" width="1" height="1"/><rect x="28" y="25" width="1" height="1"/><rect x="3" y="26" width="1" height="1"/><rect x="26" y="26" width="2" height="1"/><rect x="3" y="27" width="1" height="1"/><rect x="8" y="27" width="3" height="1"/><rect x="13" y="27" width="9" height="1"/><rect x="26" y="27" width="1" height="1"/><rect x="28" y="27" width="1" height="1"/><rect x="3" y="28" width="1" height="1"/><rect x="26" y="28" width="1" height="1"/><rect x="28" y="28" width="1" height="1"/><rect x="3" y="29" width="1" height="1"/><rect x="26" y="29" width="1" height="1"/><rect x="28" y="29" width="1" height="1"/><rect x="3" y="30" width="1" height="1"/><rect x="26" y="30" width="2" height="1"/><rect x="3" y="31" width="24" height="1"/></svg></span>
+        <p class="cap">Nothing reaches every user without a link back to the experiment that justified it. That one rule is what keeps the theory layer complete, because it makes the write-up a condition of shipping rather than an act of virtue.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="laws">
+  <p><b>The gate is not step one, it is the floor under all four exits.</b> If the metric is wrong, every box above it is wrong quietly.</p>
+  <p><b>The lookup is not step one either, it is the ceiling over all four.</b> A question the theory layer has already answered does not need an exit, and one it half-answers enters with a prior instead of a blank page.</p>
+  <p><b>No mechanism, no test. No exposure log, no effect.</b> The first rule kills the questions that were never going to teach anything; the second kills the answers that were never going to be true.</p>
+</section>
+
+<footer>
+  <span class="cap"><span class="wm" style="font-size:15px">gallop</span> · PDS Method Map · intake algorithm</span>
+  <span class="label">pasture desktop</span>
+</footer>
+
+</div>

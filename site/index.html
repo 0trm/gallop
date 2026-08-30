@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>gallop</title>
+<meta name="description" content="Routes a product question to the method it deserves, then runs that method with the checks that stop it returning a confident wrong number.">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gallop.css">
+<style>
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--gallop-pasture);color:var(--gallop-ink);
+       font-family:var(--gallop-body);font-size:var(--gallop-t-body);line-height:1.55}
+  .wrap{max-width:940px;margin:0 auto;padding:40px 20px 72px}
+  .win{background:var(--gallop-paper);border:var(--gallop-hair);box-shadow:var(--gallop-drop);margin-bottom:28px}
+  .bar{height:24px;padding:0 7px;display:flex;align-items:center;gap:8px;
+       border-bottom:var(--gallop-hair);background-color:var(--gallop-paper);
+       background-image:repeating-linear-gradient(180deg,var(--gallop-ink) 0 1px,transparent 1px 3px)}
+  .bar .box{width:11px;height:11px;border:var(--gallop-hair);background:var(--gallop-paper);flex:0 0 auto}
+  .bar .title{font-family:var(--gallop-chrome);font-size:var(--gallop-t-chrome);
+              letter-spacing:.04em;background:var(--gallop-paper);padding:1px 9px}
+  .pad{padding:26px}
+  .hero{text-align:center;padding:34px 26px 30px}
+  .hero img{width:250px;max-width:78%;height:auto;display:block;margin:0 auto 14px}
+  .wordmark{font-family:var(--gallop-chrome);text-transform:lowercase;letter-spacing:0;
+            font-size:56px;line-height:1;margin:0 0 12px}
+  .tag{font-size:var(--gallop-t-lead);max-width:44em;margin:0 auto}
+  .note{background:var(--gallop-vellum);border:var(--gallop-hair);padding:14px 18px;
+        margin:0 0 28px;font-size:14px}
+  .note b{font-family:var(--gallop-chrome);font-weight:400}
+  h2{font-family:var(--gallop-chrome);font-size:var(--gallop-t-h3);font-weight:400;
+     margin:0 0 14px;letter-spacing:.02em}
+  p{margin:0 0 14px}
+  .lede{font-size:16px}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 6px}
+  th,td{border-bottom:1px solid var(--gallop-pasture-shade);padding:8px 10px;text-align:left;vertical-align:top}
+  th{font-family:var(--gallop-chrome);font-size:var(--gallop-t-chrome);font-weight:400;
+     letter-spacing:.04em;border-bottom:var(--gallop-hair)}
+  code,.mono{font-family:var(--gallop-mono);font-size:13px}
+  a{color:var(--gallop-ink)}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:var(--gallop-hair)}
+  .card{padding:20px 22px;border-bottom:var(--gallop-hair)}
+  .card:first-child{border-right:var(--gallop-hair)}
+  .card h3{font-family:var(--gallop-chrome);font-weight:400;font-size:15px;margin:0 0 6px}
+  .card p{font-size:14px;margin:0 0 10px}
+  .go{font-family:var(--gallop-mono);font-size:13px}
+  .scroll{overflow-x:auto}
+  footer{font-size:12px;text-align:center;padding-top:6px}
+  @media (max-width:620px){
+    .cards{grid-template-columns:1fr}
+    .card:first-child{border-right:0}
+    .wordmark{font-size:40px}
+    .pad,.hero{padding:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="win">
+    <div class="bar"><span class="box"></span><span class="title">gallop</span></div>
+    <div class="hero">
+      <img src="assets/gallop-logo.png" alt="Three riders carried on one galloping horse">
+      <h1 class="wordmark">gallop</h1>
+      <p class="tag">Routes a product question to the method it deserves, then runs that
+      method with the checks that stop it returning a confident wrong number.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Being built in the open. Not ready to use yet.</b> One skill of six is in
+    progress and nothing is installable. The two documents worth reading today are
+    the method map and the intake algorithm, below. Feedback on those is worth more
+    right now than a star.
+  </div>
+
+  <div class="win">
+    <div class="bar"><span class="box"></span><span class="title">what it is</span></div>
+    <div class="pad">
+      <p class="lede">A product data science system, packaged as agent skills. A question
+      arrives; gallop routes it. One lookup against what the team already knows, three
+      questions, and one gate that asks whether the metric can be trusted at all.</p>
+      <p>Most questions leave without an analysis, and that is the point. The ones that
+      stay get the method that fits how treatment was assigned, sized from the effects
+      this metric has actually produced rather than from a number that would be nice,
+      and read out with the checks that separate a real result from a confident wrong
+      one: the sample ratio, the exposure log, the sequential bound, the shrinkage
+      toward the prior. What the answer teaches is written back before the ticket
+      closes, so the next question starts smaller.</p>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar"><span class="box"></span><span class="title">the buckets</span></div>
+    <div class="pad">
+      <p>Three method buckets, a floor underneath them, a memory above them, and a layer
+      of judgment on top. Each bucket has its own question, its own output, and its own
+      failure mode. That test is what fixes the count at three.</p>
+      <div class="scroll">
+      <table>
+        <tr><th>Bucket</th><th>Asks</th><th>Hands back</th><th>Fails by</th></tr>
+        <tr><td>Description</td><td>What happened?</td><td>A hypothesis</td><td>Being mistaken for causation</td></tr>
+        <tr><td>Causation</td><td>Did this change cause that?</td><td>An effect size</td><td>An invalid comparison group</td></tr>
+        <tr><td>Prediction</td><td>What will happen? Who gets what?</td><td>A forecast, a ranking, an allocation</td><td>Breaking the moment you intervene</td></tr>
+      </table>
+      </div>
+      <p>Experimentation and causal inference share all three, so they are one bucket
+      separated only by who did the randomising: you, or the world.</p>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar"><span class="box"></span><span class="title">read</span></div>
+    <div class="cards">
+      <div class="card">
+        <h3>The method map</h3>
+        <p>A question enters at the left and leaves as a decision. Measurement is a
+        foundation rather than a phase; theory is a ceiling rather than a report.
+        With a field guide to every object on the page.</p>
+        <p class="go"><a href="map/">open the map &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3>The intake algorithm</h3>
+        <p>One lookup, three questions and one gate, asked before you open a query
+        editor. Each exit names what you hand back. Takes about a minute, and it is
+        the whole discipline.</p>
+        <p class="go"><a href="intake/">open the intake &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="win">
+    <div class="bar"><span class="box"></span><span class="title">the six skills</span></div>
+    <div class="pad">
+      <div class="scroll">
+      <table>
+        <tr><th>Skill</th><th>Position</th><th>What it decides</th></tr>
+        <tr><td class="mono">routing-questions</td><td>Routing</td><td>Whether this becomes work at all, and which of the other five it becomes</td></tr>
+        <tr><td class="mono">defining-metrics</td><td>Floor</td><td>A metric turned into a computation, a source of truth, and a statement of how it will be gamed</td></tr>
+        <tr><td class="mono">designing-experiments</td><td>Causation</td><td>The four choices that cannot be repaired after launch</td></tr>
+        <tr><td class="mono">reading-experiments</td><td>Causation</td><td>Whether the result is a result</td></tr>
+        <tr><td class="mono">choosing-causal-designs</td><td>Causation</td><td>Which design fits, when assignment already happened</td></tr>
+        <tr><td class="mono">writing-readouts</td><td>Ceiling</td><td>The belief, not just the number, and where it gets filed</td></tr>
+      </table>
+      </div>
+      <p style="margin-top:14px">Not an experimentation platform. It does not assign
+      traffic, hold flags, or replace your warehouse. It assumes those exist and writes
+      the part that decides whether the number they produced is true.</p>
+    </div>
+  </div>
+
+  <footer><a href="https://github.com/0trm/gallop">github.com/0trm/gallop</a> &middot; MIT &middot; pasture desktop</footer>
+
+</div>
+</body>
+</html>

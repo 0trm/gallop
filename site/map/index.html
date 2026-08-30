@@ -1,0 +1,568 @@
+<title>PDS Method Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Chicago and Monaco, the real faces. local() first so a Mac uses what it has. */
+@font-face{font-family:"Chicago";font-style:normal;font-weight:400;font-display:swap;
+  src:local("Chicago"),local("ChicagoFLF")}
+@font-face{font-family:"Monaco";font-style:normal;font-weight:400;font-display:swap;
+  src:local("Monaco")}
+</style>
+<style>
+:root{
+  --pasture:#D9DEE4; --pasture-shade:#B2BAC5; --vellum:#E9E3D3;
+  --ink:#000000; --paper:#FFFFFF;
+  --f-chrome:"Chicago",system-ui,sans-serif;
+  --f-body:"Geneva","Public Sans",-apple-system,"Helvetica Neue",sans-serif;
+  --f-mono:"Monaco","IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --hair:1px solid var(--ink);
+  --drop:3px 3px 0 var(--pasture-shade);
+}
+*{box-sizing:border-box}
+html{background:var(--pasture)}
+body{margin:0;background:var(--pasture);color:var(--ink);font-family:var(--f-body);
+     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.desk{max-width:1080px;margin:0 auto;padding:48px 26px 96px;display:flex;flex-direction:column;gap:34px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.win{background:var(--paper);border:var(--hair);box-shadow:var(--drop)}
+.bar{height:24px;border-bottom:var(--hair);display:flex;align-items:center;gap:8px;padding:0 7px;
+     background-color:var(--paper);
+     background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px);
+     background-clip:padding-box}
+.close{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto}
+.bar h2{font-family:var(--f-chrome);font-size:11px;font-weight:400;letter-spacing:.04em;margin:0;
+        background:var(--paper);padding:1px 9px;white-space:nowrap}
+.bar .grow{flex:1}
+.bar .size{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto;position:relative}
+.bar .size::after{content:"";position:absolute;left:2px;top:2px;width:5px;height:5px;border:var(--hair)}
+.body{padding:32px}
+
+.label{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.tag{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:10px;
+     font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
+.mono{font-family:var(--f-mono)}
+.wm{font-family:var(--f-chrome);text-transform:lowercase;letter-spacing:0}
+h1{font-family:var(--f-chrome);font-size:38px;font-weight:400;line-height:1.05;margin:0;letter-spacing:.01em}
+h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+h4{font-size:15px;font-weight:700;margin:0 0 5px}
+p{margin:0}
+.lead{font-size:17px;line-height:1.5;max-width:56ch}
+.cap{font-size:12px;line-height:1.45}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:16px}
+.mark{background:var(--vellum);padding:0 3px}
+.glyph{color:var(--ink);display:block}
+.glyph svg{display:block;width:33px;height:33px}
+
+.laws{background:var(--pasture);border:var(--hair)}
+.laws p{padding:14px 20px;font-size:14px;line-height:1.45}
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;padding:0 2px}
+
+/* diagram */
+figure.dg{margin:0}
+.dg svg{display:block;width:100%;height:auto;max-width:100%}
+.dg text{font-family:var(--f-body);fill:var(--ink)}
+.dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
+.dg .t-sub{font-size:11.5px}
+.dg .t-give{font-size:10.5px;opacity:.62}
+.dg .t-q{font-size:12px}
+.dg .t-edge{font-family:var(--f-mono);font-size:10.5px}
+.dg .t-note{font-size:9.5px;opacity:.62}
+.dg .node{fill:var(--paper);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .sel{fill:var(--vellum);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
+.dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.dg .head{fill:var(--ink)}
+figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity:.8}
+@media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
+
+@media print{
+  html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .win{box-shadow:none}
+  figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
+  h3,h4,.sec{break-after:avoid}
+}
+
+@page{ size: A4; margin: 12mm; }
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:start}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.card{border:var(--hair);padding:20px 22px 21px}
+.card h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 7px}
+.card p{font-size:12.5px;line-height:1.45}
+.card .prod{margin-top:14px;padding-top:12px;border-top:1px solid var(--pasture-shade)}
+.card .prod span{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+                 display:block;opacity:.6;margin-bottom:2px}
+.card .prod b{font-size:12.5px;font-weight:600}
+.sec{display:flex;align-items:baseline;gap:14px;margin:0 0 22px}
+.sec .n{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.14em;
+        background:var(--ink);color:var(--paper);padding:3px 7px}
+.sec h3{margin:0}
+.note{border:var(--hair);background:var(--pasture);padding:22px 24px;margin-top:30px}
+.note h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 6px}
+.note p{font-size:13px;line-height:1.5}
+.brk{margin:22px 0 0;padding:0;list-style:none;display:flex;flex-direction:column}
+.brk li{display:flex;gap:18px;padding:15px 0;border-top:1px solid var(--pasture-shade);
+        font-size:13.5px;line-height:1.45}
+.brk li b{flex:0 0 152px;font-weight:700}
+.route{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.route th{text-align:left;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+          padding:0 18px 11px 0;border-bottom:var(--hair);vertical-align:bottom}
+.route td{padding:15px 18px 15px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
+.route td:first-child{width:31%}
+.route td:nth-child(2){width:20%;font-family:var(--f-chrome);font-size:11px;letter-spacing:.02em}
+.route tr:last-child td{border-bottom:none}
+.q{font-style:italic}
+.habits{display:flex;flex-direction:column;gap:20px;margin-top:10px}
+.habits div{display:flex;gap:18px}
+.habits .glyph svg{width:26px;height:26px;flex:0 0 26px}
+.habits p{font-size:13.5px;line-height:1.5}
+
+/* the compressed stack */
+.stack{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.band{border:var(--hair);padding:19px 24px}
+.band.top{background:var(--paper)}
+.band.floor{background:var(--pasture)}
+.band .bt{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.band .bt i{width:11px;height:11px;border:1px solid var(--ink);display:inline-block;vertical-align:-1px;margin-right:8px}
+.band .bd{font-size:13px;line-height:1.45;margin-top:5px;max-width:86ch}
+.band .bw{font-size:11.5px;line-height:1.4;margin-top:5px;opacity:.62;max-width:86ch}
+.buckets{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:14px}
+.bucket{border:var(--hair);background:var(--paper);padding:19px 20px 0;display:flex;flex-direction:column}
+.bucket .bn{font-family:var(--f-chrome);font-size:14px;letter-spacing:.03em;margin-bottom:15px}
+.bucket dl{margin:0;display:flex;flex-direction:column;gap:11px;flex:1}
+.bucket dt{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.bucket dd{margin:1px 0 0;font-size:12.5px;line-height:1.35}
+.onmap{margin:19px -20px 0;border-top:var(--hair);display:flex}
+.onmap span{flex:1;padding:12px 6px;text-align:center;font-family:var(--f-chrome);font-size:10px;
+            letter-spacing:.02em;line-height:1.3;border-left:1px solid var(--pasture-shade)}
+.onmap span:first-child{border-left:none}
+@media (max-width:860px){ .hero{grid-template-columns:1fr} .two{grid-template-columns:1fr}
+  .buckets{grid-template-columns:1fr} .brk li{flex-direction:column;gap:3px} .brk li b{flex:none} }
+
+.dg .key{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .pk{fill:var(--ink)}
+.dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
+.legend{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;padding-top:20px;
+        border-top:1px solid var(--pasture-shade)}
+.legend div{display:flex;align-items:center;gap:10px;font-size:11.5px}
+.legend i{width:16px;height:26px;border:var(--hair);display:block;background-color:var(--paper)}
+.l-solid{background-color:var(--ink)!important}
+.l-horiz{background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px)}
+.l-dot{background-image:radial-gradient(var(--ink) .6px,transparent .7px);background-size:3px 3px}
+.l-vert{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
+.l-hatch{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
+.onmap i{width:11px;height:11px;border:1px solid var(--ink);display:inline-block;
+         vertical-align:-1px;margin-right:6px;background-color:var(--paper)}
+.dg .t-title{font-size:15px}
+.dg .t-sub{font-size:12.5px}
+.dg .t-give{font-size:11.5px}
+.dg .t-q{font-size:13px}
+.dg .t-edge{font-size:11.5px}
+.dg .t-note{font-size:10.5px}
+.dg .cont{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div class="desk">
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>field guide</h2><span class="grow"></span><span class="size"></span></div>
+  <div class="body hero">
+    <div>
+      <span class="tag">Field guide · reading the diagram</span>
+      <h1 style="margin-top:16px">The PDS<br>Method Map</h1>
+      <p class="lead" style="margin-top:14px">A question enters at the left and leaves as a decision. Measurement is a foundation, not a phase, because what ships changes the data; theory is a ceiling, not a report, because what you learn has to outlive the test that produced it.</p>
+    </div>
+    <span class="glyph"><svg viewBox="0 0 33 33" width="84" height="84" fill="currentColor" shape-rendering="crispEdges"><rect x="13" y="1" width="6" height="1"/><rect x="10" y="2" width="3" height="1"/><rect x="18" y="2" width="4" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="19" y="3" width="1" height="1"/><rect x="22" y="3" width="2" height="1"/><rect x="7" y="4" width="1" height="1"/><rect x="9" y="4" width="1" height="1"/><rect x="11" y="4" width="1" height="1"/><rect x="13" y="4" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="20" y="4" width="1" height="1"/><rect x="24" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="14" y="5" width="1" height="1"/><rect x="17" y="5" width="1" height="1"/><rect x="19" y="5" width="1" height="1"/><rect x="25" y="5" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="9" y="6" width="1" height="1"/><rect x="11" y="6" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="24" y="6" width="1" height="1"/><rect x="26" y="6" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="6" y="7" width="1" height="1"/><rect x="8" y="7" width="1" height="1"/><rect x="10" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="21" y="7" width="1" height="1"/><rect x="23" y="7" width="1" height="1"/><rect x="25" y="7" width="1" height="1"/><rect x="27" y="7" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="5" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="9" y="8" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="13" y="8" width="1" height="1"/><rect x="15" y="8" width="1" height="1"/><rect x="17" y="8" width="1" height="1"/><rect x="20" y="8" width="1" height="1"/><rect x="22" y="8" width="1" height="1"/><rect x="24" y="8" width="1" height="1"/><rect x="26" y="8" width="1" height="1"/><rect x="28" y="8" width="1" height="1"/><rect x="3" y="9" width="2" height="1"/><rect x="6" y="9" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="10" y="9" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="16" y="9" width="1" height="1"/><rect x="23" y="9" width="1" height="1"/><rect x="25" y="9" width="1" height="1"/><rect x="27" y="9" width="2" height="1"/><rect x="2" y="10" width="1" height="1"/><rect x="5" y="10" width="1" height="1"/><rect x="7" y="10" width="1" height="1"/><rect x="9" y="10" width="1" height="1"/><rect x="13" y="10" width="1" height="1"/><rect x="15" y="10" width="1" height="1"/><rect x="17" y="10" width="1" height="1"/><rect x="22" y="10" width="1" height="1"/><rect x="24" y="10" width="1" height="1"/><rect x="26" y="10" width="1" height="1"/><rect x="28" y="10" width="2" height="1"/><rect x="2" y="11" width="1" height="1"/><rect x="6" y="11" width="1" height="1"/><rect x="8" y="11" width="1" height="1"/><rect x="10" y="11" width="1" height="1"/><rect x="21" y="11" width="1" height="1"/><rect x="23" y="11" width="1" height="1"/><rect x="25" y="11" width="1" height="1"/><rect x="27" y="11" width="1" height="1"/><rect x="29" y="11" width="1" height="1"/><rect x="2" y="12" width="1" height="1"/><rect x="7" y="12" width="1" height="1"/><rect x="9" y="12" width="1" height="1"/><rect x="11" y="12" width="1" height="1"/><rect x="13" y="12" width="1" height="1"/><rect x="15" y="12" width="1" height="1"/><rect x="17" y="12" width="1" height="1"/><rect x="22" y="12" width="1" height="1"/><rect x="29" y="12" width="1" height="1"/><rect x="1" y="13" width="1" height="1"/><rect x="6" y="13" width="1" height="1"/><rect x="8" y="13" width="1" height="1"/><rect x="10" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="14" y="13" width="1" height="1"/><rect x="16" y="13" width="1" height="1"/><rect x="18" y="13" width="1" height="1"/><rect x="25" y="13" width="1" height="1"/><rect x="30" y="13" width="1" height="1"/><rect x="1" y="14" width="1" height="1"/><rect x="7" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="11" y="14" width="1" height="1"/><rect x="13" y="14" width="1" height="1"/><rect x="15" y="14" width="1" height="1"/><rect x="24" y="14" width="1" height="1"/><rect x="26" y="14" width="1" height="1"/><rect x="28" y="14" width="1" height="1"/><rect x="30" y="14" width="1" height="1"/><rect x="1" y="15" width="1" height="1"/><rect x="6" y="15" width="1" height="1"/><rect x="8" y="15" width="1" height="1"/><rect x="10" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="14" y="15" width="1" height="1"/><rect x="16" y="15" width="1" height="1"/><rect x="23" y="15" width="1" height="1"/><rect x="25" y="15" width="1" height="1"/><rect x="27" y="15" width="1" height="1"/><rect x="29" y="15" width="2" height="1"/><rect x="1" y="16" width="1" height="1"/><rect x="7" y="16" width="1" height="1"/><rect x="9" y="16" width="1" height="1"/><rect x="11" y="16" width="1" height="1"/><rect x="13" y="16" width="1" height="1"/><rect x="15" y="16" width="1" height="1"/><rect x="22" y="16" width="1" height="1"/><rect x="24" y="16" width="1" height="1"/><rect x="26" y="16" width="1" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="30" y="16" width="1" height="1"/><rect x="1" y="17" width="1" height="1"/><rect x="8" y="17" width="1" height="1"/><rect x="10" y="17" width="1" height="1"/><rect x="12" y="17" width="1" height="1"/><rect x="14" y="17" width="1" height="1"/><rect x="23" y="17" width="1" height="1"/><rect x="25" y="17" width="1" height="1"/><rect x="27" y="17" width="1" height="1"/><rect x="29" y="17" width="2" height="1"/><rect x="1" y="18" width="1" height="1"/><rect x="7" y="18" width="1" height="1"/><rect x="9" y="18" width="1" height="1"/><rect x="11" y="18" width="1" height="1"/><rect x="13" y="18" width="1" height="1"/><rect x="15" y="18" width="1" height="1"/><rect x="22" y="18" width="1" height="1"/><rect x="24" y="18" width="1" height="1"/><rect x="26" y="18" width="1" height="1"/><rect x="28" y="18" width="1" height="1"/><rect x="30" y="18" width="1" height="1"/><rect x="1" y="19" width="1" height="1"/><rect x="8" y="19" width="1" height="1"/><rect x="10" y="19" width="1" height="1"/><rect x="14" y="19" width="1" height="1"/><rect x="23" y="19" width="1" height="1"/><rect x="25" y="19" width="1" height="1"/><rect x="30" y="19" width="1" height="1"/><rect x="2" y="20" width="1" height="1"/><rect x="11" y="20" width="1" height="1"/><rect x="13" y="20" width="1" height="1"/><rect x="29" y="20" width="1" height="1"/><rect x="2" y="21" width="1" height="1"/><rect x="12" y="21" width="1" height="1"/><rect x="14" y="21" width="1" height="1"/><rect x="18" y="21" width="1" height="1"/><rect x="29" y="21" width="1" height="1"/><rect x="2" y="22" width="1" height="1"/><rect x="13" y="22" width="1" height="1"/><rect x="15" y="22" width="1" height="1"/><rect x="17" y="22" width="1" height="1"/><rect x="19" y="22" width="1" height="1"/><rect x="29" y="22" width="1" height="1"/><rect x="3" y="23" width="1" height="1"/><rect x="16" y="23" width="1" height="1"/><rect x="18" y="23" width="1" height="1"/><rect x="20" y="23" width="1" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="17" y="24" width="1" height="1"/><rect x="19" y="24" width="1" height="1"/><rect x="21" y="24" width="1" height="1"/><rect x="28" y="24" width="1" height="1"/><rect x="4" y="25" width="1" height="1"/><rect x="18" y="25" width="1" height="1"/><rect x="20" y="25" width="1" height="1"/><rect x="27" y="25" width="1" height="1"/><rect x="5" y="26" width="1" height="1"/><rect x="17" y="26" width="1" height="1"/><rect x="19" y="26" width="1" height="1"/><rect x="21" y="26" width="1" height="1"/><rect x="26" y="26" width="1" height="1"/><rect x="6" y="27" width="1" height="1"/><rect x="18" y="27" width="1" height="1"/><rect x="20" y="27" width="1" height="1"/><rect x="25" y="27" width="1" height="1"/><rect x="7" y="28" width="1" height="1"/><rect x="17" y="28" width="1" height="1"/><rect x="19" y="28" width="1" height="1"/><rect x="24" y="28" width="1" height="1"/><rect x="8" y="29" width="2" height="1"/><rect x="18" y="29" width="1" height="1"/><rect x="22" y="29" width="2" height="1"/><rect x="10" y="30" width="3" height="1"/><rect x="17" y="30" width="1" height="1"/><rect x="19" y="30" width="3" height="1"/><rect x="13" y="31" width="6" height="1"/></svg></span>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>the map</h2></div>
+  <div class="body">
+    <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomize diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
+  <defs>
+    <marker id="m" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+    <pattern id="mx-h" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="pk"/></pattern>
+    <pattern id="mx-v" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="pk"/></pattern>
+    <pattern id="mx-d" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="pk"/></pattern>
+    <pattern id="mx-x" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0,4 L4,0 M-1,1 L1,-1 M3,5 L5,3" class="ps"/></pattern>
+  </defs>
+
+  <rect x="450" y="60" width="400" height="380" class="cont"/>
+  <text class="t-edge" x="450" y="48">causal study design</text>
+  <text class="t-note" x="590" y="48">split by who assigns treatment</text>
+
+  <rect x="40" y="184" width="210" height="150" class="node"/>
+  <rect x="40" y="184" width="14" height="150" class="key" fill="url(#mx-h)"/>
+  <text class="t-title" x="76" y="212">Exploratory</text>
+  <text class="t-title" x="76" y="231">Analytics</text>
+  <text class="t-sub" x="76" y="256">deep dives · funnels</text>
+  <text class="t-sub" x="76" y="275">segmentation · retention</text>
+  <text class="t-sub" x="76" y="294">root cause · opp sizing</text>
+  <text class="t-give" x="76" y="320">what is happening?</text>
+
+  <polygon points="380,208 458,258 380,308 302,258" class="node"/>
+  <text class="t-q" x="380" y="254" text-anchor="middle">can you</text>
+  <text class="t-q" x="380" y="271" text-anchor="middle">randomize?</text>
+
+  <rect x="475" y="96" width="350" height="120" class="node"/>
+  <rect x="475" y="96" width="14" height="120" class="key" fill="url(#mx-v)"/>
+  <text class="t-title" x="511" y="126">Experimentation</text>
+  <text class="t-give" x="511" y="147">you control assignment</text>
+  <text class="t-sub" x="511" y="174">A/B · switchback · power</text>
+  <text class="t-sub" x="511" y="194">sequential tests · HTE</text>
+
+  <rect x="475" y="300" width="350" height="120" class="node"/>
+  <rect x="475" y="300" width="14" height="120" class="key" fill="url(#mx-x)"/>
+  <text class="t-title" x="511" y="330">Causal Inference</text>
+  <text class="t-give" x="511" y="351">assignment already happened</text>
+  <text class="t-sub" x="511" y="378">synthetic control · DiD</text>
+  <text class="t-sub" x="511" y="398">matching · IV · ITS</text>
+
+  <rect x="475" y="520" width="350" height="120" class="node"/>
+  <rect x="475" y="520" width="14" height="120" class="key" fill="url(#mx-d)"/>
+  <text class="t-title" x="511" y="550">Statistical Modeling</text>
+  <text class="t-sub" x="511" y="573">regression · forecasting</text>
+  <text class="t-sub" x="511" y="593">simulation · optimization</text>
+  <text class="t-sub" x="511" y="613">ML · uplift models</text>
+
+  <ellipse cx="1070" cy="258" rx="90" ry="46" class="sel"/>
+  <text class="t-title" x="1070" y="254" text-anchor="middle">Decision</text>
+  <text class="t-sub" x="1070" y="274" text-anchor="middle">ship · kill · reallocate</text>
+
+  <line x1="250" y1="259" x2="300" y2="259" class="path" marker-end="url(#m)"/>
+  <text class="t-note" x="275" y="251" text-anchor="middle">hypothesis</text>
+
+  <polyline points="380,208 380,156 473,156" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="390" y="190">yes</text>
+  <polyline points="380,308 380,360 473,360" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="390" y="330">no</text>
+
+  <polyline points="825,156 940,156 940,258" class="path"/>
+  <polyline points="825,360 940,360 940,258" class="path"/>
+  <line x1="940" y1="258" x2="978" y2="258" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="901" y="148" text-anchor="middle">effect size</text>
+  <text class="t-edge" x="901" y="352" text-anchor="middle">effect size</text>
+
+  <line x1="620" y1="520" x2="620" y2="446" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="634" y="486">supplies estimators</text>
+
+  <polyline points="825,580 1030,580 1030,306" class="path" marker-end="url(#m)"/>
+  <text class="t-note" x="1020" y="600" text-anchor="end">automates the decision</text>
+
+  <rect x="40" y="-100" width="1120" height="62" class="band"/>
+  <rect x="40" y="-100" width="14" height="62" class="key" fill="#FFF"/>
+  <text class="t-title" x="80" y="-62">Theory Layer</text>
+  <text class="t-sub" x="350" y="-72">knowledge repo &#183; one searchable entry per question &#183; losses written up like wins</text>
+  <text class="t-sub" x="350" y="-50">prior store &#183; per-metric effect distribution &#183; what a realistic MDE actually is</text>
+  <text class="t-note" x="1158" y="-110" text-anchor="end">written by every decision, read before the next question</text>
+
+  <polyline points="1070,212 1070,-36" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="1084" y="120">what we learned</text>
+  <polyline points="140,-36 140,182" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="154" y="-14">what we already believe</text>
+  <text class="t-note" x="400" y="-14" text-anchor="middle">what ships changes the data</text>
+  <line x1="760" y1="-36" x2="760" y2="58" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="746" y="-14" text-anchor="end">priors: sizing and shrinkage</text>
+
+  <rect x="40" y="700" width="1120" height="62" class="band"/>
+  <rect x="40" y="700" width="14" height="62" class="key" fill="#000"/>
+  <text class="t-title" x="80" y="738">Measurement Framework</text>
+  <text class="t-sub" x="350" y="728">north-star &amp; core metrics · event instrumentation</text>
+  <text class="t-sub" x="350" y="750">source-of-truth reporting · the definition of success</text>
+  <line x1="140" y1="700" x2="140" y2="668" class="feed" marker-end="url(#m)"/>
+  <line x1="450" y1="700" x2="450" y2="668" class="feed" marker-end="url(#m)"/>
+  <line x1="760" y1="700" x2="760" y2="668" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="1158" y="688" text-anchor="end">consumed by every box above</text>
+</svg>
+      <div class="legend">
+        <div><i class="l-solid"></i><span>Measurement Framework</span></div>
+        <div><i class="l-horiz"></i><span>Exploratory Analytics</span></div>
+        <div><i class="l-dot"></i><span>Statistical Modeling</span></div>
+        <div><i class="l-vert"></i><span>Experimentation</span></div>
+        <div><i class="l-hatch"></i><span>Causal Inference</span></div>
+      </div>
+      <figcaption>The band down the left edge of each box is that box's key, and it is the same key the intake algorithm uses. Solid arrows are the path a question travels; dashed arrows are supports and feedback. The dashed container asserts that experimentation and causal inference are one family, separated only by who did the randomising: you, or the world. Two bands frame the methods: measurement at the floor, the theory layer at the ceiling. The theory layer&#8217;s key is drawn empty because it is not a method; it is where the map keeps what it learned, and the dashed line down into the causal family is that memory being spent: priors size the next test and shrink its readout.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>what is on the page</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">1</span><h3>What is actually on the page</h3></div>
+    <p class="prose" style="margin-bottom:22px">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
+    <div class="two">
+      <div class="card"><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><div class="prod"><span>produces</span><b>A hypothesis worth testing.</b></div></div>
+      <div class="card"><h4>Can you randomize?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this one answer.</p><div class="prod"><span>produces</span><b>A routing decision: yes or no.</b></div></div>
+      <div class="card"><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE (heterogeneous treatment effects: does the effect differ by segment).</p><div class="prod"><span>produces</span><b>An effect size.</b></div></div>
+      <div class="card"><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD (difference-in-differences), matching, IV (instrumental variables), ITS (interrupted time series).</p><div class="prod"><span>produces</span><b>An effect size.</b></div></div>
+      <div class="card"><h4>Statistical modeling</h4><p>Regression, forecasting, simulation, optimization, ML, uplift models. Sits below the main path, not on it. Two outgoing arrows, no incoming one from the question path.</p><div class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></div></div>
+      <div class="card"><h4>Decision</h4><p>Ship, kill, reallocate. Drawn as an ellipse rather than a rectangle: it is a terminal state, not another activity.</p><div class="prod"><span>produces</span><b>A change to the product, and new data.</b></div></div>
+      <div class="card" style="grid-column:1/-1"><h4>Theory layer</h4><p>The band across the top, drawn as a band because every box touches it. It has two halves. The knowledge repo is prose: one searchable entry per question, holding the design, the number, the decision and what you would do differently, with the losses written up as carefully as the wins. The prior store is a table: for each metric, the distribution of effects the last hundred tests actually produced. The repo is what a person reads before proposing anything; the store is what the platform reads when it sizes the test and again when it shrinks the readout. Not a stage. A memory, and the only object on the map that gets more valuable the longer the team runs.</p><div class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></div></div>
+    </div>
+    <div class="note">
+      <h4>The two arrow types, and the container</h4>
+      <p>Solid arrows are the path a question travels. Dashed arrows are supports and feedback. That distinction carries most of the meaning on the page: solid means a question is moving forward through a stage, dashed means something is being supplied to a stage or looping back into it. One more dashed line closes the whole system. It leaves the decision, passes through the theory layer along the top, and re-enters exploratory analytics, labelled <span class="mark">what ships changes the data</span>. It goes through the ceiling rather than around it because a decision emits two things at once: a change to the product, and something you now know. The map is a loop, not a pipeline.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>order</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">2</span><h3>Why the stages sit in this order</h3></div>
+    <div class="prose">
+      <p>Think of a doctor. Symptoms come first, then a diagnosis, then a trial of treatment, then a verdict on whether to keep prescribing it. You cannot skip to the trial without a symptom to explain, and you cannot judge the treatment without having measured the patient the same way before and after. The map is that sequence, and each stage answers exactly one question.</p>
+      <p><b>Exploratory analytics asks what is happening.</b> It is description. It tells you that checkout completion fell nine points for mobile users in Germany. It cannot tell you why, and it is not supposed to. Its output is a hypothesis, which is a guess with a shape: if we change X, metric Y moves.</p>
+      <p><b>The diamond asks whether you can assign treatment.</b> This is the hinge of the entire map. Randomising means you decide who gets the change, by coin flip. That coin flip is what makes the comparison group honest, because it guarantees the two groups differ only by luck and by the treatment.</p>
+      <p><b>Experimentation and causal inference both ask how big the effect is.</b> They emit the same currency, an effect size, which is why both arrows into the decision carry that identical label. One earns it by design, the other by reconstruction.</p>
+      <p><b>The decision asks what we do about it.</b> Ship, kill, reallocate. This is the point of the whole map, and the reason it is an ellipse: work that ends anywhere else has not finished.</p>
+    </div>
+    <h4 style="margin-top:26px">What breaks when you skip a stage</h4>
+    <ul class="brk">
+      <li><b>Exploratory analytics</b><span>You test guesses instead of hypotheses, and burn the scarcest resource you have, which is traffic. Sizing the opportunity first is what tells you whether a two percent lift is worth a quarter of engineering time.</span></li>
+      <li><b>The diamond</b><span>The most expensive mistake available to a PDS: you compare users who chose the feature against users who did not, and you call the difference an effect. It is not. Users who adopt a feature were already different.</span></li>
+      <li><b>The causal stage</b><span>You are shipping on correlation. Some of those calls will be right, and you will never know which ones.</span></li>
+      <li><b>The decision</b><span>You have produced a document, not an outcome. The analysis existed to change what the team does.</span></li>
+      <li><b>The theory layer</b><span>Every quarter starts from zero. You re-run a test somebody ran two years ago, argue from memory about what a banner is worth, and power each experiment as though you had never seen an effect size at this company before. The cost is not one wasted test, it is that nothing compounds.</span></li>
+      <li><b>The measurement framework</b><span>Everything above it silently degrades. If the event that fires on purchase is unreliable, your funnel is wrong, your experiment readout is wrong, and your forecast is trained on noise, all at once and all without warning.</span></li>
+    </ul>
+    <div class="note">
+      <h4>Why measurement is a foundation, not a phase</h4>
+      <p>If measurement were a phase, you would do it once and move on. But the dashed loop from the decision back into exploratory analytics means every ship alters the very data the next question will be asked of. A shipped feature changes user mix, changes which events fire, changes what your baseline means. So the definition of success has to be maintained continuously, like calibrating a scale you weigh things on every day, not like a setup step you did in January. A cracked foundation does not announce itself; the house just leans.</p>
+    </div>
+    <div class="note">
+      <h4>Why theory is a ceiling, not a report</h4>
+      <p>A readout answers one question and stops. What survives it is smaller and more useful: an effect size you can reuse as an expectation, a lever you now know this product responds to, a question you can refuse to reopen. That residue is what the theory layer holds, and it is written in the same motion that closes the test, not in a quarterly write-up nobody reads. Its failure mode is the mirror of the floor&#8217;s: a wrong metric returns a confident number, and a stale belief returns a confident answer to a question nobody re-asked. So every entry carries a date, the conditions it held under, and the event that would expire it. The dashed loop is what expires them: the ship that changed the data changed the world the belief was true in.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>the service layer</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">3</span><h3>Where statistical modeling fits, and why it is off the path</h3></div>
+    <p class="prose" style="margin-bottom:22px">This is the part of the map that is easiest to misread, and the geometry is the answer. Statistical modeling has no incoming solid arrow. No question ever travels into it. It is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
+    <div class="two">
+      <div class="card"><h4>1 · Supplies estimators (dashed)</h4><p>The dashed line runs up into the causal study design container. Dashed means supports. Modeling is the machinery inside a causal study, not a rival to it. Difference-in-differences is a regression. Synthetic control is a weighted model of a counterfactual. The causal design decides what comparison is valid; modeling is how the number gets computed.</p><div class="prod"><span>produces</span><b>The analysis a trial design calls for.</b></div></div>
+      <div class="card"><h4>2 · Automates the decision (solid)</h4><p>The solid line runs straight to the decision ellipse, bypassing the causal box entirely. This is modeling in production: a forecast that sets inventory, an optimizer that allocates budget, an uplift model that picks who gets the offer. The decision gets made repeatedly, per user or per day, by a system rather than by a person reading a readout.</p><div class="prod"><span>produces</span><b>A decision made at volume.</b></div></div>
+    </div>
+    <div class="prose" style="margin-top:22px">
+      <p><b>An analogy.</b> The causal boxes are a courtroom: the design of the trial is what makes the verdict trustworthy, and its output is a single judgement about one defendant. Statistical modeling is the forensics lab. In job one it works for the court, running the analysis that the trial design calls for. In job two it skips the court entirely and runs an automated screening system that flags cases by itself, at volume, with no trial at all.</p>
+      <p><b>What it needs.</b> Historical data from the measurement framework, which is why an arrow from the band feeds it like every other box. Modeling needs volume and history in a way exploratory analytics does not.</p>
+      <p><b>What it gives back.</b> A fitted relationship. A prediction, an estimate with uncertainty around it, a ranking, or an allocation. Note what is missing: on its own it does not output an effect size. Effect sizes come from the causal boxes, which is where both of those labelled arrows originate.</p>
+      <p><b>What the neighbours cannot do.</b> Exploratory analytics describes what already happened, one slice at a time. Modeling generalises: it fits a relationship across many variables at once and extends it to cases you have not seen, including the future. That is the thing neither a funnel nor a cohort chart can do.</p>
+      <p><b>And what it cannot do.</b> The causal boxes answer <span class="q">did this change cause that</span>. Modeling answers <span class="q">what will happen</span> and <span class="q">which option is best</span>. Those sound similar and are not. A model that predicts churn beautifully tells you nothing about whether your retention campaign reduces churn, because the model learned patterns in a world where the campaign was targeted at the people most likely to churn. Prediction rides on correlation and does not care why. Causal work exists precisely because you are about to intervene, and intervening breaks the correlations the model relied on.</p>
+    </div>
+    <div class="note">
+      <h4>When statistical modeling is the wrong tool</h4>
+      <p><b>When the question is causal and you reach for a model instead of a design.</b> Adding control variables to a regression does not substitute for randomisation or for a valid comparison group.<br>
+      <b>When you have not done the exploration yet.</b> Fitting a model to a question you have not described is how you get a technically impressive answer to the wrong question.<br>
+      <b>When a decision is made once.</b> A model earns its keep on decisions made repeatedly and at volume. A one-time ship-or-kill call needs an effect size, not a forecast.<br>
+      <b>When the measurement framework is shaky.</b> Modeling amplifies instrumentation problems rather than revealing them, because a model will happily fit noise and report confidence.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>inside the box</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">4</span><h3>What is inside the experimentation box</h3></div>
+    <p class="prose" style="margin-bottom:22px">The map draws experimentation as one rectangle, which is honest at two tests a quarter and misleading at two hundred. The rectangle contains six steps, and five of them have a way of handing back a confident wrong number without the readout looking any different. An experimentation platform is the thing that makes those five steps configuration instead of craft, and the reason mature teams describe themselves as running a learning system rather than running tests.</p>
+
+    <figure class="dg"><svg viewBox="0 0 1200 342" role="img" aria-label="The experiment lifecycle: idea, design, assignment, logging, analysis, decision, running left to right. A theory layer band across the top supplies priors to design and shrinkage to analysis, and is written back to by the decision. A dashed container marks design through analysis as the part a platform automates.">
+  <defs>
+    <marker id="m2" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+  </defs>
+
+  <rect x="40" y="20" width="1120" height="62" class="band"/>
+  <rect x="40" y="20" width="14" height="62" class="key" fill="#FFF"/>
+  <text class="t-title" x="80" y="58">Theory Layer</text>
+  <text class="t-sub" x="350" y="48">prior store &#183; what this metric has actually done, over the last hundred tests</text>
+  <text class="t-sub" x="350" y="70">knowledge repo &#183; what was already tried, and what it taught</text>
+
+  <rect x="233" y="140" width="734" height="166" class="cont"/>
+  <text class="t-edge" x="233" y="326">what the platform automates</text>
+
+  <rect x="61" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="75" y="198">Idea</text>
+  <text class="t-sub" x="75" y="224">Problem &#183; Mechanism</text>
+  <text class="t-sub" x="75" y="244">Metric &#183; Prior</text>
+  <text class="t-give" x="75" y="272">mechanism, not a guess</text>
+  <rect x="245" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="259" y="198">Design</text>
+  <text class="t-sub" x="259" y="224">MDE &#183; duration</text>
+  <text class="t-sub" x="259" y="244">power &#183; guardrails</text>
+  <text class="t-give" x="259" y="272">sized from the priors</text>
+  <rect x="429" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="443" y="198">Assignment</text>
+  <text class="t-sub" x="443" y="224">flags &#183; randomiser</text>
+  <text class="t-sub" x="443" y="244">holdouts &#183; layers</text>
+  <text class="t-give" x="443" y="272">one test per surface</text>
+  <rect x="613" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="627" y="198">Logging</text>
+  <text class="t-sub" x="627" y="224">exposure events</text>
+  <text class="t-sub" x="627" y="244">did this user see B?</text>
+  <text class="t-give" x="627" y="272">the most common bug</text>
+  <rect x="797" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="811" y="198">Analysis</text>
+  <text class="t-sub" x="811" y="224">CUPED &#183; SRM &#183; CATE</text>
+  <text class="t-sub" x="811" y="244">sequential p-values</text>
+  <text class="t-give" x="811" y="272">shrunk toward the prior</text>
+  <rect x="981" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="995" y="198">Decision</text>
+  <text class="t-sub" x="995" y="224">ship &#183; kill</text>
+  <text class="t-sub" x="995" y="244">guardrail rollback</text>
+  <text class="t-give" x="995" y="272">a rollback is a result</text>
+
+  <line x1="219" y1="230" x2="243" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="403" y1="230" x2="427" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="587" y1="230" x2="611" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="771" y1="230" x2="795" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="955" y1="230" x2="979" y2="230" class="path" marker-end="url(#m2)"/>
+
+  <line x1="324" y1="84" x2="324" y2="168" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="338" y="112">prior &#183; MDE</text>
+  <line x1="876" y1="84" x2="876" y2="168" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="890" y="112">shrinkage</text>
+  <line x1="1060" y1="168" x2="1060" y2="84" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="1074" y="112">what it taught</text>
+</svg>
+      <figcaption>The chain runs left to right. The theory layer feeds it twice and is written by it once, which is the whole difference between a team that runs tests and a team that accumulates. The dashed container marks what a mature platform does for you: sizing, assignment, logging and analysis are configuration rather than judgment, and the two steps outside it are the two nobody can automate.</figcaption>
+    </figure>
+
+    <h4 style="margin-top:28px">Where each step breaks</h4>
+    <ul class="brk">
+      <li><b>Idea</b><span>&#8220;Let us test blue&#8221; is not a hypothesis. Problem, mechanism, metric, prior: if you cannot write the mechanism, there is nothing for the test to confirm or falsify, and whatever comes back you will explain after the fact. No mechanism, no test, is a cheap rule that removes most of the bad ones.</span></li>
+      <li><b>Design</b><span>The prior store says what this metric has actually done across the last hundred tests, so the MDE stops being a wish. Effects are small and most ideas do nothing: seventy to ninety percent of experiments are killed or neutral everywhere it has been measured, which means the honest prior mean is roughly zero. A test powered for a lift nobody at this company has ever produced was decided before it launched.</span></li>
+      <li><b>Assignment</b><span>Flags, a randomisation service, layers so concurrent tests do not interact, and holdouts. Then the case a bigger sample cannot fix: when treating one user changes another user&#8217;s experience, through shared supply, a feed, or an inventory both sides draw from, your control group is treated through the back door. That is switchback or cluster randomisation, decided at design time or not at all.</span></li>
+      <li><b>Logging</b><span>Exposure, not eligibility. If the log records who was bucketed rather than who actually saw the variant, the estimate is diluted toward zero and nothing downstream flags it, because the test looks exactly like a test that ran. This is the most common bug in the chain and the one that survives longest.</span></li>
+      <li><b>Analysis</b><span>CUPED against pre-period covariates cuts the sample you need, often by half. The SRM check asks whether randomisation actually held. Sequential or always-valid p-values make daily peeking a licensed thing to do rather than a violation, which matters because the platform will show the PM a curve on day three whatever you agreed. ATE says whether it worked, CATE says who it worked for, and empirical Bayes shrinkage pulls the estimate back toward what this metric usually does, which is the correction for the winner&#8217;s curse.</span></li>
+      <li><b>Decision</b><span>Ship, kill, or roll back, then write it up either way. A rollback triggered by a guardrail is the platform working, not a failure. The only real failure is a finished test whose result goes nowhere, because that is the loop staying open.</span></li>
+    </ul>
+
+    <div class="note">
+      <h4>What an experimentation platform actually is</h4>
+      <p>Assignment, plus logging, plus a causal engine, plus memory. Most companies build the first two, call the result a platform, and cannot work out why the wins never add up to anything. The engine is where the sample gets halved and the false positives get caught. The memory is where the next test gets sized and the last one stops being repeated. On a mature team you file an experiment the way you file a pull request: the metric comes from a registry rather than a text box, the system fills in the detectable effect from the prior distribution for that metric, guardrails attach themselves, and randomisation, the ratio check, variance reduction and the sequential test are defaults you would have to work to switch off. Nothing reaches every user without a link back to the experiment that justified it.</p>
+    </div>
+
+    <div class="note">
+      <h4>Measure learning, not wins</h4>
+      <p>Win rates are low everywhere and a team judged on them will stop proposing anything that could fail. Spotify has published its own numbers against exactly that incentive: roughly one experiment in eight wins, while around two thirds teach the team enough to make a decision, and the four in ten stopped by a guardrail count as the system doing its job. The metric that survives is whether the experiment produced a decision, not whether it produced a lift, and it is the only version of the count that rewards testing the risky idea.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>day to day</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">5</span><h3>Using the map day to day</h3></div>
+    <p class="prose" style="margin-bottom:20px">Turn the map into three questions you ask in order, before you open a query editor, with one lookup above them and one check underneath. That bracket is the map&#8217;s own shape. It takes about a minute and it is the whole discipline.</p>
+    <ul class="brk">
+      <li><b>Before all three</b><span>Has this been answered, and what does this metric usually do? Search the theory layer before you scope anything. Three outcomes: it is settled and you hand back the entry, it is stale and you have a prior instead of a blank page, or it is genuinely new. Either way the prior store gives you the effect size this metric has historically moved by, which is what turns the MDE from a wish into a number. The lookup costs a minute and the test costs a sprint.</span></li>
+      <li><b>Description or change?</b><span>If the sentence contains <span class="q">what, where, how many, who</span>, you are in exploratory analytics. If it contains <span class="q">because, caused, lift, impact, worth it</span>, you are heading for the diamond.</span></li>
+      <li><b>Who assigned treatment?</b><span>If you can assign it, or could have, go into experimentation. If assignment already happened, by launch date, by geography, by self-selection, go into causal inference and pick the method that matches how assignment happened. This is the single highest-leverage habit on the map.</span></li>
+      <li><b>Once, or continuously?</b><span>Once means you need an effect size. Continuously, per user or per day, means you are building for the statistical modeling box and the solid arrow into the decision.</span></li>
+      <li><b>And underneath all three</b><span>Do I trust the metric? If the answer is no, the measurement framework is the actual work, and everything above it is premature.</span></li>
+    </ul>
+
+    <h4 style="margin-top:28px">Worked routings</h4>
+    <div class="scrollx">
+    <table class="route">
+      <thead><tr><th>The question as it arrives</th><th>Routes to</th><th>Why, and what you get back</th></tr></thead>
+      <tbody>
+        <tr><td class="q">"Mobile checkout conversion dropped four points last month. What happened?"</td><td>Exploratory analytics</td><td>Pure description, no intervention proposed. Funnel and segmentation work until the drop localises to a step, a platform, a cohort. Output is a hypothesis, which then enters the diamond.</td></tr>
+        <tr><td class="q">"Does the new one-page checkout increase completion?"</td><td>Experimentation</td><td>You control who sees which checkout, so randomise. Power the test before you launch it, not after. Output is an effect size with a confidence interval, and the decision is ship or kill.</td></tr>
+        <tr><td class="q">"We rolled the new pricing page out to all users in March. Did it help?"</td><td>Causal inference</td><td>Assignment already happened and it was not random; everyone got it at once. That is an interrupted time series, or DiD against a comparable unaffected market. Output is still an effect size, with assumptions you must state.</td></tr>
+        <tr><td class="q">"Users who enable notifications retain better. Should we push everyone to enable them?"</td><td>Experimentation</td><td>The trap case. The observed gap is self-selection, not effect: engaged users enable notifications. Randomise the prompt, not the outcome. If you truly cannot, matching or IV in the causal inference box, with the bias acknowledged.</td></tr>
+        <tr><td class="q">"Which of our twelve million users should get the win-back discount this week?"</td><td>Statistical modeling</td><td>A decision made repeatedly at volume, so it belongs to the automation arrow. An uplift model ranks who is moved by the discount, not who is likely to return anyway. Validate the model itself with an experiment.</td></tr>
+        <tr><td class="q">"Does the new courier bonus increase deliveries completed?"</td><td>Experimentation, redesigned</td><td>Randomising couriers is the obvious move and it is wrong: pay one courier more and they take the jobs a control courier would have taken, so the control group is treated through the back door and the effect looks larger than it is. Randomise time or city rather than people. Switchback or cluster, decided before launch, because no sample size fixes interference.</td></tr>
+        <tr><td class="q">"Didn't we try something like this two years ago?"</td><td>Theory layer</td><td>A lookup, not an analysis. The entry says what was tested, what the effect was, and what has changed since. If it predates the redesign it is a prior rather than an answer: it sharpens the next test, sets a realistic expectation, and stops the team arguing from memory.</td></tr>
+        <tr><td class="q">"Our activation number differs in two dashboards and nobody trusts either."</td><td>Measurement framework</td><td>Not a stage on the path, a foundation crack. Fix the definition of success and the source of truth first; every analysis built on top of it inherits the error invisibly.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h4 style="margin-top:28px">Four habits worth stealing</h4>
+    <div class="habits">
+      <div><span class="glyph"><svg viewBox="0 0 33 33" width="26" height="26" fill="currentColor" shape-rendering="crispEdges"><rect x="6" y="0" width="21" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="27" y="1" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="28" y="2" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="8" y="3" width="17" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="7" y="4" width="1" height="1"/><rect x="25" y="4" width="1" height="1"/><rect x="28" y="4" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="7" y="5" width="1" height="1"/><rect x="25" y="5" width="1" height="1"/><rect x="28" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="25" y="6" width="1" height="1"/><rect x="28" y="6" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="19" y="7" width="1" height="1"/><rect x="25" y="7" width="1" height="1"/><rect x="28" y="7" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="19" y="8" width="1" height="1"/><rect x="25" y="8" width="1" height="1"/><rect x="28" y="8" width="1" height="1"/><rect x="4" y="9" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="16" y="9" width="1" height="1"/><rect x="25" y="9" width="1" height="1"/><rect x="28" y="9" width="1" height="1"/><rect x="4" y="10" width="1" height="1"/><rect x="7" y="10" width="1" height="1"/><rect x="16" y="10" width="1" height="1"/><rect x="25" y="10" width="1" height="1"/><rect x="28" y="10" width="1" height="1"/><rect x="4" y="11" width="1" height="1"/><rect x="7" y="11" width="1" height="1"/><rect x="15" y="11" width="2" height="1"/><rect x="25" y="11" width="1" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="4" y="12" width="1" height="1"/><rect x="7" y="12" width="1" height="1"/><rect x="25" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="4" y="13" width="1" height="1"/><rect x="7" y="13" width="1" height="1"/><rect x="13" y="13" width="1" height="1"/><rect x="18" y="13" width="1" height="1"/><rect x="25" y="13" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="7" y="14" width="1" height="1"/><rect x="14" y="14" width="4" height="1"/><rect x="25" y="14" width="1" height="1"/><rect x="28" y="14" width="1" height="1"/><rect x="4" y="15" width="1" height="1"/><rect x="7" y="15" width="1" height="1"/><rect x="25" y="15" width="1" height="1"/><rect x="28" y="15" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="7" y="16" width="1" height="1"/><rect x="25" y="16" width="1" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="4" y="17" width="1" height="1"/><rect x="8" y="17" width="17" height="1"/><rect x="28" y="17" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="28" y="18" width="1" height="1"/><rect x="4" y="19" width="1" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="28" y="20" width="1" height="1"/><rect x="4" y="21" width="1" height="1"/><rect x="28" y="21" width="1" height="1"/><rect x="4" y="22" width="1" height="1"/><rect x="19" y="22" width="6" height="1"/><rect x="28" y="22" width="1" height="1"/><rect x="4" y="23" width="1" height="1"/><rect x="7" y="23" width="2" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="4" y="24" width="1" height="1"/><rect x="28" y="24" width="1" height="1"/><rect x="4" y="25" width="1" height="1"/><rect x="28" y="25" width="1" height="1"/><rect x="4" y="26" width="1" height="1"/><rect x="28" y="26" width="1" height="1"/><rect x="5" y="27" width="23" height="1"/><rect x="5" y="28" width="1" height="1"/><rect x="27" y="28" width="1" height="1"/><rect x="5" y="29" width="1" height="1"/><rect x="27" y="29" width="1" height="1"/><rect x="5" y="30" width="1" height="1"/><rect x="27" y="30" width="1" height="1"/><rect x="5" y="31" width="23" height="1"/></svg></span><p><b>Name the box out loud in the kickoff.</b> Saying "this is a causal inference question, not an experiment, because the rollout already happened" resets stakeholder expectations about certainty before you produce a number, not after.</p></div>
+      <div><span class="glyph"><svg viewBox="0 0 33 33" width="26" height="26" fill="currentColor" shape-rendering="crispEdges"><rect x="0" y="0" width="32" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="9" y="1" width="23" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="9" y="2" width="23" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="9" y="3" width="23" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="9" y="4" width="23" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="9" y="5" width="8" height="1"/><rect x="25" y="5" width="7" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="9" y="6" width="6" height="1"/><rect x="27" y="6" width="5" height="1"/><rect x="0" y="7" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="9" y="7" width="5" height="1"/><rect x="28" y="7" width="4" height="1"/><rect x="0" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="9" y="8" width="4" height="1"/><rect x="29" y="8" width="3" height="1"/><rect x="0" y="9" width="1" height="1"/><rect x="9" y="9" width="4" height="1"/><rect x="19" y="9" width="3" height="1"/><rect x="29" y="9" width="3" height="1"/><rect x="0" y="10" width="1" height="1"/><rect x="9" y="10" width="3" height="1"/><rect x="19" y="10" width="3" height="1"/><rect x="30" y="10" width="2" height="1"/><rect x="0" y="11" width="1" height="1"/><rect x="9" y="11" width="3" height="1"/><rect x="19" y="11" width="3" height="1"/><rect x="30" y="11" width="2" height="1"/><rect x="0" y="12" width="1" height="1"/><rect x="9" y="12" width="3" height="1"/><rect x="19" y="12" width="3" height="1"/><rect x="30" y="12" width="2" height="1"/><rect x="0" y="13" width="1" height="1"/><rect x="9" y="13" width="3" height="1"/><rect x="19" y="13" width="3" height="1"/><rect x="30" y="13" width="2" height="1"/><rect x="0" y="14" width="1" height="1"/><rect x="9" y="14" width="3" height="1"/><rect x="19" y="14" width="3" height="1"/><rect x="30" y="14" width="2" height="1"/><rect x="0" y="15" width="1" height="1"/><rect x="9" y="15" width="3" height="1"/><rect x="19" y="15" width="3" height="1"/><rect x="30" y="15" width="2" height="1"/><rect x="0" y="16" width="1" height="1"/><rect x="9" y="16" width="3" height="1"/><rect x="19" y="16" width="3" height="1"/><rect x="30" y="16" width="2" height="1"/><rect x="0" y="17" width="1" height="1"/><rect x="9" y="17" width="3" height="1"/><rect x="19" y="17" width="3" height="1"/><rect x="30" y="17" width="2" height="1"/><rect x="0" y="18" width="1" height="1"/><rect x="9" y="18" width="3" height="1"/><rect x="19" y="18" width="3" height="1"/><rect x="30" y="18" width="2" height="1"/><rect x="0" y="19" width="1" height="1"/><rect x="9" y="19" width="3" height="1"/><rect x="19" y="19" width="3" height="1"/><rect x="30" y="19" width="2" height="1"/><rect x="0" y="20" width="1" height="1"/><rect x="5" y="20" width="7" height="1"/><rect x="19" y="20" width="3" height="1"/><rect x="30" y="20" width="2" height="1"/><rect x="0" y="21" width="1" height="1"/><rect x="7" y="21" width="5" height="1"/><rect x="30" y="21" width="2" height="1"/><rect x="0" y="22" width="1" height="1"/><rect x="7" y="22" width="5" height="1"/><rect x="19" y="22" width="3" height="1"/><rect x="29" y="22" width="3" height="1"/><rect x="0" y="23" width="1" height="1"/><rect x="7" y="23" width="5" height="1"/><rect x="19" y="23" width="3" height="1"/><rect x="29" y="23" width="3" height="1"/><rect x="0" y="24" width="1" height="1"/><rect x="7" y="24" width="5" height="1"/><rect x="19" y="24" width="3" height="1"/><rect x="28" y="24" width="4" height="1"/><rect x="0" y="25" width="1" height="1"/><rect x="7" y="25" width="4" height="1"/><rect x="27" y="25" width="5" height="1"/><rect x="0" y="26" width="1" height="1"/><rect x="4" y="26" width="5" height="1"/><rect x="25" y="26" width="7" height="1"/><rect x="0" y="27" width="1" height="1"/><rect x="7" y="27" width="25" height="1"/><rect x="0" y="28" width="1" height="1"/><rect x="7" y="28" width="25" height="1"/><rect x="0" y="29" width="1" height="1"/><rect x="7" y="29" width="25" height="1"/><rect x="0" y="30" width="1" height="1"/><rect x="7" y="30" width="25" height="1"/><rect x="0" y="31" width="32" height="1"/></svg></span><p><b>Treat the diamond as a gate, not a formality.</b> Most bad product analytics is a diamond that was never asked. When someone shows you a difference between two groups, ask who put them in those groups.</p></div>
+      <div><span class="glyph"><svg viewBox="0 0 33 33" width="26" height="26" fill="currentColor" shape-rendering="crispEdges"><rect x="11" y="7" width="4" height="1"/><rect x="9" y="8" width="2" height="1"/><rect x="15" y="8" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="13" y="9" width="2" height="1"/><rect x="17" y="9" width="6" height="1"/><rect x="24" y="9" width="2" height="1"/><rect x="7" y="10" width="1" height="1"/><rect x="11" y="10" width="2" height="1"/><rect x="15" y="10" width="2" height="1"/><rect x="23" y="10" width="1" height="1"/><rect x="25" y="10" width="1" height="1"/><rect x="5" y="11" width="2" height="1"/><rect x="9" y="11" width="2" height="1"/><rect x="13" y="11" width="2" height="1"/><rect x="25" y="11" width="1" height="1"/><rect x="4" y="12" width="1" height="1"/><rect x="9" y="12" width="1" height="1"/><rect x="11" y="12" width="2" height="1"/><rect x="24" y="12" width="1" height="1"/><rect x="3" y="13" width="1" height="1"/><rect x="6" y="13" width="1" height="1"/><rect x="10" y="13" width="1" height="1"/><rect x="24" y="13" width="1" height="1"/><rect x="2" y="14" width="1" height="1"/><rect x="25" y="14" width="1" height="1"/><rect x="27" y="14" width="2" height="1"/><rect x="2" y="15" width="1" height="1"/><rect x="25" y="15" width="2" height="1"/><rect x="29" y="15" width="1" height="1"/><rect x="2" y="16" width="4" height="1"/><rect x="30" y="16" width="2" height="1"/><rect x="6" y="17" width="1" height="1"/><rect x="19" y="17" width="2" height="1"/><rect x="27" y="17" width="2" height="1"/><rect x="31" y="17" width="1" height="1"/><rect x="6" y="18" width="1" height="1"/><rect x="17" y="18" width="2" height="1"/><rect x="21" y="18" width="2" height="1"/><rect x="26" y="18" width="1" height="1"/><rect x="29" y="18" width="2" height="1"/><rect x="5" y="19" width="2" height="1"/><rect x="15" y="19" width="2" height="1"/><rect x="23" y="19" width="3" height="1"/><rect x="3" y="20" width="2" height="1"/><rect x="9" y="20" width="6" height="1"/><rect x="1" y="21" width="2" height="1"/><rect x="9" y="21" width="1" height="1"/><rect x="0" y="22" width="1" height="1"/><rect x="5" y="22" width="4" height="1"/><rect x="0" y="23" width="1" height="1"/><rect x="3" y="23" width="2" height="1"/><rect x="0" y="24" width="3" height="1"/></svg></span><p><b>Close the loop.</b> The dashed return line means the job is not over at ship. What you shipped changed the data your next question will be asked of, so go back and check that the metric still means what it meant.</p></div>
+      <div><span class="glyph"><svg viewBox="0 0 33 33" width="26" height="26" shape-rendering="crispEdges" fill="currentColor"><rect x="17" y="0" width="5" height="1"/><rect x="17" y="1" width="1" height="1"/><rect x="21" y="1" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="21" y="2" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="21" y="3" width="6" height="1"/><rect x="17" y="4" width="1" height="1"/><rect x="21" y="4" width="1" height="1"/><rect x="26" y="4" width="1" height="1"/><rect x="12" y="5" width="6" height="1"/><rect x="21" y="5" width="1" height="1"/><rect x="26" y="5" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="17" y="6" width="1" height="1"/><rect x="21" y="6" width="1" height="1"/><rect x="26" y="6" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="17" y="7" width="1" height="1"/><rect x="19" y="7" width="3" height="1"/><rect x="26" y="7" width="5" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="14" y="8" width="2" height="1"/><rect x="17" y="8" width="1" height="1"/><rect x="21" y="8" width="1" height="1"/><rect x="23" y="8" width="4" height="1"/><rect x="30" y="8" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="17" y="9" width="1" height="1"/><rect x="19" y="9" width="3" height="1"/><rect x="26" y="9" width="1" height="1"/><rect x="30" y="9" width="1" height="1"/><rect x="12" y="10" width="1" height="1"/><rect x="14" y="10" width="2" height="1"/><rect x="17" y="10" width="1" height="1"/><rect x="21" y="10" width="1" height="1"/><rect x="23" y="10" width="4" height="1"/><rect x="30" y="10" width="1" height="1"/><rect x="12" y="11" width="1" height="1"/><rect x="17" y="11" width="1" height="1"/><rect x="21" y="11" width="1" height="1"/><rect x="26" y="11" width="1" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="30" y="11" width="1" height="1"/><rect x="12" y="12" width="1" height="1"/><rect x="14" y="12" width="2" height="1"/><rect x="17" y="12" width="1" height="1"/><rect x="21" y="12" width="1" height="1"/><rect x="26" y="12" width="1" height="1"/><rect x="30" y="12" width="1" height="1"/><rect x="5" y="13" width="6" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="17" y="13" width="1" height="1"/><rect x="21" y="13" width="1" height="1"/><rect x="26" y="13" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/><rect x="30" y="13" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="11" y="14" width="2" height="1"/><rect x="14" y="14" width="2" height="1"/><rect x="17" y="14" width="1" height="1"/><rect x="21" y="14" width="1" height="1"/><rect x="26" y="14" width="1" height="1"/><rect x="30" y="14" width="1" height="1"/><rect x="6" y="15" width="1" height="1"/><rect x="11" y="15" width="2" height="1"/><rect x="17" y="15" width="1" height="1"/><rect x="21" y="15" width="1" height="1"/><rect x="26" y="15" width="1" height="1"/><rect x="28" y="15" width="1" height="1"/><rect x="30" y="15" width="1" height="1"/><rect x="2" y="16" width="9" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="14" y="16" width="2" height="1"/><rect x="17" y="16" width="1" height="1"/><rect x="21" y="16" width="1" height="1"/><rect x="26" y="16" width="1" height="1"/><rect x="30" y="16" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="11" y="17" width="2" height="1"/><rect x="17" y="17" width="1" height="1"/><rect x="21" y="17" width="1" height="1"/><rect x="26" y="17" width="1" height="1"/><rect x="28" y="17" width="1" height="1"/><rect x="30" y="17" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="11" y="18" width="2" height="1"/><rect x="14" y="18" width="2" height="1"/><rect x="17" y="18" width="1" height="1"/><rect x="21" y="18" width="1" height="1"/><rect x="26" y="18" width="1" height="1"/><rect x="30" y="18" width="1" height="1"/><rect x="3" y="19" width="1" height="1"/><rect x="11" y="19" width="2" height="1"/><rect x="17" y="19" width="1" height="1"/><rect x="21" y="19" width="1" height="1"/><rect x="26" y="19" width="1" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="30" y="19" width="1" height="1"/><rect x="2" y="20" width="9" height="1"/><rect x="12" y="20" width="1" height="1"/><rect x="14" y="20" width="2" height="1"/><rect x="17" y="20" width="1" height="1"/><rect x="21" y="20" width="1" height="1"/><rect x="26" y="20" width="1" height="1"/><rect x="30" y="20" width="1" height="1"/><rect x="5" y="21" width="1" height="1"/><rect x="11" y="21" width="2" height="1"/><rect x="17" y="21" width="1" height="1"/><rect x="21" y="21" width="1" height="1"/><rect x="26" y="21" width="1" height="1"/><rect x="30" y="21" width="1" height="1"/><rect x="5" y="22" width="1" height="1"/><rect x="11" y="22" width="2" height="1"/><rect x="14" y="22" width="2" height="1"/><rect x="17" y="22" width="1" height="1"/><rect x="21" y="22" width="1" height="1"/><rect x="26" y="22" width="1" height="1"/><rect x="30" y="22" width="1" height="1"/><rect x="2" y="23" width="9" height="1"/><rect x="12" y="23" width="1" height="1"/><rect x="17" y="23" width="1" height="1"/><rect x="19" y="23" width="3" height="1"/><rect x="23" y="23" width="4" height="1"/><rect x="30" y="23" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="11" y="24" width="2" height="1"/><rect x="17" y="24" width="1" height="1"/><rect x="21" y="24" width="1" height="1"/><rect x="26" y="24" width="1" height="1"/><rect x="30" y="24" width="1" height="1"/><rect x="3" y="25" width="1" height="1"/><rect x="11" y="25" width="2" height="1"/><rect x="17" y="25" width="1" height="1"/><rect x="19" y="25" width="3" height="1"/><rect x="23" y="25" width="4" height="1"/><rect x="30" y="25" width="1" height="1"/><rect x="3" y="26" width="1" height="1"/><rect x="11" y="26" width="2" height="1"/><rect x="17" y="26" width="1" height="1"/><rect x="21" y="26" width="1" height="1"/><rect x="26" y="26" width="1" height="1"/><rect x="30" y="26" width="1" height="1"/><rect x="1" y="27" width="10" height="1"/><rect x="12" y="27" width="1" height="1"/><rect x="17" y="27" width="1" height="1"/><rect x="21" y="27" width="1" height="1"/><rect x="26" y="27" width="1" height="1"/><rect x="30" y="27" width="1" height="1"/><rect x="2" y="28" width="1" height="1"/><rect x="11" y="28" width="2" height="1"/><rect x="17" y="28" width="1" height="1"/><rect x="21" y="28" width="1" height="1"/><rect x="26" y="28" width="1" height="1"/><rect x="30" y="28" width="1" height="1"/><rect x="2" y="29" width="1" height="1"/><rect x="11" y="29" width="2" height="1"/><rect x="17" y="29" width="1" height="1"/><rect x="21" y="29" width="1" height="1"/><rect x="26" y="29" width="1" height="1"/><rect x="30" y="29" width="1" height="1"/><rect x="2" y="30" width="1" height="1"/><rect x="11" y="30" width="2" height="1"/><rect x="17" y="30" width="1" height="1"/><rect x="21" y="30" width="1" height="1"/><rect x="26" y="30" width="1" height="1"/><rect x="30" y="30" width="1" height="1"/><rect x="1" y="31" width="10" height="1"/><rect x="13" y="31" width="4" height="1"/><rect x="18" y="31" width="3" height="1"/><rect x="22" y="31" width="4" height="1"/><rect x="27" y="31" width="3" height="1"/></svg></span><p><b>Write the belief, not just the result.</b> "Variant B won, +2.1% on checkout completion" is a readout and it dies with the ticket. "This product responds to friction removal at the payment step, about two points, and it held for six weeks" is a belief, and the next three questions start from it. One sentence, written while the test is still open, into the knowledge base rather than the tracker.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="win">
+  <div class="bar"><span class="close"></span><h2>compressed</h2></div>
+  <div class="body">
+    <div class="sec"><span class="n">6</span><h3>Holding the whole thing in your head</h3></div>
+    <p class="prose" style="margin-bottom:22px">Compressed to something you can carry without looking at it, the map is three method buckets, a floor underneath them, a memory above them, and a layer of judgment on top of that. The shape carries as much meaning as the contents. Measurement is not a fourth method, theory is not a fifth, and routing is not a method at all.</p>
+
+    <div class="stack">
+      <div class="band top">
+        <div class="bt">Routing &amp; judgment · the layer on top</div>
+        <p class="bd">Which bucket this question belongs in, what the answer would cost, and how much confidence it can carry.</p>
+        <p class="bw">Not on the map, because the map draws methods and this is the judgment about which method a question deserves.</p>
+      </div>
+      <div class="band top">
+        <div class="bt"><i></i>Theory &#183; the ceiling</div>
+        <p class="bd">What we now believe about this product: which levers moved it, by how much, for whom, and which questions are settled.</p>
+        <p class="bw">Above the buckets rather than beside them, because it is not a way of answering a question. It is what the answers accumulate into, and what the next question starts from. Its key is empty: it is not a method.</p>
+      </div>
+      <div class="buckets">
+        <div class="bucket">
+          <div class="bn">Description</div>
+          <dl><dt>asks</dt><dd>what happened?</dd>
+              <dt>hands back</dt><dd>a hypothesis</dd>
+              <dt>fails by</dt><dd>being mistaken for causation</dd></dl>
+          <div class="onmap"><span><i class="l-horiz"></i>Exploratory Analytics</span></div>
+        </div>
+        <div class="bucket">
+          <div class="bn">Causation</div>
+          <dl><dt>asks</dt><dd>did this change cause that?</dd>
+              <dt>hands back</dt><dd>an effect size</dd>
+              <dt>fails by</dt><dd>an invalid comparison group</dd></dl>
+          <div class="onmap"><span><i class="l-vert"></i>Experimentation</span><span><i class="l-hatch"></i>Causal Inference</span></div>
+        </div>
+        <div class="bucket">
+          <div class="bn">Prediction</div>
+          <dl><dt>asks</dt><dd>what will happen? who gets what?</dd>
+              <dt>hands back</dt><dd>a forecast, a ranking, an allocation</dd>
+              <dt>fails by</dt><dd>breaking the moment you intervene</dd></dl>
+          <div class="onmap"><span><i class="l-dot"></i>Statistical Modeling</span></div>
+        </div>
+      </div>
+      <div class="band floor">
+        <div class="bt"><i class="l-solid"></i>Measurement · the floor</div>
+        <p class="bd">Are we counting the right thing, the same way, everywhere: definitions, instrumentation, source of truth.</p>
+        <p class="bw">Underneath rather than beside, because you do not choose it against the others. You stand on it.</p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:26px">
+      <p><b>The test for any bucket scheme.</b> Each bucket needs its own question, its own output, and its own failure mode. If two candidates share all three, they are one bucket wearing two hats. Run the test on experimentation and causal inference: same question, <span class="q">did this cause that</span>; same output, an effect size; same failure mode, an invalid comparison group. Different circumstances, one bucket. That is precisely what the dashed container on the map is asserting, and it is why the count is three and not four.</p>
+      <p><b>Measurement sits underneath rather than beside</b> because you never choose it against the others. Its failure mode is also the only one invisible from the inside: a wrong definition does not throw an error, it returns a confident number.</p>
+      <p><b>The comparison group breaks in more ways than the diamond suggests.</b> Randomising is necessary and not sufficient, which is why the causation bucket has one failure mode and an experimentation platform has four checks for it. Assignment can drift, so the sample ratio gets tested. Exposure can go unlogged, so half the treated group is counted as untreated and the effect is pulled toward zero. Units can interfere, so the control is treated through a shared resource. Peeking can turn a null into a winner, so the test is sequential from the start. All four produce the same symptom as self-selection, a comparison that is not a comparison, and the readout looks identical either way.</p>
+      <p><b>The theory layer fails the bucket test on purpose.</b> It has no question of its own and it produces no estimate, so it is not a fourth bucket. What it has is a failure mode none of the others has: it goes stale without anyone noticing, because a belief that was true when the product was different still reads as true. That is why entries are dated and why the ship that contradicts one is the event that expires it. Buckets answer questions; the ceiling is where the answers are kept so the next question is smaller.</p>
+      <p><b>Routing does not appear on the map at all</b>, because the map draws methods and routing is the judgment about which method a question deserves. Executing well inside a bucket is table stakes. Recognising that the question in front of you cannot be answered by the bucket everyone assumed, and saying so before the work starts, is the part that compounds.</p>
+      <p>Back to the doctor one last time. The three buckets are the instruments. Measurement is whether the instruments are calibrated. Routing is the diagnosis, and nobody values a radiologist for operating the machine.</p>
+    </div>
+  </div>
+</section>
+
+<section class="laws">
+  <p><b>Three buckets, a floor, a ceiling, and a layer of judgment.</b> The vertical order is the claim.</p>
+</section>
+
+<footer>
+  <span class="cap"><span class="wm" style="font-size:15px">gallop</span> · PDS Method Map · field guide to page 1</span>
+  <span class="label">pasture desktop</span>
+</footer>
+
+</div>

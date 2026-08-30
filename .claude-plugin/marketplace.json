@@ -1,0 +1,16 @@
+{
+  "name": "gallop",
+  "description": "Product data science skills: routing, measurement, experiment design and readout.",
+  "owner": { "name": "0trm", "url": "https://github.com/0trm" },
+  "plugins": [
+    {
+      "name": "gallop",
+      "source": "./",
+      "description": "Routes a product question to the method it deserves, then runs that method with the checks that stop it returning a confident wrong number.",
+      "version": "0.0.1",
+      "license": "MIT",
+      "category": "data",
+      "keywords": ["experimentation", "causal-inference", "product-analytics", "ab-testing"]
+    }
+  ]
+}
