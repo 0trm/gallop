@@ -8,7 +8,8 @@ with the exceptions and deliberate omissions recorded here.
 | Asset | Origin | Terms |
 |---|---|---|
 | `site/assets/gallop-logo.png` | Original. Three riders carried on one galloping horse. | MIT, with the rest of the repo |
-| `site/assets/favicon.png` | Original. | MIT |
+| `site/assets/favicon.svg` | Original. The logo's horse, riders removed, traced to a single 1-bit path. | MIT |
+| `site/assets/apple-touch-icon.png` | Original. Raster of `favicon.svg`. | MIT |
 | `site/assets/gallop.css` | Original. Palette sampled from the logo. | MIT |
 | Public Sans | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
 | IBM Plex Mono | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
