@@ -7,26 +7,30 @@ with the exceptions and deliberate omissions recorded here.
 
 | Asset | Origin | Terms |
 |---|---|---|
-| `site/assets/gallop-logo.png` | Original. Three riders carried on one galloping horse. | MIT, with the rest of the repo |
+| `site/assets/mark.svg` | Original. Three riders carried on one galloping horse, the line drawing traced to a single path. | MIT, with the rest of the repo |
+| `site/assets/gallop-logo.png` | Original. The same drawing, filled. No longer used by the site; kept because the README history points at it. | MIT, with the rest of the repo |
 | `site/assets/favicon.svg` | Original. The logo's horse, riders removed, traced to a single 1-bit path. | MIT |
 | `site/assets/apple-touch-icon.png` | Original. Raster of `favicon.svg`. | MIT |
-| `site/assets/gallop.css` | Original. Palette sampled from the logo. | MIT |
+| `site/assets/gallop.css` | Original. The locked design system: two colours, three faces, a cell grid. | MIT |
+| Archivo | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
+| Courier Prime | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
 | Public Sans | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
-| IBM Plex Mono | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
 
 ## Deliberately not shipped
 
-**Chicago and Monaco font files.** The design references Chicago (as the
-ChicagoFLF revival) and Monaco. Neither binary is in this repository or in its
-history. The `@font-face` rules resolve them with `local()` only, so a machine
-that already has them uses them and every other machine falls back to Public
-Sans and IBM Plex Mono, which the project's own style sheet names as the
-stand-ins.
+**Chicago font files.** The display role names Chicago, as the ChicagoFLF
+revival. No binary is in this repository or in its history: the `@font-face`
+rule resolves it with `local()` only, so a machine that already has Chicago uses
+it and every other machine renders the display role in Archivo. That is what the
+published site renders in today. Shipping Chicago means either clearing the
+redistribution terms of a revival or drawing the display type as outlines;
+`scripts/check_assets.py` refuses every font binary until that is settled.
 
-**Macintosh icon set.** The design language descends from Susan Kare's 1984
-Macintosh icons. Those icons are Apple's. None of them are in this repository
-or in its history. The eight icons the system calls for are pending an original
-redraw in the same 1-bit grammar; until that lands, no icons ship.
+**Macintosh icon set.** The design language no longer calls for one. Susan
+Kare's 1984 Macintosh icons seeded the earlier Sys7 direction; those icons are
+Apple's and none of them are in this repository or in its history. The current
+system marks things with type and hairlines rather than icons, so nothing is
+pending.
 
 The rule this repository follows: assets whose provenance is not clean never
 enter the history, because git history is permanent and deleting a file later

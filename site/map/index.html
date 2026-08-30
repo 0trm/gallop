@@ -1,51 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
 <title>PDS Method Map</title>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;600;700&display=swap">
 <style>
-/* Chicago and Monaco, the real faces. local() first so a Mac uses what it has. */
-@font-face{font-family:"Chicago";font-style:normal;font-weight:400;font-display:swap;
-  src:local("Chicago"),local("ChicagoFLF")}
-@font-face{font-family:"Monaco";font-style:normal;font-weight:400;font-display:swap;
-  src:local("Monaco")}
-</style>
-<style>
-:root{
-  --pasture:#D9DEE4; --pasture-shade:#B2BAC5; --vellum:#E9E3D3;
-  --ink:#000000; --paper:#FFFFFF;
-  --f-chrome:"Chicago",system-ui,sans-serif;
-  --f-body:"Geneva","Public Sans",-apple-system,"Helvetica Neue",sans-serif;
-  --f-mono:"Monaco","IBM Plex Mono",ui-monospace,Menlo,monospace;
-  --hair:1px solid var(--ink);
-  --drop:3px 3px 0 var(--pasture-shade);
-}
-*{box-sizing:border-box}
-html{background:var(--pasture)}
-body{margin:0;background:var(--pasture);color:var(--ink);font-family:var(--f-body);
-     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.desk{max-width:1080px;margin:0 auto;padding:48px 26px 96px;display:flex;flex-direction:column;gap:34px}
-:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.desk{display:flex;flex-direction:column;gap:0}
+.desk > .win{border-left:0;border-right:0;border-top:0}
+.body{padding:30px 26px 36px}
+.desk > footer{padding:22px 26px;border-bottom:1px solid var(--line)}
 
-.win{background:var(--paper);border:var(--hair);box-shadow:var(--drop)}
-.bar{height:24px;border-bottom:var(--hair);display:flex;align-items:center;gap:8px;padding:0 7px;
-     background-color:var(--paper);
-     background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px);
-     background-clip:padding-box}
-.close{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto}
-.bar h2{font-family:var(--f-chrome);font-size:11px;font-weight:400;letter-spacing:.04em;margin:0;
-        background:var(--paper);padding:1px 9px;white-space:nowrap}
-.bar .grow{flex:1}
-.bar .size{width:11px;height:11px;border:var(--hair);background:var(--paper);flex:0 0 auto;position:relative}
-.bar .size::after{content:"";position:absolute;left:2px;top:2px;width:5px;height:5px;border:var(--hair)}
 .body{padding:32px}
 
 .label{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 .tag{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:10px;
      font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
-.mono{font-family:var(--f-mono)}
-.wm{font-family:var(--f-chrome);text-transform:lowercase;letter-spacing:0}
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:400;line-height:1.05;margin:0;letter-spacing:.01em}
 h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
 h4{font-size:15px;font-weight:700;margin:0 0 5px}
@@ -81,8 +53,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
 
 @media print{
   html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .win{box-shadow:none}
-  figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
+    figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
   h3,h4,.sec{break-after:avoid}
 }
 
@@ -165,6 +136,20 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
 .dg .cont{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
+<div class="band cells nav">
+  <a class="wm" href="../">gallop</a>
+  <a href="../map/" aria-current="page">The map</a>
+  <a href="../intake/">The intake</a>
+  <a href="../#skills">The six skills</a>
+  <a href="https://github.com/0trm/gallop">Github &#8599;</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
 <div class="desk">
 
 <section class="win">
@@ -562,9 +547,38 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
   <p><b>Three buckets, a floor, a ceiling, and a layer of judgment.</b> The vertical order is the claim.</p>
 </section>
 
-<footer>
-  <span class="cap"><span class="wm" style="font-size:15px">gallop</span> · PDS Method Map · field guide to page 1</span>
-  <span class="label">pasture desktop</span>
-</footer>
 
 </div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

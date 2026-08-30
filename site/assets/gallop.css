@@ -1,94 +1,156 @@
-/* Gallop – Pasture Desktop
-   System 7 grammar, palette lifted off media/gallop-logo.png.
-   See gallop-aesthetic.md and media/gallop-style-sheet.png. */
+/* gallop — the locked design system.
+   A hairline cell grid, one ink and one ground, three faces. Light is the
+   default; dark is opt-in from the switch in the nav and is remembered per
+   browser. prefers-color-scheme is deliberately not consulted, because the
+   default is a design decision rather than a preference to inherit.
+   The written version is gallop-aesthetic.md. */
 
-/* Chicago and Monaco resolve via local() on a Mac. No font files ship with
-   this repo: see NOTICE. Everyone else gets Public Sans and IBM Plex Mono,
-   which gallop-aesthetic.md already names as the stand-ins. */
+/* Chicago is not redistributable and no font file ships here: see NOTICE.
+   local() first, so a machine that has it uses it; everyone else lands on
+   Archivo, which is what the display role actually renders in today. */
 @font-face{
   font-family:"Chicago"; font-style:normal; font-weight:400; font-display:swap;
   src:local("Chicago"),local("ChicagoFLF");
 }
-@font-face{
-  font-family:"Monaco"; font-style:normal; font-weight:400; font-display:swap;
-  src:local("Monaco");
-}
 
 :root{
-  /* ground */
-  --gallop-pasture:       #D9DEE4; /* the oval behind the horse: desktop, backdrops */
-  --gallop-pasture-shade: #B2BAC5; /* derived: drop shadows and table rules only */
-  --gallop-vellum:        #E9E3D3; /* the horse: selection and emphasis, once per view */
-  --gallop-ink:           #000000; /* frames, arrows, type, icons. never tinted */
-  --gallop-paper:         #FFFFFF; /* window bodies and node interiors */
+  /* --- ground and ink. two values, and everything else is an alpha of them --- */
+  --bg:#FFFFFF;
+  --fg:#000000;
+  --line:rgba(0,0,0,.20);          /* cell rules, the skeleton */
+  --line-2:rgba(0,0,0,.34);        /* a box that should read as an object */
+  --dim:rgba(0,0,0,.55);           /* secondary label */
+  --body:rgba(0,0,0,.78);          /* running prose */
+  --wash:rgba(0,0,0,.06);          /* hover, and the one fill that is not solid */
 
-  /* type: Chicago - titles / chrome, Geneva - body, Monaco - code . IDs . labels */
-  --gallop-chrome: "Chicago","Public Sans",system-ui,sans-serif;
-  --gallop-body:   "Geneva","Public Sans",-apple-system,sans-serif;
-  --gallop-mono:   "Monaco","IBM Plex Mono",ui-monospace,monospace;
+  /* --- three faces ------------------------------------------------------ */
+  --disp:"Chicago","Archivo","Public Sans",system-ui,sans-serif;
+  --sans:"Archivo","Public Sans",Arial,sans-serif;
+  --mono:"Courier Prime",ui-monospace,Menlo,monospace;
 
-  --gallop-t-wordmark: 64px;  /* "gallop" - Chicago, lower case, always */
-
-  /* scale, 4px baseline */
-  --gallop-t-label:  10px;
-  --gallop-t-chrome: 11px;
-  --gallop-t-cap:    12px;
-  --gallop-t-body:   15px;
-  --gallop-t-lead:   18px;
-  --gallop-t-h3:     20px;
-  --gallop-t-h2:     26px;
-  --gallop-t-h1:     44px;
-
-  /* frame */
-  --gallop-hair: 1px solid var(--gallop-ink);
-  --gallop-drop: 3px 3px 0 var(--gallop-pasture-shade);
+  --hair:1px solid var(--line);
 }
 
-/* --- wordmark: gallop. Chicago, always lower case, never letterspaced,
-       never set in Geneva. --- */
-.gallop-wordmark{ font-family: var(--gallop-chrome); text-transform: lowercase;
-                  letter-spacing: 0; font-size: var(--gallop-t-wordmark); }
+:root[data-theme="dark"]{
+  --bg:#170D02;                    /* espresso. warmer than #000 under mono type */
+  --fg:#FFFFFF;
+  --line:rgba(255,255,255,.20);
+  --line-2:rgba(255,255,255,.34);
+  --dim:rgba(255,255,255,.55);
+  --body:rgba(255,255,255,.80);
+  --wash:rgba(255,255,255,.07);
+}
 
-/* --- textures. the 50% desktop dither is retired: it vibrated and fought
-       the line art. flat pasture does that job now. --- */
-.tex-title  { background-image: repeating-linear-gradient(180deg,
-                var(--gallop-ink) 0 1px, transparent 1px 3px); }
-.tex-light  { background-image: radial-gradient(var(--gallop-ink) .6px, transparent .7px);
-              background-size: 3px 3px; }
-.tex-select { background-color: var(--gallop-vellum); }
-.tex-ground { background-color: var(--gallop-pasture); }
+/* --- the previous palette, mapped onto this one -------------------------
+   The map and the intake are hand-authored documents whose diagrams are
+   written against these names. Aliasing rather than rewriting keeps the
+   inline SVG untouched and makes both documents theme with everything else. */
+:root{
+  --ink:var(--fg);
+  --paper:var(--bg);
+  --pasture:var(--bg);
+  --pasture-shade:var(--line);
+  --vellum:color-mix(in srgb, var(--fg) 13%, var(--bg));
+  --f-chrome:var(--disp);
+  --f-body:var(--mono);
+  --f-mono:var(--mono);
+  --drop:none;
+}
 
-/* --- window --- */
-.gallop-win  { background: var(--gallop-paper); border: var(--gallop-hair);
-               box-shadow: var(--gallop-drop); }
-.gallop-bar  { height: 24px; padding: 0 7px; display: flex; align-items: center; gap: 8px;
-               border-bottom: var(--gallop-hair);
-               background-color: var(--gallop-paper);
-               background-image: repeating-linear-gradient(180deg,
-                 var(--gallop-ink) 0 1px, transparent 1px 3px); }
-.gallop-bar > .title { font-family: var(--gallop-chrome); font-size: var(--gallop-t-chrome);
-               letter-spacing: .04em; background: var(--gallop-paper); padding: 1px 9px; }
-.gallop-bar > .box   { width: 11px; height: 11px; border: var(--gallop-hair);
-               background: var(--gallop-paper); flex: 0 0 auto; }
-.gallop-body { padding: 26px; }
+/* --- base ---------------------------------------------------------------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);
+     font-family:var(--mono);font-size:14px;line-height:1.6;
+     -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+img,svg{max-width:100%}
 
-/* --- nodes --- */
-.gallop-node          { border: var(--gallop-hair); background: var(--gallop-paper);
-                        padding: 9px 15px; font-size: 13px; white-space: nowrap; }
-.gallop-node.terminal { border-radius: 999px; padding: 9px 19px; }
-.gallop-node.selected { background: var(--gallop-vellum); }
-/* decision and store are inline SVG polygons/cylinders, 1px stroke, non-scaling */
+/* --- the cell grid is the skeleton --------------------------------------- */
+.band{border-bottom:1px solid var(--line)}
+.cells{display:grid}
+.cells > *{border-right:1px solid var(--line);padding:16px 20px;min-width:0}
+.cells > *:last-child{border-right:0}
+.secthead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+          padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 
-/* --- icons: a 1-bit set in the Sys7 grammar, 1px rects, fill: currentColor.
-       No colour, no stroke, no radius. Not yet in this repo: the eight working
-       icons are pending an original redraw. See NOTICE. --- */
-.gallop-icon      { color: var(--gallop-ink); display: block; }
-.gallop-icon svg  { display: block; width: 33px; height: 33px; }
+/* --- type roles ---------------------------------------------------------- */
+.lab{font-family:var(--sans);text-transform:uppercase;font-size:11px;
+     letter-spacing:.16em;font-weight:600;margin:0}
+.d{font-family:var(--disp);font-weight:700;line-height:1.02;letter-spacing:0;margin:0}
+.wm{font-family:var(--disp);font-weight:700;text-transform:lowercase;letter-spacing:0}
+.dim{color:var(--dim)}
+.key{font-weight:700}
+.mono{font-family:var(--mono)}
 
-/* --- laws ---
-   1. black ink on white. every glyph a person reads sits on paper, never on texture.
-   2. sharp 1px frames. no radius, no blur, no gradient. shadows are offsets.
-   3. right-angle connectors. solid is a path, dashed is feedback. nothing curves.
-   4. vellum once per view. if two things are emphasised, neither is.
-   5. texture lives in the chrome. node interiors stay white for legibility.
-   6. no new colour. greys come from dithering ink against paper. */
+/* --- the shared nav band ------------------------------------------------- */
+.nav{grid-template-columns:250px repeat(4,1fr) 180px;align-items:center}
+.nav .wm{font-size:26px;line-height:1.05}
+.nav .sw{display:flex;justify-content:flex-end}
+.nav a[aria-current="page"]{font-weight:700}
+.mode{display:inline-flex;border:1px solid var(--fg);font-family:var(--sans);
+      text-transform:uppercase;font-size:10px;letter-spacing:.14em;font-weight:600}
+.mode button{padding:6px 11px;border:0;background:none;color:inherit;font:inherit;
+             letter-spacing:inherit;cursor:pointer}
+.mode button+button{border-left:1px solid var(--fg)}
+.mode button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+/* --- controls ------------------------------------------------------------ */
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;
+     min-height:48px;padding:13px 18px;border:1px solid var(--fg);
+     font-family:var(--sans);text-transform:uppercase;font-size:12px;
+     letter-spacing:.14em;font-weight:600}
+.btn.pri{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.btn:hover{text-decoration:none;background:var(--fg);color:var(--bg)}
+.cmd{display:flex;justify-content:space-between;align-items:center;gap:16px;
+     border:1px solid var(--line-2);padding:13px 15px;font-size:13.5px}
+.cmd:hover{border-color:var(--fg);text-decoration:none}
+.cmd .cp{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
+         text-transform:uppercase;border:1px solid var(--line);padding:5px 9px;
+         white-space:nowrap}
+
+/* --- a terminal, when a page shows one ----------------------------------- */
+.term{border:1px solid var(--line-2)}
+.term .tbar{display:flex;align-items:center;gap:8px;padding:9px 12px;
+            border-bottom:1px solid var(--line);font-size:11px;
+            letter-spacing:.14em;text-transform:uppercase}
+.term .dot{width:8px;height:8px;border:1px solid var(--line-2);border-radius:50%}
+.term pre{margin:0;padding:20px 22px;white-space:pre;overflow-x:auto}
+@keyframes blink{50%{opacity:0}}
+.cursor{display:inline-block;width:8px;height:1.05em;background:var(--fg);
+        vertical-align:-2px;animation:blink 1s step-end infinite}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+
+/* --- long-form documents: the map and the intake -------------------------
+   Their markup calls a section a .win with a .bar header. Under this system a
+   window is a cell, so the frame goes flat, the striped title bar becomes a
+   labelled band, and the window furniture stops rendering. */
+.win{background:var(--bg);border:1px solid var(--line);box-shadow:none}
+.bar{height:auto;min-height:38px;display:flex;align-items:center;gap:10px;
+     padding:9px 20px;border-bottom:1px solid var(--line);
+     background:none;background-image:none}
+.bar h2{font-family:var(--sans);text-transform:uppercase;font-size:11px;
+        letter-spacing:.16em;font-weight:600;margin:0;background:none;padding:0}
+.bar .close,.bar .size{display:none}
+.bar .grow{flex:1}
+
+/* --- the foot band ------------------------------------------------------- */
+.foot{grid-template-columns:repeat(4,1fr);font-size:12px}
+
+@media (max-width:1080px){
+  .nav{grid-template-columns:1fr 1fr}
+  .nav > *{border-bottom:1px solid var(--line)}
+  .nav > *:nth-child(2n){border-right:0}
+  .nav .sw{grid-column:1/-1;justify-content:flex-start}
+  .foot{grid-template-columns:1fr}
+  .foot > *{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:620px){
+  .nav{grid-template-columns:1fr}
+  .nav > *:nth-child(2n){border-right:0}
+  .cells > *{padding:14px 18px}
+  .cmd{flex-wrap:wrap;gap:10px}
+  .term pre{font-size:12px;padding:16px}
+}
