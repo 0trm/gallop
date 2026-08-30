@@ -16,146 +16,212 @@
   html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--gallop-pasture);color:var(--gallop-ink);
        font-family:var(--gallop-body);font-size:var(--gallop-t-body);line-height:1.55}
-  .wrap{max-width:940px;margin:0 auto;padding:40px 20px 72px}
-  .win{background:var(--gallop-paper);border:var(--gallop-hair);box-shadow:var(--gallop-drop);margin-bottom:28px}
-  .bar{height:24px;padding:0 7px;display:flex;align-items:center;gap:8px;
+  a{color:var(--gallop-ink);text-decoration:none}
+  a:hover{text-decoration:underline}
+  img{max-width:100%;display:block}
+
+  /* --- the shell: a fixed navigator, the map as the page ---------------- */
+  .shell{display:grid;grid-template-columns:380px 1fr;min-height:100vh}
+  .rail{background:var(--gallop-paper);border-right:var(--gallop-hair);
+        padding:40px 32px 30px;display:flex;flex-direction:column}
+  .mark{width:100%;max-width:262px}
+  .wm{font-family:var(--gallop-chrome);text-transform:lowercase;letter-spacing:0;
+      line-height:.86;margin:18px 0 0;font-size:44px}
+  .pitch{font-size:14.5px;line-height:1.45;margin:14px 0 0}
+
+  /* --- the navigator: slabs, not links ---------------------------------- */
+  .nav{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+  .nav a{display:flex;align-items:center;justify-content:space-between;gap:14px;
+         min-height:56px;padding:12px 18px;border:var(--gallop-hair);
+         background:var(--gallop-paper);box-shadow:4px 4px 0 var(--gallop-pasture-shade);
+         font-family:var(--gallop-chrome);font-size:16px;letter-spacing:.01em}
+  .nav a .ar{font-family:var(--gallop-mono);font-size:15px}
+  .nav a:hover{text-decoration:none;transform:translate(1px,1px);
+               box-shadow:3px 3px 0 var(--gallop-pasture-shade)}
+  /* law 4, vellum once per view: it lives here, on where you are. */
+  .nav a.cur{background:var(--gallop-vellum);border-left:5px solid var(--gallop-ink);
+             padding-left:22px;box-shadow:none;cursor:default}
+  .nav a.cur:hover{transform:none;box-shadow:none;text-decoration:none}
+  .nav a.cur .ar{font-family:var(--gallop-chrome);font-size:11px;letter-spacing:.09em;
+                 text-transform:uppercase}
+  .nav a.pri{background:var(--gallop-ink);color:var(--gallop-paper);
+             border:2px solid var(--gallop-ink);
+             outline:1px solid var(--gallop-ink);outline-offset:4px}
+  .nav a.gh{min-height:46px;font-family:var(--gallop-mono);font-size:12.5px;
+            box-shadow:2px 2px 0 var(--gallop-pasture-shade)}
+
+  .tail{margin-top:auto;padding-top:34px}
+  .status{border:var(--gallop-hair)}
+  .status .h{font-family:var(--gallop-chrome);font-size:var(--gallop-t-label);letter-spacing:.08em;
+             text-transform:uppercase;padding:5px 12px;border-bottom:var(--gallop-hair);
+             background-color:var(--gallop-paper);
+             background-image:repeating-linear-gradient(180deg,var(--gallop-ink) 0 1px,transparent 1px 3px)}
+  .status .h span{background:var(--gallop-paper);padding:1px 7px}
+  .status p{margin:0;padding:13px 15px;font-size:13px;line-height:1.5}
+  .foot{font-family:var(--gallop-mono);font-size:11px;margin:12px 2px 0;opacity:.7}
+
+  /* --- the stage -------------------------------------------------------- */
+  .stage{padding:40px 44px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+  .frame{background:var(--gallop-paper);border:var(--gallop-hair);
+         box-shadow:5px 5px 0 var(--gallop-pasture-shade);display:flex;flex-direction:column}
+  .bar{height:26px;padding:0 8px;display:flex;align-items:center;gap:9px;
        border-bottom:var(--gallop-hair);background-color:var(--gallop-paper);
        background-image:repeating-linear-gradient(180deg,var(--gallop-ink) 0 1px,transparent 1px 3px)}
-  .bar .box{width:11px;height:11px;border:var(--gallop-hair);background:var(--gallop-paper);flex:0 0 auto}
-  .bar .title{font-family:var(--gallop-chrome);font-size:var(--gallop-t-chrome);
-              letter-spacing:.04em;background:var(--gallop-paper);padding:1px 9px}
-  .pad{padding:26px}
-  .hero{text-align:center;padding:34px 26px 30px}
-  .hero img{width:250px;max-width:78%;height:auto;display:block;margin:0 auto 14px}
-  .wordmark{font-family:var(--gallop-chrome);text-transform:lowercase;letter-spacing:0;
-            font-size:56px;line-height:1;margin:0 0 12px}
-  .tag{font-size:var(--gallop-t-lead);max-width:44em;margin:0 auto}
-  .note{background:var(--gallop-vellum);border:var(--gallop-hair);padding:14px 18px;
-        margin:0 0 28px;font-size:14px}
-  .note b{font-family:var(--gallop-chrome);font-weight:400}
-  h2{font-family:var(--gallop-chrome);font-size:var(--gallop-t-h3);font-weight:400;
-     margin:0 0 14px;letter-spacing:.02em}
-  p{margin:0 0 14px}
-  .lede{font-size:16px}
-  table{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 6px}
-  th,td{border-bottom:1px solid var(--gallop-pasture-shade);padding:8px 10px;text-align:left;vertical-align:top}
+  .bar .box{width:12px;height:12px;border:var(--gallop-hair);background:var(--gallop-paper);flex:0 0 auto}
+  .bar .t{font-family:var(--gallop-chrome);font-size:var(--gallop-t-chrome);letter-spacing:.04em;
+          background:var(--gallop-paper);padding:1px 10px}
+  .fig{padding:26px 24px 10px}
+  .key{display:flex;gap:22px;font-family:var(--gallop-mono);font-size:11px;padding:14px 22px;
+       border-top:var(--gallop-hair);align-items:center;flex-wrap:wrap}
+  .key i{display:inline-block;width:9px;height:15px;border:var(--gallop-hair);margin-right:7px;
+         vertical-align:-3px}
+  .fig .ch{font-family:var(--gallop-chrome)}
+  .fig .mo{font-family:var(--gallop-mono)}
+  .sub{opacity:.62}
+  .more{border-top:var(--gallop-hair);padding:16px 22px;
+        font-family:var(--gallop-mono);font-size:13px}
+
+  /* --- below the fold: the six, as a table and nothing more ------------- */
+  .skills{background:var(--gallop-paper);border-top:var(--gallop-hair);padding:44px 44px 40px}
+  .skills h2{font-family:var(--gallop-chrome);font-weight:400;font-size:var(--gallop-t-h3);
+             margin:0 0 18px;letter-spacing:.02em}
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{border-bottom:1px solid var(--gallop-pasture-shade);padding:9px 12px;
+        text-align:left;vertical-align:top}
   th{font-family:var(--gallop-chrome);font-size:var(--gallop-t-chrome);font-weight:400;
      letter-spacing:.04em;border-bottom:var(--gallop-hair)}
-  code,.mono{font-family:var(--gallop-mono);font-size:13px}
-  a{color:var(--gallop-ink)}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:var(--gallop-hair)}
-  .card{padding:20px 22px;border-bottom:var(--gallop-hair)}
-  .card:first-child{border-right:var(--gallop-hair)}
-  .card h3{font-family:var(--gallop-chrome);font-weight:400;font-size:15px;margin:0 0 6px}
-  .card p{font-size:14px;margin:0 0 10px}
-  .go{font-family:var(--gallop-mono);font-size:13px}
-  .scroll{overflow-x:auto}
-  footer{font-size:12px;text-align:center;padding-top:6px}
+  td.mono{font-family:var(--gallop-mono);font-size:13px;white-space:nowrap}
+  .not{font-size:14px;margin:22px 0 0;max-width:52em}
+
+  @media (max-width:980px){
+    .shell{grid-template-columns:1fr}
+    .rail{border-right:0;border-bottom:var(--gallop-hair);padding:28px 24px 24px}
+    .mark{max-width:220px}
+    .nav{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .tail{padding-top:26px}
+    .stage{padding:28px 24px}
+    .skills{padding:32px 24px}
+  }
   @media (max-width:620px){
-    .cards{grid-template-columns:1fr}
-    .card:first-child{border-right:0}
-    .wordmark{font-size:40px}
-    .pad,.hero{padding:20px}
+    .nav{grid-template-columns:1fr}
+    .key{gap:14px;font-size:10px}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="win">
-    <div class="bar"><span class="box"></span><span class="title">gallop</span></div>
-    <div class="hero">
-      <img src="assets/gallop-logo.png" alt="Three riders carried on one galloping horse">
-      <h1 class="wordmark">gallop</h1>
-      <p class="tag">Routes a product question to the method it deserves, then runs that
-      method with the checks that stop it returning a confident wrong number.</p>
-    </div>
-  </div>
+<div class="shell">
 
-  <div class="note">
-    <b>Being built in the open. Not ready to use yet.</b> One skill of six is in
-    progress and nothing is installable. The two documents worth reading today are
-    the method map and the intake algorithm, below. Feedback on those is worth more
-    right now than a star.
-  </div>
+  <div class="rail">
+    <img class="mark" src="assets/gallop-logo.png" alt="Three riders carried on one galloping horse">
+    <h1 class="wm">gallop</h1>
+    <p class="pitch">Routes a product question to the method it deserves, then runs that method
+    with the checks that stop it returning a confident wrong number.</p>
 
-  <div class="win">
-    <div class="bar"><span class="box"></span><span class="title">what it is</span></div>
-    <div class="pad">
-      <p class="lede">A product data science system, packaged as agent skills. A question
-      arrives; gallop routes it. One lookup against what the team already knows, three
-      questions, and one gate that asks whether the metric can be trusted at all.</p>
-      <p>Most questions leave without an analysis, and that is the point. The ones that
-      stay get the method that fits how treatment was assigned, sized from the effects
-      this metric has actually produced rather than from a number that would be nice,
-      and read out with the checks that separate a real result from a confident wrong
-      one: the sample ratio, the exposure log, the sequential bound, the shrinkage
-      toward the prior. What the answer teaches is written back before the ticket
-      closes, so the next question starts smaller.</p>
-    </div>
-  </div>
+    <nav class="nav">
+      <a class="cur" aria-current="page">the method map <span class="ar">shown</span></a>
+      <a class="pri" href="intake/">the intake algorithm <span class="ar">&rarr;</span></a>
+      <a href="#skills">the six skills <span class="ar">&rarr;</span></a>
+      <a class="gh" href="https://github.com/0trm/gallop">github.com/0trm/gallop <span class="ar">&rarr;</span></a>
+    </nav>
 
-  <div class="win">
-    <div class="bar"><span class="box"></span><span class="title">the buckets</span></div>
-    <div class="pad">
-      <p>Three method buckets, a floor underneath them, a memory above them, and a layer
-      of judgment on top. Each bucket has its own question, its own output, and its own
-      failure mode. That test is what fixes the count at three.</p>
-      <div class="scroll">
-      <table>
-        <tr><th>Bucket</th><th>Asks</th><th>Hands back</th><th>Fails by</th></tr>
-        <tr><td>Description</td><td>What happened?</td><td>A hypothesis</td><td>Being mistaken for causation</td></tr>
-        <tr><td>Causation</td><td>Did this change cause that?</td><td>An effect size</td><td>An invalid comparison group</td></tr>
-        <tr><td>Prediction</td><td>What will happen? Who gets what?</td><td>A forecast, a ranking, an allocation</td><td>Breaking the moment you intervene</td></tr>
-      </table>
+    <div class="tail">
+      <div class="status">
+        <div class="h"><span>status</span></div>
+        <p>Built in the open, not installable yet. One skill of six is under way; the two
+        documents here are the part worth reading today.</p>
       </div>
-      <p>Experimentation and causal inference share all three, so they are one bucket
-      separated only by who did the randomising: you, or the world.</p>
+      <p class="foot">MIT &middot; not an experimentation platform</p>
     </div>
   </div>
 
-  <div class="win">
-    <div class="bar"><span class="box"></span><span class="title">read</span></div>
-    <div class="cards">
-      <div class="card">
-        <h3>The method map</h3>
-        <p>A question enters at the left and leaves as a decision. Measurement is a
-        foundation rather than a phase; theory is a ceiling rather than a report.
-        With a field guide to every object on the page.</p>
-        <p class="go"><a href="map/">open the map &rarr;</a></p>
+  <div class="stage">
+    <div class="frame">
+      <div class="bar"><span class="box"></span><span class="t">the method map</span></div>
+      <div class="fig">
+        <svg viewBox="0 0 820 742" width="100%" preserveAspectRatio="xMidYMid meet" style="display:block">
+          <defs>
+            <pattern id="m-h" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000"/></pattern>
+            <pattern id="m-d" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="#000"/></pattern>
+            <pattern id="m-v" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" fill="#000"/></pattern>
+            <pattern id="m-x" width="4" height="4" patternUnits="userSpaceOnUse">
+              <path d="M0,4 L4,0 M-1,1 L1,-1 M3,5 L5,3" stroke="#000" stroke-width="1"/></pattern>
+            <marker id="ar" viewBox="0 0 8 8" refX="7.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#000" stroke="none"/></marker>
+          </defs>
+          <g fill="none" stroke="#000" stroke-width="1" shape-rendering="crispEdges">
+            <!-- routing sits above the map: it is judgment, not a method -->
+            <rect x="188" y="16" width="444" height="62" fill="#fff"/>
+            <!-- theory ceiling. the key slot is drawn and left empty. -->
+            <rect x="44" y="158" width="732" height="86" fill="#fff"/>
+            <rect x="44" y="158" width="14" height="86" fill="#fff"/>
+            <!-- three buckets. causation carries two keys: who randomised. -->
+            <rect x="44"  y="336" width="224" height="180" fill="#fff"/><rect x="44"  y="336" width="14" height="180" fill="url(#m-h)"/>
+            <rect x="298" y="336" width="224" height="180" fill="#fff"/>
+            <rect x="298" y="336" width="14" height="180" fill="url(#m-v)"/><rect x="312" y="336" width="14" height="180" fill="url(#m-x)"/>
+            <rect x="552" y="336" width="224" height="180" fill="#fff"/><rect x="552" y="336" width="14" height="180" fill="url(#m-d)"/>
+            <!-- measurement floor, solid key -->
+            <rect x="44" y="608" width="732" height="86" fill="#fff"/>
+            <rect x="44" y="608" width="14" height="86" fill="#000"/>
+            <!-- solid is a path. right angles only. -->
+            <path d="M410 78v80" marker-end="url(#ar)"/>
+            <path d="M156 244v92M410 244v92M664 244v92" marker-end="url(#ar)"/>
+            <path d="M156 608v-92M410 608v-92M664 608v-92" marker-end="url(#ar)"/>
+            <!-- dashed is feedback: what the answer teaches goes back to theory. -->
+            <path d="M44 426h-24V201h24" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+          </g>
+          <g class="ch" fill="#000">
+            <text x="410" y="54" font-size="18" text-anchor="middle">routing &middot; three questions, one gate</text>
+            <text x="74" y="209" font-size="18">theory &middot; the knowledge repo and the prior store</text>
+            <text x="74" y="659" font-size="18">measurement &middot; a floor, not a phase</text>
+            <text x="74" y="384" font-size="19">description</text>
+            <text x="342" y="384" font-size="19">causation</text>
+            <text x="596" y="384" font-size="19">prediction</text>
+          </g>
+          <g class="mo" font-size="12.5" fill="#000">
+            <text x="392" y="126" font-size="11.5" text-anchor="end" class="sub">most questions leave here, without an analysis</text>
+            <text x="74" y="420">what happened?</text><text x="74" y="444">&rarr; a hypothesis</text>
+            <text x="74" y="486" font-size="11.5" class="sub">fails by looking causal</text>
+            <text x="342" y="420">did this cause that?</text><text x="342" y="444">&rarr; an effect size</text>
+            <text x="342" y="486" font-size="11.5" class="sub">fails on the comparison</text>
+            <text x="596" y="420">what will happen?</text><text x="596" y="444">&rarr; a forecast</text>
+            <text x="596" y="486" font-size="11.5" class="sub">fails once you intervene</text>
+          </g>
+        </svg>
       </div>
-      <div class="card">
-        <h3>The intake algorithm</h3>
-        <p>One lookup, three questions and one gate, asked before you open a query
-        editor. Each exit names what you hand back. Takes about a minute, and it is
-        the whole discipline.</p>
-        <p class="go"><a href="intake/">open the intake &rarr;</a></p>
+      <div class="key">
+        <span><i style="background:var(--gallop-ink)"></i>measurement</span>
+        <span><i style="background:repeating-linear-gradient(180deg,var(--gallop-ink) 0 1px,var(--gallop-paper) 1px 3px)"></i>exploratory</span>
+        <span><i style="background:radial-gradient(var(--gallop-ink) .6px,transparent .7px) 0 0/3px 3px"></i>modeling</span>
+        <span><i style="background:repeating-linear-gradient(90deg,var(--gallop-ink) 0 1px,var(--gallop-paper) 1px 3px)"></i>experimentation</span>
+        <span><i style="background:repeating-linear-gradient(45deg,var(--gallop-ink) 0 1px,var(--gallop-paper) 1px 4px)"></i>causal inference</span>
+        <span><i></i>theory, not a method</span>
+        <span class="sub">solid, a path &middot; dashed, feedback</span>
       </div>
+      <div class="more"><a href="map/">open the full map, with its field guide &rarr;</a></div>
     </div>
   </div>
-
-  <div class="win">
-    <div class="bar"><span class="box"></span><span class="title">the six skills</span></div>
-    <div class="pad">
-      <div class="scroll">
-      <table>
-        <tr><th>Skill</th><th>Position</th><th>What it decides</th></tr>
-        <tr><td class="mono">routing-questions</td><td>Routing</td><td>Whether this becomes work at all, and which of the other five it becomes</td></tr>
-        <tr><td class="mono">defining-metrics</td><td>Floor</td><td>A metric turned into a computation, a source of truth, and a statement of how it will be gamed</td></tr>
-        <tr><td class="mono">designing-experiments</td><td>Causation</td><td>The four choices that cannot be repaired after launch</td></tr>
-        <tr><td class="mono">reading-experiments</td><td>Causation</td><td>Whether the result is a result</td></tr>
-        <tr><td class="mono">choosing-causal-designs</td><td>Causation</td><td>Which design fits, when assignment already happened</td></tr>
-        <tr><td class="mono">writing-readouts</td><td>Ceiling</td><td>The belief, not just the number, and where it gets filed</td></tr>
-      </table>
-      </div>
-      <p style="margin-top:14px">Not an experimentation platform. It does not assign
-      traffic, hold flags, or replace your warehouse. It assumes those exist and writes
-      the part that decides whether the number they produced is true.</p>
-    </div>
-  </div>
-
-  <footer><a href="https://github.com/0trm/gallop">github.com/0trm/gallop</a> &middot; MIT &middot; pasture desktop</footer>
 
 </div>
+
+<section class="skills" id="skills">
+  <h2>the six skills</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>Skill</th><th>Position</th><th>What it decides</th></tr>
+    <tr><td class="mono">routing-questions</td><td>Routing</td><td>Whether this becomes work at all, and which of the other five it becomes</td></tr>
+    <tr><td class="mono">defining-metrics</td><td>Floor</td><td>A metric turned into a computation, a source of truth, and a statement of how it will be gamed</td></tr>
+    <tr><td class="mono">designing-experiments</td><td>Causation</td><td>The four choices that cannot be repaired after launch</td></tr>
+    <tr><td class="mono">reading-experiments</td><td>Causation</td><td>Whether the result is a result</td></tr>
+    <tr><td class="mono">choosing-causal-designs</td><td>Causation</td><td>Which design fits, when assignment already happened</td></tr>
+    <tr><td class="mono">writing-readouts</td><td>Ceiling</td><td>The belief, not just the number, and where it gets filed</td></tr>
+  </table>
+  </div>
+  <p class="not">Not an experimentation platform. It does not assign traffic, hold flags, or replace
+  your warehouse. It assumes those exist and writes the part that decides whether the number they
+  produced is true.</p>
+</section>
+
 </body>
 </html>

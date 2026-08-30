@@ -23,7 +23,7 @@
   --gallop-paper:         #FFFFFF; /* window bodies and node interiors */
 
   /* type: Chicago - titles / chrome, Geneva - body, Monaco - code . IDs . labels */
-  --gallop-chrome: "Chicago",system-ui,sans-serif;
+  --gallop-chrome: "Chicago","Public Sans",system-ui,sans-serif;
   --gallop-body:   "Geneva","Public Sans",-apple-system,sans-serif;
   --gallop-mono:   "Monaco","IBM Plex Mono",ui-monospace,monospace;
 
