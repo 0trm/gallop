@@ -6,13 +6,6 @@
 
 **Routes a product question to the method it deserves, then runs that method with checks in place.**
 
-> **Being built in the open. Not ready to use yet.**
-> One skill of six is in progress, the Python package is not published, and the
-> install below does not work until the first release. The two documents worth
-> reading today are [the method map](https://0trm.github.io/gallop/map/) and
-> [the intake algorithm](https://0trm.github.io/gallop/intake/). Feedback on
-> those is worth more right now than a star.
-
 gallop is a product data science system, packaged as agent skills. A question
 arrives; gallop routes it. One lookup against what the team already knows, three
 questions, and one gate that asks whether the metric can be trusted at all. Most
