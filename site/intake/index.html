@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/gallop.css">
 <title>Intake Algorithm</title>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
@@ -26,8 +28,6 @@ p{margin:0}
 .cap{font-size:12px;line-height:1.45}
 .prose{max-width:66ch;display:flex;flex-direction:column;gap:16px}
 .mark{background:var(--vellum);padding:0 3px}
-.glyph{color:var(--ink);display:block}
-.glyph svg{display:block;width:33px;height:33px}
 
 .laws{background:var(--pasture);border:var(--hair)}
 .laws p{padding:14px 20px;font-size:14px;line-height:1.45}
@@ -36,7 +36,8 @@ footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-s
 
 /* diagram */
 figure.dg{margin:0}
-.dg svg{display:block;width:100%;height:auto;max-width:100%}
+figure.dg{overflow-x:auto}
+.dg svg{display:block;width:100%;height:auto;min-width:900px;max-width:960px}
 .dg text{font-family:var(--f-body);fill:var(--ink)}
 .dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
 .dg .t-sub{font-size:11.5px}
@@ -110,7 +111,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
   <a href="../map/">The map</a>
   <a href="../intake/" aria-current="page">The intake</a>
   <a href="../#skills">The six skills</a>
-  <a href="https://github.com/0trm/gallop">Github &#8599;</a>
+  <a href="https://github.com/0trm/gallop">GitHub &#8599;</a>
   <span class="sw">
     <span class="mode">
       <button type="button" data-set="light" aria-pressed="true">Light</button>
@@ -125,11 +126,11 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
   <div class="bar"><span class="close"></span><h2>intake</h2><span class="grow"></span><span class="size"></span></div>
   <div class="body hero">
     <div>
-      <span class="tag">PDS Method Map · intake</span>
+      <span class="tag">Product data science method map · intake</span>
       <h1 style="margin-top:18px">Run this on<br>every question</h1>
       <p class="lead" style="margin-top:16px">One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
     </div>
-    <span class="glyph"><svg viewBox="0 0 33 33" width="84" height="84" fill="currentColor" shape-rendering="crispEdges"><rect x="17" y="0" width="3" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="19" y="4" width="2" height="1"/><rect x="15" y="5" width="1" height="1"/><rect x="19" y="5" width="1" height="1"/><rect x="10" y="6" width="5" height="1"/><rect x="18" y="6" width="3" height="1"/><rect x="8" y="7" width="2" height="1"/><rect x="21" y="7" width="1" height="1"/><rect x="28" y="7" width="3" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="21" y="8" width="1" height="1"/><rect x="27" y="8" width="1" height="1"/><rect x="30" y="8" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="22" y="9" width="1" height="1"/><rect x="27" y="9" width="1" height="1"/><rect x="30" y="9" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="23" y="10" width="1" height="1"/><rect x="26" y="10" width="1" height="1"/><rect x="29" y="10" width="1" height="1"/><rect x="6" y="11" width="1" height="1"/><rect x="10" y="11" width="4" height="1"/><rect x="24" y="11" width="2" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="9" y="12" width="1" height="1"/><rect x="13" y="12" width="1" height="1"/><rect x="20" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="6" y="13" width="1" height="1"/><rect x="9" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="20" y="13" width="2" height="1"/><rect x="27" y="13" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="9" y="14" width="1" height="1"/><rect x="12" y="14" width="1" height="1"/><rect x="20" y="14" width="1" height="1"/><rect x="22" y="14" width="1" height="1"/><rect x="26" y="14" width="1" height="1"/><rect x="7" y="15" width="1" height="1"/><rect x="10" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="19" y="15" width="1" height="1"/><rect x="23" y="15" width="3" height="1"/><rect x="7" y="16" width="1" height="1"/><rect x="10" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="19" y="16" width="1" height="1"/><rect x="7" y="17" width="3" height="1"/><rect x="11" y="17" width="1" height="1"/><rect x="19" y="17" width="1" height="1"/><rect x="11" y="18" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/><rect x="4" y="19" width="2" height="1"/><rect x="10" y="19" width="1" height="1"/><rect x="20" y="19" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="6" y="20" width="2" height="1"/><rect x="10" y="20" width="1" height="1"/><rect x="20" y="20" width="1" height="1"/><rect x="2" y="21" width="1" height="1"/><rect x="8" y="21" width="2" height="1"/><rect x="21" y="21" width="1" height="1"/><rect x="2" y="22" width="1" height="1"/><rect x="15" y="22" width="2" height="1"/><rect x="21" y="22" width="1" height="1"/><rect x="1" y="23" width="1" height="1"/><rect x="4" y="23" width="2" height="1"/><rect x="14" y="23" width="1" height="1"/><rect x="16" y="23" width="1" height="1"/><rect x="22" y="23" width="1" height="1"/><rect x="1" y="24" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="6" y="24" width="1" height="1"/><rect x="13" y="24" width="1" height="1"/><rect x="17" y="24" width="1" height="1"/><rect x="22" y="24" width="1" height="1"/><rect x="2" y="25" width="2" height="1"/><rect x="7" y="25" width="2" height="1"/><rect x="12" y="25" width="1" height="1"/><rect x="17" y="25" width="1" height="1"/><rect x="22" y="25" width="1" height="1"/><rect x="9" y="26" width="3" height="1"/><rect x="17" y="26" width="1" height="1"/><rect x="22" y="26" width="1" height="1"/><rect x="18" y="27" width="1" height="1"/><rect x="22" y="27" width="1" height="1"/><rect x="18" y="28" width="1" height="1"/><rect x="22" y="28" width="1" height="1"/><rect x="18" y="29" width="1" height="1"/><rect x="22" y="29" width="1" height="1"/><rect x="18" y="30" width="1" height="1"/><rect x="23" y="30" width="2" height="1"/><rect x="1" y="31" width="7" height="1"/><rect x="18" y="31" width="1" height="1"/><rect x="25" y="31" width="1" height="1"/><rect x="19" y="32" width="6" height="1"/></svg></span>
+    
   </div>
 </section>
 
@@ -148,7 +149,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
   </defs>
 
   <rect x="40" y="-100" width="1220" height="62" class="band"/>
-  <rect x="40" y="-100" width="14" height="62" class="key" fill="#FFF"/>
+  <rect x="40" y="-100" width="14" height="62" class="key" style="fill:var(--paper)"/>
   <text class="t-title" x="80" y="-62">Theory Layer</text>
   <text class="t-sub" x="360" y="-72">knowledge repo &#183; what was already tried on this surface, wins and losses alike</text>
   <text class="t-sub" x="360" y="-50">prior store &#183; what this metric has actually moved by, so the MDE is a number</text>
@@ -174,7 +175,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
     <text class="t-q" x="190" y="579" text-anchor="middle">the treatment?</text>
 
   <rect x="530" y="84" width="360" height="84" class="node"/>
-    <rect x="530" y="84" width="14" height="84" class="key" fill="#000"/>
+    <rect x="530" y="84" width="14" height="84" class="key" style="fill:var(--ink)"/>
     <text class="t-title" x="566" y="112">Measurement Framework</text>
     <text class="t-sub" x="566" y="133">fix the definition, the source of truth, the registry</text>
     <text class="t-give" x="566" y="152">hands back: a number the rest of the map can stand on</text>
@@ -273,7 +274,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
         </tbody>
       </table>
       <div class="warn">
-        <span class="glyph"><svg viewBox="0 0 33 33" width="30" height="30" fill="currentColor" shape-rendering="crispEdges"><rect x="21" y="0" width="1" height="1"/><rect x="29" y="0" width="1" height="1"/><rect x="28" y="1" width="1" height="1"/><rect x="22" y="2" width="1" height="1"/><rect x="27" y="2" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="26" y="3" width="1" height="1"/><rect x="19" y="4" width="1" height="1"/><rect x="23" y="4" width="1" height="1"/><rect x="21" y="5" width="1" height="1"/><rect x="12" y="6" width="5" height="1"/><rect x="27" y="6" width="1" height="1"/><rect x="29" y="6" width="1" height="1"/><rect x="31" y="6" width="1" height="1"/><rect x="11" y="7" width="1" height="1"/><rect x="17" y="7" width="2" height="1"/><rect x="22" y="7" width="3" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="19" y="8" width="3" height="1"/><rect x="10" y="9" width="1" height="1"/><rect x="27" y="9" width="1" height="1"/><rect x="10" y="10" width="1" height="1"/><rect x="21" y="10" width="1" height="1"/><rect x="24" y="10" width="1" height="1"/><rect x="28" y="10" width="1" height="1"/><rect x="7" y="11" width="7" height="1"/><rect x="20" y="11" width="1" height="1"/><rect x="29" y="11" width="1" height="1"/><rect x="7" y="12" width="7" height="1"/><rect x="19" y="12" width="1" height="1"/><rect x="24" y="12" width="1" height="1"/><rect x="30" y="12" width="1" height="1"/><rect x="7" y="13" width="7" height="1"/><rect x="5" y="14" width="11" height="1"/><rect x="24" y="14" width="1" height="1"/><rect x="3" y="15" width="15" height="1"/><rect x="3" y="16" width="15" height="1"/><rect x="2" y="17" width="17" height="1"/><rect x="2" y="18" width="17" height="1"/><rect x="1" y="19" width="4" height="1"/><rect x="6" y="19" width="14" height="1"/><rect x="1" y="20" width="19" height="1"/><rect x="1" y="21" width="3" height="1"/><rect x="5" y="21" width="15" height="1"/><rect x="1" y="22" width="3" height="1"/><rect x="5" y="22" width="15" height="1"/><rect x="1" y="23" width="3" height="1"/><rect x="5" y="23" width="15" height="1"/><rect x="1" y="24" width="19" height="1"/><rect x="1" y="25" width="4" height="1"/><rect x="6" y="25" width="14" height="1"/><rect x="2" y="26" width="17" height="1"/><rect x="2" y="27" width="5" height="1"/><rect x="8" y="27" width="11" height="1"/><rect x="3" y="28" width="15" height="1"/><rect x="3" y="29" width="15" height="1"/><rect x="5" y="30" width="11" height="1"/><rect x="7" y="31" width="7" height="1"/></svg></span>
+        
         <p class="cap">If none of these fit, you do not have a comparison group. Say that out loud rather than shipping the number anyway.</p>
       </div>
     </div>
@@ -326,7 +327,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
         </div>
       </div>
       <div class="warn">
-        <span class="glyph"><svg viewBox="0 0 33 33" width="30" height="30" shape-rendering="crispEdges" fill="currentColor"><rect x="3" y="1" width="24" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="26" y="2" width="2" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="26" y="3" width="1" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="26" y="4" width="1" height="1"/><rect x="28" y="4" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/><rect x="26" y="5" width="1" height="1"/><rect x="28" y="5" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="8" y="6" width="3" height="1"/><rect x="13" y="6" width="9" height="1"/><rect x="26" y="6" width="2" height="1"/><rect x="3" y="7" width="1" height="1"/><rect x="28" y="7" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="28" y="8" width="1" height="1"/><rect x="3" y="9" width="1" height="1"/><rect x="8" y="9" width="3" height="1"/><rect x="13" y="9" width="9" height="1"/><rect x="28" y="9" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="26" y="10" width="2" height="1"/><rect x="3" y="11" width="1" height="1"/><rect x="26" y="11" width="1" height="1"/><rect x="28" y="11" width="1" height="1"/><rect x="3" y="12" width="1" height="1"/><rect x="8" y="12" width="3" height="1"/><rect x="13" y="12" width="9" height="1"/><rect x="26" y="12" width="1" height="1"/><rect x="28" y="12" width="1" height="1"/><rect x="3" y="13" width="1" height="1"/><rect x="26" y="13" width="1" height="1"/><rect x="28" y="13" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="26" y="14" width="2" height="1"/><rect x="3" y="15" width="1" height="1"/><rect x="8" y="15" width="3" height="1"/><rect x="13" y="15" width="9" height="1"/><rect x="26" y="15" width="1" height="1"/><rect x="28" y="15" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="26" y="16" width="1" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="26" y="17" width="1" height="1"/><rect x="28" y="17" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="8" y="18" width="3" height="1"/><rect x="13" y="18" width="9" height="1"/><rect x="26" y="18" width="2" height="1"/><rect x="3" y="19" width="1" height="1"/><rect x="26" y="19" width="1" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="26" y="20" width="1" height="1"/><rect x="28" y="20" width="1" height="1"/><rect x="3" y="21" width="1" height="1"/><rect x="8" y="21" width="3" height="1"/><rect x="13" y="21" width="9" height="1"/><rect x="26" y="21" width="1" height="1"/><rect x="28" y="21" width="1" height="1"/><rect x="3" y="22" width="1" height="1"/><rect x="26" y="22" width="2" height="1"/><rect x="3" y="23" width="1" height="1"/><rect x="26" y="23" width="1" height="1"/><rect x="28" y="23" width="1" height="1"/><rect x="3" y="24" width="1" height="1"/><rect x="8" y="24" width="3" height="1"/><rect x="13" y="24" width="9" height="1"/><rect x="26" y="24" width="1" height="1"/><rect x="28" y="24" width="1" height="1"/><rect x="3" y="25" width="1" height="1"/><rect x="26" y="25" width="1" height="1"/><rect x="28" y="25" width="1" height="1"/><rect x="3" y="26" width="1" height="1"/><rect x="26" y="26" width="2" height="1"/><rect x="3" y="27" width="1" height="1"/><rect x="8" y="27" width="3" height="1"/><rect x="13" y="27" width="9" height="1"/><rect x="26" y="27" width="1" height="1"/><rect x="28" y="27" width="1" height="1"/><rect x="3" y="28" width="1" height="1"/><rect x="26" y="28" width="1" height="1"/><rect x="28" y="28" width="1" height="1"/><rect x="3" y="29" width="1" height="1"/><rect x="26" y="29" width="1" height="1"/><rect x="28" y="29" width="1" height="1"/><rect x="3" y="30" width="1" height="1"/><rect x="26" y="30" width="2" height="1"/><rect x="3" y="31" width="24" height="1"/></svg></span>
+        
         <p class="cap">Nothing reaches every user without a link back to the experiment that justified it. That one rule is what keeps the theory layer complete, because it makes the write-up a condition of shipping rather than an act of virtue.</p>
       </div>
     </div>
@@ -334,7 +335,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
 </div>
 
 <section class="laws">
-  <p><b>The gate is not step one, it is the floor under all four exits.</b> If the metric is wrong, every box above it is wrong quietly.</p>
+  <p><b>The gate is not step one, it is the floor under all four exits.</b> If the metric is wrong, every box above it returns a confident wrong number.</p>
   <p><b>The lookup is not step one either, it is the ceiling over all four.</b> A question the theory layer has already answered does not need an exit, and one it half-answers enters with a prior instead of a blank page.</p>
   <p><b>No mechanism, no test. No exposure log, no effect.</b> The first rule kills the questions that were never going to teach anything; the second kills the answers that were never going to be true.</p>
 </section>

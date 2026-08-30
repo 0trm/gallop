@@ -1,4 +1,4 @@
-/* gallop — the locked design system.
+/* gallop: the locked design system.
    A hairline cell grid, one ink and one ground, three faces. Light is the
    default; dark is opt-in from the switch in the nav and is remembered per
    browser. prefers-color-scheme is deliberately not consulted, because the
@@ -24,8 +24,8 @@
   --wash:rgba(0,0,0,.06);          /* hover, and the one fill that is not solid */
 
   /* --- three faces ------------------------------------------------------ */
-  --disp:"Chicago","Archivo","Public Sans",system-ui,sans-serif;
-  --sans:"Archivo","Public Sans",Arial,sans-serif;
+  --disp:"Chicago","Archivo",system-ui,sans-serif;
+  --sans:"Archivo",Arial,sans-serif;
   --mono:"Courier Prime",ui-monospace,Menlo,monospace;
 
   --hair:1px solid var(--line);
@@ -52,7 +52,10 @@
   --pasture-shade:var(--line);
   --vellum:color-mix(in srgb, var(--fg) 13%, var(--bg));
   --f-chrome:var(--disp);
-  --f-body:var(--mono);
+  /* --f-body feeds the diagram labels on the map and the intake, and nothing
+     else. Those geometries were drawn against a proportional face, so a mono
+     one runs every label past its box. It stays proportional. */
+  --f-body:var(--sans);
   --f-mono:var(--mono);
   --drop:none;
 }
@@ -143,13 +146,18 @@ img,svg{max-width:100%}
   .nav{grid-template-columns:1fr 1fr}
   .nav > *{border-bottom:1px solid var(--line)}
   .nav > *:nth-child(2n){border-right:0}
-  .nav .sw{grid-column:1/-1;justify-content:flex-start}
+  /* six cells in two columns is exactly three rows: the switch takes the last
+     one rather than spanning, which used to leave a blank cell beside GitHub. */
+  .nav > *:nth-last-child(-n+2){border-bottom:0}
   .foot{grid-template-columns:1fr}
   .foot > *{border-right:0;border-bottom:1px solid var(--line)}
 }
 @media (max-width:620px){
   .nav{grid-template-columns:1fr}
   .nav > *:nth-child(2n){border-right:0}
+  .nav > *:nth-last-child(-n+2){border-bottom:1px solid var(--line)}
+  .nav > *:last-child{border-bottom:0}
+  .nav .sw{justify-content:flex-start}
   .cells > *{padding:14px 18px}
   .cmd{flex-wrap:wrap;gap:10px}
   .term pre{font-size:12px;padding:16px}

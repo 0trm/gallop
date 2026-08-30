@@ -8,4 +8,4 @@ description: Runs the trust gate on a finished experiment before the result is b
 Whether the result is a result. Five of the six steps in an experiment can hand
 back a confident wrong number without the readout looking any different.
 
-> **Status: in progress.** First skill to be written in full; see the build log.
+> **Status: in progress.** First skill to be written in full.

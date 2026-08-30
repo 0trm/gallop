@@ -12,8 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Font binaries: the design references Chicago and Monaco, neither of which this
-# repo may redistribute. @font-face resolves them with local() only.
+# Font binaries: the design references Chicago, which this repo may not
+# redistribute. @font-face resolves it with local() only.
 FONT_SUFFIXES = {".woff", ".woff2", ".ttf", ".otf", ".eot", ".ttc", ".dfont"}
 
 # Inlined fonts are the same problem wearing a data URI. The source documents
