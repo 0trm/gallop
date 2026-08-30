@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="site/assets/mark.svg" width="440" alt="Three riders carried on one galloping horse">
+  <img src="site/assets/mark.svg" width="240" alt="Three riders carried on one galloping horse">
 </p>
 
 # gallop
 
-**Routes a product question to the method it deserves, then runs that method with the checks that stop it returning a confident wrong number.**
+**Routes a product question to the method it deserves, then runs that method with checks in place.**
 
 > **Being built in the open. Not ready to use yet.**
 > One skill of six is in progress, the Python package is not published, and the
