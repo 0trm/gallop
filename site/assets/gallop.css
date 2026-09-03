@@ -1,5 +1,5 @@
 /* gallop: the locked design system.
-   A hairline cell grid, one ink and one ground, three faces. Light is the
+   A hairline cell grid, one ink, one ground and one grey, three faces. Light is the
    default; dark is opt-in from the switch in the nav and is remembered per
    browser. prefers-color-scheme is deliberately not consulted, because the
    default is a design decision rather than a preference to inherit.
@@ -22,6 +22,7 @@
   --dim:rgba(0,0,0,.55);           /* secondary label */
   --body:rgba(0,0,0,.78);          /* running prose */
   --wash:rgba(0,0,0,.06);          /* hover, and the one fill that is not solid */
+  --surface:#EDEDED;               /* the grey: chrome that sits apart from the page (foot, contents) */
 
   /* --- three faces ------------------------------------------------------ */
   --disp:"Chicago","Archivo",system-ui,sans-serif;
@@ -39,6 +40,7 @@
   --dim:rgba(255,255,255,.55);
   --body:rgba(255,255,255,.80);
   --wash:rgba(255,255,255,.07);
+  --surface:#231608;               /* a step up from the ground, same warmth */
 }
 
 /* --- the previous palette, mapped onto this one -------------------------
@@ -108,7 +110,7 @@ img,svg{max-width:100%}
 
 /* --- the contents strip on a long page ------------------------------------ */
 .toc{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:stretch;
-     background:var(--bg);border-bottom:1px solid var(--line);padding:0 var(--gutter,0)}
+     background:var(--surface);border-bottom:1px solid var(--line);padding:0 var(--gutter,0)}
 .toc .lab{display:flex;align-items:center;padding:10px 20px 10px 0;color:var(--dim)}
 .toc a{display:flex;align-items:center;padding:10px 16px;border-left:1px solid var(--line);
        font-family:var(--sans);text-transform:uppercase;font-size:11px;letter-spacing:.14em;
@@ -158,7 +160,8 @@ img,svg{max-width:100%}
 .bar .grow{flex:1}
 
 /* --- the foot band ------------------------------------------------------- */
-.foot{grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:12.5px;border-top:1px solid var(--line)}
+.foot{grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:12.5px;border-top:1px solid var(--line);
+      background:var(--surface)}
 .foot > *{padding:24px 20px 28px}
 .foot .wm{font-size:22px;display:block;margin-bottom:8px}
 .foot p{margin:0;max-width:34ch;color:var(--body);line-height:1.6}
