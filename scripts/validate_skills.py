@@ -76,6 +76,8 @@ def check(skill_md: Path) -> list[str]:
             errs.append(f"{rel}: '{link}' uses a backslash; paths must be forward slashes")
         if link.count("/") > 1:
             errs.append(f"{rel}: '{link}' is nested deeper than one level")
+        if not (skill_md.parent / link.split("#")[0]).exists():
+            errs.append(f"{rel}: '{link}' does not exist")
     return errs
 
 
