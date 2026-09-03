@@ -38,6 +38,13 @@ SKILLS = ROOT / "skills"
 CONTENT = SITE / "content"
 FIGDIR = SITE / "figures"
 
+# GoatCounter on every page: cookieless, so no consent banner, and count.js
+# skips localhost and file://, so local builds stay out of the numbers.
+ANALYTICS = (
+    '<script data-goatcounter="https://gallop.goatcounter.com/count"'
+    ' async src="https://gc.zgo.at/count.js"></script>'
+)
+
 # (page, h2 text prefix) -> (figure file, caption). Inlined right after that h2.
 FIGURES = {
     ("skills/reading-experiments", "3 · The effect"): ("peeking.svg",
@@ -207,6 +214,7 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 <link rel="stylesheet" href="{root}assets/gallop.css">
 <link rel="stylesheet" href="{root}assets/doc.css">
 {f'<style>{extra_style}</style>' if extra_style else ''}
+{ANALYTICS}
 </head>
 <body>
 
