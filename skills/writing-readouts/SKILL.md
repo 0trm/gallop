@@ -57,7 +57,7 @@ points, and it held for six weeks." Write the belief with:
 - **The conditions** it held under: season, mix, market, ramp.
 - **The expiry event**: the ship or shift that would invalidate it, named
   concretely ("expires if the checkout flow is redesigned"), because a
-  stale belief returns a confident answer to a question nobody re-asked.
+  stale belief keeps answering a question nobody re-asked.
 
 ## 3 · The knowledge-repo entry
 

@@ -92,8 +92,8 @@ legible to a person a year later, which is the whole claim of the layer.
 
 ## Dated, conditioned, and expiring
 
-A wrong metric returns a confident number; a stale belief returns a
-confident answer to a question nobody re-asked. The two failure modes
+A wrong metric returns a wrong number without an error; a stale belief
+keeps answering a question nobody re-asked. The two failure modes
 mirror each other, floor and ceiling, and the defence is structural rather
 than a matter of diligence:
 

@@ -6,7 +6,7 @@ description: Turns a metric name into a computation, a source of truth, a regist
 # Defining metrics
 
 The floor. Not a stage: everything above it inherits its errors, and a wrong
-definition does not raise an error, it returns a confident number. This skill
+definition does not raise an error, it just returns the wrong number. This skill
 produces four artifacts for one metric: a computation, a source of truth, a
 registry entry, and a statement of how the metric will be gamed. A metric
 missing any of the four is not ready to carry a readout.
