@@ -6,15 +6,10 @@
 
 **Routes a product question to the method it deserves, then runs that method with checks in place.**
 
-gallop is a product data science system, packaged as agent skills. A question
-arrives; gallop routes it. One lookup against what the team already knows, three
-questions, and one gate that asks whether the metric can be trusted at all. Most
-questions leave without an analysis, and that is the point. The ones that stay
-get the method that fits how treatment was assigned, sized from the effects this
-metric has actually produced rather than from a number that would be nice, and
-read out with the necessary checks before anything ships. What the answer
-teaches is written back before the ticket closes, so
-the next question starts smaller.
+A product data science system, packaged as agent skills. Most questions leave at
+intake without an analysis. The ones that stay get the method that matches how
+treatment was assigned, and the checks that decide whether the result is a
+result. What they teach is written back, so the next question starts smaller.
 
 ## The map
 
