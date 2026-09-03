@@ -307,8 +307,9 @@ def build_skill_page(d, emitted):
       <p class="skdesc">{meta.get("description", "")}</p>
     </div>
     <div>
-      <a class="cmd" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
-        <span>the source, ready to copy</span><span class="cp">GitHub &#8599;</span></a>
+      <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
+        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+      <p class="sub">the skill directory, ready to drop into .claude/skills/</p>
       {script_note}
     </div>
   </div>

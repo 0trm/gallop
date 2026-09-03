@@ -120,18 +120,19 @@ img,svg{max-width:100%}
 @media (max-width:620px){.toc{position:static}[id]{scroll-margin-top:0}}
 
 /* --- controls ------------------------------------------------------------ */
-.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;
-     min-height:48px;padding:13px 18px;border:1px solid var(--fg);
+/* The call to action: a verb in a block, the primary filled, the secondary
+   outlined, an arrow that moves on hover. One primary per band. */
+.btn{display:flex;align-items:center;justify-content:space-between;gap:20px;
+     min-height:54px;padding:0 18px;border:1px solid var(--fg);
      font-family:var(--sans);text-transform:uppercase;font-size:12px;
-     letter-spacing:.14em;font-weight:600}
-.btn.pri{background:var(--fg);border-color:var(--fg);color:var(--bg)}
-.btn:hover{text-decoration:none;background:var(--fg);color:var(--bg)}
-.cmd{display:flex;justify-content:space-between;align-items:center;gap:16px;
-     border:1px solid var(--line-2);padding:13px 15px;font-size:13.5px}
-.cmd:hover{border-color:var(--fg);text-decoration:none}
-.cmd .cp{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
-         text-transform:uppercase;border:1px solid var(--line);padding:5px 9px;
-         white-space:nowrap}
+     letter-spacing:.14em;font-weight:600;transition:background .15s,color .15s}
+.btn .arr{font-family:var(--mono);font-size:17px;transition:transform .15s}
+.btn.pri{background:var(--fg);color:var(--bg)}
+.btn:hover{background:var(--fg);color:var(--bg);text-decoration:none}
+.btn.pri:hover{box-shadow:inset 0 0 0 2px var(--bg)}
+.btn:hover .arr{transform:translateX(6px)}
+.btn+.sub{margin:8px 0 0;font-size:12px;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){.btn,.btn .arr{transition:none}}
 
 /* --- a terminal, when a page shows one ----------------------------------- */
 .term{border:1px solid var(--line-2)}
@@ -214,6 +215,5 @@ img,svg{max-width:100%}
   .nav .sw{justify-content:flex-start}
   .cells > *{padding:14px 18px}
   .desk{--gutter:18px}
-  .cmd{flex-wrap:wrap;gap:10px}
   .term pre{font-size:12px;padding:16px}
 }
