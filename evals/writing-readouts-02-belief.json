@@ -1,0 +1,6 @@
+{
+  "skills": ["writing-readouts"],
+  "query": "Turn this result into the write-up: one-click reorder button on the order-history page, +2.1% on repeat purchase rate (shrunk +1.6%), CI [0.8%, 3.4%], ran 4 weeks in March, all-user rollout decision approved. What goes in the knowledge base?",
+  "files": {},
+  "expected_behavior": "Produces a belief sentence, not just the result: generalises the lever exactly one step (reducing friction on repeat-purchase paths is worth on the order of 1.5-2% here), records the shrunk number as the planning number, and attaches conditions (March traffic mix, 4 weeks) plus a concrete expiry event (order-history page redesign, or reorder entry points added elsewhere). Files the prior-store record with the shrunk effect and a knowledge entry attached to the question, with 'what we would do differently' filled in. Without the skill, the model typically restates the raw +2.1% result as the entry and omits conditions and expiry."
+}

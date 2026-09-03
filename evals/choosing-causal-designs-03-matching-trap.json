@@ -1,0 +1,6 @@
+{
+  "skills": ["choosing-causal-designs"],
+  "query": "Our premium subscribers who use the mobile app churn 40% less than premium subscribers who are web-only. The retention lead wants to invest heavily in pushing web users to install the app, based on 'app usage cuts churn by 40%'. We can't randomise app installs. Validate the analysis plan: propensity-match app users to web-only users on tenure, plan, and country, then compare churn.",
+  "files": {},
+  "expected_behavior": "Flags that matching on tenure, plan and country leaves the selection mechanism (engagement and intent, which drive both installing and staying) unmatched, so the claim 'selection on observables' fails and the 40% is an upper bound, not an effect. Demands pre-treatment behaviour covariates at minimum, a balance table, and a sensitivity analysis, and proposes the design that actually answers it: a randomised encouragement (randomise the install prompt, instrument installation with it), which is available even though installs can't be assigned. Without the skill, the model typically approves the propensity matching plan with minor tweaks."
+}

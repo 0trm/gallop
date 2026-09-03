@@ -1,0 +1,9 @@
+{
+  "skills": ["reading-experiments"],
+  "query": "Great news: our new recommendation module moved add-to-cart rate by +2.9pp (se 1.1pp, p=0.008, clean 50/50 counts, exposure logged and even across arms, ran the full pre-registered horizon). Prior store attached. What number should go in next quarter's forecast?",
+  "files": {
+    "priors.jsonl": "{\"id\": \"r1\", \"metric\": \"add_to_cart_rate\", \"date\": \"2025-11-01\", \"design\": \"experiment\", \"effect\": 0.003, \"unit\": \"pp\", \"se\": 0.009, \"n_per_arm\": 20000, \"decision\": \"no-ship\"}\n{\"id\": \"r2\", \"metric\": \"add_to_cart_rate\", \"date\": \"2026-01-15\", \"design\": \"experiment\", \"effect\": 0.007, \"unit\": \"pp\", \"se\": 0.01, \"n_per_arm\": 21000, \"decision\": \"ship\"}\n{\"id\": \"r3\", \"metric\": \"add_to_cart_rate\", \"date\": \"2026-03-20\", \"design\": \"experiment\", \"effect\": -0.004, \"unit\": \"pp\", \"se\": 0.009, \"n_per_arm\": 22000, \"decision\": \"no-ship\"}\n{\"id\": \"r4\", \"metric\": \"add_to_cart_rate\", \"date\": \"2026-05-30\", \"design\": \"experiment\", \"effect\": 0.005, \"unit\": \"pp\", \"se\": 0.008, \"n_per_arm\": 24000, \"decision\": \"no-ship\"}\n",
+    "counts.csv": "arm,assigned,exposed\ncontrol,24980,24312\ntreatment,25020,24365\n"
+  },
+  "expected_behavior": "Distinguishes the ship decision (which may stand) from the planning number: a +2.9pp result on a metric whose past effects are all under 1pp is inflated in expectation, so the forecast number is the empirical-Bayes shrunk estimate against the prior store (via gallop.shrink or equivalent reasoning), which lands far below 2.9pp, and that shrunk value is also what gets written back to the store. Without the skill, the model typically puts +2.9pp (or a hand-waved discount of it) in the forecast."
+}

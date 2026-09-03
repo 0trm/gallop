@@ -1,0 +1,6 @@
+{
+  "skills": ["writing-readouts"],
+  "query": "Draft the readout doc for tomorrow. The numbers land tonight, but here's what we know now: test of promo-code autofill at checkout, pre-registered rule 'ship if the CI excludes +0.15pp on order completion', guardrails are refund rate and support tickets, pre-registered segment is mobile web, prior store has 6 entries for order_completion_rate. I'll paste the numbers in the morning.",
+  "files": {},
+  "expected_behavior": "Writes the complete readout skeleton tonight, before numbers exist, with the decision rule verbatim at the top, slots for trust gate, guardrails-before-primary, the primary with raw and shrunk estimates, the single pre-registered segment, and the decision determined by the rule; explicitly endorses writing before the numbers land so the interpretation is not written after seeing the result. Placeholders for the belief, knowledge entry, and prior-store append are included. Without the skill, the model typically says to wait for the numbers or drafts a results-first summary."
+}

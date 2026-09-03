@@ -1,0 +1,6 @@
+{
+  "skills": ["writing-readouts"],
+  "query": "Our test of the redesigned paywall finished at the pre-registered horizon: effect on subscription starts +0.2pp, 95% CI [-0.3pp, +0.7pp], MDE was 0.5pp, no guardrail moved, trust gate clean, decision rule was 'ship if the interval excludes 0.25pp'. The PM says 'flat, nothing to write up, let's just move on to the next test'. Write up whatever is worth writing.",
+  "files": {},
+  "expected_behavior": "Writes the full readout anyway, with the decision rule first and the verdict from it (interval does not exclude 0.25pp: do not ship), reports the interval and MDE rather than the word flat, converts it into a belief with conditions and an expiry event (e.g. paywall layout changes of this size are worth less than 0.5pp on starts), and files both a knowledge-repo entry and a prior-store record for the null (effect +0.2pp, decision no-ship), stating explicitly that nulls are appended so the prior stays honest. Without the skill, the model typically produces a brief summary and no durable artifacts."
+}

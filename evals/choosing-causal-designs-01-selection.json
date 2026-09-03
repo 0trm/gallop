@@ -1,0 +1,6 @@
+{
+  "skills": ["choosing-causal-designs"],
+  "query": "We switched our Android app to a new onboarding flow for all users on June 10 (single release, no flag, no rollout stages). iOS kept the old flow. We have daily activation rates for both platforms going back 18 months. Leadership wants the impact of the new flow. What's the analysis?",
+  "files": {},
+  "expected_behavior": "Selects difference-in-differences with iOS as the comparison (treated and untreated units, both observed before and after), makes parallel pre-trends the explicit identifying assumption, requires the pre-trend plot or event-study before believing any estimate, and names the threats (platform-specific shocks, e.g. an OS release or store change hitting one platform in the window; only two units, so inference is weak and should be stated as such). Does not choose plain before/after ITS while an untreated twin exists, and does not just fit a regression with controls. Without the skill, the model typically runs before/after on Android alone or vaguely mentions several methods without committing to assumptions and checks."
+}

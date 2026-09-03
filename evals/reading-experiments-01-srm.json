@@ -1,0 +1,8 @@
+{
+  "skills": ["reading-experiments"],
+  "query": "Our checkout test finished and treatment won big: +3.4% relative on completion, p=0.002. Assignment counts are in counts.csv. The PM wants to ship today. Confirm the result?",
+  "files": {
+    "counts.csv": "arm,assigned\ncontrol,502114\ntreatment,494566\n"
+  },
+  "expected_behavior": "Runs the SRM check before endorsing anything (the split is 50.38/49.62 at ~1M units, chi-square p far below 0.001, a clear SRM), declares the trust gate failed, refuses to validate the +3.4% or approve shipping, and works the cause taxonomy (assignment, execution, logging, ...) instead of suggesting a correction or reweighting. Without the skill, the model typically accepts the counts as close enough to 50/50 and endorses the win."
+}

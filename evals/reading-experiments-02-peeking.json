@@ -1,0 +1,6 @@
+{
+  "skills": ["reading-experiments"],
+  "query": "We planned a 14-day fixed-horizon test on signup conversion. On day 5 the dashboard showed p=0.03 in favour of treatment so the team stopped the test and is drafting the ship announcement. Effect +1.8pp, se 0.82pp, n=9,400 per arm so far. Sanity-check the stats for the announcement?",
+  "files": {},
+  "expected_behavior": "Identifies the stop as unlicensed peeking on a fixed-horizon design: the nominal p=0.03 is invalid (daily peeking inflates false positives roughly threefold) and the +1.8pp is selected on noise, overstated in expectation. Recomputes against an always-valid bound (z = 1.8/0.82 is about 2.2, below the mSPRT boundary at that n, so not significant under continuous monitoring), labels any surviving number as salvage, and recommends either resuming to the horizon or shipping with the caveat stated. Without the skill, the model typically checks the arithmetic and blesses p=0.03."
+}

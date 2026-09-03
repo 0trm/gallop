@@ -1,0 +1,6 @@
+{
+  "skills": ["choosing-causal-designs"],
+  "query": "Marketing ran a brand campaign across TV, social and display in all our markets simultaneously for the whole of May, with no holdout. The CMO wants a number for what it did to signups by Friday. Signups in May were up 11% month-over-month. Can you get me the incremental number?",
+  "files": {},
+  "expected_behavior": "Takes the no-comparison-group exit: states that with every market treated at once and no holdout, no design in the toolbox can separate the campaign from seasonality and everything else that moved in May, and declines to bless the 11% (or any share of it) as incremental. Offers what remains honest: bounds at most, a referral to media mix modelling or panel data owners, and a holdout design for the next campaign, requested while the plan is still a draft. Without the skill, the model typically attempts an ITS on the May data or proposes a regression with seasonal controls and hands back a number."
+}
