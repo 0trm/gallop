@@ -1,0 +1,6 @@
+{
+  "skills": ["defining-metrics"],
+  "query": "Write the registry entry for our support team's new north-star metric: 'first response under 2 hours' (share of tickets whose first agent reply lands within 2 hours of creation). Source is the zendesk_tickets mart, one row per ticket.",
+  "files": {},
+  "expected_behavior": "Produces a complete registry entry including a concrete gaming statement, e.g. agents sending a contentless placeholder reply to stop the clock, or tickets being closed/merged/reclassified to leave the denominator, and names the guardrail that catches it (resolution time, reopen rate, or customer satisfaction on the first reply). Entry validates against the schema: name, definition with window and dedup, source, unit_of_analysis ticket, direction, gaming, status provisional. Without the skill, the model typically writes the definition but omits the gaming field or fills it with a platitude."
+}

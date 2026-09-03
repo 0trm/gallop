@@ -1,0 +1,8 @@
+{
+  "skills": ["routing-questions"],
+  "query": "The PM is curious whether our onboarding checklist still helps activation. We A/B tested it in January (readout attached) and nothing about onboarding has shipped since. Also, marketing asked 'do users in cities use us differently than rural users?' just because it came up in a meeting. How should I handle these two?",
+  "files": {
+    "readouts/2026-01-onboarding-checklist.md": "# Onboarding checklist A/B, January 2026\nDesign: user-randomised, 50/50, 3 weeks, n=38k/arm.\nPrimary: activation_rate +1.1pp [0.4, 1.8], shipped.\nBelief: checklist-driven activation holds as long as onboarding flow is unchanged.\nExpires when: onboarding flow is redesigned.\nPrior store id: 2026-01-onboarding-checklist."
+  },
+  "expected_behavior": "Handles the first question as a lookup, not an analysis: the January entry is settled (its expiry condition has not triggered), so hand back the entry. Handles the second with the kill rule: asks who decides what differently based on the answer, and routes it to the backlog as curiosity rather than starting a segmentation study. Without the skill, the model typically proposes re-running the test and sketches the rural/urban analysis."
+}

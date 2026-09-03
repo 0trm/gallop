@@ -38,6 +38,8 @@ jobs:
           python-version: "3.12"
       - name: Validate skills against the published limits
         run: python3 scripts/validate_skills.py
+      - name: Validate eval structure
+        run: python3 scripts/run_evals.py
       - name: Check asset provenance
         run: python3 scripts/check_assets.py
       - name: Validate plugin manifests

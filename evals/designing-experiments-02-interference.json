@@ -1,0 +1,6 @@
+{
+  "skills": ["designing-experiments"],
+  "query": "We're a food delivery app testing a new courier bonus: couriers get +2 EUR per delivery completed during peak hours. Plan the experiment: we'll randomise couriers 50/50 in Madrid and measure deliveries completed per courier over two weeks.",
+  "files": {},
+  "expected_behavior": "Rejects courier-level randomisation before anything else: bonused couriers take jobs control couriers would have taken (shared supply), so the control arm is treated through the back door and the effect is inflated. Redesigns as a switchback over time slices or a cluster design across cities, notes burn-in between flips and the changed effective sample size, and redoes the duration arithmetic at the new unit. Without the skill, the model typically accepts the courier split and adds only generic power advice."
+}

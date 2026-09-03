@@ -1,0 +1,6 @@
+{
+  "skills": ["designing-experiments"],
+  "query": "We want to A/B test a reworded CTA button on our pricing page. Baseline purchase conversion is 4%, the page gets about 1,000 visitors a day, and the PM hopes for 'a few percent relative lift'. Design the test: how long should we run it?",
+  "files": {},
+  "expected_behavior": "Computes the MDE at plausible durations (at 1,000/day and 4% baseline, a 3% relative lift needs on the order of a year; roughly 2.8*sqrt(2*.04*.96/n)) and says the test is not fundable as posed rather than proposing a duration for it. Offers the ordered alternatives: a bigger change, variance reduction or a nearer metric, or deciding without a test and writing that down. Without the skill, the model typically hands back a sample-size formula result and suggests running for several weeks without confronting the traffic ceiling."
+}

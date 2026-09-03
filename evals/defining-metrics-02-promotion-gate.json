@@ -1,0 +1,6 @@
+{
+  "skills": ["defining-metrics"],
+  "query": "We invented a new 'engaged reader' metric last sprint (read 3+ articles in a week) and the growth team wants to use it as the primary metric for next week's homepage experiment. The event it's built on shipped two weeks ago. Green light?",
+  "files": {},
+  "expected_behavior": "Blocks promotion: the metric is provisional, not trusted. Names the specific unmet checklist items, at minimum instrumentation validated end to end, stability history (two weeks of data cannot establish normal variance, so no honest MDE exists), and a written gaming statement. Recommends running the experiment on an established trusted metric with engaged-reader as a diagnostic, or delaying. Without the skill, the model typically approves with generic caveats about sample size."
+}

@@ -1,0 +1,6 @@
+{
+  "skills": ["routing-questions"],
+  "query": "Our data shows users who enable push notifications have 2.3x better 90-day retention than users who don't. The PM wants to add a hard prompt pushing everyone to enable notifications and is asking me to size the retention impact. Can you estimate the lift we'd get?",
+  "files": {},
+  "expected_behavior": "Refuses to project the 2.3x observational gap as a causal effect, names self-selection as the reason (engaged users enable notifications), and routes to designing-experiments with the specific reframe of randomising the prompt rather than comparing adopters to non-adopters. Does not produce a lift estimate from the observational data. Without the skill, the model typically hedges but still produces or reasons from the 2.3x figure."
+}

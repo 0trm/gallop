@@ -1,0 +1,6 @@
+{
+  "skills": ["routing-questions"],
+  "query": "Leadership wants a deep dive on why weekly active usage is declining. Heads up: the WAU number in Amplitude says 412k but our warehouse dashboard says 379k for the same week, we've never reconciled them. Where should I start the decline analysis, cohorts or platform cuts?",
+  "files": {},
+  "expected_behavior": "Stops at the trust gate: routes to defining-metrics to reconcile the two WAU definitions before any decline analysis, and refuses to pick cohorts vs platform cuts in the meantime. States that an analysis on an unreconciled metric inherits the definition error without raising one. Without the skill, the model typically dives into the decline analysis and treats the discrepancy as a side note."
+}

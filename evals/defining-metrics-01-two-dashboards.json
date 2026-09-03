@@ -1,0 +1,6 @@
+{
+  "skills": ["defining-metrics"],
+  "query": "Our 'checkout conversion rate' is 3.1% in the product dashboard and 4.2% in the finance report, and the CFO wants to know which is right before the board meeting. The product query is sessions with a completed order / all sessions. The finance query is orders / sessions that reached the cart, deduplicated to one per user per day. What do I tell them?",
+  "files": {},
+  "expected_behavior": "Does not average the numbers or pick one on authority. Names the definitional differences mechanically (denominator scope: all sessions vs cart sessions; unit and dedup: session-level vs user-day), states that both are internally valid answers to different questions, asks which decision the metric exists to serve, and produces a registry entry for the chosen definition with a single named source of truth, plus a plan to fix or kill the other query. Without the skill, the model typically explains the discrepancy but leaves both definitions standing."
+}

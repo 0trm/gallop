@@ -1,0 +1,8 @@
+{
+  "skills": ["designing-experiments"],
+  "query": "Write the analysis plan for our test of a simplified signup form. Signups per day: about 6,000, all eligible. Primary metric: activation_rate (trusted in our registry, baseline 12%, unit user). Our prior store is at priors.jsonl. The PM will definitely watch the dashboard daily.",
+  "files": {
+    "priors.jsonl": "{\"id\": \"r1\", \"metric\": \"activation_rate\", \"date\": \"2026-02-10\", \"design\": \"experiment\", \"effect\": 0.004, \"unit\": \"pp\", \"se\": 0.0012, \"n_per_arm\": 30000, \"decision\": \"ship\"}\n{\"id\": \"r2\", \"metric\": \"activation_rate\", \"date\": \"2026-04-02\", \"design\": \"experiment\", \"effect\": 0.001, \"unit\": \"pp\", \"se\": 0.0011, \"n_per_arm\": 32000, \"decision\": \"no-ship\"}\n{\"id\": \"r3\", \"metric\": \"activation_rate\", \"date\": \"2026-06-20\", \"design\": \"experiment\", \"effect\": -0.0005, \"unit\": \"pp\", \"se\": 0.0011, \"n_per_arm\": 31000, \"decision\": \"no-ship\"}\n"
+  },
+  "expected_behavior": "Produces a complete pre-registration: user as randomisation unit with an explicit interference call (none, single-player surface), an MDE anchored to the prior store (effects of 0.05 to 0.4pp, sized via gallop.power or size_test.py rather than asserted), a defined exposure event fired in both arms, guardrails attached up front, exactly one pre-registered segment, a numeric decision rule written before launch, and, because the PM will peek daily, a sequential/always-valid design declared now rather than a fixed-horizon test. Without the skill, the plan typically omits the exposure event and the peeking policy and states the MDE as a wish."
+}
