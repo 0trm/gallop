@@ -12,9 +12,9 @@ questions, and one gate that asks whether the metric can be trusted at all. Most
 questions leave without an analysis, and that is the point. The ones that stay
 get the method that fits how treatment was assigned, sized from the effects this
 metric has actually produced rather than from a number that would be nice, and
-read out with the checks that separate a real result from a confident wrong one:
-the sample ratio, the exposure log, the sequential bound, the shrinkage toward
-the prior. What the answer teaches is written back before the ticket closes, so
+read out with the checks that have to pass before anything ships: the sample
+ratio, the exposure log, the sequential bound, the shrinkage toward the
+prior. What the answer teaches is written back before the ticket closes, so
 the next question starts smaller.
 
 ## The map

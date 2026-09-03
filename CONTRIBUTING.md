@@ -2,7 +2,7 @@
 
 ## What a good contribution looks like
 
-**A skill covers one failure mode.** It names the confident wrong number it
+**A skill covers one failure mode.** It names the wrong result it
 prevents, fits one of the six positions (routing, the measurement floor,
 description, causation, prediction, the theory ceiling), stays under 500
 lines of `SKILL.md`, keeps references exactly one level deep, and ships with

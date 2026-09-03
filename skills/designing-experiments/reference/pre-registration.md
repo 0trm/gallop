@@ -54,8 +54,8 @@ the readout. An amended plan is honest; a retrofitted one is fiction.
 
 ## Why this is worth a page of ceremony
 
-Five of the six steps of an experiment can hand back a confident wrong
-number without the readout looking any different. Every line above pins one
+Five of the six steps of an experiment can hand back a wrong number
+without the readout looking any different. Every line above pins one
 of those steps to a commitment made while nobody knew the answer. Written
 after the numbers are visible, the same lines are just the story of what
 happened; the entire value is in the timestamp.

@@ -6,7 +6,7 @@
     {
       "name": "gallop",
       "source": "./",
-      "description": "Routes a product question to the method it deserves, then runs that method with the checks that stop it returning a confident wrong number.",
+      "description": "Routes a product question to the method it deserves, then runs the necessary checks before anything ships.",
       "version": "0.1.0",
       "license": "MIT",
       "category": "data",

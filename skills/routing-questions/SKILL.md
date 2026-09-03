@@ -9,7 +9,7 @@ One lookup, three questions, one gate, run before any query is written. The
 output is a routing decision and a filled intake record, never a number. Most
 questions leave without an analysis, and that is the point: roughly one
 request in five dies at the gate, and dying there is a good outcome, because
-the alternative was a confident wrong answer.
+the alternative was shipping a wrong answer.
 
 Run the whole pass even when the destination seems obvious. The pass takes a
 minute; a mis-routed question costs a sprint.

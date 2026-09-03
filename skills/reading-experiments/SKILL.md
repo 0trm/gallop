@@ -6,8 +6,7 @@ description: Runs the trust gate on a finished experiment before the result is b
 # Reading experiments
 
 Whether the result is a result. Five of the six steps in an experiment can
-hand back a confident wrong number without the readout looking any
-different, so the reading order is fixed and the checks come before the
+hand back a wrong number without the readout looking any different, so the reading order is fixed and the checks come before the
 number. Read against the pre-registered plan; if no plan exists, say so
 first, because everything below weakens without one.
 

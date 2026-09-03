@@ -210,7 +210,7 @@ visible, boring procedure for a new arrival, with a cost attached:
 1. **The gate.** Do I trust the metric and the definition of success? If
    not, nothing else in the request is worth starting. Roughly one
    request in five dies here, and dying here is a good outcome, because
-   the alternative was a confident wrong answer.
+   the alternative was shipping a wrong answer.
 2. **The type.** Description, or a change? People routinely ask the
    second in the words of the first, and separating them is most of the
    value of the conversation.

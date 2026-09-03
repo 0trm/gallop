@@ -5,7 +5,7 @@ labels: skill-proposal
 ---
 
 **The failure mode it prevents**
-The confident wrong number that gets produced today without it. One
+The wrong result that gets produced today without it. One
 paragraph, concrete.
 
 **The position it occupies**

@@ -64,5 +64,5 @@ Each runs as a script too: `python -m gallop.trust srm --counts counts.csv`.
 ## What it is not
 
 Not an experimentation platform. It does not assign traffic, hold flags, or
-replace your warehouse. It routes the question, then runs the checks that
-stop the answer being a confident wrong number.
+replace your warehouse. It routes the question, then runs the
+checks an answer has to pass before it ships.
