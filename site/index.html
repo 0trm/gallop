@@ -29,8 +29,13 @@
            letter-spacing:.14em;margin:0 0 12px;font-weight:600}
 
   .demo{grid-template-columns:1.35fr .65fr}
-  .note p{font-size:13px;color:var(--body);margin:0}
-  .note p+p{margin-top:16px}
+  /* one annotation per run, so the column fills alongside the three transcripts
+     instead of running out a third of the way down. */
+  .note{display:flex;flex-direction:column;padding:0}
+  .note .ann{flex:1;padding:16px 20px 18px;border-bottom:1px solid var(--line)}
+  .note .lab{margin-bottom:10px}
+  .note p{font-size:13px;color:var(--body);margin:0;line-height:1.55}
+  .note .scope{padding:16px 20px;font-size:12px;color:var(--dim)}
 
   .six{grid-template-columns:repeat(3,1fr)}
   .six > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
@@ -113,15 +118,15 @@
 <div class="band">
   <div class="secthead">
     <p class="lab">See it route</p>
-    <span class="dim">example run &middot; <a href="install/">install</a></span>
+    <span class="dim">three runs, three endings &middot; <a href="install/">install</a></span>
   </div>
   <div class="cells demo">
     <div>
       <div class="term">
-        <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="dim" style="margin-left:6px">gallop &middot; routing-questions</span>
+        <div class="tbar"><span class="cur"></span>
+          <span class="path"><b>routing-questions</b> &middot; three example runs</span>
           <button type="button" class="replay" aria-label="Replay the routing">replay</button></div>
-        <pre><span class="dim">&gt;</span> did the new onboarding lift D7 retention?
+        <div class="run"><pre><span class="dim">&gt;</span> did the new onboarding lift D7 retention?
 
   <span class="key">lookup</span>   theory layer            2 prior tests on d7_retention, none on onboarding
   <span class="key">gate</span>     trust the metric?       d7_retention, registered, one source of truth
@@ -129,21 +134,46 @@
   <span class="key">q2</span>       once or continuously?   once, a ship-or-kill call
   <span class="key">q3</span>       who assigned it?        you: a 50/50 flag, live since 04-08
 
-  <span class="dim">-&gt;</span> reading-experiments
-     srm &middot; exposure log &middot; sequential bound &middot; cuped &middot; shrinkage
+  <span class="dim">-&gt;</span> <span class="dest">reading-experiments</span>
+     <span class="dim">srm &middot; exposure log &middot; sequential bound &middot; cuped &middot; shrinkage</span></pre></div>
+        <div class="run"><pre><span class="dim">&gt;</span> how much does a paywall test usually move trial starts?
+
+  <span class="key">lookup</span>   theory layer            trial_starts: 6 entries, median +0.9pp, none expired
+
+  <span class="dim">-&gt;</span> <span class="dest">settled</span>
+     <span class="dim">the store already answers it. no query, no traffic, no ticket.</span></pre></div>
+        <div class="run"><pre><span class="dim">&gt;</span> is activation down since the pricing change?
+
+  <span class="key">lookup</span>   theory layer            activation: no entry, no prior
+  <span class="key">gate</span>     trust the metric?       two dashboards disagree, no owner, no registry entry
+
+  <span class="dim">-&gt;</span> <span class="dest">defining-metrics</span>
+     <span class="dim">the measurement work is the work. not in the meantime.</span>
 
 <span class="dim">most questions never reach an analysis. that is the point.</span>
-<span class="dim">&gt;</span> <span class="cursor"></span></pre>
+<span class="dim">&gt;</span> <span class="cursor"></span></pre></div>
       </div>
     </div>
     <div class="note">
-      <p class="lab">What the gate is for</p>
-      <p>A metric nobody trusts cannot carry a decision. The gate asks that first, before any
-      query is written, and most of the value is in the exits that are not analyses.</p>
-      <p>What the answer teaches is written back before the ticket closes, so the next question
-      starts smaller.</p>
-      <p>Not an experimentation platform. It does not assign traffic, hold flags, or replace
-      your warehouse.</p>
+      <div class="ann">
+        <p class="lab">What the pass hands over</p>
+        <p>Five rows and a destination. The pass takes a minute and a mis-routed question costs
+        a sprint, so it runs even when the answer looks obvious. What the analysis teaches is
+        written back before the ticket closes, so the next question starts smaller.</p>
+      </div>
+      <div class="ann">
+        <p class="lab">The cheapest exit</p>
+        <p>The prior store holds what each metric has actually moved by. A question it already
+        answers is handed back at the lookup, before a query is written or a user is assigned.</p>
+      </div>
+      <div class="ann">
+        <p class="lab">What the gate is for</p>
+        <p>A metric nobody trusts cannot carry a decision, so the gate asks that before anything
+        else. Roughly one request in five dies here. The measurement work is the actual work,
+        and it does not happen in the meantime.</p>
+      </div>
+      <p class="scope">Not an experimentation platform. It does not assign traffic, hold flags,
+      or replace your warehouse.</p>
     </div>
   </div>
 </div>
@@ -218,7 +248,7 @@
       }
       t += 520;
       var acc = head + q;
-      for (var j = 1; j < lines.length - 1; j++) {
+      for (var j = 1; j < lines.length; j++) {
         acc += "\n" + lines[j];
         (function (snap) { timers.push(setTimeout(function () { set(snap); }, t)); })(acc);
         t += lines[j].trim() ? 300 : 140;
