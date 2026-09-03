@@ -24,21 +24,18 @@
      font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
 h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
-h4{font-size:15px;font-weight:700;margin:0 0 5px}
+h4{font-size:16px;font-weight:700;margin:0 0 5px}
 p{margin:0}
-.lead{font-size:17px;line-height:1.5;max-width:66ch}
-.cap{font-size:12px;line-height:1.45}
+.lead{font-size:17px;line-height:1.5;max-width:72ch}
+.cap{font-size:13px;line-height:1.45}
 .prose{max-width:84ch;display:flex;flex-direction:column;gap:16px}
 .mark{background:var(--vellum);padding:0 3px}
 
-.laws{background:var(--pasture);border:var(--hair)}
-.laws p{padding:14px var(--gutter);font-size:14px;line-height:1.45}
-.laws p+p{border-top:1px solid var(--pasture-shade)}
-footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;padding:0 2px}
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
 
 /* diagram */
-figure.dg{margin:0}
-figure.dg{overflow-x:auto}
+figure.dg{margin:0;overflow-x:auto;background:var(--surface);
+          border:1px solid var(--line);padding:20px 22px}
 /* 1:1 with the viewBox inside the column; below 900px the figure scrolls sideways rather than shrinking its labels */
 .dg svg{display:block;width:100%;height:auto;min-width:900px}
 .dg text{font-family:var(--f-body);fill:var(--ink)}
@@ -53,7 +50,7 @@ figure.dg{overflow-x:auto}
 .dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
 .dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .dg .head{fill:var(--ink)}
-figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
+figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
 @media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
 @media (max-width:960px){
   /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
@@ -64,11 +61,11 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 
 @media print{
   html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
+    figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr{break-inside:avoid}
   h3,h4,.sec{break-after:avoid}
 }
 
-.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;align-items:start}
+.hero{display:grid;grid-template-columns:minmax(300px,.85fr) 1.15fr;gap:44px;align-items:end}
 .panels{display:grid;grid-template-columns:1.12fr 1fr;gap:34px;align-items:start;padding:0 var(--gutter)}
 .two-up{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 
@@ -81,11 +78,11 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .keyto{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
        opacity:.55;display:block;margin-bottom:14px}
 
-.meth{width:100%;border-collapse:collapse;font-size:13px}
+.meth{width:100%;border-collapse:collapse;font-size:14px}
 .meth th{text-align:left;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;
          text-transform:uppercase;padding:0 0 9px;border-bottom:var(--hair)}
 .meth td{padding:11px 14px 11px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
-.meth td:first-child{font-family:var(--f-chrome);font-size:11px;white-space:nowrap;padding-right:20px}
+.meth td:first-child{font-family:var(--f-chrome);font-size:12.5px;white-space:nowrap;padding-right:20px}
 .meth tr:last-child td{border-bottom:none}
 .meth .pic{width:64px;padding-right:8px}
 .pict{width:56px;height:28px;display:block}
@@ -99,12 +96,12 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .warn{display:flex;gap:16px;align-items:flex-start;margin-top:20px;padding-top:18px;
       border-top:1px solid var(--pasture-shade)}
 .opts{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
-.opts li{display:flex;gap:12px;font-size:13.5px;line-height:1.45}
+.opts li{display:flex;gap:12px;font-size:14.5px;line-height:1.5}
 .opts li::before{content:"";flex:0 0 7px;height:7px;background:var(--ink);margin-top:7px}
 
 .legend{display:flex;gap:26px;flex-wrap:wrap;margin-top:22px;padding-top:18px;
         border-top:1px solid var(--pasture-shade)}
-.legend div{display:flex;align-items:center;gap:9px;font-size:11.5px}
+.legend div{display:flex;align-items:center;gap:9px;font-size:12.5px}
 .legend i{width:16px;height:26px;border:var(--hair);display:block;background-color:var(--paper)}
 .l-solid{background-color:var(--ink)!important}
 .l-horiz{background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px)}
@@ -149,9 +146,8 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
     <div>
       <span class="tag">Product data science method map · intake</span>
       <h1 style="margin-top:18px">Run this on<br>every question</h1>
-      <p class="lead" style="margin-top:16px">One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
     </div>
-    
+    <p class="lead">One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
   </div>
 </section>
 
@@ -354,12 +350,6 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
     </div>
   </section>
 </div>
-
-<section class="laws">
-  <p><b>The gate is not step one, it is the floor under all four exits.</b> If the metric is wrong, every box above it returns a wrong number without raising an error.</p>
-  <p><b>The lookup is not step one either, it is the ceiling over all four.</b> A question the theory layer has already answered does not need an exit, and one it half-answers enters with a prior instead of a blank page.</p>
-  <p><b>No mechanism, no test. No exposure log, no effect.</b> The first rule kills the questions that were never going to teach anything; the second kills the answers that were never going to be true.</p>
-</section>
 
 
 </main>

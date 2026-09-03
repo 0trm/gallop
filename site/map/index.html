@@ -24,20 +24,18 @@
      font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
 h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
-h4{font-size:15px;font-weight:700;margin:0 0 5px}
+h4{font-size:16px;font-weight:700;margin:0 0 5px}
 p{margin:0}
-.lead{font-size:17px;line-height:1.5;max-width:66ch}
-.cap{font-size:12px;line-height:1.45}
+.lead{font-size:17px;line-height:1.5;max-width:72ch}
+.cap{font-size:13px;line-height:1.45}
 .prose{max-width:84ch;display:flex;flex-direction:column;gap:16px}
 .mark{background:var(--vellum);padding:0 3px}
 
-.laws{background:var(--pasture);border:var(--hair)}
-.laws p{padding:14px var(--gutter);font-size:14px;line-height:1.45}
-footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;padding:0 2px}
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
 
 /* diagram */
-figure.dg{margin:0}
-figure.dg{overflow-x:auto}
+figure.dg{margin:0;overflow-x:auto;background:var(--surface);
+          border:1px solid var(--line);padding:20px 22px}
 /* 1:1 with the viewBox inside the column; below 900px the figure scrolls sideways rather than shrinking its labels */
 .dg svg{display:block;width:100%;height:auto;min-width:900px}
 .dg text{font-family:var(--f-body);fill:var(--ink)}
@@ -52,7 +50,7 @@ figure.dg{overflow-x:auto}
 .dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
 .dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .dg .head{fill:var(--ink)}
-figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
+figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
 @media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
 @media (max-width:960px){
   /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
@@ -63,43 +61,43 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 
 @media print{
   html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr,.laws{break-inside:avoid}
+    figure.dg,.card,.note,.bucket,.band,.habits div,.brk li,tr{break-inside:avoid}
   h3,h4,.sec{break-after:avoid}
 }
 
 @page{ size: A4; margin: 12mm; }
-.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;align-items:start}
+.hero{display:grid;grid-template-columns:minmax(300px,.85fr) 1.15fr;gap:44px;align-items:end}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:30px}
 .card{border:var(--hair);padding:20px 22px 21px}
-.card h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 7px}
-.card p{font-size:12.5px;line-height:1.45}
+.card h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 7px}
+.card p{font-size:14px;line-height:1.5}
 .card .prod{margin-top:14px;padding-top:12px;border-top:1px solid var(--pasture-shade)}
 .card .prod span{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
                  display:block;opacity:.6;margin-bottom:2px}
-.card .prod b{font-size:12.5px;font-weight:600}
+.card .prod b{font-size:13.5px;font-weight:600}
 .sec{display:flex;align-items:baseline;gap:14px;margin:0 0 22px}
 .sec .n{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.14em;
         background:var(--ink);color:var(--paper);padding:3px 7px}
 .sec h3{margin:0}
-.note{border:var(--hair);background:var(--pasture);padding:22px 24px;margin-top:30px}
-.note h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 6px}
-.note p{font-size:13px;line-height:1.5}
+.note{border:var(--hair);background:var(--surface);padding:22px 24px;margin-top:30px}
+.note h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 6px}
+.note p{font-size:14.5px;line-height:1.5}
 .brk{margin:22px 0 0;padding:0;list-style:none;display:flex;flex-direction:column}
 .brk li{display:flex;gap:18px;padding:15px 0;border-top:1px solid var(--pasture-shade);
-        font-size:13.5px;line-height:1.45}
+        font-size:14.5px;line-height:1.5}
 .brk li b{flex:0 0 152px;font-weight:700}
 .scrollx{overflow-x:auto}
-.route{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.route{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
 .route th{text-align:left;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
           padding:0 18px 11px 0;border-bottom:var(--hair);vertical-align:bottom}
 .route td{padding:15px 18px 15px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
 .route td:first-child{width:31%}
-.route td:nth-child(2){width:20%;font-family:var(--f-chrome);font-size:11px;letter-spacing:.02em}
+.route td:nth-child(2){width:20%;font-family:var(--f-chrome);font-size:12.5px;letter-spacing:.02em}
 .route tr:last-child td{border-bottom:none}
 .q{font-style:italic}
 .habits{display:flex;flex-direction:column;gap:20px;margin-top:10px}
 .habits div{display:flex;gap:18px}
-.habits p{font-size:13.5px;line-height:1.5}
+.habits p{font-size:14.5px;line-height:1.55}
 
 /* the compressed stack */
 .stack{display:flex;flex-direction:column;gap:14px;margin-top:10px}
@@ -108,14 +106,14 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .band.floor{background:var(--pasture)}
 .band .bt{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 .band .bt i{width:11px;height:11px;border:1px solid var(--ink);display:inline-block;vertical-align:-1px;margin-right:8px}
-.band .bd{font-size:13px;line-height:1.45;margin-top:5px;max-width:86ch}
-.band .bw{font-size:11.5px;line-height:1.4;margin-top:5px;opacity:.62;max-width:86ch}
+.band .bd{font-size:14.5px;line-height:1.5;margin-top:5px;max-width:86ch}
+.band .bw{font-size:12.5px;line-height:1.45;margin-top:5px;opacity:.62;max-width:86ch}
 .buckets{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:14px}
 .bucket{border:var(--hair);background:var(--paper);padding:19px 20px 0;display:flex;flex-direction:column}
-.bucket .bn{font-family:var(--f-chrome);font-size:14px;letter-spacing:.03em;margin-bottom:15px}
+.bucket .bn{font-family:var(--f-chrome);font-size:15px;letter-spacing:.03em;margin-bottom:15px}
 .bucket dl{margin:0;display:flex;flex-direction:column;gap:11px;flex:1}
 .bucket dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
-.bucket dd{margin:1px 0 0;font-size:12.5px;line-height:1.35}
+.bucket dd{margin:1px 0 0;font-size:13.5px;line-height:1.4}
 .onmap{margin:19px -20px 0;border-top:var(--hair);display:flex}
 .onmap span{flex:1;padding:12px 6px;text-align:center;font-family:var(--f-chrome);font-size:10px;
             letter-spacing:.02em;line-height:1.3;border-left:1px solid var(--pasture-shade)}
@@ -128,7 +126,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
 .legend{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;padding-top:20px;
         border-top:1px solid var(--pasture-shade)}
-.legend div{display:flex;align-items:center;gap:10px;font-size:11.5px}
+.legend div{display:flex;align-items:center;gap:10px;font-size:12.5px}
 .legend i{width:16px;height:26px;border:var(--hair);display:block;background-color:var(--paper)}
 .l-solid{background-color:var(--ink)!important}
 .l-horiz{background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px)}
@@ -154,8 +152,8 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .callouts .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);
              font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
              align-items:center;justify-content:center;margin-top:-2px}
-.callouts h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 5px}
-.callouts p{font-size:12.5px;line-height:1.45;margin:0}
+.callouts h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 5px}
+.callouts p{font-size:14px;line-height:1.5;margin:0}
 .callouts .prod{margin-top:7px}
 .callouts .prod span{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-right:8px}
 .callouts .prod b{font-weight:600}
@@ -187,9 +185,8 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
     <div>
       <span class="tag">Field guide · reading the diagram</span>
       <h1 style="margin-top:16px">The PDS<br>Method Map</h1>
-      <p class="lead" style="margin-top:14px">Product data science on one page. A question enters at the left and leaves as a decision. Measurement is a foundation, not a phase, because what ships changes the data; theory is a ceiling, not a report, because what you learn has to outlive the test that produced it.</p>
     </div>
-    
+    <p class="lead">Product data science on one page. A question enters at the left and leaves as a decision. Measurement is a foundation, not a phase, because what ships changes the data; theory is a ceiling, not a report, because what you learn has to outlive the test that produced it.</p>
   </div>
 </section>
 
@@ -581,10 +578,6 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
       <p>Back to the doctor one last time. The three buckets are the instruments. Measurement is whether the instruments are calibrated. Routing is the diagnosis, and nobody values a radiologist for operating the machine.</p>
     </div>
   </div>
-</section>
-
-<section class="laws">
-  <p><b>Three buckets, a floor, a ceiling, and a layer of judgment.</b> The vertical order is the claim.</p>
 </section>
 
 

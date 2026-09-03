@@ -66,7 +66,7 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--fg);
-     font-family:var(--mono);font-size:14px;line-height:1.6;
+     font-family:var(--mono);font-size:15px;line-height:1.6;
      -webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
@@ -110,7 +110,7 @@ img,svg{max-width:100%}
 
 /* --- the contents strip on a long page ------------------------------------ */
 .toc{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:stretch;
-     background:var(--surface);border-bottom:1px solid var(--line);padding:0 var(--gutter,0)}
+     background:var(--surface);border-bottom:1px solid var(--line);padding:0 var(--gutter,20px)}
 .toc .lab{display:flex;align-items:center;padding:10px 20px 10px 0;color:var(--dim)}
 .toc a{display:flex;align-items:center;padding:10px 16px;border-left:1px solid var(--line);
        font-family:var(--sans);text-transform:uppercase;font-size:11px;letter-spacing:.14em;
@@ -131,7 +131,6 @@ img,svg{max-width:100%}
 .btn:hover{background:var(--fg);color:var(--bg);text-decoration:none}
 .btn.pri:hover{box-shadow:inset 0 0 0 2px var(--bg)}
 .btn:hover .arr{transform:translateX(6px)}
-.btn+.sub{margin:8px 0 0;font-size:12px;color:var(--dim)}
 @media (prefers-reduced-motion:reduce){.btn,.btn .arr{transition:none}}
 
 /* --- a terminal, when a page shows one -----------------------------------
@@ -145,9 +144,9 @@ img,svg{max-width:100%}
             letter-spacing:.14em;text-transform:uppercase}
 .term .cur{width:7px;height:13px;background:var(--fg);flex:none}
 .term .path{font-family:var(--mono);text-transform:none;letter-spacing:0;
-            font-size:12px;color:var(--dim)}
+            font-size:13px;color:var(--dim)}
 .term .path b{font-weight:700;color:var(--fg)}
-.term pre{margin:0;padding:20px 22px;white-space:pre;overflow-x:auto}
+.term pre{margin:0;padding:20px 22px;white-space:pre;overflow-x:auto;font-size:14px}
 .term .run + .run{border-top:1px solid var(--line)}
 .term .dest{font-weight:700}
 @keyframes blink{50%{opacity:0}}
@@ -159,7 +158,7 @@ img,svg{max-width:100%}
    Their markup calls a section a .win with a .bar header. Under this system a
    window is a cell, so the frame goes flat, the striped title bar becomes a
    labelled band, and the window furniture stops rendering. */
-.desk{--gutter:max(32px,calc((100% - 1200px) / 2))}   /* a 1200px column, centred; the diagrams are 1200 units wide */
+.desk{--gutter:clamp(20px,3.2vw,60px)}   /* a margin, not a column: the diagrams scale to the viewport */
 .win{background:var(--bg);border:1px solid var(--line);box-shadow:none}
 .bar{height:auto;min-height:38px;display:flex;align-items:center;gap:10px;
      padding:9px 20px;border-bottom:1px solid var(--line);
@@ -170,7 +169,7 @@ img,svg{max-width:100%}
 .bar .grow{flex:1}
 
 /* --- the foot band ------------------------------------------------------- */
-.foot{grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:12.5px;border-top:1px solid var(--line);
+.foot{grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:13.5px;border-top:1px solid var(--line);
       background:var(--surface)}
 .foot > *{padding:24px 20px 28px}
 .foot .wm{font-size:22px;display:block;margin-bottom:8px}
@@ -180,9 +179,10 @@ img,svg{max-width:100%}
 .foot .dim{color:var(--dim)}
 
 /* --- figures: inline SVG that wears the page's ink ------------------------ */
-.fig{margin:24px 0 8px}
+.fig{margin:26px 0 12px;background:var(--surface);border:1px solid var(--line);
+     padding:20px 22px 18px}
 .fig svg{display:block;width:100%;height:auto}
-.fig figcaption{font-size:12px;line-height:1.55;color:var(--dim);margin-top:10px;max-width:84ch}
+.fig figcaption{font-size:13.5px;line-height:1.55;color:var(--dim);margin-top:14px;max-width:84ch}
 .fig text{font-family:var(--sans);font-size:11.5px;fill:var(--fg)}
 .fig .lab{font-family:var(--sans);text-transform:uppercase;letter-spacing:.14em;font-size:10px;fill:var(--dim)}
 .fig .dimt{fill:var(--dim)}
@@ -223,6 +223,6 @@ img,svg{max-width:100%}
   .nav > *:last-child{border-bottom:0}
   .nav .sw{justify-content:flex-start}
   .cells > *{padding:14px 18px}
-  .desk{--gutter:18px}
-  .term pre{font-size:12px;padding:16px}
+  .desk{--gutter:16px}
+  .term pre{font-size:13px;padding:16px}
 }

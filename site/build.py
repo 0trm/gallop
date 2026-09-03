@@ -317,7 +317,6 @@ def build_skill_page(d, emitted):
     <div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
         <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
-      <p class="sub">the skill directory, ready to drop into .claude/skills/</p>
       {script_note}
     </div>
   </div>
@@ -347,7 +346,6 @@ def build_skills_index(dirs, emitted):
     body = f"""<div class="band">
   <div class="secthead">
     <p class="lab">Six skills</p>
-    <span class="dim">one position on the map each</span>
   </div>
   <div class="doc mapfig">
     {figure("skills-map.svg", "Where each skill sits. The ceiling and the floor are bands because every "
@@ -373,8 +371,8 @@ so the next question starts smaller.</p>
   .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
-  .sixlinks h3{font-family:var(--mono);font-size:14px;font-weight:700;margin:0}
-  .sixlinks p{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--body)}
+  .sixlinks h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
+  .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .six{grid-template-columns:repeat(3,1fr)}
   .six > *{border-bottom:1px solid var(--line)}
