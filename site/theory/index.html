@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href=".././">gallop</a>
   <a href="../map/">The map</a>
   <a href="../intake/">The intake</a>
@@ -30,8 +31,10 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-knowledge-repo">The knowledge repo</a><a href="#the-prior-store">The prior store</a><a href="#the-format-is-the-discipline">The format is the discipline</a><a href="#dated-conditioned-and-expiring">Dated, conditioned, and expiring</a><a href="#why-this-is-the-part-worth-keeping">Why this is the part worth keeping</a></nav>
 
+<main id="main">
 <div class="band"><div class="doc">
 <h1>The theory layer</h1>
 <p>The band across the top of <a href="../map/">the map</a>, drawn as a band because every
@@ -41,7 +44,7 @@ gets more valuable the longer a team runs it. Everything else on the map
 answers a question and stops. The ceiling is where the answers accumulate
 into something the next question can stand on.</p>
 <p>It has two halves, and they are different kinds of object.</p>
-<h2>The knowledge repo</h2>
+<h2 id="the-knowledge-repo">The knowledge repo</h2>
 <p>Prose. One searchable entry per question, holding the design, the number,
 the decision, and what you would do differently, with the losses written up
 as carefully as the wins. The repo is what a person reads before proposing
@@ -67,7 +70,48 @@ won, +2.1% on checkout completion&quot;, which dies with the ticket, but
 two points, and it held for six weeks&quot;, which the next three questions
 start from.</li>
 </ul>
-<h2>The prior store</h2>
+<h2 id="the-prior-store">The prior store</h2>
+<figure class="fig"><svg viewBox="0 0 840 300" role="img" aria-label="A histogram of a hundred readouts on one metric, most within a quarter of a point of zero, with the mean marked as the honest prior and a wished-for MDE of 1.5pp marked far to the right of anything the metric has ever produced. Illustrative data.">
+<line class="grid" x1="56" y1="256.0" x2="816" y2="256.0"/>
+<text x="48.0" y="260.0" class="dimt" text-anchor="end">0</text>
+<line class="grid" x1="56" y1="199.0" x2="816" y2="199.0"/>
+<text x="48.0" y="203.0" class="dimt" text-anchor="end">10</text>
+<line class="grid" x1="56" y1="142.0" x2="816" y2="142.0"/>
+<text x="48.0" y="146.0" class="dimt" text-anchor="end">20</text>
+<line class="grid" x1="56" y1="85.0" x2="816" y2="85.0"/>
+<text x="48.0" y="89.0" class="dimt" text-anchor="end">30</text>
+<line class="grid" x1="56" y1="28.0" x2="816" y2="28.0"/>
+<text x="48.0" y="32.0" class="dimt" text-anchor="end">40</text>
+<line class="ax" x1="56" y1="256" x2="816" y2="256"/>
+<line class="ax" x1="56.0" y1="256" x2="56.0" y2="260"/>
+<text x="56.0" y="273.0" class="dimt" text-anchor="middle">-0.8</text>
+<line class="ax" x1="182.7" y1="256" x2="182.7" y2="260"/>
+<text x="182.7" y="273.0" class="dimt" text-anchor="middle">-0.4</text>
+<line class="ax" x1="309.3" y1="256" x2="309.3" y2="260"/>
+<text x="309.3" y="273.0" class="dimt" text-anchor="middle">+0.0</text>
+<line class="ax" x1="436.0" y1="256" x2="436.0" y2="260"/>
+<text x="436.0" y="273.0" class="dimt" text-anchor="middle">+0.4</text>
+<line class="ax" x1="562.7" y1="256" x2="562.7" y2="260"/>
+<text x="562.7" y="273.0" class="dimt" text-anchor="middle">+0.8</text>
+<line class="ax" x1="689.3" y1="256" x2="689.3" y2="260"/>
+<text x="689.3" y="273.0" class="dimt" text-anchor="middle">+1.2</text>
+<line class="ax" x1="816.0" y1="256" x2="816.0" y2="260"/>
+<text x="816.0" y="273.0" class="dimt" text-anchor="middle">+1.6</text>
+<text x="816.0" y="290.0" class="lab" text-anchor="end">effect each readout produced, percentage points</text>
+<text x="56.0" y="16.0" class="lab" text-anchor="start">readouts on this metric, out of a hundred</text>
+<rect class="hbar" x="120.3" y="250.3" width="61.3" height="5.7"/>
+<rect class="hbar" x="183.7" y="187.6" width="61.3" height="68.4"/>
+<rect class="hbar" x="247.0" y="102.1" width="61.3" height="153.9"/>
+<rect class="hbar" x="310.3" y="45.1" width="61.3" height="210.9"/>
+<rect class="hbar" x="373.7" y="193.3" width="61.3" height="62.7"/>
+<rect class="hbar" x="437.0" y="221.8" width="61.3" height="34.2"/>
+<rect class="hbar" x="500.3" y="221.8" width="61.3" height="34.2"/>
+<line class="ax dash" x1="330.7" y1="28" x2="330.7" y2="256"/>
+<text x="322.7" y="32.0" text-anchor="end">mean +0.07pp: the honest prior</text>
+<line class="ax dash" x1="784.3" y1="28" x2="784.3" y2="256"/>
+<text x="776.3" y="32.0" text-anchor="end">an MDE of 1.5pp, which nothing here has ever produced</text>
+<text x="550.4" y="211.8" class="dimt" text-anchor="middle">largest ever: +0.76pp</text>
+</svg><figcaption>Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody wished for sits to the right of every effect the metric has ever produced.</figcaption></figure>
 <p>A table. For each metric, the distribution of effects the last hundred
 tests actually produced. The store is what sizes the next test, and what
 the last readout gets shrunk toward.</p>
@@ -86,7 +130,7 @@ overstatement grows as power falls. Empirical Bayes shrinkage toward
 the store's distribution is the correction, and the shrunk number is
 what gets written back, so the store deflates rather than inflates.</li>
 </ol>
-<h2>The format is the discipline</h2>
+<h2 id="the-format-is-the-discipline">The format is the discipline</h2>
 <p>The store is an <strong>append-only JSONL file</strong>, one record per readout,
 validated on write. That is not a storage detail; each property is doing a
 job:</p>
@@ -112,7 +156,7 @@ decision · conditions · expires_on · supersedes
 <p><code>effect</code> and <code>se</code> are what shrinkage needs; <code>metric</code> plus <code>effect</code> across
 records is the distribution design reads. The rest is what makes an entry
 legible to a person a year later, which is the whole claim of the layer.</p>
-<h2>Dated, conditioned, and expiring</h2>
+<h2 id="dated-conditioned-and-expiring">Dated, conditioned, and expiring</h2>
 <p>A wrong metric returns a wrong number without an error; a stale belief
 keeps answering a question nobody re-asked. The two failure modes
 mirror each other, floor and ceiling, and the defence is structural rather
@@ -133,7 +177,7 @@ the moment the world changes, because the thing that changed the world is
 named in the entry.</p>
 <p>The loop on the map closes through this layer: what ships changes the
 data, and the ship that contradicts a belief is the event that expires it.</p>
-<h2>Why this is the part worth keeping</h2>
+<h2 id="why-this-is-the-part-worth-keeping">Why this is the part worth keeping</h2>
 <p>Skip the theory layer and every quarter starts from zero: the team re-runs
 a test somebody ran two years ago, argues from memory about what a banner
 is worth, and powers each experiment as though it had never seen an effect
@@ -147,13 +191,35 @@ question around that loop; the layer is what makes the second question
 cheaper than the first.</p>
 
 </div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../intake/">The intake</a>
+    <a href="../theory/">The theory layer</a>
+    <a href="../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The six skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

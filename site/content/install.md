@@ -44,9 +44,35 @@ Prove it works in fifteen seconds, no configuration, no warehouse:
 python -m gallop.examples.quickstart
 ```
 
-That runs one simulated experiment through every check: an MDE, the SRM
-verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid
-interval, and the same effect shrunk toward a seeded prior store.
+That runs one simulated experiment through every check. This is what it
+prints:
+
+```
+gallop quickstart: one experiment through every check
+
+1 · Size it before running it (gallop.power)
+   at n=40,000 per arm on a 12.5% rate, the MDE is 0.66pp;
+   detecting 0.35pp instead would need 140,159 per arm
+
+2 · The trust gate (gallop.trust)
+   SRM: chi2 0.16  p 0.689  -> pass
+   exposure: pooled rate 97.00%  -> pass
+
+3 · The effect, with CUPED (gallop.variance)
+   raw    +0.292pp  se 0.234pp
+   cuped  +0.306pp  se 0.227pp   variance reduction 6%
+
+4 · An interval that survives peeking (gallop.sequential)
+   always-valid 95% CI [-0.394pp, +1.005pp]   boundary |z| 3.08 (vs 1.96 fixed)
+   significant under continuous monitoring: False
+
+5 · Shrunk toward what this metric has done before (gallop.shrink + priors)
+   prior from 8 readouts: mu +0.097pp   tau 0.065pp
+   observed +0.306pp -> shrunk +0.113pp   (weight on data 0.08)
+
+true simulated effect: +0.350pp. The shrunk estimate is the
+one to write back to the store; the raw one is the winner's curse waiting.
+```
 
 ## The modules
 

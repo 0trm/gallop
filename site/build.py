@@ -11,6 +11,9 @@ real URLs, rendering fine from file://.
   site/install/index.html         from site/content/install.md
   README.md skills table          into the marked block
 
+Figures from site/figures/ (drawn by site/figures.py) are inlined after the
+heading named in FIGURES, so they take the page's ink and theme with it.
+
 The build fails when a skills/ directory has no SKILL.md, when the position
 table here and the directories on disk disagree, or (with --check) when the
 committed output differs from a fresh build, which is how CI catches drift.
@@ -22,6 +25,7 @@ Needs: markdown-it-py (the one dependency beyond the stdlib).
 from __future__ import annotations
 
 import argparse
+import html
 import re
 import sys
 from pathlib import Path
@@ -32,6 +36,29 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 SKILLS = ROOT / "skills"
 CONTENT = SITE / "content"
+FIGDIR = SITE / "figures"
+
+# (page, h2 text prefix) -> (figure file, caption). Inlined right after that h2.
+FIGURES = {
+    ("skills/reading-experiments", "3 · The effect"): ("peeking.svg",
+        "Read a fixed-horizon test every day and the false-positive rate is not 5%. Simulated under a "
+        "true null at alpha 0.05, 100,000 runs: about 14% at five looks, 28% at thirty."),
+    ("skills/reading-experiments", "5 · Shrink toward"): ("shrinkage.svg",
+        "The quickstart's own numbers. The prior is tight and the readout is noisy, so the weight on "
+        "the data is 0.08 and the planning number is a third of the reported one."),
+    ("skills/reading-experiments", "p:Apply <strong>CUPED</strong>"): ("cuped.svg",
+        "CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), "
+        "so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic."),
+    ("theory", "The prior store"): ("prior-store.svg",
+        "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
+        "wished for sits to the right of every effect the metric has ever produced."),
+    ("practice", "Three clocks"): ("three-clocks.svg",
+        "Each clock decides what the one inside it works on. The day is the innermost and the least "
+        "interesting; the year is the one nobody asks for."),
+    ("practice", "A day: Tuesday"): ("tuesday.svg",
+        "The shape of a good day: one shaded block of real work, one refinement session, one request "
+        "declined and replaced, and no interim results spoken out loud."),
+}
 
 # The one place the six positions live. Build fails if this and skills/ drift.
 POSITIONS = {
@@ -65,8 +92,97 @@ def render(markdown_text):
     return md.render(markdown_text)
 
 
-def page(*, title, description, body, root, active=None, extra_style=""):
-    """The shared chrome: nav band, foot band, theme switch."""
+def slug(text):
+    t = html.unescape(re.sub(r"<[^>]+>", "", text)).lower()
+    t = re.sub(r"[^a-z0-9]+", "-", t).strip("-")
+    return t or "section"
+
+
+def anchor_headings(doc):
+    """Give every h2 an id and return (doc, [(id, text)]) for the contents strip."""
+    seen, items = {}, []
+
+    def sub(m):
+        text = m.group(1)
+        base = slug(text)
+        n = seen.get(base, 0)
+        seen[base] = n + 1
+        i = base if n == 0 else f"{base}-{n + 1}"
+        items.append((i, html.unescape(re.sub(r"<[^>]+>", "", text))))
+        return f'<h2 id="{i}">{text}</h2>'
+
+    return re.sub(r"<h2>(.*?)</h2>", sub, doc), items
+
+
+def short(label, limit=34):
+    """The strip shows the heading's head: before a colon, or the last comma that fits."""
+    head = label.split(":")[0].strip()
+    if len(head) > limit and "," in head[:limit]:
+        head = head[:limit].rsplit(",", 1)[0].strip()
+    return head
+
+
+def toc(items, minimum=4):
+    if len(items) < minimum:
+        return ""
+    links = "".join(f'<a href="#{i}">{short(t)}</a>' for i, t in items)
+    return f'<nav class="toc" aria-label="Contents"><span class="lab">Contents</span>{links}</nav>\n'
+
+
+def figure(name, caption):
+    src = FIGDIR / name
+    if not src.exists():
+        sys.exit(f"build: missing figure {src}; run site/figures.py")
+    return f'<figure class="fig">{src.read_text().strip()}<figcaption>{caption}</figcaption></figure>'
+
+
+def place_figures(page_key, doc):
+    for (page, prefix), (name, caption) in FIGURES.items():
+        if page != page_key:
+            continue
+        if prefix.startswith("p:"):   # after the paragraph that starts with this markup
+            pat = re.compile(r"(<p>" + re.escape(prefix[2:]) + r".*?</p>)", re.S)
+        else:
+            pat = re.compile(r'(<h2 id="[^"]*">' + re.escape(prefix) + r'[^<]*</h2>)')
+        if not pat.search(doc):
+            sys.exit(f"build: nothing starting {prefix!r} on {page_key} for {name}")
+        doc = pat.sub(lambda m: m.group(1) + "\n" + figure(name, caption), doc, count=1)
+    return doc
+
+
+def footer(root):
+    """The foot band: what the site is, where to read, where the source lives."""
+    return f"""<footer class="band cells foot">
+  <div>
+    <a class="wm" href="{root}./">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="{root}map/">The method map</a>
+    <a href="{root}intake/">The intake</a>
+    <a href="{root}theory/">The theory layer</a>
+    <a href="{root}practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="{root}skills/">The six skills</a>
+    <a href="{root}install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>"""
+
+
+def page(*, title, description, body, root, active=None, extra_style="", contents=""):
+    """The shared chrome: skip link, nav band, contents strip, foot band, theme switch."""
     nav_items = [
         ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
         ("theory/", "Theory"), ("practice/", "Practice"), ("install/", "Install"),
@@ -94,7 +210,8 @@ def page(*, title, description, body, root, active=None, extra_style=""):
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="{root}./">gallop</a>
   {nav}
   <span class="sw">
@@ -103,16 +220,13 @@ def page(*, title, description, body, root, active=None, extra_style=""):
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
-
+</nav>
+{contents}
+<main id="main">
 {body}
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+{footer(root)}
 
 <script>
   (function () {{
@@ -199,13 +313,15 @@ def build_skill_page(d, emitted):
     </div>
   </div>
 </div>"""
-    doc = f'<div class="band"><div class="doc">\n{render(body)}\n' + "\n".join(sections) + "</div></div>"
+    main_html, items = anchor_headings(render(body))
+    main_html = place_figures(f"skills/{name}", main_html)
+    doc = f'<div class="band"><div class="doc">\n{main_html}\n' + "\n".join(sections) + "</div></div>"
     # Cross-references between the markdown files become anchors to the
     # collapsed sections inlined above.
     doc = re.sub(r'href="(?:reference/|templates/)?([\w-]+)\.md"', r'href="#ref-\1"', doc)
-    html = page(title=f"{name} · gallop", description=decides, root="../../",
-                active="skills/", body=header + "\n" + doc)
-    write(SITE / "skills" / name / "index.html", html, emitted)
+    out = page(title=f"{name} · gallop", description=decides, root="../../",
+               active="skills/", body=header + "\n" + doc, contents=toc(items))
+    write(SITE / "skills" / name / "index.html", out, emitted)
 
 
 def build_skills_index(dirs, emitted):
@@ -224,6 +340,13 @@ def build_skills_index(dirs, emitted):
     <p class="lab">Six skills</p>
     <span class="dim">one position on the map each</span>
   </div>
+  <div class="doc mapfig">
+    {figure("skills-map.svg", "Where each skill sits. The ceiling and the floor are bands because every "
+            "question touches them; the three causal skills split on who assigned the treatment. "
+            "Each name is a link.")}
+  </div>
+</div>
+<div class="band">
   <div class="cells six sixlinks">
 {chr(10).join(rows)}
   </div>
@@ -238,6 +361,7 @@ maintains, gets its method from <code>designing-experiments</code> or
 so the next question starts smaller.</p>
 </div></div>"""
     style = """
+  .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
   .sixlinks h3{font-family:var(--mono);font-size:14px;font-weight:700;margin:0}
@@ -249,10 +373,10 @@ so the next question starts smaller.</p>
   .six > *:nth-child(n+4){border-bottom:0}
   @media (max-width:1080px){.six{grid-template-columns:1fr}
     .six > *{border-right:0;border-bottom:1px solid var(--line)!important}}"""
-    html = page(title="The six skills · gallop",
-                description="Six skills, one position on the method map each.",
-                root="../", active="skills/", body=body, extra_style=style)
-    write(SITE / "skills" / "index.html", html, emitted)
+    out = page(title="The six skills · gallop",
+               description="Six skills, one position on the method map each.",
+               root="../", active="skills/", body=body, extra_style=style)
+    write(SITE / "skills" / "index.html", out, emitted)
 
 
 # %% ---------------------------------------------------------- content pages
@@ -262,10 +386,12 @@ def build_content_page(stem, title, description, emitted):
     src = CONTENT / f"{stem}.md"
     if not src.exists():
         sys.exit(f"build: missing {src}")
-    body = f'<div class="band"><div class="doc">\n{render(src.read_text())}\n</div></div>'
-    html = page(title=f"{title} · gallop", description=description, root="../",
-                active=f"{stem}/", body=body)
-    write(SITE / stem / "index.html", html, emitted)
+    inner, items = anchor_headings(render(src.read_text()))
+    inner = place_figures(stem, inner)
+    body = f'<div class="band"><div class="doc">\n{inner}\n</div></div>'
+    out = page(title=f"{title} · gallop", description=description, root="../",
+               active=f"{stem}/", body=body, contents=toc(items))
+    write(SITE / stem / "index.html", out, emitted)
 
 
 # %% ------------------------------------------------------------ README table

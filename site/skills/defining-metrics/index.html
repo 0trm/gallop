@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../.././">gallop</a>
   <a href="../../map/">The map</a>
   <a href="../../intake/">The intake</a>
@@ -30,8 +31,10 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></nav>
 
+<main id="main">
 <div class="band">
   <div class="secthead">
     <p class="lab">The floor</p>
@@ -56,7 +59,7 @@ definition does not raise an error, it just returns the wrong number. This skill
 produces four artifacts for one metric: a computation, a source of truth, a
 registry entry, and a statement of how the metric will be gamed. A metric
 missing any of the four is not ready to carry a readout.</p>
-<h2>When two numbers disagree</h2>
+<h2 id="when-two-numbers-disagree">When two numbers disagree</h2>
 <p>The most common entry point: the same metric shows different values in two
 places and nobody trusts either. Do not average them, and do not pick the
 one closer to expectations. Trace each to its query and diff the definitions.
@@ -77,7 +80,7 @@ computed over the same days.</li>
 not&quot;), then decide which definition serves the decision the metric exists
 for, and register that one. The other query gets updated or deleted, not left
 as a second opinion.</p>
-<h2>Writing the definition</h2>
+<h2 id="writing-the-definition">Writing the definition</h2>
 <p>A definition is precise enough when someone could reimplement it from the
 text alone and match the number. It states:</p>
 <ul>
@@ -94,7 +97,7 @@ is a bug.</li>
 <li><strong>The direction.</strong> Which way is better. Sounds trivial; guardrails and
 automated checks need it explicit.</li>
 </ul>
-<h2>The proxy bridge</h2>
+<h2 id="the-proxy-bridge">The proxy bridge</h2>
 <p>Most product metrics stand in for an outcome the product cannot observe (a
 purchase in someone else's store, long-run retention, revenue attributed
 weeks later). If this metric is a proxy:</p>
@@ -107,7 +110,7 @@ panel data, whatever exists. Once a year, off-roadmap, non-negotiable.</li>
 <li><strong>Prefer metrics whose outcome you own.</strong> Given two candidate framings of
 similar value, take the one that ends inside your own instrumentation.</li>
 </ul>
-<h2>How it will be gamed</h2>
+<h2 id="how-it-will-be-gamed">How it will be gamed</h2>
 <p>Before the metric is used to judge anything, write down how a well-meaning
 team hits the number without creating the value it stands for. Every metric
 has at least one; a metric whose gaming nobody can describe is a metric
@@ -115,7 +118,7 @@ nobody has thought about. Common patterns and worked examples are in
 <a href="#ref-gaming">reference/gaming.md</a>. The output is one or two
 sentences in the registry entry's <code>gaming</code> field, plus the guardrail metric
 that would catch it.</p>
-<h2>The promotion gate</h2>
+<h2 id="the-promotion-gate">The promotion gate</h2>
 <p>A metric is <strong>trusted</strong> – promotable to primary or guardrail duty in
 experiments – only when the checklist in
 <a href="#ref-promotion">reference/promotion.md</a> passes: definition,
@@ -124,7 +127,7 @@ owner, and stability checked over enough history to know its variance.
 Until then it is <strong>provisional</strong>: usable for exploration, barred from
 readouts. Retired definitions become <strong>deprecated</strong>, kept in the registry so
 old readouts remain interpretable.</p>
-<h2>The registry entry</h2>
+<h2 id="the-registry-entry">The registry entry</h2>
 <p>The registry is a JSONL file beside the prior store, one metric per line,
 validated against <code>templates/metric-registry.schema.json</code>. Field-by-field
 guidance and a worked example are in
@@ -135,7 +138,7 @@ with:</p>
 <p>Experiments must take their primary metric from the registry, not from a
 text box. That single rule is what makes the floor hold: it turns every
 definition argument into a one-time cost instead of a per-readout one.</p>
-<h2>Maintenance</h2>
+<h2 id="maintenance">Maintenance</h2>
 <p>The definition of success is maintained continuously, like calibrating a
 scale you weigh things on every day, not set once in January:</p>
 <ul>
@@ -150,7 +153,7 @@ stop matching without anyone deciding anything.</li>
 from below are events that stop firing on one platform and exposure logs
 that drift; alert on event volume, not just on metric values.</li>
 </ul>
-<h2>Hand-back</h2>
+<h2 id="hand-back">Hand-back</h2>
 <p>To the question that routed here: a number the rest of the map can stand on.
 State what changed (the definition, the source, or both), what the corrected
 current value is, and which past readouts, if any, are now suspect. Then
@@ -363,13 +366,35 @@ review in a pull request is a registry that goes stale.</li>
 </ul>
 
 </details></div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../intake/">The intake</a>
+    <a href="../../theory/">The theory layer</a>
+    <a href="../../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The six skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

@@ -1,0 +1,37 @@
+<svg viewBox="0 0 840 480" role="img" aria-label="The six skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomize diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box.">
+<defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
+<rect class="node" x="40" y="20" width="760" height="56"/>
+<rect class="node" x="40" y="20" width="12" height="56"/>
+<text x="64.0" y="44.0" class="t-title" text-anchor="start">Theory layer</text>
+<text x="64.0" y="64.0" class="dimt" text-anchor="start">the ceiling: what each decision taught, and the prior it left</text>
+<a href="writing-readouts/"><text class="sk" x="780" y="54" text-anchor="end">writing-readouts</text></a>
+<rect class="node" x="40" y="404" width="760" height="56"/>
+<rect class="dot" x="40" y="404" width="12" height="56"/>
+<text x="64.0" y="428.0" class="t-title" text-anchor="start">Measurement framework</text>
+<text x="64.0" y="448.0" class="dimt" text-anchor="start">the floor: the definition of success, and whether the number can be trusted</text>
+<a href="defining-metrics/"><text class="sk" x="780" y="438" text-anchor="end">defining-metrics</text></a>
+<rect class="node" x="40" y="172" width="224" height="116"/>
+<text x="64.0" y="196.0" class="t-title" text-anchor="start">Routing</text>
+<a href="routing-questions/"><text class="sk" x="64" y="220">routing-questions</text></a>
+<text x="64.0" y="268.0" class="dimt" text-anchor="start">one lookup, three questions, one gate</text>
+<polygon class="node" points="356,230 420,190 484,230 420,270"/>
+<text x="420.0" y="226.0" class="t-q" text-anchor="middle">can you</text>
+<text x="420.0" y="241.0" class="t-q" text-anchor="middle">randomize?</text>
+<rect class="node" x="540" y="112" width="260" height="96"/>
+<rect class="node" x="540" y="112" width="12" height="96" fill="url(#pv)"/>
+<text x="564.0" y="136.0" class="t-title" text-anchor="start">Experimentation</text>
+<a href="designing-experiments/"><text class="sk" x="564" y="160">designing-experiments</text></a>
+<a href="reading-experiments/"><text class="sk" x="564" y="180">reading-experiments</text></a>
+<rect class="node" x="540" y="260" width="260" height="76"/>
+<rect class="node" x="540" y="260" width="12" height="76" fill="url(#px)"/>
+<text x="564.0" y="284.0" class="t-title" text-anchor="start">Causal inference</text>
+<a href="choosing-causal-designs/"><text class="sk" x="564" y="308">choosing-causal-designs</text></a>
+<path class="ax" marker-end="url(#sm)" d="M264 230H350"/>
+<path class="ax" marker-end="url(#sm)" d="M484 230H512V160H534"/>
+<path class="ax" marker-end="url(#sm)" d="M484 230H512V298H534"/>
+<text x="496.0" y="150.0" class="t-edge" text-anchor="start">yes</text>
+<text x="496.0" y="292.0" class="t-edge" text-anchor="start">no</text>
+<path class="ax dash" marker-end="url(#sm)" d="M420 76V184"/>
+<path class="ax dash" marker-end="url(#sm)" d="M420 404V276"/>
+<path class="ax dash" marker-end="url(#sm)" d="M670 208V254"/>
+</svg>

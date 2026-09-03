@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href=".././">gallop</a>
   <a href="../map/">The map</a>
   <a href="../intake/">The intake</a>
@@ -30,21 +31,23 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#claude-code-plugin">Claude Code plugin</a><a href="#any-other-agent-or-none">Any other agent, or none</a><a href="#the-package">The package</a><a href="#the-modules">The modules</a><a href="#what-it-is-not">What it is not</a></nav>
 
+<main id="main">
 <div class="band"><div class="doc">
 <h1>Install</h1>
 <p>Three ways in, in order of least friction. The skills are the interface; the
 Python package underneath exists because six calculations must be identical
 every time.</p>
-<h2>Claude Code plugin</h2>
+<h2 id="claude-code-plugin">Claude Code plugin</h2>
 <pre><code>/plugin marketplace add 0trm/gallop
 /plugin install gallop@gallop
 </code></pre>
 <p>All six skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the <code>gallop</code> package, so add
 <code>pip install gallop</code> if you want the checks to run rather than be described.</p>
-<h2>Any other agent, or none</h2>
+<h2 id="any-other-agent-or-none">Any other agent, or none</h2>
 <p>A skill is a directory of markdown. Copy what you need:</p>
 <pre><code>git clone https://github.com/0trm/gallop
 cp -r gallop/skills/reading-experiments .claude/skills/
@@ -52,7 +55,7 @@ cp -r gallop/skills/reading-experiments .claude/skills/
 <p>Works with anything that reads Agent Skills, and reads fine as prose:
 each <code>SKILL.md</code> is the procedure, the <code>reference/</code> files one level down are
 the depth.</p>
-<h2>The package</h2>
+<h2 id="the-package">The package</h2>
 <pre><code>pip install gallop
 </code></pre>
 <p><code>numpy</code>, <code>pandas</code>, <code>scipy</code>, nothing else. Every function takes and returns
@@ -61,10 +64,34 @@ queries every readout needs ships as <code>string.Template</code> files in <code
 <p>Prove it works in fifteen seconds, no configuration, no warehouse:</p>
 <pre><code>python -m gallop.examples.quickstart
 </code></pre>
-<p>That runs one simulated experiment through every check: an MDE, the SRM
-verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid
-interval, and the same effect shrunk toward a seeded prior store.</p>
-<h2>The modules</h2>
+<p>That runs one simulated experiment through every check. This is what it
+prints:</p>
+<pre><code>gallop quickstart: one experiment through every check
+
+1 · Size it before running it (gallop.power)
+   at n=40,000 per arm on a 12.5% rate, the MDE is 0.66pp;
+   detecting 0.35pp instead would need 140,159 per arm
+
+2 · The trust gate (gallop.trust)
+   SRM: chi2 0.16  p 0.689  -&gt; pass
+   exposure: pooled rate 97.00%  -&gt; pass
+
+3 · The effect, with CUPED (gallop.variance)
+   raw    +0.292pp  se 0.234pp
+   cuped  +0.306pp  se 0.227pp   variance reduction 6%
+
+4 · An interval that survives peeking (gallop.sequential)
+   always-valid 95% CI [-0.394pp, +1.005pp]   boundary |z| 3.08 (vs 1.96 fixed)
+   significant under continuous monitoring: False
+
+5 · Shrunk toward what this metric has done before (gallop.shrink + priors)
+   prior from 8 readouts: mu +0.097pp   tau 0.065pp
+   observed +0.306pp -&gt; shrunk +0.113pp   (weight on data 0.08)
+
+true simulated effect: +0.350pp. The shrunk estimate is the
+one to write back to the store; the raw one is the winner's curse waiting.
+</code></pre>
+<h2 id="the-modules">The modules</h2>
 <table>
 <thead>
 <tr>
@@ -100,19 +127,41 @@ interval, and the same effect shrunk toward a seeded prior store.</p>
 </tbody>
 </table>
 <p>Each runs as a script too: <code>python -m gallop.trust srm --counts counts.csv</code>.</p>
-<h2>What it is not</h2>
+<h2 id="what-it-is-not">What it is not</h2>
 <p>Not an experimentation platform. It does not assign traffic, hold flags, or
 replace your warehouse. It routes the question, then runs the
 checks an answer has to pass before it ships.</p>
 
 </div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../intake/">The intake</a>
+    <a href="../theory/">The theory layer</a>
+    <a href="../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The six skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

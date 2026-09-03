@@ -12,9 +12,9 @@
 
 .doc h1{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;
         margin:0 0 18px}
-.doc h2{font-family:var(--sans);text-transform:uppercase;font-size:12px;
-        letter-spacing:.16em;font-weight:600;margin:40px 0 14px;
-        padding-top:18px;border-top:1px solid var(--line)}
+.doc h2{font-family:var(--sans);text-transform:uppercase;font-size:13px;
+        letter-spacing:.16em;font-weight:700;margin:48px 0 16px;
+        padding-top:22px;border-top:1px solid var(--line)}
 .doc h3{font-family:var(--sans);font-size:13px;font-weight:700;margin:26px 0 10px}
 .doc p, .doc li{font-size:14px;line-height:1.7;color:var(--body)}
 .doc li{margin:6px 0}

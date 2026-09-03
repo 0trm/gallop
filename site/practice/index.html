@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href=".././">gallop</a>
   <a href="../map/">The map</a>
   <a href="../intake/">The intake</a>
@@ -30,15 +31,17 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-room">The room</a><a href="#one-stream-four-exits">One stream, four exits</a><a href="#three-clocks">Three clocks</a><a href="#a-day-tuesday-mid-sprint">A day</a><a href="#a-week-the-sprint-gives-you-the-rhythm">A week</a><a href="#the-quarter-a-list-of-questions-not-tasks">The quarter</a><a href="#mid-quarter-arrivals">Mid-quarter arrivals</a><a href="#the-traffic-ceiling">The traffic ceiling</a><a href="#the-outcome-you-cannot-see">The outcome you cannot see</a><a href="#what-each-person-needs-from-you">What each person needs from you</a><a href="#the-eight-ways-this-goes-wrong">The eight ways this goes wrong</a><a href="#the-loop-closes-and-here-it-closes-tighter">The loop closes</a></nav>
 
+<main id="main">
 <div class="band"><div class="doc">
 <h1>The embedded PDS</h1>
 <p>A day, a week, and a quarter inside the Purina Iberia product squad. One
 data scientist, one stream of demand, two countries, and a purchase that
 happens in a supermarket you do not own. This is the seat the six skills
 were written for; the method map is the theory, this page is the practice.</p>
-<h2>The room</h2>
+<h2 id="the-room">The room</h2>
 <p>Five people ship. The brand and category teams sit outside it, and their
 requests still arrive.</p>
 <ul>
@@ -63,7 +66,7 @@ and their measurement belongs to someone else. Their questions will
 still land on you. They go through the same gate, and most of them leave
 as a referral rather than an analysis.</li>
 </ul>
-<h2>One stream, four exits</h2>
+<h2 id="one-stream-four-exits">One stream, four exits</h2>
 <p>Every request from the roadmap runs through the same routing, and the
 randomisation fork is only its last step. A request whose metric you do
 not trust goes back to the measurement framework before anything else
@@ -75,7 +78,25 @@ bites, because plenty of product work cannot be randomised: a CRM
 programme whose tool cannot hold back a control, a coupon engine rebuild,
 a site migration, a change the commercial team insists ships to every pet
 parent at once, anything built before the flag existed.</p>
-<h2>Three clocks</h2>
+<h2 id="three-clocks">Three clocks</h2>
+<figure class="fig"><svg viewBox="0 0 840 242" role="img" aria-label="Four nested horizons, year outside quarter outside week outside day, each deciding what the one inside it works on.">
+<defs><marker id="ch" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8z" class="dot"/></marker></defs>
+<rect class="clock" x="0.5" y="0.5" width="839" height="51"/>
+<text x="16.0" y="22.0" class="lab" text-anchor="start">THE YEAR</text>
+<text x="16.0" y="40.0" text-anchor="start">runs on the metric catalog · definitions, the event contract, the loyalty joins</text>
+<line class="ax" marker-end="url(#ch)" x1="780" y1="46" x2="780" y2="64"/>
+<rect class="clock" x="34.5" y="62.5" width="771" height="51"/>
+<text x="50.0" y="84.0" class="lab" text-anchor="start">THE QUARTER</text>
+<text x="50.0" y="102.0" text-anchor="start">runs on the learning agenda · which questions are worth traffic at all</text>
+<line class="ax" marker-end="url(#ch)" x1="746" y1="108" x2="746" y2="126"/>
+<rect class="clock" x="68.5" y="124.5" width="703" height="51"/>
+<text x="84.0" y="146.0" class="lab" text-anchor="start">THE WEEK</text>
+<text x="84.0" y="164.0" text-anchor="start">runs on the sprint · readouts become decisions, tests get their plan</text>
+<line class="ax" marker-end="url(#ch)" x1="712" y1="170" x2="712" y2="188"/>
+<rect class="clock" x="102.5" y="186.5" width="635" height="51"/>
+<text x="118.0" y="208.0" class="lab" text-anchor="start">THE DAY</text>
+<text x="118.0" y="226.0" text-anchor="start">runs on the health check and the standup · catch breakage before it is acted on</text>
+</svg><figcaption>Each clock decides what the one inside it works on. The day is the innermost and the least interesting; the year is the one nobody asks for.</figcaption></figure>
 <p>The day is the least interesting layer, and that is the point. The quarter
 decides what the week works on; the week decides what the day watches. In
 a one-person data function this is sharper still, because nobody else
@@ -94,7 +115,61 @@ planning cycle.</li>
 contract, the loyalty joins. Nobody asks for this, and everything above
 it degrades without it.</li>
 </ul>
-<h2>A day: Tuesday, mid-sprint</h2>
+<h2 id="a-day-tuesday-mid-sprint">A day: Tuesday, mid-sprint</h2>
+<figure class="fig"><svg viewBox="0 0 840 340" role="img" aria-label="A timeline of the day from 08:45 to 16:30 with eight events, the ninety-minute deep task shaded from nine to half past ten.">
+<rect class="wash" x="84.7" y="156" width="134.1" height="28"/>
+<line class="ax" x1="40" y1="170" x2="800" y2="170"/>
+<line class="ax" x1="84.7" y1="167" x2="84.7" y2="173"/>
+<text x="84.7" y="188.0" class="dimt" text-anchor="middle">09:00</text>
+<line class="ax" x1="174.1" y1="167" x2="174.1" y2="173"/>
+<text x="174.1" y="188.0" class="dimt" text-anchor="middle">10:00</text>
+<line class="ax" x1="263.5" y1="167" x2="263.5" y2="173"/>
+<text x="263.5" y="188.0" class="dimt" text-anchor="middle">11:00</text>
+<line class="ax" x1="352.9" y1="167" x2="352.9" y2="173"/>
+<text x="352.9" y="188.0" class="dimt" text-anchor="middle">12:00</text>
+<line class="ax" x1="442.4" y1="167" x2="442.4" y2="173"/>
+<text x="442.4" y="188.0" class="dimt" text-anchor="middle">13:00</text>
+<line class="ax" x1="531.8" y1="167" x2="531.8" y2="173"/>
+<text x="531.8" y="188.0" class="dimt" text-anchor="middle">14:00</text>
+<line class="ax" x1="621.2" y1="167" x2="621.2" y2="173"/>
+<text x="621.2" y="188.0" class="dimt" text-anchor="middle">15:00</text>
+<line class="ax" x1="710.6" y1="167" x2="710.6" y2="173"/>
+<text x="710.6" y="188.0" class="dimt" text-anchor="middle">16:00</text>
+<line class="ax" x1="800.0" y1="167" x2="800.0" y2="173"/>
+<text x="800.0" y="188.0" class="dimt" text-anchor="middle">17:00</text>
+<line class="grid" x1="62.4" y1="170" x2="62.4" y2="142"/>
+<circle class="dot" cx="62.4" cy="170" r="4"/>
+<text x="68.4" y="130.0" class="key" text-anchor="start">08:45 · Health check</text>
+<text x="68.4" y="145.0" class="dimt" text-anchor="start">exposures, sample ratio, guardrails</text>
+<line class="grid" x1="84.7" y1="170" x2="84.7" y2="200"/>
+<circle class="dot" cx="84.7" cy="170" r="4"/>
+<text x="90.7" y="208.0" class="key" text-anchor="start">09:00 · The one deep task</text>
+<text x="90.7" y="223.0" class="dimt" text-anchor="start">ninety minutes, uninterrupted</text>
+<line class="grid" x1="218.8" y1="170" x2="218.8" y2="98"/>
+<circle class="dot" cx="218.8" cy="170" r="4"/>
+<text x="224.8" y="86.0" class="key" text-anchor="start">10:30 · Standup</text>
+<text x="224.8" y="101.0" class="dimt" text-anchor="start">what is live and blocked; no interim results</text>
+<line class="grid" x1="241.2" y1="170" x2="241.2" y2="244"/>
+<circle class="dot" cx="241.2" cy="170" r="4"/>
+<text x="247.2" y="252.0" class="key" text-anchor="start">10:45 · The corridor</text>
+<text x="247.2" y="267.0" class="dimt" text-anchor="start">a link, or a question back</text>
+<line class="grid" x1="308.2" y1="170" x2="308.2" y2="54"/>
+<circle class="dot" cx="308.2" cy="170" r="4"/>
+<text x="314.2" y="42.0" class="key" text-anchor="start">11:30 · Backlog refinement</text>
+<text x="314.2" y="57.0" class="dimt" text-anchor="start">which events fire; is it behind a flag</text>
+<line class="grid" x1="531.8" y1="170" x2="531.8" y2="288"/>
+<circle class="dot" cx="531.8" cy="170" r="4"/>
+<text x="537.8" y="296.0" class="key" text-anchor="start">14:00 · Design review</text>
+<text x="537.8" y="311.0" class="dimt" text-anchor="start">what the funnel supports; what variants cost</text>
+<line class="grid" x1="665.9" y1="170" x2="665.9" y2="142"/>
+<circle class="dot" cx="665.9" cy="170" r="4"/>
+<text x="659.9" y="130.0" class="key" text-anchor="end">15:30 · Not this squad's job</text>
+<text x="659.9" y="145.0" class="dimt" text-anchor="end">no comparison group; refer, offer a holdout</text>
+<line class="grid" x1="755.3" y1="170" x2="755.3" y2="200"/>
+<circle class="dot" cx="755.3" cy="170" r="4"/>
+<text x="749.3" y="208.0" class="key" text-anchor="end">16:30 · Writing</text>
+<text x="749.3" y="223.0" class="dimt" text-anchor="end">tomorrow's readout, before the numbers</text>
+</svg><figcaption>The shape of a good day: one shaded block of real work, one refinement session, one request declined and replaced, and no interim results spoken out loud.</figcaption></figure>
 <ul>
 <li><strong>08:45 · Health check.</strong> Not results: exposures against expectation,
 the sample ratio on each live test, guardrail alerts, and whether the
@@ -143,7 +218,7 @@ interpreting the number.</li>
 <p>The shape of a good day: one block of real work, one refinement session
 that makes a future test possible, one request declined and replaced with
 something better, and no interim results spoken out loud.</p>
-<h2>A week: the sprint gives you the rhythm</h2>
+<h2 id="a-week-the-sprint-gives-you-the-rhythm">A week: the sprint gives you the rhythm</h2>
 <p>A squad running a board already has a fixed week. The mistake is to let
 analysis float outside it; attach each piece of the method to a ceremony
 that already exists.</p>
@@ -184,7 +259,7 @@ one readout, one causal study in flight, two or three corridor requests
 deflected, instrumentation on four or five tickets. If tests started keeps
 climbing while tests read out does not, the programme is accumulating debt
 rather than knowledge.</p>
-<h2>The quarter: a list of questions, not tasks</h2>
+<h2 id="the-quarter-a-list-of-questions-not-tasks">The quarter: a list of questions, not tasks</h2>
 <p>A task backlog produces work. A question backlog produces knowledge, and
 knowledge is the only thing that compounds across quarters. &quot;Analyse the
 coupon funnel&quot; is a task and can be done badly forever; &quot;does removing
@@ -220,7 +295,7 @@ in staging, the metric exists in the catalog, and the flag is configured.
 Getting that into the team's shared definition of done is a ten-minute
 retro conversation, and it removes the single most common cause of a test
 starting a sprint late.</p>
-<h2>Mid-quarter arrivals</h2>
+<h2 id="mid-quarter-arrivals">Mid-quarter arrivals</h2>
 <p>It always does. Redemptions fall in Portugal; a retailer changes their
 feed; someone senior saw a chart. The agenda only holds if there is a
 visible, boring procedure for a new arrival, with a cost attached:</p>
@@ -248,7 +323,7 @@ exists and the person did not know where; the question was answered in a
 readout eight months ago; or the honest response is that none of these
 designs fit and there is no comparison group here, said out loud rather
 than shipped as a number anyway.</p>
-<h2>The traffic ceiling</h2>
+<h2 id="the-traffic-ceiling">The traffic ceiling</h2>
 <p>One region gives you one audience, and every question spends some of it.
 That single fact reaches further than any analysis choice: it decides
 which ideas are worth designing, how many can run at once, and how long
@@ -294,7 +369,7 @@ looks better.</li>
 not answerable at our traffic in less than four months, so let us either
 make the change bigger, pick a different metric, or decide it without a
 test and write down that we did.</p>
-<h2>The outcome you cannot see</h2>
+<h2 id="the-outcome-you-cannot-see">The outcome you cannot see</h2>
 <p>The purchase happens in a supermarket you do not own. A pet parent reads
 a feeding guide, claims a coupon, compares two formats, and then buys the
 bag at a retailer, at a vet clinic, or on a marketplace. Your product
@@ -326,7 +401,7 @@ instrumentation; it belongs to whoever holds panel data and the mix
 model. Routing it there is a better answer than a number you cannot
 defend.</li>
 </ol>
-<h2>What each person needs from you</h2>
+<h2 id="what-each-person-needs-from-you">What each person needs from you</h2>
 <ul>
 <li><strong>The PM</strong> needs sizing before commitment and a decision rule before
 launch, with the assumptions visible, so a readout under the estimate
@@ -347,7 +422,7 @@ sentence. You need back: the flag by default, stable assignment across
 sessions and devices, and no &quot;we will add tracking later&quot;, because
 later means the first weeks of data do not exist.</li>
 </ul>
-<h2>The eight ways this goes wrong</h2>
+<h2 id="the-eight-ways-this-goes-wrong">The eight ways this goes wrong</h2>
 <ol>
 <li><strong>Peeking.</strong> The platform shows a curve to anyone. Fix: sequential
 design up front, and a rule that nothing counts until Tuesday.</li>
@@ -368,7 +443,7 @@ span the change.</li>
 needs weekly becomes yours. Fix: build it once, hand over the link,
 protect the deep block.</li>
 </ol>
-<h2>The loop closes, and here it closes tighter</h2>
+<h2 id="the-loop-closes-and-here-it-closes-tighter">The loop closes, and here it closes tighter</h2>
 <p>What ships changes the data. In a squad running one or two tests at a
 time on a single region's traffic, that sentence has teeth: the loyalty
 onboarding you shipped in March is the reason the April baseline moved,
@@ -380,13 +455,35 @@ weigh things on every day, and the calibration is your job, because there
 is nobody else to do it.</p>
 
 </div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../intake/">The intake</a>
+    <a href="../theory/">The theory layer</a>
+    <a href="../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The six skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

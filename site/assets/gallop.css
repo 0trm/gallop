@@ -94,11 +94,28 @@ img,svg{max-width:100%}
 .nav .sw{display:flex;justify-content:flex-end}
 .nav a[aria-current="page"]{font-weight:700}
 .mode{display:inline-flex;border:1px solid var(--fg);font-family:var(--sans);
-      text-transform:uppercase;font-size:10px;letter-spacing:.14em;font-weight:600}
-.mode button{padding:6px 11px;border:0;background:none;color:inherit;font:inherit;
+      text-transform:uppercase;font-size:11px;letter-spacing:.14em;font-weight:600}
+.mode button{padding:11px 14px;min-height:36px;border:0;background:none;color:inherit;font:inherit;
              letter-spacing:inherit;cursor:pointer}
 .mode button+button{border-left:1px solid var(--fg)}
 .mode button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+/* --- skip link: the first tab stop on every page --------------------------- */
+.skip{position:absolute;left:-9999px;top:8px;z-index:10;padding:10px 14px;
+      background:var(--fg);color:var(--bg);font-family:var(--sans);text-transform:uppercase;
+      font-size:11px;letter-spacing:.14em;font-weight:600}
+.skip:focus{left:8px;text-decoration:none}
+
+/* --- the contents strip on a long page ------------------------------------ */
+.toc{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:stretch;
+     background:var(--bg);border-bottom:1px solid var(--line);padding:0 var(--gutter,0)}
+.toc .lab{display:flex;align-items:center;padding:10px 20px 10px 0;color:var(--dim)}
+.toc a{display:flex;align-items:center;padding:10px 16px;border-left:1px solid var(--line);
+       font-family:var(--sans);text-transform:uppercase;font-size:11px;letter-spacing:.14em;
+       font-weight:600}
+.toc a:hover{background:var(--wash);text-decoration:none}
+[id]{scroll-margin-top:56px}
+@media (max-width:620px){.toc{position:static}[id]{scroll-margin-top:0}}
 
 /* --- controls ------------------------------------------------------------ */
 .btn{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;
@@ -141,7 +158,40 @@ img,svg{max-width:100%}
 .bar .grow{flex:1}
 
 /* --- the foot band ------------------------------------------------------- */
-.foot{grid-template-columns:repeat(4,1fr);font-size:12px}
+.foot{grid-template-columns:1.5fr 1fr 1fr 1fr;font-size:12.5px;border-top:1px solid var(--line)}
+.foot > *{padding:24px 20px 28px}
+.foot .wm{font-size:22px;display:block;margin-bottom:8px}
+.foot p{margin:0;max-width:34ch;color:var(--body);line-height:1.6}
+.foot .lab{margin-bottom:10px;color:var(--dim)}
+.foot a,.foot span{display:block;line-height:1.95}
+.foot .dim{color:var(--dim)}
+
+/* --- figures: inline SVG that wears the page's ink ------------------------ */
+.fig{margin:24px 0 8px}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{font-size:12px;line-height:1.55;color:var(--dim);margin-top:10px;max-width:84ch}
+.fig text{font-family:var(--sans);font-size:11.5px;fill:var(--fg)}
+.fig .lab{font-family:var(--sans);text-transform:uppercase;letter-spacing:.14em;font-size:10px;fill:var(--dim)}
+.fig .dimt{fill:var(--dim)}
+.fig .key{font-weight:700}
+.fig .mono{font-family:var(--mono);font-size:11px}
+.fig .t-title{font-size:14px;font-weight:600}
+.fig .t-q{font-size:11.5px}
+.fig .t-edge{font-family:var(--mono);font-size:10.5px}
+.fig .sk{font-family:var(--mono);font-size:12.5px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.fig a:hover .sk{fill:var(--dim)}
+.fig .ax{stroke:var(--line-2);fill:none;stroke-width:1}
+.fig .grid{stroke:var(--line);fill:none;stroke-width:1}
+.fig .ln{stroke:var(--fg);stroke-width:1.5;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.fig .thin{stroke-width:1}
+.fig .dash{stroke-dasharray:4 3}
+.fig .dot{fill:var(--fg)}
+.fig .dot-o{fill:var(--bg);stroke:var(--fg);stroke-width:1.5}
+.fig .hbar{fill:var(--fg)}
+.fig .wash{fill:var(--wash)}
+.fig .node{fill:var(--bg);stroke:var(--fg);stroke-width:1}
+.fig .clock{fill:none;stroke:var(--fg);stroke-width:1}
+@media (max-width:620px){.fig text{font-size:14px}}
 
 @media (max-width:1080px){
   .nav{grid-template-columns:1fr 1fr}

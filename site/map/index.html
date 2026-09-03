@@ -7,7 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/gallop.css">
 <link rel="stylesheet" href="../assets/doc.css">
-<title>PDS Method Map</title>
+<title>The method map · gallop</title>
+<meta name="description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomize fork, and leaves as a decision, with measurement underneath and theory across the top.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <style>
@@ -142,9 +143,26 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .dg .t-edge{font-size:11.5px}
 .dg .t-note{font-size:10.5px}
 .dg .cont{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.dg .co circle{fill:var(--ink)}
+.dg .co text{fill:var(--paper);font-family:var(--f-mono);font-size:11px;font-weight:700}
+.callouts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;border:var(--hair)}
+.callouts li{display:flex;gap:14px;padding:16px 18px;border-bottom:var(--hair);border-right:var(--hair);min-width:0}
+.callouts li:nth-child(2n){border-right:0}
+.callouts li:nth-last-child(-n+2){grid-column:1/-1;border-right:0}
+.callouts li:last-child{border-bottom:0}
+.callouts .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);
+             font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
+             align-items:center;justify-content:center;margin-top:-2px}
+.callouts h4{font-family:var(--f-chrome);font-size:12px;font-weight:400;letter-spacing:.03em;margin:0 0 5px}
+.callouts p{font-size:12.5px;line-height:1.45;margin:0}
+.callouts .prod{margin-top:7px}
+.callouts .prod span{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-right:8px}
+.callouts .prod b{font-weight:600}
+@media (max-width:860px){.callouts{grid-template-columns:1fr}.callouts li{border-right:0}}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../">gallop</a>
   <a href="../map/" aria-current="page">The map</a>
   <a href="../intake/">The intake</a>
@@ -158,9 +176,9 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
 
-<div class="desk">
+<main class="desk" id="main">
 
 <section class="win">
   <div class="bar"><span class="close"></span><h2>field guide</h2><span class="grow"></span><span class="size"></span></div>
@@ -174,7 +192,9 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#what-is-on-the-page">On the page</a><a href="#order">Order</a><a href="#the-service-layer">Service layer</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a><a href="#compressed">Compressed</a></nav>
+
+<section class="win" id="the-map">
   <div class="bar"><span class="close"></span><h2>the map</h2></div>
   <div class="body">
     <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomize diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
@@ -274,6 +294,14 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   <line x1="450" y1="700" x2="450" y2="668" class="feed" marker-end="url(#m)"/>
   <line x1="760" y1="700" x2="760" y2="668" class="feed" marker-end="url(#m)"/>
   <text class="t-note" x="1158" y="688" text-anchor="end">consumed by every box above</text>
+  <g class="co"><circle cx="40" cy="184" r="11"/><text x="40" y="188" text-anchor="middle">1</text></g>
+  <g class="co"><circle cx="380" cy="196" r="11"/><text x="380" y="200" text-anchor="middle">2</text></g>
+  <g class="co"><circle cx="475" cy="96" r="11"/><text x="475" y="100" text-anchor="middle">3</text></g>
+  <g class="co"><circle cx="475" cy="300" r="11"/><text x="475" y="304" text-anchor="middle">4</text></g>
+  <g class="co"><circle cx="475" cy="520" r="11"/><text x="475" y="524" text-anchor="middle">5</text></g>
+  <g class="co"><circle cx="1070" cy="212" r="11"/><text x="1070" y="216" text-anchor="middle">6</text></g>
+  <g class="co"><circle cx="40" cy="-100" r="11"/><text x="40" y="-96" text-anchor="middle">7</text></g>
+  <g class="co"><circle cx="40" cy="700" r="11"/><text x="40" y="704" text-anchor="middle">8</text></g>
 </svg>
       <div class="legend">
         <div><i class="l-solid"></i><span>Measurement Framework</span></div>
@@ -287,20 +315,21 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="what-is-on-the-page">
   <div class="bar"><span class="close"></span><h2>what is on the page</h2></div>
   <div class="body">
     <div class="sec"><span class="n">1</span><h3>What is actually on the page</h3></div>
     <p class="prose" style="margin-bottom:22px">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
-    <div class="two">
-      <div class="card"><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><div class="prod"><span>produces</span><b>A hypothesis worth testing.</b></div></div>
-      <div class="card"><h4>Can you randomize?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this one answer.</p><div class="prod"><span>produces</span><b>A routing decision: yes or no.</b></div></div>
-      <div class="card"><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE (heterogeneous treatment effects: does the effect differ by segment).</p><div class="prod"><span>produces</span><b>An effect size.</b></div></div>
-      <div class="card"><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD (difference-in-differences), matching, IV (instrumental variables), ITS (interrupted time series).</p><div class="prod"><span>produces</span><b>An effect size.</b></div></div>
-      <div class="card"><h4>Statistical modeling</h4><p>Regression, forecasting, simulation, optimization, ML, uplift models. Sits below the main path, not on it. Two outgoing arrows, no incoming one from the question path.</p><div class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></div></div>
-      <div class="card"><h4>Decision</h4><p>Ship, kill, reallocate. Drawn as an ellipse rather than a rectangle: it is a terminal state, not another activity.</p><div class="prod"><span>produces</span><b>A change to the product, and new data.</b></div></div>
-      <div class="card" style="grid-column:1/-1"><h4>Theory layer</h4><p>The band across the top, drawn as a band because every box touches it. It has two halves. The knowledge repo is prose: one searchable entry per question, holding the design, the number, the decision and what you would do differently, with the losses written up as carefully as the wins. The prior store is a table: for each metric, the distribution of effects the last hundred tests actually produced. The repo is what a person reads before proposing anything; the store is what the platform reads when it sizes the test and again when it shrinks the readout. Not a stage. A memory, and the only object on the map that gets more valuable the longer the team runs.</p><div class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></div></div>
-    </div>
+    <ol class="callouts">
+      <li><span class="n">1</span><div><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><p class="prod"><span>produces</span><b>A hypothesis worth testing.</b></p></div></li>
+      <li><span class="n">2</span><div><h4>Can you randomize?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
+      <li><span class="n">3</span><div><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">4</span><div><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD, matching, IV, ITS.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Sits below the main path, not on it: two outgoing arrows, no incoming one from the question path.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
+      <li><span class="n">6</span><div><h4>Decision</h4><p>Ship, kill, reallocate. An ellipse because it is a terminal state, not another activity.</p><p class="prod"><span>produces</span><b>A change to the product, and new data.</b></p></div></li>
+      <li><span class="n">7</span><div><h4>Theory layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer the team runs.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
+      <li><span class="n">8</span><div><h4>Measurement framework</h4><p>The band underneath everything: north-star and core metrics, event instrumentation, the source of truth, the definition of success.</p><p class="prod"><span>produces</span><b>A number the rest of the map can stand on.</b></p></div></li>
+    </ol>
     <div class="note">
       <h4>The two arrow types, and the container</h4>
       <p>Solid arrows are the path a question travels. Dashed arrows are supports and feedback. That distinction carries most of the meaning on the page: solid means a question is moving forward through a stage, dashed means something is being supplied to a stage or looping back into it. One more dashed line closes the whole system. It leaves the decision, passes through the theory layer along the top, and re-enters exploratory analytics, labelled <span class="mark">what ships changes the data</span>. It goes through the ceiling rather than around it because a decision emits two things at once: a change to the product, and something you now know. The map is a loop, not a pipeline.</p>
@@ -308,7 +337,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="order">
   <div class="bar"><span class="close"></span><h2>order</h2></div>
   <div class="body">
     <div class="sec"><span class="n">2</span><h3>Why the stages sit in this order</h3></div>
@@ -339,7 +368,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="the-service-layer">
   <div class="bar"><span class="close"></span><h2>the service layer</h2></div>
   <div class="body">
     <div class="sec"><span class="n">3</span><h3>Where statistical modeling fits, and why it is off the path</h3></div>
@@ -365,7 +394,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="inside-the-box">
   <div class="bar"><span class="close"></span><h2>inside the box</h2></div>
   <div class="body">
     <div class="sec"><span class="n">4</span><h3>What is inside the experimentation box</h3></div>
@@ -455,7 +484,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="day-to-day">
   <div class="bar"><span class="close"></span><h2>day to day</h2></div>
   <div class="body">
     <div class="sec"><span class="n">5</span><h3>Using the map day to day</h3></div>
@@ -495,7 +524,7 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
   </div>
 </section>
 
-<section class="win">
+<section class="win" id="compressed">
   <div class="bar"><span class="close"></span><h2>compressed</h2></div>
   <div class="body">
     <div class="sec"><span class="n">6</span><h3>Holding the whole thing in your head</h3></div>
@@ -558,14 +587,35 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 </section>
 
 
-</div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../intake/">The intake</a>
+    <a href="../theory/">The theory layer</a>
+    <a href="../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The six skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

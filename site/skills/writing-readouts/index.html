@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../.././">gallop</a>
   <a href="../../map/">The map</a>
   <a href="../../intake/">The intake</a>
@@ -30,8 +31,10 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#1-the-readout">1 · The readout</a><a href="#2-the-belief">2 · The belief</a><a href="#3-the-knowledge-repo-entry">3 · The knowledge-repo entry</a><a href="#4-the-prior-store-record">4 · The prior-store record</a><a href="#done-defined">Done, defined</a></nav>
 
+<main id="main">
 <div class="band">
   <div class="secthead">
     <p class="lab">The ceiling</p>
@@ -59,7 +62,7 @@ readout, the knowledge-repo entry, and the prior-store record.</p>
 decision rule first and the result pasted in last. Writing the
 interpretation after seeing the number is how you end up interpreting the
 number.</p>
-<h2>1 · The readout</h2>
+<h2 id="1-the-readout">1 · The readout</h2>
 <p>Template: <a href="#ref-readout">templates/readout.md</a>. The order is the
 argument:</p>
 <ol>
@@ -86,7 +89,7 @@ about.</li>
 the MDE, never the word &quot;flat&quot; alone. A readout that ends in &quot;interesting,
 let us think about it&quot; has failed, and the failure happened at design time
 when the decision rule was not written.</p>
-<h2>2 · The belief</h2>
+<h2 id="2-the-belief">2 · The belief</h2>
 <p>The readout's number dies with the ticket. What survives is one sentence
 of theory: not &quot;variant B won, +2.1% on checkout completion&quot; but &quot;this
 product responds to friction removal at the payment step, worth about two
@@ -100,7 +103,7 @@ One step: &quot;friction at payment&quot;, not &quot;all friction everywhere&quo
 concretely (&quot;expires if the checkout flow is redesigned&quot;), because a
 stale belief keeps answering a question nobody re-asked.</li>
 </ul>
-<h2>3 · The knowledge-repo entry</h2>
+<h2 id="3-the-knowledge-repo-entry">3 · The knowledge-repo entry</h2>
 <p>Template: <a href="#ref-knowledge-entry">templates/knowledge-entry.md</a>.
 One searchable entry per question, holding the question, the decision it
 unblocked, the design, the number, the belief, and what you would do
@@ -110,7 +113,7 @@ in a year. Losses, nulls, broken tests and refusals are written with
 exactly the care of wins; an archive of wins is a marketing document,
 and an archive that records what did not work is the thing that stops
 the team paying twice for the same lesson.</p>
-<h2>4 · The prior-store record</h2>
+<h2 id="4-the-prior-store-record">4 · The prior-store record</h2>
 <p>The write that makes the next test cheaper. Append, never edit:</p>
 <pre><code>python -m gallop.priors append --store priors.jsonl --json '{
   &quot;id&quot;: &quot;2026-09-signup-form-simplify&quot;, &quot;metric&quot;: &quot;activation_rate&quot;,
@@ -132,7 +135,7 @@ and only the losses keep it there.</li>
 <li><strong><code>design</code> is honest</strong>: an ITS effect is recorded as <code>its</code>, so future
 sizing can weight it accordingly.</li>
 </ul>
-<h2>Done, defined</h2>
+<h2 id="done-defined">Done, defined</h2>
 <p>The ticket closes when: the readout is filed on the question issue, the
 belief is in the knowledge repo with its expiry event, the record is in
 the prior store, and the decision (ship, kill, iterate, rollback,
@@ -246,13 +249,35 @@ under · the event that expires it.&gt;</p>
 </ul>
 
 </details></div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../intake/">The intake</a>
+    <a href="../../theory/">The theory layer</a>
+    <a href="../../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The six skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

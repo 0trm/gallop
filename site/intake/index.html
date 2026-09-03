@@ -7,7 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/gallop.css">
 <link rel="stylesheet" href="../assets/doc.css">
-<title>Intake Algorithm</title>
+<title>The intake · gallop</title>
+<meta name="description" content="One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <style>
@@ -85,6 +86,15 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .meth td{padding:11px 14px 11px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
 .meth td:first-child{font-family:var(--f-chrome);font-size:11px;white-space:nowrap;padding-right:20px}
 .meth tr:last-child td{border-bottom:none}
+.meth .pic{width:64px;padding-right:8px}
+.pict{width:56px;height:28px;display:block}
+.pict .s{stroke:var(--ink);fill:none;stroke-width:1.5;stroke-linecap:round}
+.pict .d{stroke:var(--ink);fill:none;stroke-width:1;stroke-dasharray:3 2}
+.pict .w{stroke:var(--ink);fill:none;stroke-width:1;opacity:.4}
+.pict .f{fill:var(--ink)}
+.pict .o{fill:var(--paper);stroke:var(--ink);stroke-width:1.2}
+.pict text{font-family:var(--f-body);font-size:7px;fill:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .warn{display:flex;gap:16px;align-items:flex-start;margin-top:20px;padding-top:18px;
       border-top:1px solid var(--pasture-shade)}
 .opts{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
@@ -113,7 +123,8 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 .dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../">gallop</a>
   <a href="../map/">The map</a>
   <a href="../intake/" aria-current="page">The intake</a>
@@ -127,9 +138,9 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
 
-<div class="desk">
+<main class="desk" id="main">
 
 <section class="win">
   <div class="bar"><span class="close"></span><h2>intake</h2><span class="grow"></span><span class="size"></span></div>
@@ -273,13 +284,13 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
       <span class="keyto">keyed to causal inference</span>
       <h3>Pick by how</h3>
       <table class="meth">
-        <thead><tr><th>Method</th><th>Use it when</th></tr></thead>
+        <thead><tr><th class="pic"><span class="sr">Shape</span></th><th>Method</th><th>Use it when</th></tr></thead>
         <tbody>
-          <tr><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
-          <tr><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
-          <tr><td>Synthetic<br>control</td><td>one treated unit, many untreated ones to blend</td></tr>
-          <tr><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
-          <tr><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="s" d="M3 19H26M26 9H53"/><path class="d" d="M26 3V25"/></svg></td><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 22L53 18"/><path class="s" d="M3 16L26 13M26 6L53 2"/><path class="d" d="M26 13L53 10"/><path class="d" d="M26 2V26"/></svg></td><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 8L26 10L53 12M3 22L26 20L53 21M3 17L26 15L53 18"/><path class="s" d="M3 14L26 13L53 4"/><path class="d" d="M26 13L53 14"/><path class="d" d="M26 2V26"/></svg></td><td>Synthetic<br>control</td><td>one treated unit, many untreated ones to blend</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="f" cx="14" cy="6" r="2.6"/><circle class="f" cx="14" cy="14" r="2.6"/><circle class="f" cx="14" cy="22" r="2.6"/><circle class="o" cx="42" cy="8" r="2.6"/><circle class="o" cx="42" cy="15" r="2.6"/><circle class="o" cx="42" cy="23" r="2.6"/><path class="w" d="M17 6L39 8M17 14L39 15M17 22L39 23"/></svg></td><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="o" cx="8" cy="18" r="5"/><circle class="o" cx="28" cy="18" r="5"/><circle class="o" cx="48" cy="18" r="5"/><text x="8" y="20.5" text-anchor="middle">Z</text><text x="28" y="20.5" text-anchor="middle">X</text><text x="48" y="20.5" text-anchor="middle">Y</text><path class="s" d="M13 18H22M33 18H42"/><circle class="o" cx="38" cy="5" r="3.5"/><path class="d" d="M35 7L30 13M41 7L46 13"/></svg></td><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
         </tbody>
       </table>
       <div class="warn">
@@ -350,14 +361,35 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity
 </section>
 
 
-</div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../intake/">The intake</a>
+    <a href="../theory/">The theory layer</a>
+    <a href="../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The six skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

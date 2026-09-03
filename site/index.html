@@ -43,6 +43,11 @@
   .six .pos{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
             text-transform:uppercase;margin-bottom:10px}
 
+  .term .replay{margin-left:auto;background:none;border:1px solid var(--line);color:inherit;
+                font:inherit;letter-spacing:inherit;text-transform:inherit;padding:4px 9px;
+                cursor:pointer;min-height:26px}
+  .term .replay:hover{border-color:var(--fg)}
+
   @media (max-width:1080px){
     .hero,.steps,.demo,.six{grid-template-columns:1fr}
     .hero > *,.steps > *,.demo > *{border-right:0;border-bottom:1px solid var(--line)}
@@ -60,7 +65,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="./">gallop</a>
   <a href="map/">The map</a>
   <a href="intake/">The intake</a>
@@ -74,8 +80,9 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
 
+<main id="main">
 <div class="band cells hero">
   <div class="txt">
     <p class="lab">Open source &middot; MIT &middot; pre-1.0</p>
@@ -95,11 +102,11 @@
 <div class="band cells steps">
   <div class="step">
     <h4><span class="key">1.</span> Read the argument</h4>
-    <a class="cmd" href="map/"><span>the method map &middot; six positions, one page</span><span class="cp">Open &#8599;</span></a>
+    <a class="cmd" href="map/"><span>the method map &middot; six positions, one page</span><span class="cp">Open</span></a>
   </div>
   <div class="step">
     <h4><span class="key">2.</span> Then the one-minute version</h4>
-    <a class="cmd" href="intake/"><span>the intake &middot; one lookup, three questions, one gate</span><span class="cp">Open &#8599;</span></a>
+    <a class="cmd" href="intake/"><span>the intake &middot; one lookup, three questions, one gate</span><span class="cp">Open</span></a>
   </div>
 </div>
 
@@ -112,7 +119,8 @@
     <div>
       <div class="term">
         <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="dim" style="margin-left:6px">gallop &middot; routing-questions</span></div>
+          <span class="dim" style="margin-left:6px">gallop &middot; routing-questions</span>
+          <button type="button" class="replay" aria-label="Replay the routing">replay</button></div>
         <pre><span class="dim">&gt;</span> did the new onboarding lift D7 retention?
 
   <span class="key">lookup</span>   theory layer            2 prior tests on d7_retention, none on onboarding
@@ -154,15 +162,72 @@
       <a href="skills/writing-readouts/"><p class="pos dim">The ceiling</p><h3>writing-readouts</h3><p>The decision rule first, the result last. The belief, not just the number.</p></a>
   </div>
 </div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="./map/">The method map</a>
+    <a href="./intake/">The intake</a>
+    <a href="./theory/">The theory layer</a>
+    <a href="./practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="./skills/">The six skills</a>
+    <a href="./install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
+  /* The routing types itself out once, then replays on request. Reduced-motion
+     readers get the finished transcript and no replay control. */
+  (function () {
+    var pre = document.querySelector(".term pre");
+    var btn = document.querySelector(".term .replay");
+    if (!pre) return;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { if (btn) btn.hidden = true; return; }
+    var full = pre.innerHTML;
+    var lines = full.split("\n");
+    var timers = [];
+    function set(h) { pre.innerHTML = h + '<span class="cursor"></span>'; }
+    function play() {
+      timers.forEach(clearTimeout); timers = [];
+      pre.style.minHeight = pre.offsetHeight + "px";
+      var cut = lines[0].indexOf("</span> ") + 8;
+      var head = lines[0].slice(0, cut), q = lines[0].slice(cut);
+      var t = 0;
+      set(head);
+      for (var i = 1; i <= q.length; i++) {
+        (function (i) { timers.push(setTimeout(function () { set(head + q.slice(0, i)); }, t)); })(i);
+        t += 36;
+      }
+      t += 520;
+      var acc = head + q;
+      for (var j = 1; j < lines.length - 1; j++) {
+        acc += "\n" + lines[j];
+        (function (snap) { timers.push(setTimeout(function () { set(snap); }, t)); })(acc);
+        t += lines[j].trim() ? 300 : 140;
+      }
+      timers.push(setTimeout(function () { pre.innerHTML = full; }, t + 200));
+    }
+    play();
+    if (btn) btn.addEventListener("click", play);
+  })();
   (function () {
     var root = document.documentElement;
     var buttons = document.querySelectorAll(".mode button");

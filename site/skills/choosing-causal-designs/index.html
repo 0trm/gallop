@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../.././">gallop</a>
   <a href="../../map/">The map</a>
   <a href="../../intake/">The intake</a>
@@ -30,8 +31,9 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
 
+<main id="main">
 <div class="band">
   <div class="secthead">
     <p class="lab">Causation</p>
@@ -59,7 +61,7 @@ assumptions are doing the work the coin flip would have done.</p>
 <p>First, one check worth thirty seconds: is randomisation really unavailable?
 If the change has not fully shipped, a holdout or staggered rollout is still
 possible and strictly better. This skill is for the past tense.</p>
-<h2>The selection table</h2>
+<h2 id="the-selection-table">The selection table</h2>
 <p>Work down; take the first row whose conditions hold.</p>
 <table>
 <thead>
@@ -114,7 +116,7 @@ effect shape is unknown, it usually arrives with seasonality and other
 pushes, and the pre-trend projection cannot separate any of that. That
 case takes the last row: bounds at most, a referral to whoever owns mix
 modelling or panel data, and a holdout designed into the next flight.</p>
-<h2>What every design here must state</h2>
+<h2 id="what-every-design-here-must-state">What every design here must state</h2>
 <ol>
 <li><strong>The counterfactual, in one sentence.</strong> What would have happened
 without the change, and which data stands in for it. If the sentence
@@ -131,7 +133,7 @@ assertion, not an estimate.</li>
 exclude: the simultaneous marketing push, the seasonality no control
 captures, the unobservable that matching cannot see.</li>
 </ol>
-<h2>Discipline shared across all five</h2>
+<h2 id="discipline-shared-across-all-five">Discipline shared across all five</h2>
 <ul>
 <li><strong>Pick the design before computing the estimate</strong>, from the assignment
 story alone. Running three designs and reporting the one with the
@@ -463,13 +465,35 @@ is outside the noise distribution. Assumes no launch spillover into donor
 markets.&quot; Twin, gap, placebo distribution, assumption.</p>
 
 </details></div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../intake/">The intake</a>
+    <a href="../../theory/">The theory layer</a>
+    <a href="../../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The six skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {

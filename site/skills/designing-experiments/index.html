@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div class="band cells nav docnav">
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
   <a class="wm" href="../.././">gallop</a>
   <a href="../../map/">The map</a>
   <a href="../../intake/">The intake</a>
@@ -30,8 +31,10 @@
       <button type="button" data-set="dark" aria-pressed="false">Dark</button>
     </span>
   </span>
-</div>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#choice-1-the-randomisation-unit-and-interference">Choice 1 · The randomisation unit</a><a href="#choice-2-the-mde-from-the-prior-store">Choice 2 · The MDE</a><a href="#choice-3-log-exposure-not-eligibility">Choice 3 · Log exposure</a><a href="#choice-4-the-decision-rule-before-launch">Choice 4 · The decision rule</a><a href="#the-design-review-thirty-seconds">The design review, thirty seconds</a></nav>
 
+<main id="main">
 <div class="band">
   <div class="secthead">
     <p class="lab">Causation</p>
@@ -58,7 +61,7 @@ duration, guardrails, logging spec, and a decision rule. No plan, no flag.</p>
 status (<code>python -m gallop.priors registry --registry metrics.jsonl --status trusted</code>). If it is not there, this question belongs to <code>defining-metrics</code>
 first. And the hypothesis has a mechanism: if we change X, metric Y moves
 because Z. No mechanism, no test.</p>
-<h2>Choice 1 · The randomisation unit, and interference</h2>
+<h2 id="choice-1-the-randomisation-unit-and-interference">Choice 1 · The randomisation unit, and interference</h2>
 <p>Pick the unit the treatment actually touches, then check whether treating
 one unit changes another unit's experience. The full decision guides are
 <a href="#ref-randomisation-unit">reference/randomisation-unit.md</a> and
@@ -75,7 +78,7 @@ randomisation, decided now or never</strong>. No sample size fixes interference.
 audience across concurrent tests buys the same answers with wider
 intervals plus an interaction risk nobody will notice.</li>
 </ul>
-<h2>Choice 2 · The MDE, from the prior store</h2>
+<h2 id="choice-2-the-mde-from-the-prior-store">Choice 2 · The MDE, from the prior store</h2>
 <p>The minimum detectable effect is a fact about traffic and history, not an
 ambition. Compute it before anyone commits to the test:</p>
 <pre><code>python skills/designing-experiments/scripts/size_test.py \
@@ -109,7 +112,7 @@ or decide it untested and record that we did.</li>
 needing seven weeks will contain a holiday or a season; randomisation
 handles it, interpretation does not. An effect measured across Christmas is
 an effect measured across Christmas; the plan should say so.</p>
-<h2>Choice 3 · Log exposure, not eligibility</h2>
+<h2 id="choice-3-log-exposure-not-eligibility">Choice 3 · Log exposure, not eligibility</h2>
 <p>The most common bug in the chain and the one that survives longest. If the
 log records who was <em>bucketed</em> rather than who actually <em>saw</em> the variant,
 the estimate is diluted toward zero and nothing downstream flags it,
@@ -126,7 +129,7 @@ six-week test now needs eight.</li>
 below are a sample ratio mismatch and an event that stops firing on one
 platform; both are visible in volume within a day if anyone is looking.</li>
 </ul>
-<h2>Choice 4 · The decision rule, before launch</h2>
+<h2 id="choice-4-the-decision-rule-before-launch">Choice 4 · The decision rule, before launch</h2>
 <p>Written on the ticket before traffic starts, in the form: <em>if the interval
 excludes X, we ship; otherwise we do not.</em> Plus:</p>
 <ul>
@@ -143,7 +146,7 @@ chosen from the readout.</li>
 <li>The full pre-registration template is
 <a href="#ref-pre-registration">reference/pre-registration.md</a>.</li>
 </ul>
-<h2>The design review, thirty seconds</h2>
+<h2 id="the-design-review-thirty-seconds">The design review, thirty seconds</h2>
 <p>Before the flag flips, the plan states: unit and interference call; MDE,
 its source, and duration; exposure event and who owns its alerting;
 decision rule, guardrails, peeking policy, segment. If any line is blank,
@@ -305,13 +308,35 @@ the arms are no longer comparable populations.</li>
 </ul>
 
 </details></div></div>
+</main>
 
-<div class="cells foot">
-  <span>gallop</span>
-  <span class="dim">pre-1.0</span>
-  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
-  <span class="dim">MIT License &middot; 2026</span>
-</div>
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../intake/">The intake</a>
+    <a href="../../theory/">The theory layer</a>
+    <a href="../../practice/">The practice</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The six skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
 
 <script>
   (function () {
