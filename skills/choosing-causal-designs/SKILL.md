@@ -21,7 +21,7 @@ Work down; take the first row whose conditions hold.
 
 | Assignment looked like | Design | Needs |
 |---|---|---|
-| One unit (or everyone), one switch date, no untreated twin | **ITS** – [reference/its.md](reference/its.md) | A long, stable pre-period; no simultaneous shock |
+| One unit (or everyone), one sharp product switch on a known date, no untreated twin | **ITS** – [reference/its.md](reference/its.md) | A long, stable pre-period; no simultaneous shock; a discrete switch, not a diffuse push |
 | Some units got it, some did not, both observed before and after | **DiD** – [reference/did.md](reference/did.md) | Parallel pre-trends |
 | One treated unit, many untreated candidates to blend | **Synthetic control** – [reference/synthetic-control.md](reference/synthetic-control.md) | A donor pool the treatment did not touch |
 | Individuals selected themselves in, on things you can observe | **Matching** – [reference/matching-iv.md](reference/matching-iv.md) | Selection on observables (a strong claim; say it) |
@@ -32,6 +32,15 @@ The last row is a first-class exit, not a failure. Saying "there is no
 defensible number here" out loud beats shipping a number that dissolves
 under the first follow-up question, and the reference file says what to
 offer instead.
+
+One row needs guarding against a tempting misread: a **campaign or
+marketing push that ran everywhere at once is not an ITS candidate**, even
+though "everyone, one date" appears to match. ITS needs a discrete switch
+in the product itself; a media flight is a diffuse, ramping shock whose
+effect shape is unknown, it usually arrives with seasonality and other
+pushes, and the pre-trend projection cannot separate any of that. That
+case takes the last row: bounds at most, a referral to whoever owns mix
+modelling or panel data, and a holdout designed into the next flight.
 
 ## What every design here must state
 
