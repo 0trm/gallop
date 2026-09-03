@@ -13,4 +13,4 @@ Every function takes and returns arrays or DataFrames, never a database
 connection. Each module runs as a script: python -m gallop.<module> --help
 """
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
