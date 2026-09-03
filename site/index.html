@@ -22,7 +22,7 @@
   .hero{grid-template-columns:1.32fr .68fr}
   .hero .txt{padding:40px 20px 44px}
   .hero .d{font-size:52px;max-width:16ch;margin-top:14px}
-  .hero p.lede{font-size:17px;line-height:1.55;max-width:76ch;margin-top:18px;color:var(--body)}
+  .hero p.lede{font-size:15.5px;line-height:1.6;max-width:76ch;margin-top:18px;color:var(--body)}
   .hero .art{display:flex;align-items:center;justify-content:center;padding:24px}
 
   .steps{grid-template-columns:1fr 1fr}
@@ -221,37 +221,55 @@
 </footer>
 
 <script>
-  /* The routing types itself out once, then replays on request. Reduced-motion
-     readers get the finished transcript and no replay control. */
+  /* The three runs type themselves out in sequence, then replay on request.
+     Every pre reserves its finished height before it is emptied, so the frame
+     never resizes. Reduced-motion readers get the finished transcript and no
+     replay control. */
   (function () {
-    var pre = document.querySelector(".term pre");
+    var pres = Array.prototype.slice.call(document.querySelectorAll(".term .run pre"));
     var btn = document.querySelector(".term .replay");
-    if (!pre) return;
+    if (!pres.length) return;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) { if (btn) btn.hidden = true; return; }
-    var full = pre.innerHTML;
-    var lines = full.split("\n");
+
+    var CHAR = 22, PAUSE = 400, ROW = 190, GAP = 90, BETWEEN = 340;
+    var runs = pres.map(function (pre) {
+      var full = pre.innerHTML;
+      return { pre: pre, full: full, lines: full.split("\n") };
+    });
     var timers = [];
-    function set(h) { pre.innerHTML = h + '<span class="cursor"></span>'; }
+
+    /* the last run authors its own resting cursor, so do not add a second */
+    function show(pre, html) {
+      pre.innerHTML = html + (html.indexOf('class="cursor"') < 0
+        ? '<span class="cursor"></span>' : "");
+    }
+    function at(t, fn) { timers.push(setTimeout(fn, t)); }
+
     function play() {
       timers.forEach(clearTimeout); timers = [];
-      pre.style.minHeight = pre.offsetHeight + "px";
-      var cut = lines[0].indexOf("</span> ") + 8;
-      var head = lines[0].slice(0, cut), q = lines[0].slice(cut);
+      runs.forEach(function (r) {
+        r.pre.style.minHeight = r.pre.offsetHeight + "px";
+        r.pre.innerHTML = "";
+      });
       var t = 0;
-      set(head);
-      for (var i = 1; i <= q.length; i++) {
-        (function (i) { timers.push(setTimeout(function () { set(head + q.slice(0, i)); }, t)); })(i);
-        t += 36;
-      }
-      t += 520;
-      var acc = head + q;
-      for (var j = 1; j < lines.length; j++) {
-        acc += "\n" + lines[j];
-        (function (snap) { timers.push(setTimeout(function () { set(snap); }, t)); })(acc);
-        t += lines[j].trim() ? 300 : 140;
-      }
-      timers.push(setTimeout(function () { pre.innerHTML = full; }, t + 200));
+      runs.forEach(function (r, i) {
+        var cut = r.lines[0].indexOf("</span> ") + 8;
+        var head = r.lines[0].slice(0, cut), q = r.lines[0].slice(cut);
+        for (var c = 0; c <= q.length; c++) {
+          (function (snap) { at(t, function () { show(r.pre, snap); }); })(head + q.slice(0, c));
+          t += CHAR;
+        }
+        t += PAUSE;
+        var acc = head + q;
+        for (var j = 1; j < r.lines.length; j++) {
+          acc += "\n" + r.lines[j];
+          (function (snap) { at(t, function () { show(r.pre, snap); }); })(acc);
+          t += r.lines[j].trim() ? ROW : GAP;
+        }
+        at(t, function () { r.pre.innerHTML = r.full; });
+        if (i < runs.length - 1) { t += BETWEEN; }
+      });
     }
     play();
     if (btn) btn.addEventListener("click", play);
