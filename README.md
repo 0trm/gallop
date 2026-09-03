@@ -91,4 +91,4 @@ The site renders the skills and the two arguments:
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). Asset provenance is recorded in [NOTICE](NOTICE).
+MIT, see [LICENSE](LICENSE).
