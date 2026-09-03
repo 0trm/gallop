@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://0trm.github.io/gallop/schemas/metric-registry.schema.json",
+  "title": "Gallop metric registry entry",
+  "description": "One line of the JSONL metric registry. A metric is promotable only when every required field is filled in and `status` is trusted; the gaming field is mandatory because a metric nobody has thought about gaming is a metric that will be.",
+  "type": "object",
+  "required": ["name", "definition", "source", "unit_of_analysis", "direction", "gaming", "status"],
+  "properties": {
+    "name": { "type": "string", "description": "Snake-case metric name, the key the prior store uses" },
+    "definition": { "type": "string", "description": "The computation, precisely enough to reimplement" },
+    "source": { "type": "string", "description": "Source of truth: the table or model the number comes from" },
+    "unit_of_analysis": { "type": "string", "description": "What one observation is: user, session, order, day" },
+    "direction": { "type": "string", "enum": ["increase_good", "decrease_good"], "description": "Which way is better" },
+    "role": { "type": "string", "enum": ["primary", "guardrail", "diagnostic"], "description": "How experiments may use it" },
+    "gaming": { "type": "string", "description": "How this metric gets gamed, stated before it happens" },
+    "status": { "type": "string", "enum": ["trusted", "provisional", "deprecated"], "description": "Only trusted metrics carry a readout" },
+    "owner": { "type": "string", "description": "Who answers for the definition" },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://0trm.github.io/gallop/schemas/prior-store.schema.json",
+  "title": "Gallop prior store record",
+  "description": "One line of the append-only JSONL prior store. One record per readout. A correction is a new record carrying `supersedes`, never an edit. `expires_on` names the event that would invalidate the entry, not a date.",
+  "type": "object",
+  "required": ["id", "metric", "date", "design", "effect", "unit", "se", "n_per_arm", "decision"],
+  "properties": {
+    "id": { "type": "string", "description": "Unique record id, e.g. 2026-09-checkout-cta" },
+    "metric": { "type": "string", "description": "Registry name of the metric the effect is on" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Readout date, YYYY-MM-DD" },
+    "surface": { "type": "string", "description": "Where in the product the change ran" },
+    "design": { "type": "string", "enum": ["experiment", "switchback", "its", "did", "synthetic_control", "matching", "iv", "other"], "description": "How assignment happened" },
+    "effect": { "type": "number", "description": "Point estimate, in `unit`" },
+    "unit": { "type": "string", "enum": ["absolute", "pp", "relative"], "description": "absolute = metric units; pp = percentage points; relative = fractional lift" },
+    "se": { "type": "number", "description": "Standard error of `effect`, same unit" },
+    "n_per_arm": { "type": "integer", "description": "Units per arm at readout" },
+    "decision": { "type": "string", "description": "What was decided: ship, no-ship, iterate, ..." },
+    "conditions": { "type": "string", "description": "What was true when this held: season, mix, ramp" },
+    "expires_on": { "type": "string", "description": "The event that would invalidate this entry" },
+    "supersedes": { "type": "string", "description": "id of the record this one corrects" }
+  },
+  "additionalProperties": false
+}

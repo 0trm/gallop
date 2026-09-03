@@ -1,0 +1,11 @@
+-- Assignment and exposure counts by arm, for gallop.trust exposure.
+-- Exposure means the unit actually experienced the treatment surface, logged
+-- as $exposure_event; eligibility alone does not count.
+-- Standard SQL: runs unchanged on BigQuery and DuckDB.
+SELECT
+  $arm_column AS arm,
+  COUNT(DISTINCT $unit_column) AS assigned,
+  COUNT(DISTINCT CASE WHEN $exposure_event THEN $unit_column END) AS exposed
+FROM $table
+GROUP BY $arm_column
+ORDER BY arm

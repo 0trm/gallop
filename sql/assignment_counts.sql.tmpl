@@ -1,0 +1,9 @@
+-- Assignment counts by arm, for gallop.trust srm.
+-- Substitute with string.Template; every placeholder is an identifier.
+-- Standard SQL: runs unchanged on BigQuery and DuckDB.
+SELECT
+  $arm_column AS arm,
+  COUNT(DISTINCT $unit_column) AS assigned
+FROM $table
+GROUP BY $arm_column
+ORDER BY arm

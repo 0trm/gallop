@@ -31,7 +31,7 @@ def split_frontmatter(text: str):
 
 def scalar(fm: str, key: str):
     """Read one top-level scalar. Skills use flat frontmatter, so this is enough."""
-    m = re.search(rf"^{key}:[ \t]*(.+?)[ \t]*$", fm, re.M)
+    m = re.search(rf"^{key}:[ \t]*(.+?)[ \t]*$", fm, re.MULTILINE)
     return m.group(1).strip().strip("\"'") if m else None
 
 

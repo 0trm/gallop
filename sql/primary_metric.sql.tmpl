@@ -1,0 +1,11 @@
+-- One row per unit: arm, the primary metric, and its pre-period covariate,
+-- for gallop.variance cuped. The covariate must be fully determined before
+-- first exposure and defined for every unit (COALESCE, not a join that drops
+-- units with no history).
+-- Standard SQL: runs unchanged on BigQuery and DuckDB.
+SELECT
+  $unit_column AS unit,
+  $arm_column AS arm,
+  $metric_column AS y,
+  COALESCE($pre_metric_column, 0) AS x
+FROM $table
