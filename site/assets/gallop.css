@@ -130,6 +130,7 @@ img,svg{max-width:100%}
    Their markup calls a section a .win with a .bar header. Under this system a
    window is a cell, so the frame goes flat, the striped title bar becomes a
    labelled band, and the window furniture stops rendering. */
+.desk{--gutter:max(32px,calc((100% - 1200px) / 2))}   /* a 1200px column, centred; the diagrams are 1200 units wide */
 .win{background:var(--bg);border:1px solid var(--line);box-shadow:none}
 .bar{height:auto;min-height:38px;display:flex;align-items:center;gap:10px;
      padding:9px 20px;border-bottom:1px solid var(--line);
@@ -159,6 +160,7 @@ img,svg{max-width:100%}
   .nav > *:last-child{border-bottom:0}
   .nav .sw{justify-content:flex-start}
   .cells > *{padding:14px 18px}
+  .desk{--gutter:18px}
   .cmd{flex-wrap:wrap;gap:10px}
   .term pre{font-size:12px;padding:16px}
 }

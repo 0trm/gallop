@@ -6,38 +6,39 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
 <title>Intake Algorithm</title>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <style>
 .desk{display:flex;flex-direction:column;gap:0}
 .desk > .win{border-left:0;border-right:0;border-top:0}
-.body{padding:30px 26px 36px}
-.desk > footer{padding:22px 26px;border-bottom:1px solid var(--line)}
-
-.body{padding:32px}
+/* one centred content column; the band rules stay full-bleed. --gutter lives in gallop.css */
+.body{padding:32px var(--gutter) 40px}
+.desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
 
 .label{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 .tag{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:10px;
      font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px}
-h1{font-family:var(--f-chrome);font-size:38px;font-weight:400;line-height:1.05;margin:0;letter-spacing:.01em}
+h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
 h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
 h4{font-size:15px;font-weight:700;margin:0 0 5px}
 p{margin:0}
-.lead{font-size:17px;line-height:1.5;max-width:56ch}
+.lead{font-size:17px;line-height:1.5;max-width:66ch}
 .cap{font-size:12px;line-height:1.45}
-.prose{max-width:66ch;display:flex;flex-direction:column;gap:16px}
+.prose{max-width:84ch;display:flex;flex-direction:column;gap:16px}
 .mark{background:var(--vellum);padding:0 3px}
 
 .laws{background:var(--pasture);border:var(--hair)}
-.laws p{padding:14px 20px;font-size:14px;line-height:1.45}
+.laws p{padding:14px var(--gutter);font-size:14px;line-height:1.45}
 .laws p+p{border-top:1px solid var(--pasture-shade)}
 footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;padding:0 2px}
 
 /* diagram */
 figure.dg{margin:0}
 figure.dg{overflow-x:auto}
-.dg svg{display:block;width:100%;height:auto;min-width:900px;max-width:960px}
+/* 1:1 with the viewBox inside the column; below 900px the figure scrolls sideways rather than shrinking its labels */
+.dg svg{display:block;width:100%;height:auto;min-width:900px}
 .dg text{font-family:var(--f-body);fill:var(--ink)}
 .dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
 .dg .t-sub{font-size:11.5px}
@@ -50,8 +51,14 @@ figure.dg{overflow-x:auto}
 .dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
 .dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .dg .head{fill:var(--ink)}
-figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity:.8}
+figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
 @media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
+@media (max-width:960px){
+  /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
+  figure.dg::before{content:"scroll sideways for the whole diagram";display:block;position:sticky;left:0;
+                    font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+                    opacity:.55;margin-bottom:6px}
+}
 
 @media print{
   html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -59,8 +66,8 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
   h3,h4,.sec{break-after:avoid}
 }
 
-.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:start}
-.panels{display:grid;grid-template-columns:1.12fr 1fr;gap:34px;align-items:start}
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;align-items:start}
+.panels{display:grid;grid-template-columns:1.12fr 1fr;gap:34px;align-items:start;padding:0 var(--gutter)}
 .two-up{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 
 /* the key: a 1-bit band standing in for the original's tints */
@@ -69,11 +76,11 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
                      border-right:var(--hair);background-color:var(--paper)}
 .k-hatch .body::before{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
 .k-vert  .body::before{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
-.keyto{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+.keyto{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
        opacity:.55;display:block;margin-bottom:14px}
 
 .meth{width:100%;border-collapse:collapse;font-size:13px}
-.meth th{text-align:left;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;
+.meth th{text-align:left;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;
          text-transform:uppercase;padding:0 0 9px;border-bottom:var(--hair)}
 .meth td{padding:11px 14px 11px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
 .meth td:first-child{font-family:var(--f-chrome);font-size:11px;white-space:nowrap;padding-right:20px}
@@ -106,12 +113,14 @@ figcaption{font-size:12px;line-height:1.5;margin-top:20px;max-width:78ch;opacity
 .dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
-<div class="band cells nav">
+<div class="band cells nav docnav">
   <a class="wm" href="../">gallop</a>
   <a href="../map/">The map</a>
   <a href="../intake/" aria-current="page">The intake</a>
-  <a href="../#skills">The six skills</a>
-  <a href="https://github.com/0trm/gallop">GitHub &#8599;</a>
+  <a href="../skills/">Skills</a>
+  <a href="../theory/">Theory</a>
+  <a href="../practice/">Practice</a>
+  <a href="../install/">Install</a>
   <span class="sw">
     <span class="mode">
       <button type="button" data-set="light" aria-pressed="true">Light</button>
