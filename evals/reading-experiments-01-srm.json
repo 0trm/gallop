@@ -1,8 +1,8 @@
 {
   "skills": ["reading-experiments"],
-  "query": "Our checkout test finished and treatment won big: +3.4% relative on completion, p=0.002. Assignment counts are in counts.csv. The PM wants to ship today. Confirm the result?",
+  "query": "Before I present our checkout test tomorrow: a colleague ran a chi-square on the assignment counts (counts.csv, intended 50/50) and got p = 0.01, and now the team is saying the test has sample ratio mismatch and the whole thing is invalid. The primary result was +1.9pp on completion, CI [0.6, 3.2], full pre-registered horizon, exposure even across arms. Do we really have to throw the test away?",
   "files": {
-    "counts.csv": "arm,assigned\ncontrol,502114\ntreatment,494566\n"
+    "counts.csv": "arm,assigned\ncontrol,100576\ntreatment,99424\n"
   },
-  "expected_behavior": "Runs the SRM check before endorsing anything (the split is 50.38/49.62 at ~1M units, chi-square p far below 0.001, a clear SRM), declares the trust gate failed, refuses to validate the +3.4% or approve shipping, and works the cause taxonomy (assignment, execution, logging, ...) instead of suggesting a correction or reweighting. Without the skill, the model typically accepts the counts as close enough to 50/50 and endorses the win."
+  "expected_behavior": "Applies the SRM convention correctly: the check runs at alpha 0.001, not 0.05, precisely because it runs on every test and would otherwise cry wolf; p = 0.01 at these counts passes the gate, so the test is not invalidated and the +1.9pp result stands (worth noting the ratio is unusual and monitoring assignment on the next run, but not blocking). States the threshold and the reason for it rather than treating any p < 0.05 as a broken test. Without the skill, the model typically agrees that p = 0.01 indicates SRM and recommends distrusting or rerunning the test."
 }
