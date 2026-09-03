@@ -9,8 +9,8 @@ with the exceptions and deliberate omissions recorded here.
 |---|---|---|
 | `site/assets/mark.svg` | Original. Three riders carried on one galloping horse, the line drawing traced to a single path. | MIT, with the rest of the repo |
 | `site/assets/gallop-logo.png` | Original. The same drawing, filled. No longer used by the site; kept because the README history points at it. | MIT, with the rest of the repo |
-| `site/assets/favicon.svg` | Original. The logo's horse, riders removed, reduced to a 16x16 1-bit grid so it stays crisp at tab size. | MIT |
-| `site/assets/apple-touch-icon.png` | Original. Raster of `favicon.svg`. | MIT |
+| `site/assets/favicon.svg` | Original. A horseshoe, six nail holes, drawn as a ring sector for tab size; follows the OS colour scheme. | MIT |
+| `site/assets/apple-touch-icon.png` | Original. The same horseshoe at 180px on a white tile. | MIT |
 | `site/assets/gallop.css` | Original. The locked design system: two colours, three faces, a cell grid. | MIT |
 | Archivo | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
 | Courier Prime | Google Fonts, loaded by URL, not redistributed here | SIL Open Font License 1.1 |
