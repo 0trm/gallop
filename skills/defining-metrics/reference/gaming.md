@@ -8,7 +8,7 @@ was told to optimise.
 
 ## The patterns
 
-**Widen the numerator.** The cheapest game. "Activated" quietly grows to
+**Widen the numerator.** The cheapest game. "Activated" grows to
 include lighter and lighter actions; the rate climbs while the behaviour it
 stood for does not. Guardrail: pin the qualifying action list in the
 definition and version any change.

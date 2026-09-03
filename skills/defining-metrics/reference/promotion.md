@@ -57,7 +57,7 @@ week-over-week swing in the registry `notes`.
 The metric can move at the traffic and timescale a test actually has. A
 metric that is 95% determined by behaviour outside the product's control, or
 that responds to change with a six-week lag, can be a guardrail but should
-not be a primary. If the honest answer is "this cannot detectably move in a
+not be a primary. If the answer is "this cannot detectably move in a
 two-week test", promote a nearer proxy as primary instead and keep this one
 directional, and say so in `notes`.
 

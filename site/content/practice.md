@@ -102,7 +102,7 @@ notices that the quarter is empty: the day always looks full.
 - **15:30 · The request that is not this squad's job.** A brand manager
   wants to know what the summer campaign did. It ran across both
   countries with nothing held back, so there is no comparison group and
-  no honest answer at this squad's level. You say that, you point them at
+  no defensible number at this squad's level. You say that, you point them at
   whoever owns media measurement, and you offer the one thing you can
   give: a holdout design for the next one, if they come before the plan
   is locked.
