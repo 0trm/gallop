@@ -28,6 +28,19 @@ refused, not accommodated. This repo has been built once before and abandoned at
 - No module imports a database driver. SQL lives in `sql/` as `.sql.tmpl`,
   substituted with `string.Template` from the standard library.
 
+## The checks
+
+```
+pytest                              # package tests, one file per module
+ruff check src tests scripts        # lint
+python3 scripts/validate_skills.py  # skill limits
+python3 scripts/run_evals.py        # eval structure; --run executes with the claude CLI
+python3 site/build.py --check       # generated pages and README table in sync
+```
+
+All five run in CI. `site/build.py` (not the skill files' copies) is the one
+source for skill positions and the README table.
+
 ## Assets
 
 Nothing whose provenance is unclear enters the history. Git history is permanent
