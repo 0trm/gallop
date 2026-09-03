@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/gallop.css">
+<link rel="stylesheet" href="assets/doc.css">
 <style>
   /* The mark is inlined rather than loaded from assets/mark.svg so it inherits
      currentColor and follows the switch rather than the operating system. The
@@ -32,9 +33,10 @@
   .note p+p{margin-top:16px}
 
   .six{grid-template-columns:repeat(3,1fr)}
-  .six > div{border-bottom:1px solid var(--line);padding:20px}
-  .six > div:nth-child(3n){border-right:0}
-  .six > div:nth-child(n+4){border-bottom:0}
+  .six > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
+  .six > a:hover{background:var(--wash);text-decoration:none}
+  .six > a:nth-child(3n){border-right:0}
+  .six > a:nth-child(n+4){border-bottom:0}
   .six h3{font-family:var(--mono);font-size:14px;font-weight:700;margin:0}
   .six p{margin:0}
   .six p:last-child{font-size:12.5px;margin-top:8px;line-height:1.5;color:var(--body)}
@@ -44,7 +46,7 @@
   @media (max-width:1080px){
     .hero,.steps,.demo,.six{grid-template-columns:1fr}
     .hero > *,.steps > *,.demo > *{border-right:0;border-bottom:1px solid var(--line)}
-    .six > div{border-right:0;border-bottom:1px solid var(--line)!important}
+    .six > a{border-right:0;border-bottom:1px solid var(--line)!important}
     .hero .d{font-size:40px}
   }
   @media (max-width:620px){
@@ -58,12 +60,14 @@
 </head>
 <body>
 
-<div class="band cells nav">
+<div class="band cells nav docnav">
   <a class="wm" href="./">gallop</a>
   <a href="map/">The map</a>
   <a href="intake/">The intake</a>
-  <a href="#skills">The six skills</a>
-  <a href="https://github.com/0trm/gallop">GitHub &#8599;</a>
+  <a href="skills/">Skills</a>
+  <a href="theory/">Theory</a>
+  <a href="practice/">Practice</a>
+  <a href="install/">Install</a>
   <span class="sw">
     <span class="mode">
       <button type="button" data-set="light" aria-pressed="true">Light</button>
@@ -102,7 +106,7 @@
 <div class="band">
   <div class="secthead">
     <p class="lab">See it route</p>
-    <span class="dim">example run &middot; nothing installable yet</span>
+    <span class="dim">example run &middot; <a href="install/">install</a></span>
   </div>
   <div class="cells demo">
     <div>
@@ -139,15 +143,15 @@
 <div class="band" id="skills">
   <div class="secthead">
     <p class="lab">Six skills</p>
-    <span class="dim">one position on the map each &middot; 0 of 6 built, 1 in progress</span>
+    <span class="dim">one position on the map each &middot; all six written</span>
   </div>
   <div class="cells six">
-      <div><p class="pos dim">Routing</p><h3>routing-questions</h3><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></div>
-      <div><p class="pos dim">The floor</p><h3>defining-metrics</h3><p>A metric turned into a computation, a source of truth, and how it will be gamed.</p></div>
-      <div><p class="pos dim">Causation</p><h3>designing-experiments</h3><p>The four choices that cannot be repaired after launch. MDE comes from the prior store.</p></div>
-      <div><p class="pos dim">Causation</p><h3>reading-experiments</h3><p>SRM, exposure, the sequential bound, CUPED, shrinkage. Whether the result is a result.</p></div>
-      <div><p class="pos dim">Causation</p><h3>choosing-causal-designs</h3><p>ITS, DiD, synthetic control, matching, IV, and the exit that says there is no control group.</p></div>
-      <div><p class="pos dim">The ceiling</p><h3>writing-readouts</h3><p>The decision rule first, the result last. The belief, not just the number.</p></div>
+      <a href="skills/routing-questions/"><p class="pos dim">Routing</p><h3>routing-questions</h3><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></a>
+      <a href="skills/defining-metrics/"><p class="pos dim">The floor</p><h3>defining-metrics</h3><p>A metric turned into a computation, a source of truth, and how it will be gamed.</p></a>
+      <a href="skills/designing-experiments/"><p class="pos dim">Causation</p><h3>designing-experiments</h3><p>The four choices that cannot be repaired after launch. MDE comes from the prior store.</p></a>
+      <a href="skills/reading-experiments/"><p class="pos dim">Causation</p><h3>reading-experiments</h3><p>SRM, exposure, the sequential bound, CUPED, shrinkage. Whether the result is a result.</p></a>
+      <a href="skills/choosing-causal-designs/"><p class="pos dim">Causation</p><h3>choosing-causal-designs</h3><p>ITS, DiD, synthetic control, matching, IV, and the exit that says there is no control group.</p></a>
+      <a href="skills/writing-readouts/"><p class="pos dim">The ceiling</p><h3>writing-readouts</h3><p>The decision rule first, the result last. The belief, not just the number.</p></a>
   </div>
 </div>
 

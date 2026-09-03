@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The theory layer · gallop</title>
+<meta name="description" content="The prior store and the knowledge repo: the only object that compounds.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href=".././">gallop</a>
+  <a href="../map/">The map</a>
+  <a href="../intake/">The intake</a>
+  <a href="../skills/">Skills</a>
+  <a href="../theory/" aria-current="page">Theory</a>
+  <a href="../practice/">Practice</a>
+  <a href="../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band"><div class="doc">
+<h1>The theory layer</h1>
+<p>The band across the top of <a href="../map/">the map</a>, drawn as a band because every
+box touches it. It is not a stage and it is not a method: it is where the map
+keeps what it learned, and it is the only object in the whole system that
+gets more valuable the longer a team runs it. Everything else on the map
+answers a question and stops. The ceiling is where the answers accumulate
+into something the next question can stand on.</p>
+<p>It has two halves, and they are different kinds of object.</p>
+<h2>The knowledge repo</h2>
+<p>Prose. One searchable entry per question, holding the design, the number,
+the decision, and what you would do differently, with the losses written up
+as carefully as the wins. The repo is what a person reads before proposing
+anything.</p>
+<p>The unit is the question, not the ticket. Tickets get closed and archived by
+the board; a question outlives the feature that prompted it, and eight
+months later somebody proposes the same test. The entry is what turns that
+moment from a re-run into a lookup.</p>
+<p>What an entry has to contain:</p>
+<ul>
+<li><strong>The question</strong>, written so that two different answers were imaginable.
+If you cannot picture being surprised, it was not a question.</li>
+<li><strong>The decision it unblocked</strong>: what changed on the answer, and who made
+the call. A named person, a named choice.</li>
+<li><strong>The method</strong>: which bucket it landed in from the routing, and the
+design. Half of a roadmap's questions turn out not to be randomisable,
+and the entry is where that gets found out once instead of quarterly.</li>
+<li><strong>The number</strong>, shrunk, with its interval, or the honest statement that
+no defensible number existed.</li>
+<li><strong>The belief</strong>: the sentence that outlives the readout. Not &quot;variant B
+won, +2.1% on checkout completion&quot;, which dies with the ticket, but
+&quot;this product responds to friction removal at the payment step, about
+two points, and it held for six weeks&quot;, which the next three questions
+start from.</li>
+</ul>
+<h2>The prior store</h2>
+<p>A table. For each metric, the distribution of effects the last hundred
+tests actually produced. The store is what sizes the next test, and what
+the last readout gets shrunk toward.</p>
+<p>The store earns its keep twice per experiment:</p>
+<ol>
+<li><strong>At design time</strong>, the minimum detectable effect stops being a wish.
+The store says what this metric has actually moved by; a test powered
+for a lift nobody at this company has ever produced was decided before
+it launched. Effects are small and most ideas do nothing: seventy to
+ninety percent of experiments are killed or neutral everywhere it has
+been measured, so the honest prior mean is roughly zero, and only a
+store that records the losses keeps it there.</li>
+<li><strong>At readout</strong>, raw winners are inflated: a result reported because it
+crossed a threshold is, in expectation, an overstatement, and the
+overstatement grows as power falls. Empirical Bayes shrinkage toward
+the store's distribution is the correction, and the shrunk number is
+what gets written back, so the store deflates rather than inflates.</li>
+</ol>
+<h2>The format is the discipline</h2>
+<p>The store is an <strong>append-only JSONL file</strong>, one record per readout,
+validated on write. That is not a storage detail; each property is doing a
+job:</p>
+<ul>
+<li><strong>JSONL, in version control</strong>, because the store must be reviewable in a
+pull request. A store nobody can diff is a store that goes stale, and
+staleness is precisely the ceiling's failure mode.</li>
+<li><strong>Append-only</strong>, because the store is a log of what tests produced. A
+correction is a new record carrying <code>supersedes</code>, never an edit; the
+history of being wrong is part of what the store knows.</li>
+<li><strong>Validated on write</strong>, because a malformed record would flow into a
+shrinkage estimate without an error. The contract is published as JSON
+Schema:
+<a href="https://github.com/0trm/gallop/blob/main/templates/prior-store.schema.json">prior-store.schema.json</a>
+and
+<a href="https://github.com/0trm/gallop/blob/main/templates/metric-registry.schema.json">metric-registry.schema.json</a>,
+and <code>gallop.priors</code> enforces it.</li>
+</ul>
+<p>A record is thirteen flat fields:</p>
+<pre><code>id · metric · date · surface · design · effect · unit · se · n_per_arm
+decision · conditions · expires_on · supersedes
+</code></pre>
+<p><code>effect</code> and <code>se</code> are what shrinkage needs; <code>metric</code> plus <code>effect</code> across
+records is the distribution design reads. The rest is what makes an entry
+legible to a person a year later, which is the whole claim of the layer.</p>
+<h2>Dated, conditioned, and expiring</h2>
+<p>A wrong metric returns a confident number; a stale belief returns a
+confident answer to a question nobody re-asked. The two failure modes
+mirror each other, floor and ceiling, and the defence is structural rather
+than a matter of diligence:</p>
+<ul>
+<li>Every entry carries a <strong>date</strong> and the <strong>conditions</strong> it held under:
+season, mix, market, ramp.</li>
+<li>Every entry names its <strong>expiry event</strong>: not a date somebody has to
+remember, but the concrete ship or shift that would invalidate it.
+&quot;Expires if the checkout flow is redesigned.&quot; Whoever redesigns the
+checkout should trip over that line.</li>
+</ul>
+<p>This is why a dated entry with an expiry condition beats a quarterly
+write-up. The quarterly document is true on the day it is written and
+decays invisibly from then on; nothing in it says which paragraphs died
+when the March release changed the funnel. The entry expires itself, at
+the moment the world changes, because the thing that changed the world is
+named in the entry.</p>
+<p>The loop on the map closes through this layer: what ships changes the
+data, and the ship that contradicts a belief is the event that expires it.</p>
+<h2>Why this is the part worth keeping</h2>
+<p>Skip the theory layer and every quarter starts from zero: the team re-runs
+a test somebody ran two years ago, argues from memory about what a banner
+is worth, and powers each experiment as though it had never seen an effect
+size at this company before. The cost is not one wasted test; it is that
+nothing compounds.</p>
+<p>Run it, and the write-back is a condition of shipping rather than an act
+of virtue: nothing reaches every user without a link back to the
+experiment that justified it, and the readout that closes the test writes
+the belief in the same motion. Six skills in this repo exist to run one
+question around that loop; the layer is what makes the second question
+cheaper than the first.</p>
+
+</div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

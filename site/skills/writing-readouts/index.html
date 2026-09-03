@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>writing-readouts · gallop</title>
+<meta name="description" content="The decision rule first, the result last; the belief filed where the next question starts">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href="../.././">gallop</a>
+  <a href="../../map/">The map</a>
+  <a href="../../intake/">The intake</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../theory/">Theory</a>
+  <a href="../../practice/">Practice</a>
+  <a href="../../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band">
+  <div class="secthead">
+    <p class="lab">The ceiling</p>
+    <span class="dim">skills/writing-readouts</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">writing-readouts</h1>
+      <p class="skdesc">Writes an experiment or analysis readout with the decision rule first and the result last, converts the finding into a durable belief rather than a number, and files both the knowledge-repo entry and the prior-store record before the ticket closes. Use when a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year.</p>
+    </div>
+    <div>
+      <a class="cmd" href="https://github.com/0trm/gallop/tree/main/skills/writing-readouts">
+        <span>the source, ready to copy</span><span class="cp">GitHub &#8599;</span></a>
+      
+    </div>
+  </div>
+</div>
+<div class="band"><div class="doc">
+<h1>Writing readouts</h1>
+<p>The ceiling. A readout answers one question and dies with the ticket; a
+belief is what the next three questions start from. This skill produces
+three artifacts, and the ticket does not close until all three exist: the
+readout, the knowledge-repo entry, and the prior-store record.</p>
+<p>Write the readout skeleton <strong>before the numbers are final</strong>, with the
+decision rule first and the result pasted in last. Writing the
+interpretation after seeing the number is how you end up interpreting the
+number.</p>
+<h2>1 · The readout</h2>
+<p>Template: <a href="#ref-readout">templates/readout.md</a>. The order is the
+argument:</p>
+<ol>
+<li><strong>The decision rule, verbatim from the pre-registration.</strong> The readout
+is a comparison against a commitment, not a story about a number.</li>
+<li><strong>The trust gate verdict</strong> (SRM, exposure), one line each.</li>
+<li><strong>Guardrails</strong>, before the primary, in the plan's order.</li>
+<li><strong>The primary</strong>: effect, interval under the licence actually held
+(fixed-horizon or always-valid), the CUPED note, and the shrunk
+estimate beside the raw one. For causal designs: the identifying
+assumption and the falsification checks, in the same breath as the
+number.</li>
+<li><strong>The pre-registered segment.</strong> Only that one. Unregistered findings go
+in &quot;hypotheses opened&quot;, not in results.</li>
+<li><strong>The decision</strong>, as the rule dictates. If the rule and the human
+decision diverge (it happens), record both and why: that divergence is
+information about the rule.</li>
+<li><strong>The proxy bridge</strong>, if the metric is a proxy: one sentence naming
+what this result is assumed to be worth in the thing actually cared
+about.</li>
+</ol>
+<p>A null readout follows the identical template. &quot;No detectable effect above
+0.4pp (MDE), interval [−0.1, +0.5]&quot; is a finding; report the interval and
+the MDE, never the word &quot;flat&quot; alone. A readout that ends in &quot;interesting,
+let us think about it&quot; has failed, and the failure happened at design time
+when the decision rule was not written.</p>
+<h2>2 · The belief</h2>
+<p>The readout's number dies with the ticket. What survives is one sentence
+of theory: not &quot;variant B won, +2.1% on checkout completion&quot; but &quot;this
+product responds to friction removal at the payment step, worth about two
+points, and it held for six weeks.&quot; Write the belief with:</p>
+<ul>
+<li><strong>The lever</strong>, generalised one honest step beyond the variant tested.
+One step: &quot;friction at payment&quot;, not &quot;all friction everywhere&quot;.</li>
+<li><strong>The magnitude</strong>, shrunk, as an expectation for planning.</li>
+<li><strong>The conditions</strong> it held under: season, mix, market, ramp.</li>
+<li><strong>The expiry event</strong>: the ship or shift that would invalidate it, named
+concretely (&quot;expires if the checkout flow is redesigned&quot;), because a
+stale belief returns a confident answer to a question nobody re-asked.</li>
+</ul>
+<h2>3 · The knowledge-repo entry</h2>
+<p>Template: <a href="#ref-knowledge-entry">templates/knowledge-entry.md</a>.
+One searchable entry per question, holding the question, the decision it
+unblocked, the design, the number, the belief, and what you would do
+differently. Attach it to the question issue, not the feature ticket:
+tickets get archived by the board; the question is what someone searches
+in a year. Losses, nulls, broken tests and refusals are written with
+exactly the care of wins; an archive of wins is a marketing document,
+and an archive that records what did not work is the thing that stops
+the team paying twice for the same lesson.</p>
+<h2>4 · The prior-store record</h2>
+<p>The write that makes the next test cheaper. Append, never edit:</p>
+<pre><code>python -m gallop.priors append --store priors.jsonl --json '{
+  &quot;id&quot;: &quot;2026-09-signup-form-simplify&quot;, &quot;metric&quot;: &quot;activation_rate&quot;,
+  &quot;date&quot;: &quot;2026-09-03&quot;, &quot;surface&quot;: &quot;signup&quot;, &quot;design&quot;: &quot;experiment&quot;,
+  &quot;effect&quot;: 0.0021, &quot;unit&quot;: &quot;pp&quot;, &quot;se&quot;: 0.0009, &quot;n_per_arm&quot;: 41000,
+  &quot;decision&quot;: &quot;ship&quot;,
+  &quot;conditions&quot;: &quot;September traffic mix, pre-redesign flow&quot;,
+  &quot;expires_on&quot;: &quot;signup flow redesign&quot;}'
+</code></pre>
+<p>Rules the schema enforces or the discipline requires:</p>
+<ul>
+<li><strong>The shrunk effect</strong> is what gets recorded, with its se. Recording raw
+winners re-inflates the very store that exists to deflate them.</li>
+<li><strong>Nulls and losses are appended too.</strong> A store holding only wins is a
+prior that says everything works; the honest prior mean is near zero
+and only the losses keep it there.</li>
+<li><strong>Corrections supersede.</strong> A later reanalysis appends a new record with
+<code>supersedes</code>; nothing is edited. The store is a log.</li>
+<li><strong><code>design</code> is honest</strong>: an ITS effect is recorded as <code>its</code>, so future
+sizing can weight it accordingly.</li>
+</ul>
+<h2>Done, defined</h2>
+<p>The ticket closes when: the readout is filed on the question issue, the
+belief is in the knowledge repo with its expiry event, the record is in
+the prior store, and the decision (ship, kill, iterate, rollback,
+no-measurement) is written on the issue by name. The loop this closes is
+the only object in the system that gets more valuable the longer it runs;
+measure the quarter by decisions produced and entries filed, not by wins.</p>
+
+<details class="refdoc" id="ref-knowledge-entry"><summary><span class="lab">template</span> knowledge-entry.md</summary>
+<h1>&lt;The question, phrased so two answers were imaginable&gt;</h1>
+<p>&lt;date filed · surface(s) · prior store id(s) · status: settled | superseded by <link>&gt;</p>
+<p><strong>Decision unblocked.</strong> &lt;What changed on the answer, and who made the call.
+A named person, a named choice.&gt;</p>
+<p><strong>Method.</strong> &lt;Which bucket it landed in from routing, and the design:
+experiment / its / did / synthetic_control / matching / iv /
+no-measurement. One line on why that was the right bucket.&gt;</p>
+<p><strong>The number.</strong> &lt;Shrunk effect, unit, interval, n, dates. For nulls: the
+interval and the MDE. For refusals: the reason no number exists.&gt;</p>
+<p><strong>The belief.</strong></p>
+<blockquote>
+<p>&lt;The sentence that outlives the ticket: lever, magnitude, conditions,
+and the event that expires it.&gt;</p>
+</blockquote>
+<p><strong>Expires when.</strong> <The concrete ship or shift that invalidates this entry.
+Whoever does that ship should trip over this line.></p>
+<p><strong>What we would do differently.</strong> &lt;One or two honest lines: the design
+choice that cost a week, the covariate that should have been logged, the
+segment that should have been registered. This field is why losses are
+worth filing.&gt;</p>
+<p><strong>Cost.</strong> &lt;Traffic-weeks and which surface it occupied, so the next
+prioritisation knows what answers cost here.&gt;</p>
+<hr />
+<p>Filing rules: one entry per question, attached to the question issue, not
+the feature ticket. Label with every surface it touches, so &quot;every coupon
+question ever asked&quot; is one filter. Losses, nulls and refusals get the
+same care as wins. Search this repo before scoping anything; that lookup
+is step 0 of routing-questions.</p>
+
+</details>
+<details class="refdoc" id="ref-readout"><summary><span class="lab">template</span> readout.md</summary>
+<h1>Readout · <experiment name></h1>
+<p>&lt;question issue link · flag name · dates run · readout date&gt;</p>
+<h2>The decision rule, as pre-registered</h2>
+<blockquote>
+<p>If the interval excludes <X>, we ship; otherwise &lt;kill | iterate&gt;.
+Registered <date>, amended &lt;date/none&gt;.</p>
+</blockquote>
+<h2>Trust gate</h2>
+<ul>
+<li>SRM: &lt;chi2, p, pass/fail&gt; (alpha 0.001)</li>
+<li>Exposure: &lt;pooled rate, differential p, verdict&gt;</li>
+</ul>
+<h2>Guardrails (read before the primary)</h2>
+<table>
+<thead>
+<tr>
+<th>Guardrail</th>
+<th>Movement</th>
+<th>Breach?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><crashes></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><latency></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><gaming guardrail from registry></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Primary metric: <registry name></h2>
+<ul>
+<li>Effect (raw): <value> <unit>, se <value></li>
+<li>Interval under the licence held: &lt;always-valid | fixed-horizon&gt; 95% CI
+[<lo>, <hi>]</li>
+<li>CUPED: rho <r>, variance reduction &lt;v%&gt; &lt;or: no pre-period covariate&gt;</li>
+<li>Shrunk toward the prior (<k> past readouts): <strong><value></strong> – the planning
+number</li>
+<li>MDE this test could see: <value></li>
+<li>&lt;For causal designs: identifying assumption, one sentence; falsification
+checks run and their results&gt;</li>
+</ul>
+<h2>Pre-registered segment: <segment></h2>
+<p>&lt;effect, interval. Nothing else. Unregistered observations go below.&gt;</p>
+<h2>Decision</h2>
+<p><strong>&lt;Ship | Kill | Iterate | Rollback | No-measurement&gt;</strong> – &lt;one sentence:
+how the rule dictated it, or why the human call diverged from the rule&gt;.</p>
+<p>&lt;If the metric is a proxy: the bridge sentence. &quot;This is a change in claim
+rate; we currently value a claim at <Y> redemptions, and that assumption is
+doing the work.&quot;&gt;</p>
+<h2>The belief</h2>
+<blockquote>
+<p>&lt;Lever, one step generalised · magnitude, shrunk · conditions it held
+under · the event that expires it.&gt;</p>
+</blockquote>
+<h2>Hypotheses opened</h2>
+<ul>
+<li>&lt;anything from unregistered cuts, phrased as next questions, not results&gt;</li>
+</ul>
+<h2>Filed</h2>
+<ul>
+<li>Knowledge entry: <link> · Prior store id: <id> · Decision on issue: <link></li>
+</ul>
+
+</details></div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>defining-metrics · gallop</title>
+<meta name="description" content="A metric turned into a computation, a source of truth, and a statement of how it will be gamed">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href="../.././">gallop</a>
+  <a href="../../map/">The map</a>
+  <a href="../../intake/">The intake</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../theory/">Theory</a>
+  <a href="../../practice/">Practice</a>
+  <a href="../../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band">
+  <div class="secthead">
+    <p class="lab">The floor</p>
+    <span class="dim">skills/defining-metrics</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">defining-metrics</h1>
+      <p class="skdesc">Turns a metric name into a computation, a source of truth, a registry entry, and a written statement of how it will be gamed, then decides whether it is trustworthy enough to promote. Use when defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated.</p>
+    </div>
+    <div>
+      <a class="cmd" href="https://github.com/0trm/gallop/tree/main/skills/defining-metrics">
+        <span>the source, ready to copy</span><span class="cp">GitHub &#8599;</span></a>
+      
+    </div>
+  </div>
+</div>
+<div class="band"><div class="doc">
+<h1>Defining metrics</h1>
+<p>The floor. Not a stage: everything above it inherits its errors, and a wrong
+definition does not raise an error, it returns a confident number. This skill
+produces four artifacts for one metric: a computation, a source of truth, a
+registry entry, and a statement of how the metric will be gamed. A metric
+missing any of the four is not ready to carry a readout.</p>
+<h2>When two numbers disagree</h2>
+<p>The most common entry point: the same metric shows different values in two
+places and nobody trusts either. Do not average them, and do not pick the
+one closer to expectations. Trace each to its query and diff the definitions.
+The difference is almost always one of five things, checked in this order:</p>
+<ol>
+<li><strong>Window</strong> – 7-day vs 28-day, calendar vs rolling, and the timezone the
+day boundary uses.</li>
+<li><strong>Filter</strong> – bots, internal traffic, test accounts, one market, one
+platform; applied in one query and not the other.</li>
+<li><strong>Unit and dedup</strong> – users vs sessions vs events, and whether repeats
+within the window count once or every time.</li>
+<li><strong>Join</strong> – a join that drops units with no activity, turning a rate's
+denominator into &quot;active units&quot; without anyone deciding that.</li>
+<li><strong>Freshness</strong> – one source lags the other; the numbers were never
+computed over the same days.</li>
+</ol>
+<p>Name the discrepancy mechanically (&quot;A excludes bounced sessions, B does
+not&quot;), then decide which definition serves the decision the metric exists
+for, and register that one. The other query gets updated or deleted, not left
+as a second opinion.</p>
+<h2>Writing the definition</h2>
+<p>A definition is precise enough when someone could reimplement it from the
+text alone and match the number. It states:</p>
+<ul>
+<li><strong>The computation.</strong> Numerator, denominator, window, dedup rule, filters.
+&quot;Activation rate: users who completed at least one core action within 7
+days of signup / users who signed up, excluding internal and bot accounts,
+UTC days.&quot;</li>
+<li><strong>The unit of analysis.</strong> What one observation is: user, session, order,
+day. This is also what experiments randomise on, so a mismatch here
+becomes a broken analysis later.</li>
+<li><strong>The source of truth.</strong> One table or model, named. When a dashboard and
+the source disagree, the source is right by definition and the dashboard
+is a bug.</li>
+<li><strong>The direction.</strong> Which way is better. Sounds trivial; guardrails and
+automated checks need it explicit.</li>
+</ul>
+<h2>The proxy bridge</h2>
+<p>Most product metrics stand in for an outcome the product cannot observe (a
+purchase in someone else's store, long-run retention, revenue attributed
+weeks later). If this metric is a proxy:</p>
+<ul>
+<li><strong>Name the bridge in every readout.</strong> One sentence: this result is a
+change in X, here is what we currently believe X is worth in Y, and here
+is the assumption doing the work.</li>
+<li><strong>Validate the proxy on a schedule</strong>, against something real: cohorts,
+panel data, whatever exists. Once a year, off-roadmap, non-negotiable.</li>
+<li><strong>Prefer metrics whose outcome you own.</strong> Given two candidate framings of
+similar value, take the one that ends inside your own instrumentation.</li>
+</ul>
+<h2>How it will be gamed</h2>
+<p>Before the metric is used to judge anything, write down how a well-meaning
+team hits the number without creating the value it stands for. Every metric
+has at least one; a metric whose gaming nobody can describe is a metric
+nobody has thought about. Common patterns and worked examples are in
+<a href="#ref-gaming">reference/gaming.md</a>. The output is one or two
+sentences in the registry entry's <code>gaming</code> field, plus the guardrail metric
+that would catch it.</p>
+<h2>The promotion gate</h2>
+<p>A metric is <strong>trusted</strong> – promotable to primary or guardrail duty in
+experiments – only when the checklist in
+<a href="#ref-promotion">reference/promotion.md</a> passes: definition,
+source of truth, instrumentation validated end to end, gaming statement,
+owner, and stability checked over enough history to know its variance.
+Until then it is <strong>provisional</strong>: usable for exploration, barred from
+readouts. Retired definitions become <strong>deprecated</strong>, kept in the registry so
+old readouts remain interpretable.</p>
+<h2>The registry entry</h2>
+<p>The registry is a JSONL file beside the prior store, one metric per line,
+validated against <code>templates/metric-registry.schema.json</code>. Field-by-field
+guidance and a worked example are in
+<a href="#ref-registry-schema">reference/registry-schema.md</a>. Read it back
+with:</p>
+<pre><code>python -m gallop.priors registry --registry metrics.jsonl --status trusted
+</code></pre>
+<p>Experiments must take their primary metric from the registry, not from a
+text box. That single rule is what makes the floor hold: it turns every
+definition argument into a one-time cost instead of a per-readout one.</p>
+<h2>Maintenance</h2>
+<p>The definition of success is maintained continuously, like calibrating a
+scale you weigh things on every day, not set once in January:</p>
+<ul>
+<li><strong>Every ship changes the data.</strong> A launched feature changes user mix and
+event volume; after a significant ship, check that the metric still means
+what it meant. This is the dashed loop on the method map closing.</li>
+<li><strong>Version changes.</strong> When a definition changes, bump it explicitly, note
+the change date on any chart spanning it, and treat pre/post numbers as
+different series. Metric drift in the catalog is how last year's numbers
+stop matching without anyone deciding anything.</li>
+<li><strong>Alert on the floor, not the ceiling.</strong> The two failures that ruin tests
+from below are events that stop firing on one platform and exposure logs
+that drift; alert on event volume, not just on metric values.</li>
+</ul>
+<h2>Hand-back</h2>
+<p>To the question that routed here: a number the rest of the map can stand on.
+State what changed (the definition, the source, or both), what the corrected
+current value is, and which past readouts, if any, are now suspect. Then
+re-enter <code>routing-questions</code> with the original question, which can now be
+answered on a floor that holds.</p>
+
+<details class="refdoc" id="ref-gaming"><summary><span class="lab">reference</span> gaming.md</summary>
+<h1>How metrics get gamed</h1>
+<p>Goodhart's law, made operational: when a measure becomes a target, it stops
+measuring. The registry requires a <code>gaming</code> statement because the failure is
+predictable before it happens, and predicting it names the guardrail. None of
+these require bad faith; each is a reasonable team optimising exactly what it
+was told to optimise.</p>
+<h2>The patterns</h2>
+<p><strong>Widen the numerator.</strong> The cheapest game. &quot;Activated&quot; quietly grows to
+include lighter and lighter actions; the rate climbs while the behaviour it
+stood for does not. Guardrail: pin the qualifying action list in the
+definition and version any change.</p>
+<p><strong>Shrink the denominator.</strong> Filter out the users least likely to convert
+(bots today, then low-intent channels, then a whole platform) and the rate
+rises with no change in anyone's behaviour. Guardrail: report the
+denominator's absolute size next to every rate.</p>
+<p><strong>Move volume across the boundary.</strong> A 7-day activation window teaches teams
+to cram nudges into day 6 and steal from day 8. The metric improves; the
+user's month does not. Guardrail: a longer-window twin of the same metric,
+read directionally.</p>
+<p><strong>Cannibalise the neighbour.</strong> Clicks on the promoted module go up because
+clicks on the module below it went down. Any surface-level metric can be fed
+by its neighbours. Guardrail: a same-page total, so reshuffling nets to zero
+unless something real happened.</p>
+<p><strong>Harvest intent instead of creating it.</strong> Attribution games: intercept users
+who would have converted anyway (branded search, checkout interstitials) and
+book them as caused. Guardrail: incrementality checks by experiment, not by
+attribution model.</p>
+<p><strong>Degrade the unmeasured.</strong> Push the measured number by spending something
+the registry does not watch: latency, support load, refund rate, trust.
+Guardrail: the standing guardrail set (crashes, latency, refunds,
+unsubscribes) attached to every experiment by default.</p>
+<p><strong>Ship the prompt, not the product.</strong> Any metric countable as &quot;users who did
+X once&quot; is inflatable with a modal. The lift is real, the value is not, and
+retention of the prompted cohort shows it. Guardrail: cohort retention of
+prompted vs organic users on the same action.</p>
+<h2>Writing the statement</h2>
+<p>One or two sentences in the registry <code>gaming</code> field, concrete enough to
+recognise when it starts happening:</p>
+<blockquote>
+<p><code>activation_rate</code> – gamed by widening the qualifying action list or by
+day-6 nudges that move activation inside the window without changing
+week-4 retention. Guardrail: week-4 retention of activated users, and the
+action list is versioned.</p>
+</blockquote>
+<p>If no plausible gaming exists, write why. That is rare and worth recording;
+it usually means the metric is very close to actual value exchange, which is
+also the argument for its promotion.</p>
+
+</details>
+<details class="refdoc" id="ref-promotion"><summary><span class="lab">reference</span> promotion.md</summary>
+<h1>The promotion checklist</h1>
+<p>A metric moves from <code>provisional</code> to <code>trusted</code> only when every item below
+passes. Trusted is the status that licenses primary or guardrail duty in an
+experiment; everything else in the registry is context. Run the checklist as
+written, record the date it passed, and re-run it after any definition change.</p>
+<h2>1 · Definition closed</h2>
+<p>Someone who has never seen the codebase can reimplement the metric from the
+registry text and match the number within rounding. Test this literally when
+the stakes justify it: hand the definition to a second person, have them
+compute yesterday's value from the source of truth, compare.</p>
+<h2>2 · One source of truth</h2>
+<p>Exactly one table or model is named. Every surface that shows the metric
+(dashboard, report, experiment readout) reads from it or from a documented
+derivative. If two surfaces currently disagree, promotion is blocked until
+one of them is fixed or killed; a metric with two values is not a metric.</p>
+<h2>3 · Instrumentation validated end to end</h2>
+<p>The events the metric is built on have been traced from the client (or the
+service) to the warehouse at least once, by someone, on purpose:</p>
+<ul>
+<li>Fire the event in staging, watch it land in the source table with the
+expected fields.</li>
+<li>Check volume by platform and by market against expectation. The failure
+that hides best is an event that stopped firing for one platform or one
+country; the total looks plausible while a segment is dark.</li>
+<li>Confirm the identity join. A metric per user is only as good as the
+mapping from event to user, across devices and sessions.</li>
+</ul>
+<h2>4 · Gaming statement written</h2>
+<p>The <code>gaming</code> field is filled in with a plausible mechanism, and the guardrail
+that would catch it exists or is explicitly declined with a reason. See
+<a href="#ref-gaming">gaming.md</a>.</p>
+<h2>5 · Owner named</h2>
+<p>One person answers for the definition. Not a team: a person. The owner is
+who arbitrates the next disagreement and who signs off on version changes.</p>
+<h2>6 · Stability known</h2>
+<p>Enough history exists to know the metric's normal variance: week-over-week
+movement under no intervention, seasonality shape, and the size of day-level
+noise. Without this, no experiment on the metric can be sized honestly and
+no anomaly on it can be triaged. Concretely: pull at least eight weeks of
+daily values, compute the coefficient of variation, and record the typical
+week-over-week swing in the registry <code>notes</code>.</p>
+<h2>7 · Sensitivity plausible</h2>
+<p>The metric can move at the traffic and timescale a test actually has. A
+metric that is 95% determined by behaviour outside the product's control, or
+that responds to change with a six-week lag, can be a guardrail but should
+not be a primary. If the honest answer is &quot;this cannot detectably move in a
+two-week test&quot;, promote a nearer proxy as primary instead and keep this one
+directional, and say so in <code>notes</code>.</p>
+<h2>Demotion</h2>
+<p>Deprecate, never delete. A deprecated entry keeps its definition and dates so
+old readouts stay interpretable. Deprecation triggers: the definition was
+superseded, the instrumentation broke irrecoverably, or the gaming statement
+came true and the guardrail did not hold.</p>
+
+</details>
+<details class="refdoc" id="ref-registry-schema"><summary><span class="lab">reference</span> registry-schema.md</summary>
+<h1>The metric registry, field by field</h1>
+<p>One JSONL file, one metric per line, diffable in a pull request. The contract
+is <code>templates/metric-registry.schema.json</code>; <code>gallop.priors</code> validates every
+line on read and fails loudly with the line number on a malformed entry.</p>
+<h2>Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>What goes in it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>yes</td>
+<td>Snake-case, the key the prior store uses. Never reuse a name for a changed definition; version it (<code>activation_rate_v2</code>)</td>
+</tr>
+<tr>
+<td><code>definition</code></td>
+<td>yes</td>
+<td>The computation: numerator, denominator, window, dedup, filters, timezone. Precise enough to reimplement</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>yes</td>
+<td>The one table or model that is the source of truth</td>
+</tr>
+<tr>
+<td><code>unit_of_analysis</code></td>
+<td>yes</td>
+<td>What one observation is: <code>user</code>, <code>session</code>, <code>order</code>, <code>day</code>. Experiments randomise on this</td>
+</tr>
+<tr>
+<td><code>direction</code></td>
+<td>yes</td>
+<td><code>increase_good</code> or <code>decrease_good</code></td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>no</td>
+<td><code>primary</code>, <code>guardrail</code>, or <code>diagnostic</code>: how experiments may use it</td>
+</tr>
+<tr>
+<td><code>gaming</code></td>
+<td>yes</td>
+<td>How the metric gets hit without the value being created, and the guardrail that catches it</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>yes</td>
+<td><code>trusted</code>, <code>provisional</code>, or <code>deprecated</code>. Only trusted metrics carry a readout</td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td>no</td>
+<td>The person who answers for the definition</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>no</td>
+<td>Stability facts (typical weekly swing, seasonality), proxy bridge, version history</td>
+</tr>
+</tbody>
+</table>
+<h2>A worked entry</h2>
+<pre><code class="language-json">{&quot;name&quot;: &quot;activation_rate&quot;,
+ &quot;definition&quot;: &quot;users with &gt;=1 core action (save, share, or publish) within 7 days of signup / signups; excludes internal accounts and known bots; UTC day boundaries; user counted once&quot;,
+ &quot;source&quot;: &quot;warehouse.marts.user_activation&quot;,
+ &quot;unit_of_analysis&quot;: &quot;user&quot;,
+ &quot;direction&quot;: &quot;increase_good&quot;,
+ &quot;role&quot;: &quot;primary&quot;,
+ &quot;gaming&quot;: &quot;widen the qualifying action list, or day-6 nudges that move activation inside the window without moving week-4 retention; guardrail: week-4 retention of activated users&quot;,
+ &quot;status&quot;: &quot;trusted&quot;,
+ &quot;owner&quot;: &quot;0trm&quot;,
+ &quot;notes&quot;: &quot;weekly swing ~0.4pp under no intervention; signup mix shifts seasonally in September; v1 since 2026-05&quot;}
+</code></pre>
+<h2>Reading it</h2>
+<pre><code>python -m gallop.priors registry --registry metrics.jsonl
+python -m gallop.priors registry --registry metrics.jsonl --status trusted
+</code></pre>
+<p>The second form is what <code>designing-experiments</code> runs: an experiment's primary
+metric must come back from that filter. If it does not, the experiment is
+blocked on <code>defining-metrics</code>, not on more traffic.</p>
+<h2>Conventions</h2>
+<ul>
+<li>The registry lives in version control next to the prior store. Changes go
+through review; the reviewer is the owner.</li>
+<li>A definition change is a new version, not an edit: deprecate the old entry
+(set <code>status</code>), add the new one under a versioned name, and note the
+changeover date on any chart or readout that spans it.</li>
+<li>The registry is append-friendly but not append-only: <code>status</code> and <code>notes</code>
+may be edited in place. History lives in git, which is one of the two
+reasons the format is JSONL. The other is that a registry nobody can
+review in a pull request is a registry that goes stale.</li>
+</ul>
+
+</details></div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

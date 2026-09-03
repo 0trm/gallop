@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>designing-experiments · gallop</title>
+<meta name="description" content="The four choices that cannot be repaired after launch, with the MDE from the prior store">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href="../.././">gallop</a>
+  <a href="../../map/">The map</a>
+  <a href="../../intake/">The intake</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../theory/">Theory</a>
+  <a href="../../practice/">Practice</a>
+  <a href="../../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band">
+  <div class="secthead">
+    <p class="lab">Causation</p>
+    <span class="dim">skills/designing-experiments</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">designing-experiments</h1>
+      <p class="skdesc">Designs an A/B test around the four choices that cannot be repaired after launch: the randomisation unit and whether units interfere, the minimum detectable effect sized from prior experiments rather than from a wish, exposure logging rather than eligibility logging, and a decision rule written before traffic starts. Use when planning, powering, or pre-registering an experiment, when deciding whether a question is testable at the available traffic, or when a feature is about to ship without a flag.</p>
+    </div>
+    <div>
+      <a class="cmd" href="https://github.com/0trm/gallop/tree/main/skills/designing-experiments">
+        <span>the source, ready to copy</span><span class="cp">GitHub &#8599;</span></a>
+      <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/designing-experiments/scripts/size_test.py">scripts/size_test.py</a></li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="band"><div class="doc">
+<h1>Designing experiments</h1>
+<p>Four choices, none of which a bigger sample can fix afterwards. The output is
+an analysis plan attached to the ticket before the flag exists: unit, MDE,
+duration, guardrails, logging spec, and a decision rule. No plan, no flag.</p>
+<p>Precondition: the primary metric comes from the registry with <code>trusted</code>
+status (<code>python -m gallop.priors registry --registry metrics.jsonl --status trusted</code>). If it is not there, this question belongs to <code>defining-metrics</code>
+first. And the hypothesis has a mechanism: if we change X, metric Y moves
+because Z. No mechanism, no test.</p>
+<h2>Choice 1 · The randomisation unit, and interference</h2>
+<p>Pick the unit the treatment actually touches, then check whether treating
+one unit changes another unit's experience. The full decision guides are
+<a href="#ref-randomisation-unit">reference/randomisation-unit.md</a> and
+<a href="#ref-interference">reference/interference.md</a>; the short form:</p>
+<ul>
+<li>Default to the <strong>user</strong> (stable ID, consistent across sessions and
+devices). Randomising sessions or pageviews when the metric is per-user
+breaks the analysis before it starts.</li>
+<li>If units share supply, a feed, a market, an inventory, or each other's
+attention, the control group gets treated through the back door and the
+effect reads larger than it is. That is <strong>switchback or cluster
+randomisation, decided now or never</strong>. No sample size fixes interference.</li>
+<li>One live test per surface, in its own layer. Splitting the same scarce
+audience across concurrent tests buys the same answers with wider
+intervals plus an interaction risk nobody will notice.</li>
+</ul>
+<h2>Choice 2 · The MDE, from the prior store</h2>
+<p>The minimum detectable effect is a fact about traffic and history, not an
+ambition. Compute it before anyone commits to the test:</p>
+<pre><code>python skills/designing-experiments/scripts/size_test.py \
+  --store priors.jsonl --metric activation_rate \
+  --baseline-rate 0.12 --units-per-day 8000
+</code></pre>
+<p>The script reads what this metric has actually moved by across past tests,
+computes the MDE at the available traffic (the arithmetic is
+<code>2.8 × sqrt(2p(1-p)/n)</code> at the usual thresholds), and returns a verdict:
+fundable, or not at this traffic. Without a store, use <code>python -m gallop.power mde</code> and say out loud that the target is unanchored.</p>
+<p>Honest priors are humbling: most experiments move nothing, so the prior mean
+is roughly zero and typical true effects are a fraction of what gets
+proposed. If the MDE at your traffic is a 16% relative lift, a copy tweak is
+not a hypothesis, it is a hope. The design responses, in order of value:</p>
+<ol>
+<li><strong>Test a bigger swing.</strong> Propose changes large enough to plausibly clear
+the MDE. Saying which those are, before design work starts, is the job.</li>
+<li><strong>Spend effort on variance, not on more traffic.</strong> A pre-period covariate
+for CUPED (plan the covariate now; it must be fully determined before
+first exposure), a primary metric with a higher base rate, denominators
+you control, targeting the segment where the effect should be largest.</li>
+<li><strong>Move the primary metric closer to the change.</strong> The nearer metric is
+powered; keep the deeper one as a directional guardrail and say in the
+plan that it is underpowered.</li>
+<li><strong>Decide without a test, and write that down.</strong> The most valuable
+sentence in the quarter: this question is not answerable at our traffic
+in under four months, so make the change bigger, pick a nearer metric,
+or decide it untested and record that we did.</li>
+</ol>
+<p>Duration falls out of the same arithmetic (<code>size_test.py</code> prints it). A test
+needing seven weeks will contain a holiday or a season; randomisation
+handles it, interpretation does not. An effect measured across Christmas is
+an effect measured across Christmas; the plan should say so.</p>
+<h2>Choice 3 · Log exposure, not eligibility</h2>
+<p>The most common bug in the chain and the one that survives longest. If the
+log records who was <em>bucketed</em> rather than who actually <em>saw</em> the variant,
+the estimate is diluted toward zero and nothing downstream flags it,
+because the test looks exactly like a test that ran.</p>
+<ul>
+<li>Define the exposure event now: the moment a unit actually experiences the
+treatment surface, fired identically in both arms (control fires it on
+seeing the control surface).</li>
+<li>Give the data engineers a specification, not a request: event name,
+parameters, when it fires, and the query the readout will run. &quot;We will
+add tracking later&quot; means the first weeks of data do not exist and a
+six-week test now needs eight.</li>
+<li>Ask for alerting on event volume. The two failures that ruin tests from
+below are a sample ratio mismatch and an event that stops firing on one
+platform; both are visible in volume within a day if anyone is looking.</li>
+</ul>
+<h2>Choice 4 · The decision rule, before launch</h2>
+<p>Written on the ticket before traffic starts, in the form: <em>if the interval
+excludes X, we ship; otherwise we do not.</em> Plus:</p>
+<ul>
+<li><strong>Guardrails attached up front</strong>: crashes, latency, refunds,
+unsubscribes, and the gaming guardrail from the metric's registry entry.
+A guardrail breach means rollback, and a rollback is the system working.</li>
+<li><strong>Peeking policy decided now.</strong> If anyone will look before the horizon
+(they will; the platform shows everyone a curve), the test is sequential
+from the start: <code>python -m gallop.sequential bound</code> for always-valid
+monitoring or <code>obf</code> for a fixed look schedule. Deciding this after
+looking is not available.</li>
+<li><strong>One pre-registered segment</strong>, chosen from the mechanism, not eleven
+chosen from the readout.</li>
+<li>The full pre-registration template is
+<a href="#ref-pre-registration">reference/pre-registration.md</a>.</li>
+</ul>
+<h2>The design review, thirty seconds</h2>
+<p>Before the flag flips, the plan states: unit and interference call; MDE,
+its source, and duration; exposure event and who owns its alerting;
+decision rule, guardrails, peeking policy, segment. If any line is blank,
+the test is not designed yet. If all are filled, file the plan on the
+ticket; <code>reading-experiments</code> will hold the readout to exactly this plan,
+and <code>writing-readouts</code> will file what it taught.</p>
+
+<details class="refdoc" id="ref-interference"><summary><span class="lab">reference</span> interference.md</summary>
+<h1>Interference</h1>
+<p>The assumption every standard A/B analysis makes without saying so: one
+unit's assignment does not change another unit's outcome (SUTVA). When it
+fails, the control group is treated through the back door, the comparison
+is between two treated groups of different intensity, and the estimate is
+biased in a direction you can sometimes predict and often cannot. No sample
+size fixes it. It is decided at design time or not at all.</p>
+<h2>Where it lives</h2>
+<p><strong>Shared supply.</strong> Marketplaces, delivery, inventory, ad budgets. Pay one
+courier more and they take the jobs a control courier would have taken; the
+treatment effect reads as the sum of a real effect and a transfer. The
+canonical false win.</p>
+<p><strong>Feeds and social surfaces.</strong> Treated users post more, everyone's feed
+changes, control users respond to treated content. Effects leak both ways.</p>
+<p><strong>Ranking and recommendation.</strong> One model variant's clicks train the shared
+model, or the variants compete for the same slate positions.</p>
+<p><strong>Word of mouth and shared devices.</strong> Features visible between users
+(collaboration, gifting, referrals) recruit the control arm into treatment.</p>
+<p><strong>Capacity.</strong> Anything that saturates: support queues, fraud review,
+promo budgets. Treatment consumes shared capacity; control experiences the
+shortage.</p>
+<h2>The design responses</h2>
+<ol>
+<li><strong>Switchback.</strong> Flip the entire system between arms on a randomised
+schedule (hours or days). Handles supply-side interference directly.
+Costs: temporal correlation (analyse at slice level), carry-over
+(leave burn-in gaps), and day-of-week confounds (balance the schedule).</li>
+<li><strong>Cluster randomisation.</strong> Assign whole markets, cities, or social
+clusters, chosen so interference is contained within a cluster.
+Costs: effective n = number of clusters; needs many clusters to power.</li>
+<li><strong>Budget-split / slate-split designs.</strong> For ads and ranking: split the
+constraint itself (separate budgets, interleaved slates) so arms stop
+competing for one pool.</li>
+<li><strong>Accept and bound.</strong> If interference is plausibly small (a mostly
+single-player surface with a weak social edge), run user-level anyway,
+say so in the plan, and treat the estimate as an upper bound in the
+direction the leak inflates it. Written down before launch, this is a
+legitimate call; discovered afterwards, it is an excuse.</li>
+</ol>
+<h2>The design-time question</h2>
+<p>Ask it in one sentence at the review: <strong>if we treat half the users, does
+the other half's experience change through any shared resource?</strong> Name the
+resource or name &quot;none&quot;. If a resource is named, the design is switchback
+or cluster, and the duration arithmetic must be redone at the new unit,
+which usually changes the answer to &quot;is this testable at our traffic&quot;.</p>
+
+</details>
+<details class="refdoc" id="ref-pre-registration"><summary><span class="lab">reference</span> pre-registration.md</summary>
+<h1>Pre-registration</h1>
+<p>The analysis plan, written before the flag flips, attached to the ticket
+that launches the test. Its purpose is to make the readout a comparison
+against commitments rather than a negotiation with hindsight. Everything in
+it is short; all of it is binding.</p>
+<h2>The template</h2>
+<pre><code>EXPERIMENT        &lt;name, ticket link, flag name&gt;
+MECHANISM         if we change &lt;X&gt;, &lt;metric&gt; moves because &lt;Z&gt;
+UNIT              randomised on &lt;unit&gt;; analysis aggregates to &lt;unit&gt;
+INTERFERENCE      shared resource: &lt;named, or &quot;none&quot;&gt;; design: &lt;user | cluster | switchback&gt;
+ARMS &amp; SPLIT      &lt;arms and intended ratio&gt;
+PRIMARY METRIC    &lt;registry name, trusted status confirmed on YYYY-MM-DD&gt;
+MDE               &lt;value&gt; (&lt;source: prior store n=&lt;k&gt; | unanchored&gt;)
+POWER / ALPHA     0.80 / 0.05 unless stated; sequential: &lt;none | always-valid | OBF k looks&gt;
+DURATION          &lt;days&gt;, from &lt;units/day&gt;; calendar events in window: &lt;named&gt;
+EXPOSURE EVENT    &lt;event name&gt;; fires when &lt;moment&gt;; both arms; volume alert owned by &lt;who&gt;
+GUARDRAILS        &lt;crashes, latency, refunds, unsubscribes, + gaming guardrail from registry&gt;
+SEGMENT           one, pre-registered: &lt;segment, chosen from the mechanism&gt;
+DECISION RULE     if the interval excludes &lt;X&gt;, ship; else &lt;kill | iterate&gt;
+                  guardrail breach ⇒ rollback, readout still written
+READOUT DATE      &lt;the Tuesday it will be read, in the room&gt;
+</code></pre>
+<h2>The rules the template encodes</h2>
+<p><strong>The decision rule is a number, not a mood.</strong> &quot;If the interval excludes a
+0.2pp lift we ship&quot; survives contact with an ambiguous result;
+&quot;significant and meaningful&quot; does not. Write the rule so that both possible
+readouts lead to a named action.</p>
+<p><strong>The peeking policy is part of the design.</strong> If the platform will show
+anyone a curve before the horizon, the test is sequential from day one
+(always-valid bounds if looks are unscheduled, group-sequential if they are
+fixed), and the plan says which. The social half of the rule matters as
+much: nothing counts as a result until the scheduled readout, whatever the
+curve does on day three.</p>
+<p><strong>One segment.</strong> Chosen because the mechanism predicts a difference there,
+not because the platform offers eleven cuts. Anything found in an
+unregistered segment is a hypothesis for the next test, never a result of
+this one.</p>
+<p><strong>Guardrails are read before the primary.</strong> The order is part of the plan:
+trust gate, guardrails, then the primary metric. A win on the primary with
+a guardrail breach is a rollback, not a negotiation.</p>
+<p><strong>Amendments are dated.</strong> Reality intervenes: traffic shifts, a bug forces
+a restart. Amend the plan in writing, with the date and the reason, before
+the readout. An amended plan is honest; a retrofitted one is fiction.</p>
+<h2>Why this is worth a page of ceremony</h2>
+<p>Five of the six steps of an experiment can hand back a confident wrong
+number without the readout looking any different. Every line above pins one
+of those steps to a commitment made while nobody knew the answer. Written
+after the numbers are visible, the same lines are just the story of what
+happened; the entire value is in the timestamp.</p>
+
+</details>
+<details class="refdoc" id="ref-randomisation-unit"><summary><span class="lab">reference</span> randomisation-unit.md</summary>
+<h1>Choosing the randomisation unit</h1>
+<p>The unit is the thing the coin flip assigns. It fixes what the analysis may
+treat as independent, so it is the first choice and the least repairable.</p>
+<h2>The rule</h2>
+<p>Randomise on the unit that (a) experiences the treatment consistently and
+(b) the primary metric is defined on. When those two disagree, the analysis
+must aggregate to the randomisation unit, and the design must accept the
+power cost of doing so.</p>
+<h2>The options</h2>
+<p><strong>User (stable ID).</strong> The default. Survives sessions and devices if the ID
+does; check the identity join before trusting it. Anonymous or logged-out
+traffic randomised on cookies leaks across devices and clears; if the
+surface is pre-login, accept the dilution and note it, or move the test
+post-login.</p>
+<p><strong>Session or pageview.</strong> Only when the treatment is genuinely stateless (a
+ranking tweak, a latency change) and the metric is per-session. Never when
+the user can notice the interface changing between visits: inconsistency is
+itself a treatment, and not the one being tested.</p>
+<p><strong>Cluster: city, market, store, team.</strong> When the treatment cannot be held to
+individuals (pricing a market, a courier bonus, anything word-of-mouth) or
+when interference forces it (see interference.md). The effective sample size
+is closer to the number of clusters than the number of users; a two-country
+product has two clusters and therefore, for most designs, none to spare.</p>
+<p><strong>Time slice (switchback).</strong> The whole system flips between treatment and
+control on a schedule. The standard answer for marketplaces and anything
+with shared supply. Randomise the schedule, analyse at the time-slice
+level, leave burn-in gaps between flips so carry-over from one period does
+not contaminate the next.</p>
+<h2>The mismatch that produces false positives</h2>
+<p>Randomise on users, analyse on sessions, and every user contributes several
+correlated rows that the test treats as independent. The standard errors
+shrink, the false positive rate multiplies, and nothing looks wrong in the
+readout. Under a true null this can reject several times the nominal rate.</p>
+<p>The fix is mechanical: aggregate to the randomisation unit before testing
+(one row per user), or use a variance estimate that respects the clustering
+(delta method or a bootstrap over units). What is not available is reading
+the session-level t-test and hoping.</p>
+<p>Ratio metrics hide the same trap: sessions-with-conversion / sessions is a
+per-session metric under user randomisation. Aggregate to per-user rates, or
+delta-method it. The naive interval can be roughly half the honest width.</p>
+<h2>Practical checks</h2>
+<ul>
+<li>Write the unit into the analysis plan as a sentence: &quot;randomised on
+user_id from the assignment service; analysis aggregates to user.&quot;</li>
+<li>Confirm assignment is sticky: the same unit gets the same arm on every
+visit, across the whole test. Re-bucketing mid-test is an SRM in the
+making and an experience bug besides.</li>
+<li>Confirm the unit exists before exposure. Assigning at signup a treatment
+that changes the signup page is assigning downstream of treatment, and
+the arms are no longer comparable populations.</li>
+</ul>
+
+</details></div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

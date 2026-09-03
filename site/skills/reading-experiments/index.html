@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>reading-experiments · gallop</title>
+<meta name="description" content="Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href="../.././">gallop</a>
+  <a href="../../map/">The map</a>
+  <a href="../../intake/">The intake</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../theory/">Theory</a>
+  <a href="../../practice/">Practice</a>
+  <a href="../../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band">
+  <div class="secthead">
+    <p class="lab">Causation</p>
+    <span class="dim">skills/reading-experiments</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">reading-experiments</h1>
+      <p class="skdesc">Runs the trust gate on a finished experiment before the result is believed: sample ratio mismatch, exposure counts, always-valid or sequential bounds, guardrails read before the primary metric, the pre-registered segment rather than the most flattering one, CUPED variance reduction, and empirical Bayes shrinkage against the prior store. Use when analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment readout.</p>
+    </div>
+    <div>
+      <a class="cmd" href="https://github.com/0trm/gallop/tree/main/skills/reading-experiments">
+        <span>the source, ready to copy</span><span class="cp">GitHub &#8599;</span></a>
+      <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/reading-experiments/scripts/run_checks.py">scripts/run_checks.py</a></li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="band"><div class="doc">
+<h1>Reading experiments</h1>
+<p>Whether the result is a result. Five of the six steps in an experiment can
+hand back a confident wrong number without the readout looking any
+different, so the reading order is fixed and the checks come before the
+number. Read against the pre-registered plan; if no plan exists, say so
+first, because everything below weakens without one.</p>
+<p>The mechanical checks are scripted. Given assignment/exposure counts and
+unit-level data, run them in one pass:</p>
+<pre><code>python skills/reading-experiments/scripts/run_checks.py \
+  --counts counts.csv --data units.csv --y metric --x pre_metric --arm arm \
+  [--store priors.jsonl --metric activation_rate --unit pp]
+</code></pre>
+<p>Or individually via <code>python -m gallop.trust|variance|sequential|shrink</code>.</p>
+<h2>1 · The trust gate, before any effect</h2>
+<p>Two checks, and a failure at either stops the reading. Details and the
+cause taxonomy: <a href="#ref-trust-gate">reference/trust-gate.md</a>.</p>
+<ul>
+<li><strong>Sample ratio mismatch.</strong> Chi-square on assignment counts against the
+intended split (<code>gallop.trust.srm</code>, alpha 0.001). A 0.4% imbalance at a
+million units looks like nothing on a dashboard and is a broken test.
+On SRM: stop, do not analyse, work the cause taxonomy. There is no
+correction; a biased assignment is not a smaller sample, it is a
+different population per arm.</li>
+<li><strong>Exposure.</strong> Did the variant reach anyone, at the same rate in both
+arms? (<code>gallop.trust.exposure_check</code>). Differential exposure is a
+trigger bug and invalidates the comparison. Uniform under-exposure
+dilutes the ITT estimate toward zero by a known factor; report both the
+diluted and scaled numbers, labelled.</li>
+</ul>
+<h2>2 · Guardrails before the primary</h2>
+<p>Read the guardrail metrics first, in the plan's order. A win on the primary
+with a guardrail breach is a rollback, not a trade-off discussion, because
+the trade was already made when the guardrail was registered. A rollback
+triggered by a guardrail is the system working and still gets a readout.</p>
+<h2>3 · The effect, under the licence you actually have</h2>
+<ul>
+<li><strong>If the design was fixed-horizon and nobody looked early</strong>: the plain
+interval stands.</li>
+<li><strong>If anyone peeked without a sequential design</strong>: the nominal p-value is
+broken (daily peeking roughly triples the false positive rate) and the
+reported effect is selected on noise. Recompute against always-valid
+bounds (<code>python -m gallop.sequential bound</code>) and label the result as
+salvaged, not as designed.</li>
+<li><strong>If the design was sequential</strong>: read against the pre-declared boundary
+(<code>bound</code> for always-valid, <code>obf</code> for the fixed schedule). A day-three
+crossing of an always-valid bound is a licensed stop.</li>
+</ul>
+<p>Apply <strong>CUPED</strong> if a pre-period covariate exists
+(<code>gallop.variance.cuped</code>): the se falls by sqrt(1 - rho²), often the
+difference between a conclusive and an inconclusive read. Validity rule
+and failure modes: <a href="#ref-variance-reduction">reference/variance-reduction.md</a>.</p>
+<p><strong>A null is an interval, not a zero.</strong> &quot;No difference&quot; when the MDE was
+1.4pp means &quot;we could not have seen less than 1.4pp&quot;. Report the interval
+and the MDE every time; an underpowered null read as a kill is as wrong as
+a noise spike read as a win.</p>
+<h2>4 · Segments: the one you registered</h2>
+<p>Read the pre-registered segment. Do not read the other eleven the platform
+offers; with eleven cuts at alpha 0.05, finding a &quot;significant&quot; segment is
+the expected outcome under a true null. Anything interesting in an
+unregistered cut is a hypothesis for the next test, filed as one.</p>
+<h2>5 · Shrink toward what this metric actually does</h2>
+<p>Raw winners are inflated: conditioning on crossing a threshold selects the
+draws noise helped. Shrink the estimate toward the prior store's
+distribution for this metric (<code>gallop.shrink.from_store</code>); the shrunk
+number is the planning number and the one that gets written back. Mechanics
+and when shrinkage is not available:
+<a href="#ref-shrinkage">reference/shrinkage.md</a>.</p>
+<h2>6 · Time: novelty and decay</h2>
+<p>If the daily lift trends down across the run (regress daily lift on day; a
+negative slope with a positive intercept), the effect is novelty and the
+horizon-end average overstates the long run. A decay slower than the
+horizon is invisible to any test you can afford; the only instrument for
+that is a long-term holdback, so recommend one when the decision is
+expensive and the mechanism is plausibly novelty-driven.</p>
+<h2>The verdict</h2>
+<p>One of four, stated plainly with the decision rule beside it:</p>
+<ul>
+<li><strong>Trustworthy and clears the rule</strong> → ship; hand to <code>writing-readouts</code>.</li>
+<li><strong>Trustworthy and misses the rule</strong> → kill or iterate; hand to
+<code>writing-readouts</code> (nulls are filed with the same care as wins).</li>
+<li><strong>Trust gate failed</strong> → no result exists. Diagnose, fix, rerun. Also
+filed: a broken test is a lesson about the pipeline.</li>
+<li><strong>Salvage</strong> (peeked without licence, diluted exposure): a labelled,
+weaker number with its caveat attached in the same sentence, and a note
+in the readout that the next design fixes the licence.</li>
+</ul>
+<p>Every verdict flows to <code>writing-readouts</code>; the prior store only stays
+honest if losses and broken tests are written back as faithfully as wins.</p>
+
+<details class="refdoc" id="ref-shrinkage"><summary><span class="lab">reference</span> shrinkage.md</summary>
+<h1>Empirical Bayes shrinkage</h1>
+<p>The winner's-curse correction, and the moment the prior store pays for
+itself.</p>
+<h2>Why raw winners are inflated</h2>
+<p>A result is reported because it crossed a threshold. Conditioning on
+crossing selects the realisations noise pushed up, so the expected reported
+effect exceeds the true one, and the excess grows as power falls. An
+underpowered test that &quot;wins big&quot; is the most inflated object in the
+building: with 20% power, a just-significant result overstates the true
+effect by roughly a factor of two or more. The sign is usually right; the
+magnitude is not, which is worse for planning than a clean false positive.</p>
+<h2>The model</h2>
+<p>Normal-normal. The prior is what this metric has actually done, estimated
+from the store by method of moments:</p>
+<pre><code>mu   = mean of past effects
+tau² = max( var(past effects) − mean(past se²), 0 )
+</code></pre>
+<p>Posterior mean = w·effect + (1−w)·mu, with w = tau²/(tau² + se²).</p>
+<pre><code>python -m gallop.shrink eb --effect 0.0031 --se 0.0012 \
+    --store priors.jsonl --metric activation_rate --unit pp
+</code></pre>
+<p>Reading the output:</p>
+<ul>
+<li><strong>w near 1</strong>: the test was precise relative to how much true effects
+vary; the data mostly stands.</li>
+<li><strong>w near 0</strong>: the test was noisy relative to the metric's history; the
+estimate collapses toward the prior mean. This is not the method being
+timid, it is the observation carrying little information.</li>
+<li><strong>tau² = 0</strong>: past effects are indistinguishable from noise around their
+mean; the model is saying this metric has never produced a
+distinguishable effect, and the new result shrinks all the way to mu.
+That verdict is itself worth surfacing in the readout.</li>
+</ul>
+<p>The shrunk number is the planning number: what to forecast from, what to
+write into the prior store, what to tell the roadmap. The raw number and
+interval are still reported beside it, labelled.</p>
+<h2>Preconditions, checked by the tooling</h2>
+<ul>
+<li><strong>At least 3 past effects</strong> for the metric (<code>gallop.shrink</code> refuses
+fewer; below ~8 the prior itself is noisy, so say so).</li>
+<li><strong>One unit.</strong> Effects in <code>pp</code> do not pool with effects in <code>relative</code>;
+<code>from_store</code> refuses mixed units rather than averaging them.</li>
+<li><strong>Comparable readouts.</strong> The store should hold effects from the same
+metric under comparable designs; a store polluted with one 10x outlier
+from a pricing change will inflate tau² and under-shrink. <code>supersedes</code>
+exists for corrections; use it.</li>
+</ul>
+<h2>When there is no store</h2>
+<p>First tests at a company have no prior. Options, in honesty order: borrow
+the published base rate (most experiments do nothing; the honest prior mean
+is roughly zero, so at minimum discount the raw estimate mentally and say
+the readout is unshrunk); or start the store with this readout and accept
+that shrinkage begins from test four. What is not available is treating the
+raw number as a forecast: that is the exact error the correction exists for.</p>
+
+</details>
+<details class="refdoc" id="ref-trust-gate"><summary><span class="lab">reference</span> trust-gate.md</summary>
+<h1>The trust gate</h1>
+<p>Two mechanical checks that run before any effect is read. Both exist because
+their failure modes produce readouts indistinguishable from healthy ones.</p>
+<h2>Sample ratio mismatch</h2>
+<p>The check: chi-square goodness of fit of assignment counts against the
+intended split.</p>
+<pre><code>python -m gallop.trust srm --counts counts.csv        # columns: arm, assigned
+</code></pre>
+<p><strong>Alpha is 0.001, not 0.05, deliberately.</strong> The check runs on every
+experiment ever analysed; at 0.05 it would fire on one healthy test in
+twenty, be ignored within a quarter, and protect nothing. At 0.001 a firing
+means the test is broken, with high confidence.</p>
+<p><strong>Why there is no correction.</strong> An SRM means units left (or never entered)
+one arm non-randomly. The remaining populations differ in whatever made
+those units leave, which is usually correlated with the outcome. Reweighting
+cannot recover a comparison that randomisation no longer underwrites.</p>
+<p><strong>The cause taxonomy</strong> (Fabijan et al.), worked in order, stopping at the
+first that fits:</p>
+<ol>
+<li><strong>Assignment</strong> – bucketing bug, hash collision, a variant filter upstream.</li>
+<li><strong>Execution</strong> – one variant errors or times out; its events never arrive.</li>
+<li><strong>Logging</strong> – telemetry differs by variant; a slower page fires fewer
+beacons.</li>
+<li><strong>Experiment definition</strong> – the ramp changed mid-flight and the expected
+ratio was not updated. (The one benign cause: fix the expectation, not
+the test.)</li>
+<li><strong>Triggering</strong> – the trigger condition is itself affected by treatment.</li>
+<li><strong>Interference</strong> – units move between variants or share state.</li>
+<li><strong>Filtering</strong> – a bot or outlier filter removes units at different rates
+by variant.</li>
+</ol>
+<p>Check daily during the run, not once at the end: an SRM caught on day two
+costs two days; caught at readout it costs the whole test.</p>
+<h2>Exposure versus eligibility</h2>
+<p>The check: exposure counts per arm against assignment counts.</p>
+<pre><code>python -m gallop.trust exposure --counts counts.csv   # columns: arm, assigned, exposed
+</code></pre>
+<p>Two distinct failures:</p>
+<p><strong>Differential exposure</strong> (the exposed counts fail an SRM at the assignment
+split): the arms trigger unequally, which is a bug in the trigger or the
+surface, and the comparison is invalid outright. Treat exactly like an SRM.</p>
+<p><strong>Uniform dilution</strong> (both arms under-exposed at the same rate r): the
+intention-to-treat estimate is attenuated by roughly r. Two honest readings:</p>
+<ul>
+<li>ITT as measured, labelled &quot;diluted by exposure at r&quot;.</li>
+<li>The exposed-only comparison, if exposure is logged symmetrically in both
+arms (control fires the event on seeing the control surface). If only the
+treatment arm logs exposure, the exposed subsets are not comparable and
+scaling ITT by 1/r is the safer statement.</li>
+</ul>
+<p>The deeper fix belongs to design: log exposure, not eligibility, and alert
+on event volume so a dark platform or country is visible within a day. A
+test that &quot;ran fine&quot; with a 60% exposure rate was a test on a 40% smaller
+effect than anyone thought they were testing.</p>
+
+</details>
+<details class="refdoc" id="ref-variance-reduction"><summary><span class="lab">reference</span> variance-reduction.md</summary>
+<h1>Variance reduction at readout</h1>
+<h2>CUPED</h2>
+<p>Deng, Xu, Kohavi &amp; Walker (2013). Adjust the metric by a pre-experiment
+covariate that treatment cannot have touched:</p>
+<pre><code>Y_adj = Y - theta (X - mean(X)),   theta = Cov(Y,X) / Var(X)
+</code></pre>
+<p>Var(Y_adj) = Var(Y)(1 - rho²): the entire benefit is the squared pre/post
+correlation, so measure rho before promising anyone a number. At rho 0.7 the
+required sample halves; at rho 0.2 the gain is cosmetic.</p>
+<pre><code>python -m gallop.variance cuped --data units.csv --y metric --x pre_metric --arm arm
+</code></pre>
+<p><strong>The validity rule, in one sentence:</strong> the covariate must be fully
+determined before the first unit was exposed, and defined identically for
+every unit, including units with no history (impute a constant, usually the
+mean; never drop them).</p>
+<p><strong>Failure modes, in order of danger:</strong></p>
+<ol>
+<li><strong>Contaminated covariate.</strong> X computed over a window that overlaps the
+experiment, or otherwise touched by treatment. The only failure that
+biases the estimate rather than weakening it: CUPED then subtracts part
+of the true effect. If the covariate window's end is not provably before
+first exposure, do not use it.</li>
+<li><strong>Per-arm theta.</strong> Theta and mean(X) must be estimated pooled across
+arms. Estimated per arm, each theta fits its own arm's noise and most of
+the variance reduction is thrown away (<code>gallop.variance</code> pools; a
+hand-rolled version often does not).</li>
+<li><strong>Missing pre-period.</strong> New users have no history. Coverage c of the
+covariate cuts the reduction by roughly c²; with 40% coverage, expect
+~16% of the nominal gain. Report the effective rho, not the rho among
+covered users.</li>
+</ol>
+<p>The natural covariate is the same metric over an equal-length pre-period.
+Anything pre-treatment and correlated works; the same metric is usually the
+most correlated thing available.</p>
+<h2>The alternatives</h2>
+<p><strong>Post-stratification</strong> on a discrete covariate (platform, country,
+tenure): weight each stratum by its pooled share. Wins over CUPED only when
+the covariate is genuinely categorical or must be fixed before launch.</p>
+<p><strong>Triggered analysis</strong>: restrict to units that could have been affected at
+all. Not a variance trick on the same population; it changes the estimand
+to the effect on the triggered subset. Legitimate and often what the
+decision wants, but say which population the number is about.</p>
+<p><strong>What is not on the list:</strong> collecting more traffic. At readout the sample
+is what it is; the levers above are the only ones left, which is why the
+covariate is planned at design time.</p>
+
+</details></div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

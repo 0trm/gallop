@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Install · gallop</title>
+<meta name="description" content="Claude Code plugin, manual copy, or pip.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+
+</head>
+<body>
+
+<div class="band cells nav docnav">
+  <a class="wm" href=".././">gallop</a>
+  <a href="../map/">The map</a>
+  <a href="../intake/">The intake</a>
+  <a href="../skills/">Skills</a>
+  <a href="../theory/">Theory</a>
+  <a href="../practice/">Practice</a>
+  <a href="../install/" aria-current="page">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</div>
+
+<div class="band"><div class="doc">
+<h1>Install</h1>
+<p>Three ways in, in order of least friction. The skills are the interface; the
+Python package underneath exists because six calculations must be identical
+every time.</p>
+<h2>Claude Code plugin</h2>
+<pre><code>/plugin marketplace add 0trm/gallop
+/plugin install gallop@gallop
+</code></pre>
+<p>All six skills, invoked by name or picked up automatically when a question
+matches one. The bundled scripts call the <code>gallop</code> package, so add
+<code>pip install gallop</code> if you want the checks to run rather than be described.</p>
+<h2>Any other agent, or none</h2>
+<p>A skill is a directory of markdown. Copy what you need:</p>
+<pre><code>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/reading-experiments .claude/skills/
+</code></pre>
+<p>Works with anything that reads Agent Skills, and reads fine as prose:
+each <code>SKILL.md</code> is the procedure, the <code>reference/</code> files one level down are
+the depth.</p>
+<h2>The package</h2>
+<pre><code>pip install gallop
+</code></pre>
+<p><code>numpy</code>, <code>pandas</code>, <code>scipy</code>, nothing else. Every function takes and returns
+arrays or DataFrames, never a database connection; SQL for the three
+queries every readout needs ships as <code>string.Template</code> files in <code>sql/</code>.</p>
+<p>Prove it works in fifteen seconds, no configuration, no warehouse:</p>
+<pre><code>python -m gallop.examples.quickstart
+</code></pre>
+<p>That runs one simulated experiment through every check: an MDE, the SRM
+verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid
+interval, and the same effect shrunk toward a seeded prior store.</p>
+<h2>The modules</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>What it computes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gallop.power</code></td>
+<td>MDE, sample size, duration; two-proportion and continuous</td>
+</tr>
+<tr>
+<td><code>gallop.trust</code></td>
+<td>Sample ratio mismatch; exposure versus eligibility</td>
+</tr>
+<tr>
+<td><code>gallop.variance</code></td>
+<td>CUPED against a pre-period covariate</td>
+</tr>
+<tr>
+<td><code>gallop.sequential</code></td>
+<td>Always-valid confidence sequences; O'Brien-Fleming bounds</td>
+</tr>
+<tr>
+<td><code>gallop.shrink</code></td>
+<td>Empirical Bayes shrinkage toward the prior store</td>
+</tr>
+<tr>
+<td><code>gallop.priors</code></td>
+<td>The prior store and metric registry on disk, validated JSONL</td>
+</tr>
+</tbody>
+</table>
+<p>Each runs as a script too: <code>python -m gallop.trust srm --counts counts.csv</code>.</p>
+<h2>What it is not</h2>
+<p>Not an experimentation platform. It does not assign traffic, hold flags, or
+replace your warehouse. It routes the question, then runs the checks that
+stop the answer being a confident wrong number.</p>
+
+</div></div>
+
+<div class="cells foot">
+  <span>gallop</span>
+  <span class="dim">pre-1.0</span>
+  <a href="https://github.com/0trm/gallop">github.com/0trm/gallop &#8599;</a>
+  <span class="dim">MIT License &middot; 2026</span>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
