@@ -1,4 +1,4 @@
-<p align="center">
+<p align="right">
   <img src="site/assets/mark.svg" width="340" alt="Three riders carried on one galloping horse">
 </p>
 
