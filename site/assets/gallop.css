@@ -1,5 +1,5 @@
 /* gallop: the locked design system.
-   A hairline cell grid, one ink, one ground and one grey, three faces. Light is the
+   A hairline cell grid, one ink, one ground and one grey, two faces. Light is the
    default; dark is opt-in from the switch in the nav and is remembered per
    browser. prefers-color-scheme is deliberately not consulted, because the
    default is a design decision rather than a preference to inherit.
@@ -16,7 +16,7 @@
   --wash:rgba(0,0,0,.06);          /* hover, and the one fill that is not solid */
   --surface:#EDEDED;               /* the grey: chrome that sits apart from the page (foot, contents) */
 
-  /* --- three faces ------------------------------------------------------ */
+  /* --- two faces (display is Archivo bold) ------------------------------------------------------ */
   --disp:"Archivo",system-ui,sans-serif;
   --sans:"Archivo",Arial,sans-serif;
   --mono:"Courier Prime",ui-monospace,Menlo,monospace;
