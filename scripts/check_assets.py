@@ -3,7 +3,7 @@
 
 Git history is permanent: deleting a font binary in a later commit does not remove
 it. So this runs in CI and on every Pages build rather than being a rule someone
-remembers. What it enforces is written up in NOTICE.
+remembers. The rule is in CLAUDE.md under Assets.
 """
 # %%
 import re
@@ -12,8 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Font binaries: the design references Chicago, which this repo may not
-# redistribute. @font-face resolves it with local() only.
+# Font binaries: every face the site uses is loaded from Google Fonts, so a
+# font file in the tree is a file with unclear provenance.
 FONT_SUFFIXES = {".woff", ".woff2", ".ttf", ".otf", ".eot", ".ttc", ".dfont"}
 
 # Inlined fonts are the same problem wearing a data URI. The source documents
@@ -40,7 +40,7 @@ def main() -> int:
         rel = p.relative_to(ROOT)
 
         if p.suffix.lower() in FONT_SUFFIXES:
-            problems.append(f"{rel}: font binary. See NOTICE: fonts resolve via local() only.")
+            problems.append(f"{rel}: font binary. Fonts load from Google Fonts; nothing ships here.")
             continue
 
         if p.suffix.lower() not in TEXT_SUFFIXES:
@@ -56,7 +56,7 @@ def main() -> int:
             continue
 
         if INLINE_FONT.search(text):
-            problems.append(f"{rel}: inlined font data URI. Strip it; keep local() and the Google Fonts link.")
+            problems.append(f"{rel}: inlined font data URI. Strip it; keep the Google Fonts link.")
 
         for m in re.finditer(r"[\w./-]*(?:fonts?/[\w-]+\.(?:woff2?|ttf|otf))", text):
             problems.append(f"{rel}: references a font file that does not ship ({m.group(0)}).")
@@ -64,7 +64,7 @@ def main() -> int:
     for line in problems:
         print(f"FAIL  {line}", file=sys.stderr)
     if problems:
-        print(f"\n{len(problems)} asset problem(s). NOTICE explains the rule.", file=sys.stderr)
+        print(f"\n{len(problems)} asset problem(s). CLAUDE.md, Assets, explains the rule.", file=sys.stderr)
         return 1
 
     print("OK  no font binaries, no inlined fonts, no dangling font references")

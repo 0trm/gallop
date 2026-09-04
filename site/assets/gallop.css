@@ -5,14 +5,6 @@
    default is a design decision rather than a preference to inherit.
    The written version is gallop-aesthetic.md. */
 
-/* Chicago is not redistributable and no font file ships here: see NOTICE.
-   local() first, so a machine that has it uses it; everyone else lands on
-   Archivo, which is what the display role actually renders in today. */
-@font-face{
-  font-family:"Chicago"; font-style:normal; font-weight:400; font-display:swap;
-  src:local("Chicago"),local("ChicagoFLF");
-}
-
 :root{
   /* --- ground and ink. two values, and everything else is an alpha of them --- */
   --bg:#FFFFFF;
@@ -25,7 +17,7 @@
   --surface:#EDEDED;               /* the grey: chrome that sits apart from the page (foot, contents) */
 
   /* --- three faces ------------------------------------------------------ */
-  --disp:"Chicago","Archivo",system-ui,sans-serif;
+  --disp:"Archivo",system-ui,sans-serif;
   --sans:"Archivo",Arial,sans-serif;
   --mono:"Courier Prime",ui-monospace,Menlo,monospace;
 

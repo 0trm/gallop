@@ -45,7 +45,9 @@ source for skill positions and the README table.
 ## Assets
 
 Nothing whose provenance is unclear enters the history. Git history is permanent
-and deleting a file later does not remove it. See NOTICE.
+and deleting a file later does not remove it. No font binaries, no inlined
+font data, no icons of borrowed lineage; `scripts/check_assets.py` enforces
+the first two.
 
 ## Prose
 
