@@ -9,8 +9,6 @@ call the same gallop functions the skill does.
   site/figures/cuped.svg          standard-error factor against rho
   site/figures/shrinkage.svg      the quickstart's raw and shrunk estimate
   site/figures/prior-store.svg    what a hundred readouts on one metric look like
-  site/figures/three-clocks.svg   the four horizons of the practice page
-  site/figures/tuesday.svg        the practice page's day as a timeline
   site/figures/skills-map.svg     the six skills placed on the method map
 
 Run:  python3 site/figures.py      (then site/build.py inlines them)
@@ -198,76 +196,6 @@ def prior_store():
                "right of anything the metric has ever produced. Illustrative data.")
 
 
-# %% ------------------------------------------------------------ three clocks
-
-
-def three_clocks():
-    rows = [
-        ("The year", "the metric catalog", "definitions, the event contract, the loyalty joins"),
-        ("The quarter", "the learning agenda", "which questions are worth traffic at all"),
-        ("The week", "the sprint", "readouts become decisions, tests get their plan"),
-        ("The day", "the health check and the standup", "catch breakage before it is acted on"),
-    ]
-    body = ['<defs><marker id="ch" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" '
-            'markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8z" class="dot"/></marker></defs>']
-    h, gap, inset = 52, 10, 34
-    for i, (name, runs, does) in enumerate(rows):
-        x, y, w = inset * i, i * (h + gap), W - 2 * inset * i
-        body.append(f'<rect class="clock" x="{x + .5}" y="{y + .5}" width="{w - 1}" height="{h - 1}"/>')
-        body.append(text(x + 16, y + 22, name.upper(), "lab"))
-        body.append(text(x + 16, y + 40, f"runs on {runs} · {does}", ""))
-        if i < 3:
-            body.append(f'<line class="ax" marker-end="url(#ch)" x1="{W - x - 60}" y1="{y + h - 6}" x2="{W - x - 60}" y2="{y + h + gap + 2}"/>')
-    n = len(rows)
-    total = n * h + (n - 1) * gap
-    return svg(total + 4, "\n".join(body),
-               "Four nested horizons, year outside quarter outside week outside day, each deciding what "
-               "the one inside it works on.")
-
-
-# %% ----------------------------------------------------------------- tuesday
-
-
-def tuesday():
-    events = [
-        ("08:45", "Health check", "exposures, sample ratio, guardrails"),
-        ("09:00", "The one deep task", "ninety minutes, uninterrupted"),
-        ("10:30", "Standup", "what is live and blocked; no interim results"),
-        ("10:45", "The corridor", "a link, or a question back"),
-        ("11:30", "Backlog refinement", "which events fire; is it behind a flag"),
-        ("14:00", "Design review", "what the funnel supports; what variants cost"),
-        ("15:30", "Not this squad's job", "no comparison group; refer, offer a holdout"),
-        ("16:30", "Writing", "tomorrow's readout, before the numbers"),
-    ]
-    t0, t1 = 8.5, 17.0
-    left, right, axis_y = 40, W - 40, 170
-    def X(hhmm):
-        h, m = map(int, hhmm.split(":"))
-        return left + (h + m / 60 - t0) / (t1 - t0) * (right - left)
-    body = []
-    # the deep block, 09:00 to 10:30
-    body.append(f'<rect class="wash" x="{X("09:00"):.1f}" y="{axis_y - 14}" width="{X("10:30") - X("09:00"):.1f}" height="28"/>')
-    body.append(f'<line class="ax" x1="{left}" y1="{axis_y}" x2="{right}" y2="{axis_y}"/>')
-    for hr in range(9, 18):
-        x = X(f"{hr:02d}:00")
-        body.append(f'<line class="ax" x1="{x:.1f}" y1="{axis_y - 3}" x2="{x:.1f}" y2="{axis_y + 3}"/>')
-        body.append(text(x, axis_y + 18, f"{hr:02d}:00", "dimt", "middle"))
-    for i, (t, name, what) in enumerate(events):
-        x = X(t)
-        up = i % 2 == 0
-        tier = (i // 2) % 3
-        y = axis_y - 34 - tier * 44 if up else axis_y + 44 + tier * 44
-        body.append(f'<line class="grid" x1="{x:.1f}" y1="{axis_y}" x2="{x:.1f}" y2="{y + (6 if up else -14)}"/>')
-        body.append(f'<circle class="dot" cx="{x:.1f}" cy="{axis_y}" r="4"/>')
-        anchor = "end" if x > W - 200 else "start"
-        dx = -6 if anchor == "end" else 6
-        body.append(text(x + dx, y - 6, f"{t} · {name}", "key", anchor))
-        body.append(text(x + dx, y + 9, what, "dimt", anchor))
-    return svg(340, "\n".join(body),
-               "A timeline of the day from 08:45 to 16:30 with eight events, the ninety-minute deep task "
-               "shaded from nine to half past ten.")
-
-
 # %% -------------------------------------------------------------- skills map
 
 
@@ -334,8 +262,7 @@ def main():
     peek, fpr = peeking()
     files = {
         "peeking.svg": peek, "cuped.svg": cuped(), "shrinkage.svg": shrinkage(),
-        "prior-store.svg": prior_store(), "three-clocks.svg": three_clocks(),
-        "tuesday.svg": tuesday(), "skills-map.svg": skills_map(),
+        "prior-store.svg": prior_store(), "skills-map.svg": skills_map(),
     }
     for name, content in files.items():
         (OUT / name).write_text(content)

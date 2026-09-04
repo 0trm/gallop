@@ -86,7 +86,6 @@ The site renders the skills and the two arguments:
 [the map](https://0trm.github.io/gallop/map/) ·
 [the intake](https://0trm.github.io/gallop/intake/) ·
 [the theory layer](https://0trm.github.io/gallop/theory/) ·
-[the practice](https://0trm.github.io/gallop/practice/) ·
 [install](https://0trm.github.io/gallop/install/)
 
 ## Licence

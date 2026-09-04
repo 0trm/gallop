@@ -7,7 +7,6 @@ real URLs, rendering fine from file://.
   site/skills/index.html          from the skills/ directory
   site/skills/<name>/index.html   from skills/<name>/SKILL.md (+ references)
   site/theory/index.html          from site/content/theory.md
-  site/practice/index.html        from site/content/practice.md
   site/install/index.html         from site/content/install.md
   README.md skills table          into the marked block
 
@@ -59,12 +58,6 @@ FIGURES = {
     ("theory", "The prior store"): ("prior-store.svg",
         "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
         "wished for sits to the right of every effect the metric has ever produced."),
-    ("practice", "Three clocks"): ("three-clocks.svg",
-        "Each clock decides what the one inside it works on. The day is the innermost and the least "
-        "interesting; the year is the one nobody asks for."),
-    ("practice", "A day: Tuesday"): ("tuesday.svg",
-        "The shape of a good day: one shaded block of real work, one refinement session, one request "
-        "declined and replaced, and no interim results spoken out loud."),
 }
 
 # The one place the six positions live. Build fails if this and skills/ drift.
@@ -170,14 +163,12 @@ def footer(root):
     <a href="{root}map/">The method map</a>
     <a href="{root}intake/">The intake</a>
     <a href="{root}theory/">The theory layer</a>
-    <a href="{root}practice/">The practice</a>
   </div>
   <div>
     <p class="lab">Use</p>
     <a href="{root}skills/">The six skills</a>
     <a href="{root}install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
-    <a href="https://github.com/0trm/gallop/issues">Issues &#8599;</a>
   </div>
   <div>
     <p class="lab">Project</p>
@@ -192,7 +183,7 @@ def page(*, title, description, body, root, active=None, extra_style="", content
     """The shared chrome: skip link, nav band, contents strip, foot band, theme switch."""
     nav_items = [
         ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
-        ("theory/", "Theory"), ("practice/", "Practice"), ("install/", "Install"),
+        ("theory/", "Theory"), ("install/", "Install"),
     ]
     links = []
     for href, label in nav_items:
@@ -444,7 +435,7 @@ def main(argv=None):
     emitted = []
     if a.check:
         before = {}
-        targets = [SITE / "skills", SITE / "theory", SITE / "practice", SITE / "install"]
+        targets = [SITE / "skills", SITE / "theory", SITE / "install"]
         for t in targets:
             for f in t.rglob("*.html") if t.exists() else []:
                 before[f] = f.read_text()
@@ -454,8 +445,6 @@ def main(argv=None):
     build_skills_index(dirs, emitted)
     build_content_page("theory", "The theory layer",
                        "The prior store and the knowledge repo: the only object that compounds.", emitted)
-    build_content_page("practice", "The practice",
-                       "A day, a week, and a quarter in the embedded product data science seat.", emitted)
     build_content_page("install", "Install",
                        "Claude Code plugin, manual copy, or pip.", emitted)
     readme_path, readme_new = build_readme(dirs)

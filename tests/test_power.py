@@ -13,7 +13,7 @@ def test_continuous_sample_size_reproduces_cohen_medium_effect():
 
 def test_proportion_mde_matches_planning_rule_of_thumb():
     # At the defaults the MDE is 2.8016 * sqrt(2 p (1-p) / n), the 2.8 rule
-    # the traffic-ceiling arithmetic in the practice document uses.
+    # the traffic-ceiling arithmetic in designing-experiments uses.
     p, n = 0.10, 5000
     expected = 2.8016 * np.sqrt(2 * p * (1 - p) / n)
     assert power.mde(n, baseline_rate=p) == pytest.approx(expected, rel=1e-3)
