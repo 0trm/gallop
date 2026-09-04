@@ -10,6 +10,8 @@ call the same gallop functions the skill does.
   site/figures/shrinkage.svg      the quickstart's raw and shrunk estimate
   site/figures/prior-store.svg    what a hundred readouts on one metric look like
   site/figures/skills-map.svg     the skills placed on the method map
+  site/figures/skills-map-{light,dark}.svg
+                                  the same figure, self-contained for the README
 
 Run:  python3 site/figures.py      (then site/build.py inlines them)
 """
@@ -271,6 +273,46 @@ def skills_map():
                "because modeling supplies its estimators.")
 
 
+# %% -------------------------------------------------------------- standalone
+
+SITE_URL = "https://0trm.github.io/gallop/skills/"
+
+# The subset of .fig rules in site/assets/gallop.css that the skills map uses,
+# with the page's variables resolved, so the file renders inside an <img>
+# on GitHub where no stylesheet reaches it. No ground and no box fill: the
+# figure takes whatever the page is, and a <picture> element picks the ink.
+STANDALONE_CSS = """
+text{font-family:Archivo,Arial,Helvetica,sans-serif;font-size:11.5px;fill:$fg}
+.dimt{fill:$dim}
+.t-title{font-size:14px;font-weight:600}
+.t-q{font-size:11.5px}
+.t-edge{font-family:"Courier Prime","Courier New",Courier,monospace;font-size:10.5px}
+.sk{font-family:"Courier Prime","Courier New",Courier,monospace;font-size:12.5px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.ax{stroke:$line2;fill:none;stroke-width:1}
+.dash{stroke-dasharray:4 3}
+.dot{fill:$fg}
+.node{fill:none;stroke:$fg;stroke-width:1}
+"""
+
+THEMES = {
+    False: {"fg": "#000000", "line2": "rgba(0,0,0,.34)", "dim": "rgba(0,0,0,.55)"},
+    True: {"fg": "#FFFFFF", "line2": "rgba(255,255,255,.34)", "dim": "rgba(255,255,255,.55)"},
+}
+
+
+def standalone(inline_svg, dark):
+    """Wrap an inline figure as a file that renders on its own: xmlns, embedded
+    style, and links resolved against the live site."""
+    from string import Template
+
+    v = THEMES[dark]
+    css = Template(STANDALONE_CSS).substitute(v)
+    head, body = inline_svg.split("\n", 1)
+    head = head.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ', 1)
+    body = body.replace('<a href="', f'<a href="{SITE_URL}')
+    return f"{head}\n<style>{css}</style>\n{body}"
+
+
 # %% -------------------------------------------------------------------- main
 
 
@@ -281,6 +323,8 @@ def main():
         "peeking.svg": peek, "cuped.svg": cuped(), "shrinkage.svg": shrinkage(),
         "prior-store.svg": prior_store(), "skills-map.svg": skills_map(),
     }
+    files["skills-map-light.svg"] = standalone(files["skills-map.svg"], dark=False)
+    files["skills-map-dark.svg"] = standalone(files["skills-map.svg"], dark=True)
     for name, content in files.items():
         (OUT / name).write_text(content)
         print(f"wrote {OUT / name}")

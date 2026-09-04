@@ -13,6 +13,11 @@ result. What they teach is written back, so the next question starts smaller.
 
 ## The map
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
+  <img src="site/figures/skills-map-light.svg" width="840" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
+</picture>
+
 A question enters at the left and leaves as a decision. Measurement is a
 foundation rather than a phase, because what ships changes the data. Theory is a
 ceiling rather than a report, because what you learn has to outlive the test that
