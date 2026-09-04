@@ -13,7 +13,7 @@ every time.
 
 All six skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the `gallop` package, so add
-`pip install gallop` if you want the checks to run rather than be described.
+`pip install gallop-pds` if you want the checks to run rather than be described.
 
 ## Any other agent, or none
 
@@ -31,7 +31,7 @@ the depth.
 ## The package
 
 ```
-pip install gallop
+pip install gallop-pds
 ```
 
 `numpy`, `pandas`, `scipy`, nothing else. Every function takes and returns

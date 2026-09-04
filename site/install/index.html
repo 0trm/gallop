@@ -46,7 +46,7 @@ every time.</p>
 </code></pre>
 <p>All six skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the <code>gallop</code> package, so add
-<code>pip install gallop</code> if you want the checks to run rather than be described.</p>
+<code>pip install gallop-pds</code> if you want the checks to run rather than be described.</p>
 <h2 id="any-other-agent-or-none">Any other agent, or none</h2>
 <p>A skill is a directory of markdown. Copy what you need:</p>
 <pre><code>git clone https://github.com/0trm/gallop
@@ -56,7 +56,7 @@ cp -r gallop/skills/reading-experiments .claude/skills/
 each <code>SKILL.md</code> is the procedure, the <code>reference/</code> files one level down are
 the depth.</p>
 <h2 id="the-package">The package</h2>
-<pre><code>pip install gallop
+<pre><code>pip install gallop-pds
 </code></pre>
 <p><code>numpy</code>, <code>pandas</code>, <code>scipy</code>, nothing else. Every function takes and returns
 arrays or DataFrames, never a database connection; SQL for the three

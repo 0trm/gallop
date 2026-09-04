@@ -52,6 +52,6 @@ shrink, priors, validate) and three bundled scripts:
 `skills/designing-experiments/scripts/size_test.py`,
 `skills/reading-experiments/scripts/run_checks.py` and
 `skills/automating-decisions/scripts/validate_model.py`. If the package is not
-installed, `pip install gallop` (or from source,
+installed, `pip install gallop-pds` (or from source,
 `pip install git+https://github.com/0trm/gallop`); do not improvise the
 statistics the modules exist to pin down.

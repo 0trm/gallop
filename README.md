@@ -44,8 +44,8 @@ separated only by who did the randomising: you, or the world.
 # any other agent, or none: a skill is a directory of markdown
 cp -r gallop/skills/reading-experiments .claude/skills/
 
-# the package (from source until the PyPI release)
-pip install git+https://github.com/0trm/gallop
+# the package; the import name is gallop
+pip install gallop-pds
 ```
 
 ## The five-minute path
