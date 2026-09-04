@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The six skills · gallop</title>
-<meta name="description" content="Six skills, one position on the method map each.">
+<title>The skills · gallop</title>
+<meta name="description" content="Seven skills, one position on the method map each.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,12 +19,12 @@
   .sixlinks h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
   .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
-  .six{grid-template-columns:repeat(3,1fr)}
-  .six > *{border-bottom:1px solid var(--line)}
-  .six > *:nth-child(3n){border-right:0}
-  .six > *:nth-child(n+4){border-bottom:0}
-  @media (max-width:1080px){.six{grid-template-columns:1fr}
-    .six > *{border-right:0;border-bottom:1px solid var(--line)!important}}</style>
+  .skillgrid{grid-template-columns:repeat(4,1fr)}
+  .skillgrid > *{border-bottom:1px solid var(--line)}
+  .skillgrid > *:nth-child(4n){border-right:0}
+  .skillgrid > *:nth-child(n+5){border-bottom:0}
+  @media (max-width:1080px){.skillgrid{grid-template-columns:1fr}
+    .skillgrid > *{border-right:0;border-bottom:1px solid var(--line)!important}}</style>
 <script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -48,21 +48,21 @@
 <main id="main">
 <div class="band">
   <div class="secthead">
-    <p class="lab">Six skills</p>
+    <p class="lab">Seven skills</p>
   </div>
   <div class="doc mapfig">
-    <figure class="fig"><svg viewBox="0 0 840 480" role="img" aria-label="The six skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomize diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box.">
-<defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
+    <figure class="fig"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomize diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
+<defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="pd" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
 <rect class="node" x="40" y="20" width="760" height="56"/>
 <rect class="node" x="40" y="20" width="12" height="56"/>
 <text x="64.0" y="44.0" class="t-title" text-anchor="start">Theory layer</text>
 <text x="64.0" y="64.0" class="dimt" text-anchor="start">the ceiling: what each decision taught, and the prior it left</text>
 <a href="writing-readouts/"><text class="sk" x="780" y="54" text-anchor="end">writing-readouts</text></a>
-<rect class="node" x="40" y="404" width="760" height="56"/>
-<rect class="dot" x="40" y="404" width="12" height="56"/>
-<text x="64.0" y="428.0" class="t-title" text-anchor="start">Measurement framework</text>
-<text x="64.0" y="448.0" class="dimt" text-anchor="start">the floor: the definition of success, and whether the number can be trusted</text>
-<a href="defining-metrics/"><text class="sk" x="780" y="438" text-anchor="end">defining-metrics</text></a>
+<rect class="node" x="40" y="484" width="760" height="56"/>
+<rect class="dot" x="40" y="484" width="12" height="56"/>
+<text x="64.0" y="508.0" class="t-title" text-anchor="start">Measurement framework</text>
+<text x="64.0" y="528.0" class="dimt" text-anchor="start">the floor: the definition of success, and whether the number can be trusted</text>
+<a href="defining-metrics/"><text class="sk" x="780" y="518" text-anchor="end">defining-metrics</text></a>
 <rect class="node" x="40" y="172" width="224" height="116"/>
 <text x="64.0" y="196.0" class="t-title" text-anchor="start">Routing</text>
 <a href="routing-questions/"><text class="sk" x="64" y="220">routing-questions</text></a>
@@ -79,19 +79,25 @@
 <rect class="node" x="540" y="260" width="12" height="76" fill="url(#px)"/>
 <text x="564.0" y="284.0" class="t-title" text-anchor="start">Causal inference</text>
 <a href="choosing-causal-designs/"><text class="sk" x="564" y="308">choosing-causal-designs</text></a>
+<rect class="node" x="540" y="364" width="260" height="84"/>
+<rect class="node" x="540" y="364" width="12" height="84" fill="url(#pd)"/>
+<text x="564.0" y="388.0" class="t-title" text-anchor="start">Statistical modeling</text>
+<a href="automating-decisions/"><text class="sk" x="564" y="412">automating-decisions</text></a>
+<text x="564.0" y="432.0" class="dimt" text-anchor="start">the decision, made at volume</text>
 <path class="ax" marker-end="url(#sm)" d="M264 230H350"/>
 <path class="ax" marker-end="url(#sm)" d="M484 230H512V160H534"/>
 <path class="ax" marker-end="url(#sm)" d="M484 230H512V298H534"/>
 <text x="496.0" y="150.0" class="t-edge" text-anchor="start">yes</text>
 <text x="496.0" y="292.0" class="t-edge" text-anchor="start">no</text>
 <path class="ax dash" marker-end="url(#sm)" d="M420 76V184"/>
-<path class="ax dash" marker-end="url(#sm)" d="M420 404V276"/>
+<path class="ax dash" marker-end="url(#sm)" d="M420 484V276"/>
 <path class="ax dash" marker-end="url(#sm)" d="M670 208V254"/>
-</svg><figcaption>Where each skill sits. The ceiling and the floor are bands because every question touches them; the three causal skills split on who assigned the treatment. Each name is a link.</figcaption></figure>
+<path class="ax dash" marker-end="url(#sm)" d="M670 364V342"/>
+</svg><figcaption>Where each skill sits. The ceiling and the floor are bands because every question touches them; the three causal skills split on who assigned the treatment; the prediction skill sits below the path, where modeling serves the decision. Each name is a link.</figcaption></figure>
   </div>
 </div>
 <div class="band">
-  <div class="cells six sixlinks">
+  <div class="cells skillgrid sixlinks">
     <a class="skrow" href="routing-questions/">
       <span class="pos dim">Routing</span>
       <h3>routing-questions</h3>
@@ -117,6 +123,11 @@
       <h3>choosing-causal-designs</h3>
       <p>The method that matches how assignment happened, and the exit that says there is no comparison group.</p>
     </a>
+    <a class="skrow" href="automating-decisions/">
+      <span class="pos dim">Prediction</span>
+      <h3>automating-decisions</h3>
+      <p>Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact.</p>
+    </a>
     <a class="skrow" href="writing-readouts/">
       <span class="pos dim">The ceiling</span>
       <h3>writing-readouts</h3>
@@ -131,7 +142,9 @@ failure mode. Together they run one question end to end: it arrives at
 maintains, gets its method from <code>designing-experiments</code> or
 <code>choosing-causal-designs</code>, is believed or not by
 <code>reading-experiments</code>, and is filed by <code>writing-readouts</code>
-so the next question starts smaller.</p>
+so the next question starts smaller. A decision made continuously, at volume,
+leaves the path for <code>automating-decisions</code> and comes back to it for
+the experiment that measures the model's impact.</p>
 </div></div>
 </main>
 
@@ -149,7 +162,7 @@ so the next question starts smaller.</p>
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="../skills/">The six skills</a>
+    <a href="../skills/">The skills</a>
     <a href="../install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>

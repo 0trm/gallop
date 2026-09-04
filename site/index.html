@@ -38,15 +38,15 @@
   .note p{font-size:14.5px;color:var(--body);margin:0;line-height:1.55}
   .note .scope{padding:16px 20px;font-size:13px;color:var(--dim)}
 
-  .six{grid-template-columns:repeat(3,1fr)}
-  .six > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
-  .six > a:hover{background:var(--wash);text-decoration:none}
-  .six > a:nth-child(3n){border-right:0}
-  .six > a:nth-child(n+4){border-bottom:0}
-  .six h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
-  .six p{margin:0}
-  .six p:last-child{font-size:14px;margin-top:8px;line-height:1.5;color:var(--body)}
-  .six .pos{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
+  .skillgrid{grid-template-columns:repeat(4,1fr)}
+  .skillgrid > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
+  .skillgrid > a:hover{background:var(--wash);text-decoration:none}
+  .skillgrid > a:nth-child(4n){border-right:0}
+  .skillgrid > a:nth-child(n+5){border-bottom:0}
+  .skillgrid h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
+  .skillgrid p{margin:0}
+  .skillgrid p:last-child{font-size:14px;margin-top:8px;line-height:1.5;color:var(--body)}
+  .skillgrid .pos{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
             text-transform:uppercase;margin-bottom:10px}
 
   .term .replay{margin-left:auto;background:none;border:1px solid var(--line);color:inherit;
@@ -55,9 +55,9 @@
   .term .replay:hover{border-color:var(--fg)}
 
   @media (max-width:1080px){
-    .hero,.steps,.demo,.six{grid-template-columns:1fr}
+    .hero,.steps,.demo,.skillgrid{grid-template-columns:1fr}
     .hero > *,.steps > *,.demo > *{border-right:0;border-bottom:1px solid var(--line)}
-    .six > a{border-right:0;border-bottom:1px solid var(--line)!important}
+    .skillgrid > a{border-right:0;border-bottom:1px solid var(--line)!important}
     .hero .d{font-size:40px}
   }
   @media (max-width:620px){
@@ -177,15 +177,16 @@
 
 <div class="band" id="skills">
   <div class="secthead">
-    <p class="lab">Six skills</p>
-    <span class="dim">all six written</span>
+    <p class="lab">Seven skills</p>
+    <span class="dim">all seven written</span>
   </div>
-  <div class="cells six">
+  <div class="cells skillgrid">
       <a href="skills/routing-questions/"><p class="pos dim">Routing</p><h3>routing-questions</h3><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></a>
       <a href="skills/defining-metrics/"><p class="pos dim">The floor</p><h3>defining-metrics</h3><p>A metric turned into a computation, a source of truth, and how it will be gamed.</p></a>
       <a href="skills/designing-experiments/"><p class="pos dim">Causation</p><h3>designing-experiments</h3><p>The four choices that cannot be repaired after launch. MDE comes from the prior store.</p></a>
       <a href="skills/reading-experiments/"><p class="pos dim">Causation</p><h3>reading-experiments</h3><p>SRM, exposure, the sequential bound, CUPED, shrinkage. Whether the result is a result.</p></a>
       <a href="skills/choosing-causal-designs/"><p class="pos dim">Causation</p><h3>choosing-causal-designs</h3><p>ITS, DiD, synthetic control, matching, IV, and the exit that says there is no control group.</p></a>
+      <a href="skills/automating-decisions/"><p class="pos dim">Prediction</p><h3>automating-decisions</h3><p>A decision made at volume. Validated out of time, against the base rate, then a holdout for the impact.</p></a>
       <a href="skills/writing-readouts/"><p class="pos dim">The ceiling</p><h3>writing-readouts</h3><p>The decision rule first, the result last. The belief, not just the number.</p></a>
   </div>
 </div>
@@ -205,7 +206,7 @@
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="./skills/">The six skills</a>
+    <a href="./skills/">The skills</a>
     <a href="./install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>

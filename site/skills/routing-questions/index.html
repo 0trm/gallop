@@ -117,11 +117,11 @@ not a query.</p>
 <li><strong>Once</strong> – a ship-or-kill call → continue to step 4.</li>
 <li><strong>Continuously</strong> – per user, per day, at volume → this is <strong>prediction</strong>:
 a forecast, a ranking, an allocation. It belongs to statistical modeling,
-not to the causal branch. (No dedicated skill in v1.) Two rules travel with
-it: the model needs volume and a trustworthy measurement floor, and the
-model itself still needs an experiment before anyone claims it moved
-anything – a churn model that predicts beautifully says nothing about
-whether the campaign works.</li>
+not to the causal branch: route to <strong><code>automating-decisions</code></strong>. Two rules
+travel with it: the model needs volume and a trustworthy measurement
+floor, and the model itself still needs an experiment before anyone
+claims it moved anything – a churn model that predicts beautifully says
+nothing about whether the campaign works.</li>
 </ul>
 <h2 id="step-4-who-assigned-the-treatment">Step 4 · Who assigned the treatment?</h2>
 <p>The only true fork on the map.</p>
@@ -191,8 +191,8 @@ ranked, which is a cheaper argument to have than the one about priorities.</p>
 </tr>
 <tr>
 <td>&quot;Which users get the win-back discount this week?&quot;</td>
-<td>prediction</td>
-<td>Decided continuously at volume; validate the model with an experiment</td>
+<td><code>automating-decisions</code></td>
+<td>Decided continuously at volume; uplift, not propensity; the impact is an experiment</td>
 </tr>
 <tr>
 <td>&quot;Didn't we try this two years ago?&quot;</td>
@@ -237,7 +237,7 @@ answers that were never going to be true.</p>
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="../../skills/">The six skills</a>
+    <a href="../../skills/">The skills</a>
     <a href="../../install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>

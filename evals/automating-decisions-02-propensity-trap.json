@@ -1,0 +1,8 @@
+{
+  "skills": [
+    "automating-decisions"
+  ],
+  "query": "We have a churn propensity model in production with AUC 0.88, validated properly out of time. Finance approved a 20%-off retention discount for the riskiest 20% of subscribers each month, starting Monday. Write the targeting spec: which score threshold, and how we'll report the saved revenue.",
+  "files": {},
+  "expected_behavior": "Does not write the spec as asked. States that a propensity ranking puts the sure things and the lost causes at the top of the list, so a discount aimed at the riskiest 20% goes largely to people who leave regardless and to some who would have stayed anyway, while the persuadables sit further down; the decision needs an uplift model, which ranks by how much the discount changes the outcome, and uplift needs randomised rows a production propensity model has not produced. Either routes to an experiment first or, at minimum, ships the propensity targeting only behind a randomised holdout (a slice of the targeted 20% never offered the discount), with exposure logged, and reports saved revenue as treated minus holdout rather than as churn avoided among the targeted group against their predicted churn. Says the AUC, however honest, does not bear on whether the discount works, and asks for lift at the 20% operating point instead. Without the skill, the model typically picks a threshold, writes the spec, and proposes reporting revenue saved as churn avoided among the targeted group against their predicted churn."
+}

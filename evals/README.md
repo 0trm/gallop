@@ -38,3 +38,26 @@ keeping in mind when writing new evals:
 Two skill fixes came out of the run: the SRM eval was rewritten as an
 alpha-discipline case, and the causal-designs selection table gained the
 guard against reading an everywhere-at-once campaign as ITS.
+
+## The prediction skill's evals, from the second run (2026-09-04)
+
+Three evals for `automating-decisions`, run with and without the skill on
+Sonnet. Two findings worth keeping:
+
+- **Run the ablation on Sonnet, explicitly.** The claude CLI's default
+  model is whatever the user last set, and a first pass ran on a stronger
+  model that already refused the model-as-evidence claim and built the
+  holdout unprompted. On Sonnet the baseline offers a propensity-matched
+  "directional" number for the deck, thresholds the propensity score
+  without naming the sure-things and lost-causes problem, and plans the
+  model at any volume; with the skill it does none of those. Pass
+  `--model sonnet` so the ablation measures the skill and not the model.
+- **Size the not-fundable case below the skill's own rule.** The first
+  draft of the volume eval gave 300 conversions a month, which is 900
+  positives in a three-month window and fundable by the skill's own
+  threshold; the model applied the rule correctly and reached the wrong
+  verdict for the eval. Resized to 45 a month. The rerun also showed the
+  model routing round the rule with pooled rolling folds and "validate as
+  data accrues", so the skill now says outright that rolling folds do not
+  create outcomes and that a thinner model with a warning is the failure
+  the verdict exists to prevent.

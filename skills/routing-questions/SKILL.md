@@ -81,11 +81,11 @@ not a query.
 - **Once** – a ship-or-kill call → continue to step 4.
 - **Continuously** – per user, per day, at volume → this is **prediction**:
   a forecast, a ranking, an allocation. It belongs to statistical modeling,
-  not to the causal branch. (No dedicated skill in v1.) Two rules travel with
-  it: the model needs volume and a trustworthy measurement floor, and the
-  model itself still needs an experiment before anyone claims it moved
-  anything – a churn model that predicts beautifully says nothing about
-  whether the campaign works.
+  not to the causal branch: route to **`automating-decisions`**. Two rules
+  travel with it: the model needs volume and a trustworthy measurement
+  floor, and the model itself still needs an experiment before anyone
+  claims it moved anything – a churn model that predicts beautifully says
+  nothing about whether the campaign works.
 
 ## Step 4 · Who assigned the treatment?
 
@@ -138,7 +138,7 @@ ranked, which is a cheaper argument to have than the one about priorities.
 | "Does the one-page checkout increase completion?" | `designing-experiments` | You control who sees which checkout |
 | "We rolled new pricing to everyone in March. Did it help?" | `choosing-causal-designs` | Assignment already happened, non-randomly |
 | "Users with notifications retain better. Push everyone to enable?" | `designing-experiments` | The trap case: randomise the prompt, not the outcome |
-| "Which users get the win-back discount this week?" | prediction | Decided continuously at volume; validate the model with an experiment |
+| "Which users get the win-back discount this week?" | `automating-decisions` | Decided continuously at volume; uplift, not propensity; the impact is an experiment |
 | "Didn't we try this two years ago?" | the lookup | An entry, or a prior. Not an analysis |
 | "Our activation number differs across two dashboards." | `defining-metrics` | A foundation crack; everything above it inherits the error |
 | "What did the summer campaign do? It ran everywhere." | no comparison group | Say so; refer out; offer a holdout for the next one |

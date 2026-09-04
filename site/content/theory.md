@@ -125,6 +125,6 @@ nothing compounds.
 Run it, and the write-back is a condition of shipping rather than an act
 of virtue: nothing reaches every user without a link back to the
 experiment that justified it, and the readout that closes the test writes
-the belief in the same motion. Six skills in this repo exist to run one
+the belief in the same motion. The skills in this repo exist to run one
 question around that loop; the layer is what makes the second question
 cheaper than the first.

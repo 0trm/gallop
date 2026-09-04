@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>automating-decisions · gallop</title>
+<meta name="description" content="Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav docnav" aria-label="Site">
+  <a class="wm" href="../.././">gallop</a>
+  <a href="../../map/">The map</a>
+  <a href="../../intake/">The intake</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../theory/">Theory</a>
+  <a href="../../install/">Install</a>
+  <span class="sw">
+    <span class="mode">
+      <button type="button" data-set="light" aria-pressed="true">Light</button>
+      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+</nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#0-is-this-a-model-s-decision">0 · Is this a model's decision?</a><a href="#1-what-will-happen-or-who-gets-what">1 · What will happen</a><a href="#2-propensity-or-uplift">2 · Propensity or uplift</a><a href="#3-validate-out-of-time-against-the-base-rate">3 · Validate out of time</a><a href="#4-forecasts-and-interventions">4 · Forecasts and interventions</a><a href="#5-the-holdout-that-measures-impact">5 · The holdout that measures impact</a><a href="#6-drift-and-expiry">6 · Drift and expiry</a><a href="#the-verdict">The verdict</a><a href="#worked-requests">Worked requests</a></nav>
+
+<main id="main">
+<div class="band">
+  <div class="secthead">
+    <p class="lab">Prediction</p>
+    <span class="dim">skills/automating-decisions</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">automating-decisions</h1>
+      <p class="skdesc">Decides whether a repeated, at-volume decision belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.</p>
+    </div>
+    <div>
+      <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/automating-decisions">
+        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+      <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/automating-decisions/scripts/validate_model.py">scripts/validate_model.py</a></li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="band"><div class="doc">
+<h1>Automating decisions</h1>
+<p>The prediction position on the map: a decision made repeatedly, per user or
+per day, by a system rather than by a person reading a readout. A forecast
+that sets inventory, a ranking that picks who gets the offer, an allocation
+that splits a budget. The bucket asks what will happen and who gets what,
+hands back a forecast, a ranking or an allocation with its uncertainty
+attached, and fails by breaking the moment you intervene, because the model
+learned a world in which nobody had acted on it yet.</p>
+<p>Two rules arrive with every question routed here and leave with it. The
+model needs volume, history and a trusted measurement floor. And the model
+claims nothing about impact until an experiment says so: a churn model that
+predicts beautifully says nothing about whether the campaign works.</p>
+<p>The mechanical part is scripted. Given scores on an out-of-time window:</p>
+<pre><code>python skills/automating-decisions/scripts/validate_model.py \
+  --data scored.csv --y churned --score p_churn --date week --cutoff 2026-07-01 \
+  --k 0.1 [--arm arm --control control] [--features tenure,logins_30d]
+</code></pre>
+<p>Or individually via <code>python -m gallop.validate</code>. The package scores a
+fitted model; it does not fit one. Fit with whatever library is at hand.</p>
+<h2 id="0-is-this-a-model-s-decision">0 · Is this a model's decision?</h2>
+<p>Three things have to be true. Routing checked only the first.</p>
+<ul>
+<li><strong>Decided continuously.</strong> A ship-or-kill call made once needs an effect
+size, not a forecast. Send it back to the causal branch.</li>
+<li><strong>The floor holds.</strong> The outcome the model predicts is <code>trusted</code> in the
+metric registry. A model fits noise and reports confidence; it amplifies
+an instrumentation problem rather than revealing it. If the outcome is
+provisional or disputed, the work belongs to <code>defining-metrics</code> first.</li>
+<li><strong>Volume and history.</strong> For a classifier, a few hundred positive
+outcomes in the out-of-time window alone, and about a thousand in total;
+for a forecast, several full seasons. Below that the validation cannot
+separate the model from the base rate at the operating point, so nothing
+about the model can be believed, and the verdict is not fundable. Say so
+and stop. Rolling folds do not create outcomes that do not exist, and
+&quot;build it thin and validate as data accrues&quot; ships an unvalidated model
+for a year. The useful object at that size is a rule: a threshold on one
+or two fields, written down with the metric it will be judged on and the
+volume at which a model would become checkable. A regional squad rarely
+has the volume to justify anything heavier, and saying so beats shipping
+a model nobody can validate.</li>
+</ul>
+<h2 id="1-what-will-happen-or-who-gets-what">1 · What will happen, or who gets what?</h2>
+<p>Three outputs, and the request names one.</p>
+<ul>
+<li><strong>A forecast.</strong> A metric's value in a future window. Hands back a point
+and an interval, conditional on nothing changing.</li>
+<li><strong>A ranking.</strong> Units ordered by an expected outcome, acted on from the
+top. Hands back the ordered list and the operating point: how far down
+the list the decision goes.</li>
+<li><strong>An allocation.</strong> A fixed resource split across options. Hands back the
+policy and its expected value, with the forecast or ranking it rests on.</li>
+</ul>
+<p>Watch for the causal question in a model's clothing. &quot;Build a churn model
+so we can see whether the retention emails work&quot; asks two things. The
+model predicts who churns; the question is whether the emails change that.
+Prediction rides on correlation and does not care why. The emails were
+aimed at the people most likely to leave, so the model learns the
+campaign's targeting and reports it back as risk. Refuse to read impact
+from a model. Split the request: the model for targeting stays here, the
+impact goes to <code>designing-experiments</code>. The same refusal covers &quot;the
+forecast says we beat plan, so the launch worked&quot;: a forecast error is not
+an effect size.</p>
+<h2 id="2-propensity-or-uplift">2 · Propensity or uplift</h2>
+<p>A propensity model ranks by the chance of the outcome. An uplift model
+ranks by how much the treatment changes that chance. For a decision about
+who gets an intervention, the second is the question and the first is the
+usual answer, which targets the wrong people: the sure things who would
+have stayed anyway and the lost causes who leave regardless sit at the top
+of a propensity list, and the persuadables sit in the middle. The four
+kinds of unit and what each model does with them:
+<a href="#ref-propensity-vs-uplift">reference/propensity-vs-uplift.md</a>.</p>
+<p>Uplift needs randomised rows: units where the treatment was assigned at
+random and the outcome logged. Observational rows cannot supply it; a model
+fit on them learns whoever chose the targeting. If no randomised data
+exists, the experiment comes first: route to <code>designing-experiments</code>,
+randomise the offer across the eligible population with exposure logged,
+and train the uplift model on that experiment's rows. Propensity is still
+the right model when the question is who will do something rather than
+whom to treat: fraud, capacity, support routing.</p>
+<h2 id="3-validate-out-of-time-against-the-base-rate">3 · Validate out of time, against the base rate</h2>
+<p>The order is fixed and the checks come before the number. Mechanics and
+the leakage taxonomy: <a href="#ref-validation">reference/validation.md</a>.</p>
+<ul>
+<li><strong>Split by time.</strong> Fit on rows before a cutoff, score rows after it
+(<code>gallop.validate.time_split</code>). Random folds on time-ordered data leak
+the future into the training set and report an accuracy the model will
+never see in production. Leave a gap the length of the label horizon.</li>
+<li><strong>Screen for leakage.</strong> A feature that separates the outcome
+near-perfectly on its own is usually the outcome, or something logged
+after it (<code>leakage_screen</code>). Every flagged feature is explained before
+any number below counts.</li>
+<li><strong>Beat the base rate at the operating point.</strong> The decision acts on the
+top k. Report precision at k against the base rate, as a lift
+(<code>baseline_lift</code>). A lift of 1.0 is the base rate wearing a model. AUC
+on its own is not a validation, because no decision acts on the whole
+ranking.</li>
+<li><strong>Calibration, if the scores are used as probabilities.</strong> Thresholds and
+expected values need calibrated scores; a ranking does not. Reliability
+table, Brier score against the base-rate forecast, expected calibration
+error (<code>calibration</code>).</li>
+<li><strong>Uplift: Qini on the randomised rows</strong> (<code>qini</code>), against random
+targeting. Precision at k means nothing for an uplift model.</li>
+</ul>
+<p>The number reported reads &quot;at the top 10% the precision is 31% against a
+base rate of 8%, a lift of 3.9, out of time on July&quot;, never &quot;AUC 0.91&quot;.</p>
+<h2 id="4-forecasts-and-interventions">4 · Forecasts and interventions</h2>
+<p>A forecast is conditional on nothing changing. It has to beat the seasonal
+naive (<code>mase</code>): at a MASE of 1 or above, last season's value did as well
+and is the forecast. Baselines and intervals:
+<a href="#ref-forecast-baselines">reference/forecast-baselines.md</a>.</p>
+<p>A launch inside the horizon is the failure mode in its purest form. The
+model has never seen one and cannot see through it. Hand back two objects:
+the forecast under no change, and the launch's effect routed to the causal
+branch as its own question, with a holdout if the plan is still open. A
+forecast that &quot;includes the launch&quot; is a guess with an interval drawn round
+it.</p>
+<h2 id="5-the-holdout-that-measures-impact">5 · The holdout that measures impact</h2>
+<p>Offline validation says the ranking beats the base rate. It does not say
+that acting on the ranking moves the metric. That claim belongs to an
+experiment: hand to <code>designing-experiments</code> with the model as the
+treatment and the current rule as the control, never no rule at all,
+randomised at the unit the decision acts on, exposure logged, the metric
+the model exists to move as the primary. <code>reading-experiments</code> reads it.
+That readout enters the prior store with <code>design</code> set to <code>experiment</code>. The
+model's lift and AUC never do; an offline metric is not a readout.</p>
+<p>When the decision runs continuously, keep a permanent holdout: a small
+slice never scored, so the model's contribution can be read at any time
+and drift shows up as the gap closing.</p>
+<h2 id="6-drift-and-expiry">6 · Drift and expiry</h2>
+<p>What ships changes the data. A model in production is scored on the
+population it changed, and its calibration decays from the day it goes
+live. Compare production scores with realised outcomes at the label's
+horizon, on a schedule. The knowledge entry names the expiry event as a
+retrain trigger: calibration drift past a stated bound, the holdout gap
+closing, or a product change to a feature's source. A model without a
+stated expiry is a stale belief automated at volume.</p>
+<h2 id="the-verdict">The verdict</h2>
+<p>One of four, stated with the evidence beside it:</p>
+<ul>
+<li><strong>Not a model's decision</strong> → route back: a once-only call needs an
+effect size; an untrusted outcome needs <code>defining-metrics</code> first.</li>
+<li><strong>Not fundable at this volume</strong> → a rule, written down, with the metric
+it is judged on and the volume at which a model becomes checkable. Not a
+thinner model with a warning attached: that is the failure this verdict
+exists to prevent, and the rule's effect is read by a holdout like any
+other policy.</li>
+<li><strong>Validated, impact unmeasured</strong> → ship behind a holdout; the impact
+question goes to <code>designing-experiments</code>.</li>
+<li><strong>Impact measured</strong> → <code>writing-readouts</code> files the readout, the belief
+and the prior-store record, from the experiment's numbers.</li>
+</ul>
+<h2 id="worked-requests">Worked requests</h2>
+<table>
+<thead>
+<tr>
+<th>The request as it arrives</th>
+<th>Verdict</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Build a churn model so we can see if the retention emails work.&quot;</td>
+<td>split</td>
+<td>The model targets; the emails' effect is an experiment</td>
+</tr>
+<tr>
+<td>&quot;Score users by churn risk and send the riskiest 20% the discount.&quot;</td>
+<td>uplift, not propensity</td>
+<td>Sure things and lost causes top a propensity list; randomise the offer first</td>
+</tr>
+<tr>
+<td>&quot;Which users get the win-back discount this week?&quot;</td>
+<td>ranking</td>
+<td>Continuous, at volume; validate out of time, ship behind a holdout</td>
+</tr>
+<tr>
+<td>&quot;Forecast Q4 signups. New pricing lands in November.&quot;</td>
+<td>two objects</td>
+<td>A forecast under no change, and the pricing effect as a causal question</td>
+</tr>
+<tr>
+<td>&quot;Our churn model has 0.94 AUC on cross-validation. Ship it?&quot;</td>
+<td>not validated</td>
+<td>Random folds on time-ordered data; rerun out of time, report lift at k</td>
+</tr>
+<tr>
+<td>&quot;We have 300 conversions a month. Build a propensity model.&quot;</td>
+<td>not fundable</td>
+<td>Too few outcomes to separate a model from the base rate; hand back a rule</td>
+</tr>
+<tr>
+<td>&quot;Build a demand forecast for the regional warehouse.&quot;</td>
+<td>forecast</td>
+<td>Beat the seasonal naive or ship the naive; intervals widen with horizon</td>
+</tr>
+<tr>
+<td>&quot;The forecast beat plan by 8%, so the campaign worked.&quot;</td>
+<td>refuse</td>
+<td>A forecast error is not an effect size; route to the causal branch</td>
+</tr>
+</tbody>
+</table>
+
+<details class="refdoc" id="ref-forecast-baselines"><summary><span class="lab">reference</span> forecast-baselines.md</summary>
+<h1>Forecast baselines</h1>
+<p>A forecast is a claim that the future looks like the past in a stated
+way. The baseline states the simplest such claim, and the model has to
+beat it.</p>
+<h2>The seasonal naive</h2>
+<p>Next period equals the same period one season ago. Weekly data with a
+yearly cycle forecasts this week from the same week last year; daily data
+with a weekly cycle forecasts Monday from last Monday. It costs nothing,
+it is explainable to anyone, and on product metrics it is hard to beat by
+much.</p>
+<p><code>gallop.validate.mase</code> scales the model's error on the test window by the
+seasonal naive's error on the training window (Hyndman and Koehler's MASE):</p>
+<ul>
+<li><strong>MASE below 1</strong>: the model beats the naive by that factor.</li>
+<li><strong>MASE at or above 1</strong>: the naive did as well. The naive is the
+forecast, and the model is retired or reworked. This is a verdict, not
+a tuning note.</li>
+</ul>
+<p>The function also reports the naive's error on the test window itself,
+which is the baseline the model is actually competing with on those dates.</p>
+<h2>Intervals</h2>
+<p>A point forecast is a decision input only with its interval, and the
+interval has to widen with the horizon. A model whose 90% band is the same
+width at week 12 as at week 1 is not reporting uncertainty; it is
+reporting the residual variance of its fit. Check the band on the
+out-of-time window: roughly nine in ten actuals inside a 90% band, and no
+fewer. A band that holds 60% of actuals is a 60% band whatever the label
+says.</p>
+<h2>Interventions</h2>
+<p>The forecast is conditional on nothing changing. Every product change
+inside the horizon breaks that condition, and the model, fit on a past
+without that change, cannot see through it. Three cases:</p>
+<ul>
+<li><strong>The change is in the past and the model was fit across it.</strong> The
+training data mixes two regimes. Either fit on the post-change window
+only, if it is long enough, or add the change as a level shift and say
+so.</li>
+<li><strong>The change is inside the horizon.</strong> Hand back two objects: the
+forecast under no change, and the change's effect as a causal question
+routed to <code>designing-experiments</code> or <code>choosing-causal-designs</code>. If the
+plan is still open, ask for a holdout so the effect can be read
+properly. Adding the change to the forecast by hand is a guess with an
+interval drawn round it.</li>
+<li><strong>The forecast is the argument for the change.</strong> A forecast that beat
+plan is not evidence that something worked. It says the past was a good
+guide to the future; it cannot say what caused the difference. Route
+the impact claim to the causal branch.</li>
+</ul>
+<h2>Forecasts as inputs to allocation</h2>
+<p>An allocation policy (inventory, budget, staffing) is only as good as the
+forecast under it, and its cost is asymmetric: under-forecasting a stock
+out and over-forecasting a write down are different losses. State the loss
+on each side before choosing the point in the interval to act on; the
+median is rarely it. The allocation's own impact, once it runs, is again
+an experiment or a holdout, never the forecast's accuracy.</p>
+
+</details>
+<details class="refdoc" id="ref-propensity-vs-uplift"><summary><span class="lab">reference</span> propensity-vs-uplift.md</summary>
+<h1>Propensity versus uplift</h1>
+<p>Two models that look alike on a dashboard and target different people.</p>
+<h2>The four kinds of unit</h2>
+<p>Cross whether a unit responds without the treatment with whether it
+responds with it:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Responds if treated</th>
+<th>Does not respond if treated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Responds if untreated</strong></td>
+<td>Sure thing</td>
+<td>Sleeping dog</td>
+</tr>
+<tr>
+<td><strong>Does not respond if untreated</strong></td>
+<td>Persuadable</td>
+<td>Lost cause</td>
+</tr>
+</tbody>
+</table>
+<p>The treatment only earns its cost on persuadables. It is wasted on sure
+things, wasted on lost causes, and harmful on sleeping dogs, the users a
+retention email reminds to cancel.</p>
+<p>A <strong>propensity model</strong> estimates the chance of the outcome. Its top decile
+is full of sure things (about to convert anyway) or, for a churn model,
+lost causes (leaving whatever you send). Persuadables sit in the middle of
+the list, where a top-k policy never reaches them.</p>
+<p>An <strong>uplift model</strong> estimates the difference the treatment makes:
+P(outcome | treated) minus P(outcome | not treated), per unit. Its top
+decile is the persuadables, and its bottom decile, when negative, is the
+sleeping dogs, the people the campaign should skip.</p>
+<h2>What uplift needs</h2>
+<p>Randomised rows. Every unit in the training data was assigned the
+treatment or the control at random, and the outcome was logged for both
+arms. That is the only data in which the arm is independent of everything
+else about the unit, so the model can learn the difference rather than the
+targeting.</p>
+<p>Observational rows cannot supply it. If marketing sent the offer to
+whoever looked risky, the treated and untreated units differ in exactly
+the ways that predict the outcome, and a model fit on them learns
+marketing's rule. It will confidently reproduce last quarter's targeting.</p>
+<p>If no randomised data exists, the experiment comes first. Route to
+<code>designing-experiments</code>: randomise the offer across the eligible
+population, log exposure, run long enough for the outcome to mature, and
+train the uplift model on those rows. The experiment doubles as the
+impact readout of the untargeted campaign, which is the baseline the model
+later has to beat.</p>
+<h2>Fitting it</h2>
+<p>Any of the standard constructions works and none is in the package:</p>
+<ul>
+<li>Two models, one per arm, uplift as the difference of their predictions.
+Simple; the difference of two noisy estimates is noisier still.</li>
+<li>One model with the arm as a feature and interactions, uplift as the
+prediction with the arm flipped.</li>
+<li>The class-variable transformation, which turns uplift into a single
+classification target when the arms are balanced.</li>
+</ul>
+<p>The choice matters less than the validation.</p>
+<h2>Reading the Qini curve</h2>
+<p><code>gallop.validate.qini</code> ranks the randomised rows by score, targets the
+top share, and counts the outcomes gained over what the control rate
+predicts for that many units. The curve runs from zero to the whole
+population's incremental outcomes; the diagonal is random targeting. Area
+above the diagonal is the model's value, and a curve that rises, peaks and
+falls says the bottom of the list contains sleeping dogs: stop targeting
+where the curve peaks, not at a round percentage.</p>
+<p>Precision at k, AUC and calibration are propensity metrics. Reported for
+an uplift model they measure the wrong thing.</p>
+<h2>When propensity is still the right model</h2>
+<p>When the question is who will do something rather than whom to treat:
+fraud scoring, demand at a location, support routing, capacity. Nobody
+intervenes on the unit scored, so the correlation the model learned is
+the one that holds. The line to draw: if the score decides who receives a
+treatment meant to change the outcome, the model has to be uplift.</p>
+
+</details>
+<details class="refdoc" id="ref-validation"><summary><span class="lab">reference</span> validation.md</summary>
+<h1>Validation</h1>
+<p>What has to be true before an offline number means anything, in the order
+the skill checks it.</p>
+<h2>Split by time</h2>
+<p>Production scores units whose outcome has not happened yet, using a model
+fit on units whose outcome has. Validation has to look the same: fit on
+rows before a cutoff, score rows on or after it.</p>
+<p><code>gallop.validate.time_split</code> takes the row dates and returns the masks.
+Two details an improvised split gets wrong:</p>
+<ul>
+<li><strong>The gap.</strong> A unit whose label window straddles the cutoff carries
+information from after it. Leave a gap the length of the label horizon
+(<code>gap</code> in days) between the last training row and the first test row:
+a 30-day churn label needs a 30-day gap.</li>
+<li><strong>Several cutoffs.</strong> One cutoff gives one estimate. Three or four rolling
+cutoffs give a sense of how stable the lift is across seasons, which is
+the thing that decides whether the model survives the year.</li>
+</ul>
+<p>Random k-fold cross-validation on time-ordered data is the most common
+reason a model that scored 0.9 offline scores 0.6 live. It is not a
+validation and the skill treats a number from it as unvalidated.</p>
+<h2>The leakage taxonomy</h2>
+<p>A feature is leaking when it carries the outcome, or information from
+after it, into the training set. <code>gallop.validate.leakage_screen</code> ranks
+features by how well each separates the outcome on its own and flags
+anything above a threshold; a single feature with an AUC of 0.97 has
+almost never earned it. The kinds, in the order to check:</p>
+<ul>
+<li><strong>The outcome under another name.</strong> A cancellation reason, a refund
+flag, a &quot;last active&quot; date computed after the churn window closed.</li>
+<li><strong>Recorded after the outcome.</strong> Fields written by the process the
+outcome triggers: a win-back email sent because the user churned, a
+support ticket opened at cancellation.</li>
+<li><strong>Aggregates that include the test window.</strong> A 90-day average computed
+over the whole table before the split, so training rows contain test
+outcomes.</li>
+<li><strong>Duplicates across the split.</strong> The same user on both sides, with a
+near-identical feature row.</li>
+<li><strong>A proxy of the label.</strong> Not leakage strictly, but a feature the
+decision can act on only after the outcome, such as &quot;payment failed&quot;.</li>
+</ul>
+<p>A flagged feature is removed or explained; explained means a sentence
+saying why it is available at scoring time and not downstream of the
+outcome.</p>
+<h2>The operating point</h2>
+<p>A decision acts on the top k of a ranking. Everything about the model
+that matters happens there, and AUC, which averages over every possible k,
+says little about it. <code>gallop.validate.baseline_lift</code> reports, at the k
+the decision uses:</p>
+<ul>
+<li><strong>Precision at k</strong>: the outcome rate among the targeted units.</li>
+<li><strong>The base rate</strong>: the outcome rate among everyone.</li>
+<li><strong>Lift</strong>: precision over base rate. A lift of 1 is a coin toss dressed
+as a model; a lift of 3 at the top decile on a 8% base rate means the
+targeted units convert at 24%.</li>
+<li><strong>Recall at k</strong>: the share of all outcomes the targeted set captures,
+which bounds how much any policy acting on that set can move the metric.</li>
+</ul>
+<p>If k is not yet chosen, report lift at two or three candidate points and
+let the cost of the treatment choose. Lift always falls as k grows.</p>
+<h2>Calibration</h2>
+<p>A ranking needs no calibration. A threshold, an expected value or a
+budget allocation does: &quot;treat everyone above 30%&quot; is only a decision if
+30% means 30%. <code>gallop.validate.calibration</code> returns:</p>
+<ul>
+<li>A <strong>reliability table</strong>: mean score against observed rate, per bin. The
+bins should sit on the diagonal.</li>
+<li>The <strong>Brier score</strong>, mean squared error of the probabilities, against
+the Brier score of always forecasting the base rate. The skill score
+<code>1 - brier / brier_base</code> is the share of the base-rate error the model
+removes; at or below zero the model is worse than the base rate.</li>
+<li>The <strong>Murphy decomposition</strong>: reliability (calibration error, lower is
+better), resolution (how far the bins' observed rates sit from the base
+rate, higher is better) and uncertainty (the base rate's own variance,
+fixed). Brier = reliability − resolution + uncertainty.</li>
+<li><strong>Expected calibration error</strong>, the weighted mean gap between score and
+observed rate across bins.</li>
+</ul>
+<p>Calibration drifts before ranking does. It is the first production check
+to schedule.</p>
+<h2>Volume</h2>
+<p>For a classifier, the out-of-time window needs enough positives that the
+lift at k has an interval narrower than the lift itself. A working rule:
+a few hundred positive outcomes in the test window; at the top decile
+that gives a few dozen targeted positives, the least that separates a
+lift of 2 from a lift of 1. Below that, the model cannot be told from the
+base rate and the verdict is not fundable. The hand-back at that volume
+is a rule on one or two fields, with the metric it is judged on and the
+volume at which a model becomes checkable.</p>
+
+</details></div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills, with a thin Python package underneath.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../intake/">The intake</a>
+    <a href="../../theory/">The theory layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span>pre-1.0, moving fast</span>
+    <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".mode button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    try {
+      var saved = localStorage.getItem("gallop-theme");
+      if (saved === "dark" || saved === "light") apply(saved);
+    } catch (e) {}
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

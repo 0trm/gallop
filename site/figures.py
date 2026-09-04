@@ -9,7 +9,7 @@ call the same gallop functions the skill does.
   site/figures/cuped.svg          standard-error factor against rho
   site/figures/shrinkage.svg      the quickstart's raw and shrunk estimate
   site/figures/prior-store.svg    what a hundred readouts on one metric look like
-  site/figures/skills-map.svg     the six skills placed on the method map
+  site/figures/skills-map.svg     the skills placed on the method map
 
 Run:  python3 site/figures.py      (then site/build.py inlines them)
 """
@@ -214,6 +214,7 @@ def skills_map():
          '<path d="M0 0L9 4L0 8z" class="dot"/></marker>'
          '<pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern>'
          '<pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern>'
+         '<pattern id="pd" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="dot"/></pattern>'
          '<pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern>'
          '</defs>']
     # theory band, the ceiling
@@ -223,11 +224,11 @@ def skills_map():
     b.append(text(64, 64, "the ceiling: what each decision taught, and the prior it left", "dimt"))
     b.append('<a href="writing-readouts/"><text class="sk" x="780" y="54" text-anchor="end">writing-readouts</text></a>')
     # measurement band, the floor
-    b.append('<rect class="node" x="40" y="404" width="760" height="56"/>')
-    b.append('<rect class="dot" x="40" y="404" width="12" height="56"/>')
-    b.append(text(64, 428, "Measurement framework", "t-title"))
-    b.append(text(64, 448, "the floor: the definition of success, and whether the number can be trusted", "dimt"))
-    b.append('<a href="defining-metrics/"><text class="sk" x="780" y="438" text-anchor="end">defining-metrics</text></a>')
+    b.append('<rect class="node" x="40" y="484" width="760" height="56"/>')
+    b.append('<rect class="dot" x="40" y="484" width="12" height="56"/>')
+    b.append(text(64, 508, "Measurement framework", "t-title"))
+    b.append(text(64, 528, "the floor: the definition of success, and whether the number can be trusted", "dimt"))
+    b.append('<a href="defining-metrics/"><text class="sk" x="780" y="518" text-anchor="end">defining-metrics</text></a>')
     # routing
     b.append(box(40, 172, 224, 116, "Routing", ["routing-questions"]))
     b.append(text(64, 268, "one lookup, three questions, one gate", "dimt"))
@@ -238,6 +239,9 @@ def skills_map():
     # the two causal boxes
     b.append(box(540, 112, 260, 96, "Experimentation", ["designing-experiments", "reading-experiments"], "pv"))
     b.append(box(540, 260, 260, 76, "Causal inference", ["choosing-causal-designs"], "px"))
+    # the service layer, below the path: no incoming arrow from the question
+    b.append(box(540, 364, 260, 84, "Statistical modeling", ["automating-decisions"], "pd"))
+    b.append(text(564, 432, "the decision, made at volume", "dimt"))
     # arrows
     b.append('<path class="ax" marker-end="url(#sm)" d="M264 230H350"/>')
     b.append('<path class="ax" marker-end="url(#sm)" d="M484 230H512V160H534"/>')
@@ -245,13 +249,16 @@ def skills_map():
     b.append(text(496, 150, "yes", "t-edge"))
     b.append(text(496, 292, "no", "t-edge"))
     b.append('<path class="ax dash" marker-end="url(#sm)" d="M420 76V184"/>')
-    b.append('<path class="ax dash" marker-end="url(#sm)" d="M420 404V276"/>')
+    b.append('<path class="ax dash" marker-end="url(#sm)" d="M420 484V276"/>')
     b.append('<path class="ax dash" marker-end="url(#sm)" d="M670 208V254"/>')
-    return svg(480, "\n".join(b),
-               "The six skills placed on the method map: writing-readouts on the theory layer across the top, "
+    b.append('<path class="ax dash" marker-end="url(#sm)" d="M670 364V342"/>')
+    return svg(560, "\n".join(b),
+               "The skills placed on the method map: writing-readouts on the theory layer across the top, "
                "defining-metrics on the measurement framework across the bottom, routing-questions at the "
                "entry before the can-you-randomize diamond, designing-experiments and reading-experiments on "
-               "the experimentation box, choosing-causal-designs on the causal inference box.")
+               "the experimentation box, choosing-causal-designs on the causal inference box, and "
+               "automating-decisions on the statistical modeling box below the path, with a dashed arrow "
+               "up into causal inference because modeling supplies its estimators.")
 
 
 # %% -------------------------------------------------------------------- main

@@ -4,7 +4,8 @@
 
 Six positions: routing, the measurement floor, three method buckets
 (description, causation, prediction), and the theory ceiling. Every skill and
-every module traces to exactly one. A proposal that needs a seventh position is
+every module traces to exactly one; causation carries three skills, prediction
+one, description none yet. A proposal that needs a seventh position is
 refused, not accommodated. This repo has been built once before and abandoned at
 53 documents; the rule exists because of that.
 
@@ -12,7 +13,7 @@ refused, not accommodated. This repo has been built once before and abandoned at
 
 - Gerund-form kebab-case directory names, matching the `name` field exactly.
 - `SKILL.md` body under 500 lines. If it will not fit, cut coverage. Never split
-  into a seventh skill.
+  a skill to get under the limit; one skill per position.
 - References sit exactly one level below `SKILL.md`. Never deeper: Claude
   partially reads files reached through a chain.
 - Reference files are named for their content, `interference.md`, not `advanced.md`.

@@ -60,15 +60,18 @@ FIGURES = {
         "wished for sits to the right of every effect the metric has ever produced."),
 }
 
-# The one place the six positions live. Build fails if this and skills/ drift.
+# The one place the skills' positions live. Build fails if this and skills/ drift.
 POSITIONS = {
     "routing-questions": ("Routing", "Whether this becomes work at all, and which skill it becomes"),
     "defining-metrics": ("The floor", "A metric turned into a computation, a source of truth, and a statement of how it will be gamed"),
     "designing-experiments": ("Causation", "The four choices that cannot be repaired after launch, with the MDE from the prior store"),
     "reading-experiments": ("Causation", "Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage"),
     "choosing-causal-designs": ("Causation", "The method that matches how assignment happened, and the exit that says there is no comparison group"),
+    "automating-decisions": ("Prediction", "Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact"),
     "writing-readouts": ("The ceiling", "The decision rule first, the result last; the belief filed where the next question starts"),
 }
+
+COUNT_WORD = {6: "Six", 7: "Seven", 8: "Eight"}.get(len(POSITIONS), str(len(POSITIONS)))
 
 md = MarkdownIt("commonmark", {"typographer": False}).enable("table")
 
@@ -166,7 +169,7 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="{root}skills/">The six skills</a>
+    <a href="{root}skills/">The skills</a>
     <a href="{root}install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>
@@ -336,16 +339,17 @@ def build_skills_index(dirs, emitted):
     </a>""")
     body = f"""<div class="band">
   <div class="secthead">
-    <p class="lab">Six skills</p>
+    <p class="lab">{COUNT_WORD} skills</p>
   </div>
   <div class="doc mapfig">
     {figure("skills-map.svg", "Where each skill sits. The ceiling and the floor are bands because every "
-            "question touches them; the three causal skills split on who assigned the treatment. "
+            "question touches them; the three causal skills split on who assigned the treatment; "
+            "the prediction skill sits below the path, where modeling serves the decision. "
             "Each name is a link.")}
   </div>
 </div>
 <div class="band">
-  <div class="cells six sixlinks">
+  <div class="cells skillgrid sixlinks">
 {chr(10).join(rows)}
   </div>
 </div>
@@ -356,7 +360,9 @@ failure mode. Together they run one question end to end: it arrives at
 maintains, gets its method from <code>designing-experiments</code> or
 <code>choosing-causal-designs</code>, is believed or not by
 <code>reading-experiments</code>, and is filed by <code>writing-readouts</code>
-so the next question starts smaller.</p>
+so the next question starts smaller. A decision made continuously, at volume,
+leaves the path for <code>automating-decisions</code> and comes back to it for
+the experiment that measures the model's impact.</p>
 </div></div>"""
     style = """
   .mapfig{padding-top:28px;padding-bottom:8px}
@@ -365,14 +371,14 @@ so the next question starts smaller.</p>
   .sixlinks h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
   .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
-  .six{grid-template-columns:repeat(3,1fr)}
-  .six > *{border-bottom:1px solid var(--line)}
-  .six > *:nth-child(3n){border-right:0}
-  .six > *:nth-child(n+4){border-bottom:0}
-  @media (max-width:1080px){.six{grid-template-columns:1fr}
-    .six > *{border-right:0;border-bottom:1px solid var(--line)!important}}"""
-    out = page(title="The six skills · gallop",
-               description="Six skills, one position on the method map each.",
+  .skillgrid{grid-template-columns:repeat(4,1fr)}
+  .skillgrid > *{border-bottom:1px solid var(--line)}
+  .skillgrid > *:nth-child(4n){border-right:0}
+  .skillgrid > *:nth-child(n+5){border-bottom:0}
+  @media (max-width:1080px){.skillgrid{grid-template-columns:1fr}
+    .skillgrid > *{border-right:0;border-bottom:1px solid var(--line)!important}}"""
+    out = page(title="The skills · gallop",
+               description=f"{COUNT_WORD} skills, one position on the method map each.",
                root="../", active="skills/", body=body, extra_style=style)
     write(SITE / "skills" / "index.html", out, emitted)
 

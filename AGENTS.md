@@ -1,4 +1,4 @@
-# Orchestrating the six skills
+# Orchestrating the skills
 
 How the skills hand off to each other when an agent runs a product question
 end to end. Any single skill stands alone; this file is the wiring.
@@ -14,8 +14,9 @@ question arrives
        │                          then RE-ENTER routing with the original question
        ├─ description             exploratory work; hands back a hypothesis, which
        │                          re-enters routing as a change question when it matures
-       ├─ prediction              a model; out of scope for v1, but the model still
-       │                          needs designing-experiments before it claims impact
+       ├─ automating-decisions    decided continuously, at volume: a forecast, a
+       │                          ranking, an allocation. Validated out of time,
+       │                          then designing-experiments before it claims impact
        ├─ designing-experiments   you control assignment
        └─ choosing-causal-designs assignment already happened
               └─ (or the exit: no comparison group; say so; stop, and file the refusal)
@@ -47,9 +48,10 @@ experiment runs
 ## The package underneath
 
 Skills call `python -m gallop.<module>` (power, trust, variance, sequential,
-shrink, priors) and two bundled scripts:
-`skills/designing-experiments/scripts/size_test.py` and
-`skills/reading-experiments/scripts/run_checks.py`. If the package is not
+shrink, priors, validate) and three bundled scripts:
+`skills/designing-experiments/scripts/size_test.py`,
+`skills/reading-experiments/scripts/run_checks.py` and
+`skills/automating-decisions/scripts/validate_model.py`. If the package is not
 installed, `pip install gallop` (or from source,
 `pip install git+https://github.com/0trm/gallop`); do not improvise the
 statistics the modules exist to pin down.
