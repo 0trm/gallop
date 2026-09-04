@@ -42,6 +42,13 @@ pushes, and the pre-trend projection cannot separate any of that. That
 case takes the last row: bounds at most, a referral to whoever owns mix
 modelling or panel data, and a holdout designed into the next flight.
 
+The second row has its own misread: **two units, one treated, is still
+DiD.** An Android switch with iOS untouched has a comparison group, and
+the twin is the counterfactual, not a falsification check bolted onto an
+ITS. With two clusters the standard errors are weak and the readout says
+so in words; that is a reason to state the inference honestly, never a
+reason to drop to a design that throws away the only comparison there is.
+
 ## What every design here must state
 
 1. **The counterfactual, in one sentence.** What would have happened

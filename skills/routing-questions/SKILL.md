@@ -65,9 +65,9 @@ Read the question's own verbs.
 
 - *What, where, how many, who, what happened* → **description.** Exploratory
   work: funnels, segmentation, deep dives, opportunity sizing. Hands back **a
-  hypothesis**, not an answer. (No dedicated skill in v1; do the exploratory
-  work with ordinary care, state clearly that the output is a hypothesis, and
-  when it matures into a change question, re-enter this routing at step 3.)
+  hypothesis**, not an answer. Route to **`sizing-opportunities`**: the floor
+  first, then the move localised and sized; the hypothesis re-enters this
+  routing at step 3 as a change question.
 - *Because, caused, lift, impact, worth it, did it work* → **a change
   question.** Continue to step 3.
 
@@ -134,7 +134,7 @@ ranked, which is a cheaper argument to have than the one about priorities.
 
 | The question as it arrives | Route | Why |
 |---|---|---|
-| "Mobile checkout conversion dropped four points. What happened?" | description | Pure what-happened. Funnel and segment until it localises; hand back a hypothesis |
+| "Mobile checkout conversion dropped four points. What happened?" | `sizing-opportunities` | Pure what-happened. The floor first, then funnel and segment until it localises; a sized hypothesis comes back |
 | "Does the one-page checkout increase completion?" | `designing-experiments` | You control who sees which checkout |
 | "We rolled new pricing to everyone in March. Did it help?" | `choosing-causal-designs` | Assignment already happened, non-randomly |
 | "Users with notifications retain better. Push everyone to enable?" | `designing-experiments` | The trap case: randomise the prompt, not the outcome |

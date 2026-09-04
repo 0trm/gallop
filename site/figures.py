@@ -232,6 +232,10 @@ def skills_map():
     # routing
     b.append(box(40, 172, 224, 116, "Routing", ["routing-questions"]))
     b.append(text(64, 268, "one lookup, three questions, one gate", "dimt"))
+    # the description exit, below routing: a what-happened question leaves the
+    # path here and comes back as a hypothesis
+    b.append(box(40, 364, 260, 84, "Exploratory analytics", ["sizing-opportunities"], "ph"))
+    b.append(text(64, 432, "the question, localised and sized", "dimt"))
     # the diamond
     b.append('<polygon class="node" points="356,230 420,190 484,230 420,270"/>')
     b.append(text(420, 226, "can you", "t-q", "middle"))
@@ -252,13 +256,19 @@ def skills_map():
     b.append('<path class="ax dash" marker-end="url(#sm)" d="M420 484V276"/>')
     b.append('<path class="ax dash" marker-end="url(#sm)" d="M670 208V254"/>')
     b.append('<path class="ax dash" marker-end="url(#sm)" d="M670 364V342"/>')
+    b.append('<path class="ax" marker-end="url(#sm)" d="M120 288V358"/>')
+    b.append('<path class="ax dash" marker-end="url(#sm)" d="M200 364V294"/>')
+    b.append(text(112, 330, "description", "t-edge", "end"))
+    b.append(text(208, 330, "hypothesis", "t-edge"))
     return svg(560, "\n".join(b),
                "The skills placed on the method map: writing-readouts on the theory layer across the top, "
                "defining-metrics on the measurement framework across the bottom, routing-questions at the "
                "entry before the can-you-randomize diamond, designing-experiments and reading-experiments on "
-               "the experimentation box, choosing-causal-designs on the causal inference box, and "
-               "automating-decisions on the statistical modeling box below the path, with a dashed arrow "
-               "up into causal inference because modeling supplies its estimators.")
+               "the experimentation box, choosing-causal-designs on the causal inference box, "
+               "sizing-opportunities on the exploratory analytics box below routing, reached by the "
+               "description exit and returning a hypothesis, and automating-decisions on the "
+               "statistical modeling box below the path, with a dashed arrow up into causal inference "
+               "because modeling supplies its estimators.")
 
 
 # %% -------------------------------------------------------------------- main

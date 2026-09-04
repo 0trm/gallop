@@ -61,3 +61,39 @@ Sonnet. Two findings worth keeping:
   data accrues", so the skill now says outright that rolling folds do not
   create outcomes and that a thinner model with a warning is the failure
   the verdict exists to prevent.
+
+## The description skill's evals, and a full run (2026-09-04, Sonnet)
+
+All 24 evals run with their skill on Sonnet; 23 passed first time. The
+exception was `choosing-causal-designs-01-selection`, where the model
+picked ITS with iOS as a falsification series and cited the reference's
+warning about two-cluster standard errors as a reason to abandon DiD. The
+skill gained a guard (two units, one treated, is still DiD; weak inference
+is stated, not escaped) and the rerun lands on DiD.
+
+The three `sizing-opportunities` evals discriminate least of the eight
+skills, and the reason is worth keeping:
+
+- **Given the prior store, the baseline anchors on it unprompted.** With
+  `priors.jsonl` in the workspace, Sonnet without the skill refuses the
+  32-point-gap revenue figure, pools the five onboarding effects and
+  sizes at the prior mean. What it never produces is the MDE and the
+  verdict that follows from it: whether a test could see the effect at
+  all. That verdict is the skill's residual value in both sizing evals,
+  and it is computed by `gallop.explore.size_opportunity`, not described.
+- **Decomposition discriminates because it is computed.** On the
+  eighteen-segment table the baseline lists what to check (multiple
+  comparisons, share of volume, Simpson's) and hedges; with the skill the
+  model runs the mix-versus-rate decomposition, reads the platform view as
+  a mix shift seen from the wrong side, and names the acquisition
+  hypothesis.
+- **The floor-first case did not discriminate and was replaced.** Given a
+  daily funnel and release notes, the baseline reads flat step rates and a
+  same-day tag publish as measurement without help, in two variants. The
+  discipline stays in the skill; the eval slot went to the
+  too-small-to-measure verdict.
+
+For this position the earlier finding inverts: the mechanics are what a
+capable model lacks, because the mechanics are arithmetic it does not run
+on its own. Evals for the description bucket should hand the model the
+data and grade on the number it computes, not on the caution it voices.

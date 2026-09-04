@@ -26,7 +26,8 @@ level plus the *untreated units' change over time*. The effect is
    shift.
 3. **Cluster standard errors at the assignment unit** (market, country,
    wave). With few clusters (under ~20, and certainly at 2) the asymptotic
-   errors are fiction; use wild-cluster bootstrap or say plainly that
+   errors are fiction; the design still stands, the inference is what
+   weakens. Use wild-cluster bootstrap or say plainly that
    inference is weak. Two markets is not enough units for credible DiD
    inference; treat that case as ITS with a control series.
 4. **Staggered adoption needs care**: with units treated at different

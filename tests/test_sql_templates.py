@@ -10,13 +10,16 @@ PARAMS = {
     "metric_column": "activated",
     "pre_metric_column": "activated_pre",
     "exposure_event": "saw_new_checkout",
+    "period_column": "month",
+    "segment_column": "channel",
 }
 
 
 def test_templates_substitute_fully_with_stdlib_template():
     paths = sorted(SQL_DIR.glob("*.sql.tmpl"))
     assert {p.name for p in paths} == {
-        "assignment_counts.sql.tmpl", "exposure_counts.sql.tmpl", "primary_metric.sql.tmpl"}
+        "assignment_counts.sql.tmpl", "exposure_counts.sql.tmpl", "primary_metric.sql.tmpl",
+        "segment_rates.sql.tmpl"}
     for p in paths:
         rendered = Template(p.read_text()).substitute(PARAMS)
         assert "$" not in rendered, f"{p.name} has an unsubstituted placeholder"

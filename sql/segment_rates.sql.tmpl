@@ -1,0 +1,12 @@
+-- Segment counts by period for gallop.explore mix_rate: one row per period
+-- and segment with the denominator and the numerator count. Two periods in,
+-- a mix-versus-rate decomposition out. Pass the whole history and pick
+-- --before and --after in the script, or filter the periods here.
+-- Standard SQL: runs unchanged on BigQuery and DuckDB.
+SELECT
+  $period_column AS period,
+  $segment_column AS segment,
+  COUNT(*) AS n,
+  SUM($metric_column) AS y
+FROM $table
+GROUP BY 1, 2

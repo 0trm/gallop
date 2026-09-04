@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gallop-pds"
-version = "0.2.0"
-description = "Product data science checks: power from priors, SRM, CUPED, always-valid inference, empirical Bayes shrinkage, out-of-time model validation, and the prior store they read."
+version = "0.3.0"
+description = "Product data science checks: power from priors, SRM, CUPED, always-valid inference, empirical Bayes shrinkage, out-of-time model validation, mix-versus-rate decomposition, and the prior store they read."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

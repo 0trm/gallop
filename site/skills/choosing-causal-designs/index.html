@@ -116,6 +116,12 @@ effect shape is unknown, it usually arrives with seasonality and other
 pushes, and the pre-trend projection cannot separate any of that. That
 case takes the last row: bounds at most, a referral to whoever owns mix
 modelling or panel data, and a holdout designed into the next flight.</p>
+<p>The second row has its own misread: <strong>two units, one treated, is still
+DiD.</strong> An Android switch with iOS untouched has a comparison group, and
+the twin is the counterfactual, not a falsification check bolted onto an
+ITS. With two clusters the standard errors are weak and the readout says
+so in words; that is a reason to state the inference honestly, never a
+reason to drop to a design that throws away the only comparison there is.</p>
 <h2 id="what-every-design-here-must-state">What every design here must state</h2>
 <ol>
 <li><strong>The counterfactual, in one sentence.</strong> What would have happened
@@ -182,7 +188,8 @@ path shows whether the effect grows, fades, or is a one-time level
 shift.</li>
 <li><strong>Cluster standard errors at the assignment unit</strong> (market, country,
 wave). With few clusters (under ~20, and certainly at 2) the asymptotic
-errors are fiction; use wild-cluster bootstrap or say plainly that
+errors are fiction; the design still stands, the inference is what
+weakens. Use wild-cluster bootstrap or say plainly that
 inference is weak. Two markets is not enough units for credible DiD
 inference; treat that case as ITS with a control series.</li>
 <li><strong>Staggered adoption needs care</strong>: with units treated at different

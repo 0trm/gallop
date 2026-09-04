@@ -12,8 +12,9 @@ question arrives
        ├─ exit: curiosity         no decision changes on the answer; backlog; stop
        ├─ defining-metrics        the metric cannot be trusted; fix the floor,
        │                          then RE-ENTER routing with the original question
-       ├─ description             exploratory work; hands back a hypothesis, which
-       │                          re-enters routing as a change question when it matures
+       ├─ sizing-opportunities    exploratory work: the floor first, then the move
+       │                          localised and sized; hands back a hypothesis, which
+       │                          re-enters routing as a change question
        ├─ automating-decisions    decided continuously, at volume: a forecast, a
        │                          ranking, an allocation. Validated out of time,
        │                          then designing-experiments before it claims impact
@@ -48,10 +49,11 @@ experiment runs
 ## The package underneath
 
 Skills call `python -m gallop.<module>` (power, trust, variance, sequential,
-shrink, priors, validate) and three bundled scripts:
+shrink, priors, validate, explore) and four bundled scripts:
 `skills/designing-experiments/scripts/size_test.py`,
-`skills/reading-experiments/scripts/run_checks.py` and
-`skills/automating-decisions/scripts/validate_model.py`. If the package is not
+`skills/reading-experiments/scripts/run_checks.py`,
+`skills/automating-decisions/scripts/validate_model.py` and
+`skills/sizing-opportunities/scripts/size_opportunity.py`. If the package is not
 installed, `pip install gallop-pds` (or from source,
 `pip install git+https://github.com/0trm/gallop`); do not improvise the
 statistics the modules exist to pin down.

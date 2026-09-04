@@ -64,6 +64,7 @@ FIGURES = {
 POSITIONS = {
     "routing-questions": ("Routing", "Whether this becomes work at all, and which skill it becomes"),
     "defining-metrics": ("The floor", "A metric turned into a computation, a source of truth, and a statement of how it will be gamed"),
+    "sizing-opportunities": ("Description", "A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize"),
     "designing-experiments": ("Causation", "The four choices that cannot be repaired after launch, with the MDE from the prior store"),
     "reading-experiments": ("Causation", "Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage"),
     "choosing-causal-designs": ("Causation", "The method that matches how assignment happened, and the exit that says there is no comparison group"),
@@ -344,8 +345,9 @@ def build_skills_index(dirs, emitted):
   <div class="doc mapfig">
     {figure("skills-map.svg", "Where each skill sits. The ceiling and the floor are bands because every "
             "question touches them; the three causal skills split on who assigned the treatment; "
-            "the prediction skill sits below the path, where modeling serves the decision. "
-            "Each name is a link.")}
+            "the description skill sits below routing, where a what-happened question is localised "
+            "and sized before it comes back as a change question; the prediction skill sits below "
+            "the path, where modeling serves the decision. Each name is a link.")}
   </div>
 </div>
 <div class="band">
@@ -360,9 +362,11 @@ failure mode. Together they run one question end to end: it arrives at
 maintains, gets its method from <code>designing-experiments</code> or
 <code>choosing-causal-designs</code>, is believed or not by
 <code>reading-experiments</code>, and is filed by <code>writing-readouts</code>
-so the next question starts smaller. A decision made continuously, at volume,
-leaves the path for <code>automating-decisions</code> and comes back to it for
-the experiment that measures the model's impact.</p>
+so the next question starts smaller. A what-happened question leaves the path
+for <code>sizing-opportunities</code> and comes back as a sized hypothesis; a
+decision made continuously, at volume, leaves it for
+<code>automating-decisions</code> and comes back for the experiment that
+measures the model's impact.</p>
 </div></div>"""
     style = """
   .mapfig{padding-top:28px;padding-bottom:8px}
