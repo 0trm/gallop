@@ -221,6 +221,15 @@ cheaper than the first.</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

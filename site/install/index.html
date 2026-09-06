@@ -45,7 +45,7 @@ every time.</p>
 <pre><code>/plugin marketplace add 0trm/gallop
 /plugin install gallop@gallop
 </code></pre>
-<p>All six skills, invoked by name or picked up automatically when a question
+<p>All eight skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the <code>gallop</code> package, so add
 <code>pip install gallop-pds</code> if you want the checks to run rather than be described.</p>
 <h2 id="any-other-agent-or-none">Any other agent, or none</h2>
@@ -163,6 +163,15 @@ checks an answer has to pass before it ships.</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

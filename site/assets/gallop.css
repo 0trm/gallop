@@ -148,9 +148,18 @@ img,svg{max-width:100%}
 .term .path{font-family:var(--mono);text-transform:none;letter-spacing:0;
             font-size:13px;color:var(--dim)}
 .term .path b{font-weight:700;color:var(--fg)}
-.term pre{margin:0;padding:20px 22px;white-space:pre;overflow-x:auto;font-size:14px}
+/* a run is a question, its rows, and where it went. the rows are a grid, so
+   on a phone the answer drops under its question instead of running off the
+   right edge. */
+.term .run{padding:18px 22px 20px;font-size:14px;line-height:1.75}
 .term .run + .run{border-top:1px solid var(--line)}
-.term .dest{font-weight:700}
+.term .run p{margin:0}
+.term .run b{font-weight:700}
+.term .q{margin-bottom:1.2em}
+.term .row{display:grid;grid-template-columns:9ch 24ch 1fr;padding-left:2ch}
+.term .to{margin-top:1.2em;padding-left:2ch}
+.term .sub{padding-left:5ch}
+.term .end{margin-top:1.2em}
 @keyframes blink{50%{opacity:0}}
 .cursor{display:inline-block;width:8px;height:1.05em;background:var(--fg);
         vertical-align:-2px;animation:blink 1s step-end infinite}
@@ -247,5 +256,8 @@ img,svg{max-width:100%}
   .foot > :first-child{display:flex;gap:16px;align-items:baseline}
   .foot > :first-child .wm{margin:0;flex:none}
   .desk{--gutter:16px}
-  .term pre{font-size:13px;padding:16px}
+  .term .run{padding:14px 16px 16px;font-size:13px}
+  .term .row{grid-template-columns:8ch 1fr;padding-left:0}
+  .term .row span:last-child{grid-column:2}
+  .term .to,.term .sub{padding-left:0}
 }

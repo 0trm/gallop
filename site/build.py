@@ -233,6 +233,15 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 {footer(root)}
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {{
+    if (!navigator.clipboard) {{ b.hidden = true; return; }}
+    b.addEventListener("click", function () {{
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {{
+        b.textContent = "Copied";
+        setTimeout(function () {{ b.textContent = "Copy"; }}, 1600);
+      }});
+    }});
+  }});
   (function () {{
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;
@@ -323,8 +332,10 @@ def build_skill_page(d, emitted):
       <p class="skdesc">{meta.get("description", "")}</p>
     </div>
     <div>
+      <div class="snip"><pre>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/{name} .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
-        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       {script_note}
     </div>
   </div>

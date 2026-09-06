@@ -47,8 +47,10 @@
       <p class="skdesc">Decides whether a repeated, at-volume decision belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.</p>
     </div>
     <div>
+      <div class="snip"><pre>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/automating-decisions .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/automating-decisions">
-        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/automating-decisions/scripts/validate_model.py">scripts/validate_model.py</a></li></ul></div>
     </div>
   </div>
@@ -520,6 +522,15 @@ volume at which a model becomes checkable.</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

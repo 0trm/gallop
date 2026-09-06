@@ -46,8 +46,10 @@
       <p class="skdesc">Selects a causal design when assignment already happened and randomisation was never possible: interrupted time series for one unit and one switch date, difference-in-differences for treated and untreated units seen before and after, synthetic control for one treated unit and many donors, matching on observables, instrumental variables, and the exit that says there is no valid comparison group. Use when measuring the impact of something already rolled out, a launch, a migration, a pricing change, or a campaign that reached everyone at once.</p>
     </div>
     <div>
+      <div class="snip"><pre>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/choosing-causal-designs .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/choosing-causal-designs">
-        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
     </div>
   </div>
@@ -502,6 +504,15 @@ markets.&quot; Twin, gap, placebo distribution, assumption.</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

@@ -47,8 +47,10 @@
       <p class="skdesc">Turns a what-happened question into a localised, sized hypothesis: rules out the measurement floor before any behavioural story, decomposes a moved metric into mix and rate, splits the change across funnel steps, scans segments with the number of cuts declared, and sizes the opportunity as a ceiling and a prior-anchored estimate against the MDE, then hands the hypothesis back to routing as a change question. Use when a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it.</p>
     </div>
     <div>
+      <div class="snip"><pre>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/sizing-opportunities .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/sizing-opportunities">
-        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/sizing-opportunities/scripts/size_opportunity.py">scripts/size_opportunity.py</a></li></ul></div>
     </div>
   </div>
@@ -561,6 +563,15 @@ never left out.</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

@@ -124,31 +124,30 @@
         <div class="tbar"><span class="cur"></span>
           <span class="path"><b>routing-questions</b></span>
           <button type="button" class="replay" aria-label="Replay the routing">replay</button></div>
-        <div class="run"><pre><span class="dim">&gt;</span> did the new onboarding lift D7 retention?
-
-  <span class="key">lookup</span>   theory layer            2 prior tests on d7_retention, none on onboarding
-  <span class="key">gate</span>     trust the metric?       d7_retention, registered, one source of truth
-  <span class="key">q1</span>       description or change?  a change
-  <span class="key">q2</span>       once or continuously?   once, a ship-or-kill call
-  <span class="key">q3</span>       who assigned it?        you: a 50/50 flag, live since 04-08
-
-  <span class="dim">-&gt;</span> <span class="dest">reading-experiments</span>
-     <span class="dim">srm &middot; exposure log &middot; sequential bound &middot; cuped &middot; shrinkage</span></pre></div>
-        <div class="run"><pre><span class="dim">&gt;</span> how much does a paywall test usually move trial starts?
-
-  <span class="key">lookup</span>   theory layer            trial_starts: 6 entries, median +0.9pp, none expired
-
-  <span class="dim">-&gt;</span> <span class="dest">settled</span>
-     <span class="dim">the store already answers it. no query, no traffic, no ticket.</span></pre></div>
-        <div class="run"><pre><span class="dim">&gt;</span> is activation down since the pricing change?
-
-  <span class="key">lookup</span>   theory layer            activation: no entry, no prior
-  <span class="key">gate</span>     trust the metric?       two dashboards disagree, no owner, no registry entry
-
-  <span class="dim">-&gt;</span> <span class="dest">defining-metrics</span>
-     <span class="dim">the measurement work is the work. not in the meantime.</span>
-
-<span class="dim">&gt;</span> <span class="cursor"></span></pre></div>
+        <div class="run">
+          <p class="q"><span class="dim">&gt;</span> <span class="typed">did the new onboarding lift D7 retention?</span></p>
+          <div class="row"><b>lookup</b><span>theory layer</span><span>2 prior tests on d7_retention, none on onboarding</span></div>
+          <div class="row"><b>gate</b><span>trust the metric?</span><span>d7_retention, registered, one source of truth</span></div>
+          <div class="row"><b>q1</b><span>description or change?</span><span>a change</span></div>
+          <div class="row"><b>q2</b><span>once or continuously?</span><span>once, a ship-or-kill call</span></div>
+          <div class="row"><b>q3</b><span>who assigned it?</span><span>you: a 50/50 flag, live since 04-08</span></div>
+          <p class="to"><span class="dim">-&gt;</span> <b>reading-experiments</b></p>
+          <p class="sub dim">srm &middot; exposure log &middot; sequential bound &middot; cuped &middot; shrinkage</p>
+        </div>
+        <div class="run">
+          <p class="q"><span class="dim">&gt;</span> <span class="typed">how much does a paywall test usually move trial starts?</span></p>
+          <div class="row"><b>lookup</b><span>theory layer</span><span>trial_starts: 6 entries, median +0.9pp, none expired</span></div>
+          <p class="to"><span class="dim">-&gt;</span> <b>settled</b></p>
+          <p class="sub dim">the store already answers it. no query, no traffic, no ticket.</p>
+        </div>
+        <div class="run">
+          <p class="q"><span class="dim">&gt;</span> <span class="typed">is activation down since the pricing change?</span></p>
+          <div class="row"><b>lookup</b><span>theory layer</span><span>activation: no entry, no prior</span></div>
+          <div class="row"><b>gate</b><span>trust the metric?</span><span>two dashboards disagree, no owner, no registry entry</span></div>
+          <p class="to"><span class="dim">-&gt;</span> <b>defining-metrics</b></p>
+          <p class="sub dim">the measurement work is the work. not in the meantime.</p>
+          <p class="q end"><span class="dim">&gt;</span> <span class="cursor"></span></p>
+        </div>
       </div>
     </div>
     <div class="note">
@@ -220,53 +219,50 @@
 
 <script>
   /* The three runs type themselves out in sequence, then replay on request.
-     Every pre reserves its finished height before it is emptied, so the frame
-     never resizes. Reduced-motion readers get the finished transcript and no
-     replay control. */
+     Rows are revealed by visibility, so the frame is full size from the first
+     paint and nothing moves. Reduced-motion readers get the finished
+     transcript and no replay control. */
   (function () {
-    var pres = Array.prototype.slice.call(document.querySelectorAll(".term .run pre"));
+    var runs = Array.prototype.slice.call(document.querySelectorAll(".term .run"));
     var btn = document.querySelector(".term .replay");
-    if (!pres.length) return;
+    if (!runs.length) return;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) { if (btn) btn.hidden = true; return; }
 
-    var CHAR = 22, PAUSE = 400, ROW = 190, GAP = 90, BETWEEN = 340;
-    var runs = pres.map(function (pre) {
-      var full = pre.innerHTML;
-      return { pre: pre, full: full, lines: full.split("\n") };
-    });
+    var CHAR = 22, PAUSE = 400, ROW = 190, BETWEEN = 340;
     var timers = [];
-
-    /* the last run authors its own resting cursor, so do not add a second */
-    function show(pre, html) {
-      pre.innerHTML = html + (html.indexOf('class="cursor"') < 0
-        ? '<span class="cursor"></span>' : "");
-    }
+    var cursor = document.createElement("span"); cursor.className = "cursor";
+    var end = document.querySelector(".term .end");
     function at(t, fn) { timers.push(setTimeout(fn, t)); }
+    function park(el) { (el.querySelector("span:last-child") || el).appendChild(cursor); }
 
     function play() {
       timers.forEach(clearTimeout); timers = [];
-      runs.forEach(function (r) {
-        r.pre.style.minHeight = r.pre.offsetHeight + "px";
-        r.pre.innerHTML = "";
-      });
       var t = 0;
+      if (end) end.style.visibility = "hidden";
       runs.forEach(function (r, i) {
-        var cut = r.lines[0].indexOf("</span> ") + 8;
-        var head = r.lines[0].slice(0, cut), q = r.lines[0].slice(cut);
-        for (var c = 0; c <= q.length; c++) {
-          (function (snap) { at(t, function () { show(r.pre, snap); }); })(head + q.slice(0, c));
+        var items = Array.prototype.slice.call(r.children).filter(function (el) {
+          return !el.classList.contains("end");
+        });
+        var typed = r.querySelector(".typed"), text = typed.textContent;
+        items.forEach(function (el) { el.style.visibility = "hidden"; });
+        at(t, function () { items[0].style.visibility = ""; typed.textContent = ""; typed.appendChild(cursor); });
+        for (var c = 1; c <= text.length; c++) {
+          (function (n) {
+            at(t, function () { typed.textContent = text.slice(0, n); typed.appendChild(cursor); });
+          })(c);
           t += CHAR;
         }
         t += PAUSE;
-        var acc = head + q;
-        for (var j = 1; j < r.lines.length; j++) {
-          acc += "\n" + r.lines[j];
-          (function (snap) { at(t, function () { show(r.pre, snap); }); })(acc);
-          t += r.lines[j].trim() ? ROW : GAP;
-        }
-        at(t, function () { r.pre.innerHTML = r.full; });
+        items.slice(1).forEach(function (el) {
+          at(t, function () { el.style.visibility = ""; park(el); });
+          t += ROW;
+        });
         if (i < runs.length - 1) { t += BETWEEN; }
+      });
+      at(t, function () {
+        if (cursor.parentNode) { cursor.parentNode.removeChild(cursor); }
+        if (end) { end.style.visibility = ""; }
       });
     }
     play();

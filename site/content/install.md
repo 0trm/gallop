@@ -11,7 +11,7 @@ every time.
 /plugin install gallop@gallop
 ```
 
-All six skills, invoked by name or picked up automatically when a question
+All eight skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the `gallop` package, so add
 `pip install gallop-pds` if you want the checks to run rather than be described.
 

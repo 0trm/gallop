@@ -47,8 +47,10 @@
       <p class="skdesc">Writes an experiment or analysis readout with the decision rule first and the result last, converts the finding into a durable belief rather than a number, and files both the knowledge-repo entry and the prior-store record before the ticket closes. Use when a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year.</p>
     </div>
     <div>
+      <div class="snip"><pre>git clone https://github.com/0trm/gallop
+cp -r gallop/skills/writing-readouts .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/writing-readouts">
-        <span>Copy the source on GitHub</span><span class="arr">&#8599;</span></a>
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
     </div>
   </div>
@@ -279,6 +281,15 @@ under · the event that expires it.&gt;</p>
 </footer>
 
 <script>
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

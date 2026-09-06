@@ -1,6 +1,6 @@
 /* Long-form generated documents: skill pages and the content pages.
    Everything here stays inside the locked system: hairlines, one ink,
-   three faces, no new colour. gallop.css is the base; this styles the
+   two faces, no new colour. gallop.css is the base; this styles the
    markdown that build.py renders into .doc. */
 
 .doc{max-width:880px;margin:0 auto;padding:40px 20px 56px}
@@ -51,6 +51,15 @@
 /* the skill page header cells */
 .skillhead .skdesc{font-size:15.5px;line-height:1.6;color:var(--body);
                    max-width:60ch;margin:14px 0 0}
+/* the install snippet is the primary action: filled, mono, a copy control */
+.snip{display:flex;align-items:stretch;background:var(--fg);color:var(--bg);margin:0 0 10px}
+.snip pre{margin:0;padding:14px 16px;font-size:12.5px;line-height:1.6;flex:1;min-width:0;
+          white-space:pre-wrap;overflow-wrap:anywhere}
+.snip .copy{flex:none;min-width:76px;padding:0 16px;border:0;background:none;color:inherit;
+            border-left:1px solid color-mix(in srgb, var(--bg) 35%, transparent);
+            font-family:var(--sans);text-transform:uppercase;font-size:11px;
+            letter-spacing:.14em;font-weight:600;cursor:pointer}
+.snip .copy:hover{background:var(--bg);color:var(--fg)}
 .skillhead .scripts{margin-top:14px}
 .skillhead .scripts ul{margin:8px 0 0;padding-left:18px;font-size:14.5px}
 @media (max-width:1080px){
