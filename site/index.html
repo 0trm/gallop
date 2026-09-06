@@ -29,14 +29,7 @@
   .step h4{font-family:var(--sans);text-transform:uppercase;font-size:12px;
            letter-spacing:.14em;margin:0 0 12px;font-weight:600}
 
-  .demo{grid-template-columns:1.35fr .65fr}
-  /* one annotation per run, so the column fills alongside the three transcripts
-     instead of running out a third of the way down. */
-  .note{display:flex;flex-direction:column;padding:0}
-  .note .ann{flex:1;padding:16px 20px 18px;border-bottom:1px solid var(--line)}
-  .note .lab{margin-bottom:10px}
-  .note p{font-size:14.5px;color:var(--body);margin:0;line-height:1.55}
-  .note .scope{padding:16px 20px;font-size:13px;color:var(--dim)}
+  .demo{grid-template-columns:1fr}
 
   .skillgrid{grid-template-columns:repeat(4,1fr)}
   .skillgrid > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
@@ -55,8 +48,8 @@
   .term .replay:hover{border-color:var(--fg)}
 
   @media (max-width:1080px){
-    .hero,.steps,.demo,.skillgrid{grid-template-columns:1fr}
-    .hero > *,.steps > *,.demo > *{border-right:0;border-bottom:1px solid var(--line)}
+    .hero,.steps,.skillgrid{grid-template-columns:1fr}
+    .hero > *,.steps > *{border-right:0;border-bottom:1px solid var(--line)}
     .skillgrid > a{border-right:0;border-bottom:1px solid var(--line)!important}
     .hero .d{font-size:40px}
   }
@@ -149,27 +142,6 @@
           <p class="q end"><span class="dim">&gt;</span> <span class="cursor"></span></p>
         </div>
       </div>
-    </div>
-    <div class="note">
-      <div class="ann">
-        <p class="lab">What the pass hands over</p>
-        <p>Five rows and a destination. The pass takes a minute and a mis-routed question costs
-        a sprint, so it runs even when the answer looks obvious. What the analysis teaches is
-        written back before the ticket closes, so the next question starts smaller.</p>
-      </div>
-      <div class="ann">
-        <p class="lab">The cheapest exit</p>
-        <p>The prior store holds what each metric has actually moved by. A question it already
-        answers is handed back at the lookup, before a query is written or a user is assigned.</p>
-      </div>
-      <div class="ann">
-        <p class="lab">What the gate is for</p>
-        <p>A metric nobody trusts cannot carry a decision, so the gate asks that before anything
-        else. Roughly one request in five dies here. The measurement work is the actual work,
-        and it does not happen in the meantime.</p>
-      </div>
-      <p class="scope">Not an experimentation platform. It does not assign traffic, hold flags,
-      or replace your warehouse.</p>
     </div>
   </div>
 </div>
