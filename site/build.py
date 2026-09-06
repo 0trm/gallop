@@ -8,6 +8,7 @@ real URLs, rendering fine from file://.
   site/skills/<name>/index.html   from skills/<name>/SKILL.md (+ references)
   site/theory/index.html          from site/content/theory.md
   site/install/index.html         from site/content/install.md
+  site/about/index.html           from site/content/about.md
   README.md skills table          into the marked block
 
 Figures from site/figures/ (drawn by site/figures.py) are inlined after the
@@ -55,6 +56,9 @@ FIGURES = {
     ("skills/reading-experiments", "p:Apply <strong>CUPED</strong>"): ("cuped.svg",
         "CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), "
         "so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic."),
+    ("about", "p:The mark is one horse"): ("mark.svg",
+        "One rider drawn three times: a question moving from description to cause to decision, "
+        "carried the whole way by the measurement underneath."),
     ("theory", "The prior store"): ("prior-store.svg",
         "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
         "wished for sits to the right of every effect the metric has ever produced."),
@@ -187,7 +191,7 @@ def page(*, title, description, body, root, active=None, extra_style="", content
     """The shared chrome: skip link, nav band, contents strip, foot band, theme switch."""
     nav_items = [
         ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
-        ("theory/", "Theory"), ("install/", "Install"),
+        ("theory/", "Theory"), ("install/", "Install"), ("about/", "About"),
     ]
     links = []
     for href, label in nav_items:
@@ -219,10 +223,10 @@ def page(*, title, description, body, root, active=None, extra_style="", content
   <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
   {nav}
   <span class="sw">
-    <button type="button" class="theme" aria-label="Switch to dark theme" aria-pressed="false">
-      <svg class="sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg>
-      <svg class="moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg>
-    </button>
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
   </span>
 </nav>
 {contents}
@@ -256,21 +260,22 @@ def page(*, title, description, body, root, active=None, extra_style="", content
   }})();
   (function () {{
     var root = document.documentElement;
-    var btn = document.querySelector(".theme");
+    var buttons = document.querySelectorAll(".theme button");
     function apply(theme) {{
       root.dataset.theme = theme;
-      if (!btn) return;
-      btn.setAttribute("aria-pressed", String(theme === "dark"));
-      btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+      buttons.forEach(function (b) {{
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      }});
     }}
     try {{
       var saved = localStorage.getItem("gallop-theme");
       if (saved === "dark" || saved === "light") apply(saved);
     }} catch (e) {{}}
-    if (btn) btn.addEventListener("click", function () {{
-      var next = root.dataset.theme === "dark" ? "light" : "dark";
-      apply(next);
-      try {{ localStorage.setItem("gallop-theme", next); }} catch (e) {{}}
+    buttons.forEach(function (b) {{
+      b.addEventListener("click", function () {{
+        apply(b.dataset.set);
+        try {{ localStorage.setItem("gallop-theme", b.dataset.set); }} catch (e) {{}}
+      }});
     }});
   }})();
 </script>
@@ -468,7 +473,7 @@ def main(argv=None):
     emitted = []
     if a.check:
         before = {}
-        targets = [SITE / "skills", SITE / "theory", SITE / "install"]
+        targets = [SITE / "skills", SITE / "theory", SITE / "install", SITE / "about"]
         for t in targets:
             for f in t.rglob("*.html") if t.exists() else []:
                 before[f] = f.read_text()
@@ -478,6 +483,9 @@ def main(argv=None):
     build_skills_index(dirs, emitted)
     build_content_page("theory", "The theory layer",
                        "The prior store and the knowledge repo: the only object that compounds.", emitted)
+    build_content_page("about", "About",
+                       "What the gallop logo means: the horse, the rider, and the one idea the mark carries.",
+                       emitted)
     build_content_page("install", "Install",
                        "Claude Code plugin, manual copy, or pip.", emitted)
     readme_path, readme_new = build_readme(dirs)

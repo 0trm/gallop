@@ -86,21 +86,19 @@ img,svg{max-width:100%}
    Seven cells: the wordmark, five links, the theme switch. Below 1080px the
    band is one row, wordmark and a menu button, and the links and the switch
    open under it as full-width rows. */
-.nav{grid-template-columns:220px repeat(5,1fr) 150px;align-items:center}
+.nav{grid-template-columns:220px repeat(6,1fr) 150px;align-items:center}
 .nav .wm{font-size:26px;line-height:1.05}
 .nav .sw{display:flex;justify-content:flex-end;padding:8px 20px}
 .nav a[aria-current="page"]{font-weight:700}
 .nav .menu{display:none}
-/* the theme switch: one hairline button. It shows the theme you would switch
-   to, a moon on the light page and a sun on the dark one. */
-.theme{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;
-       padding:0;background:none;border:1px solid var(--line-2);color:inherit;cursor:pointer}
-.theme:hover{border-color:var(--fg)}
-.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;
+/* the theme switch: sun and moon side by side, no frame; the current one in
+   ink, the other dimmed */
+.theme{display:inline-flex;gap:2px}
+.theme button{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+              padding:0;background:none;border:0;color:var(--dim);cursor:pointer}
+.theme button:hover,.theme button[aria-pressed="true"]{color:var(--fg)}
+.theme svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.4;
            stroke-linecap:round;stroke-linejoin:round}
-.theme .sun{display:none}
-:root[data-theme="dark"] .theme .sun{display:block}
-:root[data-theme="dark"] .theme .moon{display:none}
 
 /* --- skip link: the first tab stop on every page --------------------------- */
 .skip{position:absolute;left:-9999px;top:8px;z-index:10;padding:10px 14px;
@@ -156,14 +154,13 @@ img,svg{max-width:100%}
    on a phone the answer drops under its question instead of running off the
    right edge. */
 .term .run{padding:18px 22px 20px;font-size:14px;line-height:1.75}
-.term .run + .run{border-top:1px solid var(--line)}
 .term .run p{margin:0}
 .term .run b{font-weight:700}
 .term .q{margin-bottom:1.2em}
 .term .row{display:grid;grid-template-columns:9ch 24ch 1fr;padding-left:2ch}
 .term .to{margin-top:1.2em;padding-left:2ch}
 .term .sub{padding-left:5ch}
-.term .end{margin-top:1.2em}
+.term .run[hidden]{display:none}
 @keyframes blink{50%{opacity:0}}
 .cursor{display:inline-block;width:8px;height:1.05em;background:var(--fg);
         vertical-align:-2px;animation:blink 1s step-end infinite}
