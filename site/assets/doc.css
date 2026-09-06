@@ -12,12 +12,14 @@
         letter-spacing:.16em;font-weight:700;margin:48px 0 16px;
         padding-top:22px;border-top:1px solid var(--line)}
 .doc h3{font-family:var(--sans);font-size:15px;font-weight:700;margin:26px 0 10px}
-.doc p, .doc li{font-size:16px;line-height:1.62;color:var(--body)}
+/* running prose is Archivo: these are thousand-word documents, and mono is the
+   slowest face to read them in. Tables, code and the terminal stay mono. */
+.doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body)}
 .doc li{margin:6px 0}
 .doc strong{color:var(--fg)}
 .doc a{text-decoration:underline;text-underline-offset:2px}
 
-.doc code{font-family:var(--mono);font-size:.95em;background:var(--wash);
+.doc code{font-family:var(--mono);font-size:.92em;background:var(--wash);
           padding:1px 5px}
 .doc pre{border:1px solid var(--line);padding:18px 20px;overflow-x:auto;
          margin:18px 0;background:var(--surface)}
@@ -49,7 +51,7 @@
 .doc details.refdoc > h1:first-of-type{font-size:24px;margin-top:16px}
 
 /* the skill page header cells */
-.skillhead .skdesc{font-size:15.5px;line-height:1.6;color:var(--body);
+.skillhead .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                    max-width:60ch;margin:14px 0 0}
 /* the install snippet is the primary action: filled, mono, a copy control */
 .snip{display:flex;align-items:stretch;background:var(--fg);color:var(--bg);margin:0 0 10px}

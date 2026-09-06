@@ -29,7 +29,14 @@
   .step h4{font-family:var(--sans);text-transform:uppercase;font-size:12px;
            letter-spacing:.14em;margin:0 0 12px;font-weight:600}
 
-  .demo{grid-template-columns:1fr}
+  .demo{grid-template-columns:1.35fr .65fr}
+  /* beside the console: where each run went, as links into the skills */
+  .note{padding:0}
+  .note .lab{padding:16px 20px 12px}
+  .note .went{display:block;padding:14px 20px 16px;border-top:1px solid var(--line);color:inherit}
+  .note .went:hover{background:var(--wash);text-decoration:none}
+  .note .went b{display:block;font-weight:700;margin-bottom:4px}
+  .note .went span{display:block;font-size:13.5px;line-height:1.5;color:var(--body)}
 
   .skillgrid{grid-template-columns:repeat(4,1fr)}
   .skillgrid > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
@@ -48,8 +55,8 @@
   .term .replay:hover{border-color:var(--fg)}
 
   @media (max-width:1080px){
-    .hero,.steps,.skillgrid{grid-template-columns:1fr}
-    .hero > *,.steps > *{border-right:0;border-bottom:1px solid var(--line)}
+    .hero,.steps,.demo,.skillgrid{grid-template-columns:1fr}
+    .hero > *,.steps > *,.demo > :first-child{border-right:0;border-bottom:1px solid var(--line)}
     .skillgrid > a{border-right:0;border-bottom:1px solid var(--line)!important}
     .hero .d{font-size:40px}
   }
@@ -59,6 +66,13 @@
     .hero .d{font-size:32px;max-width:none}
     .hero p.lede{max-width:none}
     .hero .txt{padding:26px 18px 30px}
+    /* eight cards became a thousand pixels; a row each instead */
+    .skillgrid > a{display:grid;grid-template-columns:1fr auto;column-gap:12px;
+                   align-items:baseline;padding:12px 18px 13px}
+    .skillgrid h3{order:1}
+    .skillgrid .pos{order:2;margin:0}
+    .skillgrid p:last-child{order:3;grid-column:1 / -1;margin-top:3px;font-size:13px;
+                            white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   }
 </style>
 </head>
@@ -142,6 +156,18 @@
           <p class="q end"><span class="dim">&gt;</span> <span class="cursor"></span></p>
         </div>
       </div>
+    </div>
+    <div class="note">
+      <p class="lab">Where they went</p>
+      <a class="went" href="skills/reading-experiments/"><b>reading-experiments</b>
+        <span>The flag is live, so the question goes to the checks that decide whether the
+        result is a result.</span></a>
+      <a class="went" href="theory/"><b>settled</b>
+        <span>No skill. The prior store already held the answer, so the ticket closes at the
+        lookup.</span></a>
+      <a class="went" href="skills/defining-metrics/"><b>defining-metrics</b>
+        <span>Nobody owns the metric, so the definition and the source of truth come before
+        any query.</span></a>
     </div>
   </div>
 </div>
@@ -237,7 +263,12 @@
         if (end) { end.style.visibility = ""; }
       });
     }
-    play();
+    var seen = false;
+    try { seen = sessionStorage.getItem("gallop-routed") === "1"; } catch (e) {}
+    if (!seen) {
+      play();
+      try { sessionStorage.setItem("gallop-routed", "1"); } catch (e) {}
+    }
     if (btn) btn.addEventListener("click", play);
   })();
   (function () {
