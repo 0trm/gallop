@@ -3,10 +3,6 @@
    three faces, no new colour. gallop.css is the base; this styles the
    markdown that build.py renders into .doc. */
 
-.docnav{grid-template-columns:220px repeat(6,1fr) 150px}
-@media (max-width:1080px){.docnav{grid-template-columns:1fr 1fr}}
-@media (max-width:620px){.docnav{grid-template-columns:1fr}}
-
 .doc{max-width:880px;margin:0 auto;padding:40px 20px 56px}
 .doc > :first-child{margin-top:0}
 

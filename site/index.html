@@ -72,8 +72,9 @@
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
-<nav class="band cells nav docnav" aria-label="Site">
+<nav class="band cells nav" aria-label="Site">
   <a class="wm" href="./">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
   <a href="map/">The map</a>
   <a href="intake/">The intake</a>
   <a href="skills/">Skills</a>
@@ -116,13 +117,12 @@
 <div class="band">
   <div class="secthead">
     <p class="lab">See it route</p>
-    <span class="dim"><a href="install/">install</a></span>
   </div>
   <div class="cells demo">
     <div>
       <div class="term">
         <div class="tbar"><span class="cur"></span>
-          <span class="path"><b>routing-questions</b> &middot; three example runs</span>
+          <span class="path"><b>routing-questions</b></span>
           <button type="button" class="replay" aria-label="Replay the routing">replay</button></div>
         <div class="run"><pre><span class="dim">&gt;</span> did the new onboarding lift D7 retention?
 
@@ -178,7 +178,6 @@
 <div class="band" id="skills">
   <div class="secthead">
     <p class="lab">Eight skills</p>
-    <span class="dim">all eight written</span>
   </div>
   <div class="cells skillgrid">
       <a href="skills/routing-questions/"><p class="pos dim">Routing</p><h3>routing-questions</h3><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></a>
@@ -272,6 +271,18 @@
     }
     play();
     if (btn) btn.addEventListener("click", play);
+  })();
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
   })();
   (function () {
     var root = document.documentElement;

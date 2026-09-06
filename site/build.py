@@ -176,7 +176,7 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Project</p>
-    <span>pre-1.0, moving fast</span>
+    <span>pre-1.0</span>
     <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
@@ -214,8 +214,9 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
-<nav class="band cells nav docnav" aria-label="Site">
+<nav class="band cells nav" aria-label="Site">
   <a class="wm" href="{root}./">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
   {nav}
   <span class="sw">
     <span class="mode">
@@ -232,6 +233,18 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 {footer(root)}
 
 <script>
+  (function () {{
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {{
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }}
+    btn.addEventListener("click", function () {{ set(!nav.classList.contains("open")); }});
+    nav.addEventListener("keydown", function (e) {{
+      if (e.key === "Escape" && nav.classList.contains("open")) {{ set(false); btn.focus(); }}
+    }});
+  }})();
   (function () {{
     var root = document.documentElement;
     var buttons = document.querySelectorAll(".mode button");

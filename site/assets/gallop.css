@@ -82,11 +82,15 @@ img,svg{max-width:100%}
 .key{font-weight:700}
 .mono{font-family:var(--mono)}
 
-/* --- the shared nav band ------------------------------------------------- */
-.nav{grid-template-columns:250px repeat(4,1fr) 180px;align-items:center}
+/* --- the shared nav band -------------------------------------------------
+   Seven cells: the wordmark, five links, the theme switch. Below 1080px the
+   band is one row, wordmark and a menu button, and the links and the switch
+   open under it as full-width rows. */
+.nav{grid-template-columns:220px repeat(5,1fr) 150px;align-items:center}
 .nav .wm{font-size:26px;line-height:1.05}
 .nav .sw{display:flex;justify-content:flex-end}
 .nav a[aria-current="page"]{font-weight:700}
+.nav .menu{display:none}
 .mode{display:inline-flex;border:1px solid var(--fg);font-family:var(--sans);
       text-transform:uppercase;font-size:11px;letter-spacing:.14em;font-weight:600}
 .mode button{padding:11px 14px;min-height:36px;border:0;background:none;color:inherit;font:inherit;
@@ -109,7 +113,13 @@ img,svg{max-width:100%}
        font-weight:600}
 .toc a:hover{background:var(--wash);text-decoration:none}
 [id]{scroll-margin-top:56px}
-@media (max-width:620px){.toc{position:static}[id]{scroll-margin-top:0}}
+@media (max-width:620px){
+  /* one row that scrolls sideways, rather than five ragged ones */
+  .toc{position:static;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc a{white-space:nowrap;flex:none}
+  .toc .lab{flex:none}
+  [id]{scroll-margin-top:0}
+}
 
 /* --- controls ------------------------------------------------------------ */
 /* The call to action: a verb in a block, the primary filled, the secondary
@@ -199,22 +209,43 @@ img,svg{max-width:100%}
 @media (max-width:620px){.fig text{font-size:14px}}
 
 @media (max-width:1080px){
-  .nav{grid-template-columns:1fr 1fr}
-  .nav > *{border-bottom:1px solid var(--line)}
-  .nav > *:nth-child(2n){border-right:0}
-  /* six cells in two columns is exactly three rows: the switch takes the last
-     one rather than spanning, which used to leave a blank cell beside GitHub. */
-  .nav > *:nth-last-child(-n+2){border-bottom:0}
-  .foot{grid-template-columns:1fr}
-  .foot > *{border-right:0;border-bottom:1px solid var(--line)}
+  .nav{grid-template-columns:1fr auto}
+  .nav > a:not(.wm),.nav .sw{display:none}
+  .nav .menu{display:flex;align-items:center;justify-content:center;align-self:stretch;
+             width:56px;min-height:52px;padding:0;background:none;border:0;
+             border-left:1px solid var(--line);color:inherit;cursor:pointer}
+  .nav .menu .bars,.nav .menu .bars::before,.nav .menu .bars::after{
+    display:block;width:18px;height:2px;background:currentColor;transition:transform .15s}
+  .nav .menu .bars{position:relative}
+  .nav .menu .bars::before,.nav .menu .bars::after{content:"";position:absolute;left:0}
+  .nav .menu .bars::before{top:-6px}
+  .nav .menu .bars::after{top:6px}
+  .nav.open .menu .bars{background:transparent}
+  .nav.open .menu .bars::before{transform:translateY(6px) rotate(45deg)}
+  .nav.open .menu .bars::after{transform:translateY(-6px) rotate(-45deg)}
+  .nav.open > a:not(.wm){display:block}
+  .nav.open .sw{display:flex;justify-content:flex-start}
+  .nav.open > a:not(.wm),.nav.open .sw{grid-column:1 / -1;border-right:0;
+                                       border-top:1px solid var(--line)}
+
+  /* the foot: wordmark row, Read and Use side by side, the project line last */
+  .foot{grid-template-columns:1fr 1fr;font-size:13px}
+  .foot > *{padding:16px 20px 18px;border-bottom:1px solid var(--line)}
+  .foot > :first-child{grid-column:1 / -1;border-right:0}
+  .foot > :nth-child(3){border-right:0}
+  .foot > :last-child{grid-column:1 / -1;border-bottom:0;display:flex;flex-wrap:wrap;
+                      gap:4px 18px;align-items:baseline}
+  .foot > :last-child .lab{margin:0}
+  .foot a,.foot span{line-height:1.7}
+}
+@media (prefers-reduced-motion:reduce){
+  .nav .menu .bars,.nav .menu .bars::before,.nav .menu .bars::after{transition:none}
 }
 @media (max-width:620px){
-  .nav{grid-template-columns:1fr}
-  .nav > *:nth-child(2n){border-right:0}
-  .nav > *:nth-last-child(-n+2){border-bottom:1px solid var(--line)}
-  .nav > *:last-child{border-bottom:0}
-  .nav .sw{justify-content:flex-start}
   .cells > *{padding:14px 18px}
+  .nav .wm{font-size:24px}
+  .foot > :first-child{display:flex;gap:16px;align-items:baseline}
+  .foot > :first-child .wm{margin:0;flex:none}
   .desk{--gutter:16px}
   .term pre{font-size:13px;padding:16px}
 }
