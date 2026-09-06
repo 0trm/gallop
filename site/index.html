@@ -28,13 +28,11 @@
   .steps{grid-template-columns:1fr 1fr}
 
   .demo{grid-template-columns:1.35fr .65fr}
-  /* beside the console: where each run went, as links into the skills */
-  .note{padding:0}
-  .note .lab{padding:16px 20px 12px}
-  .note .went{display:block;padding:14px 20px 16px;border-top:1px solid var(--line);color:inherit}
-  .note .went:hover{background:var(--wash);text-decoration:none}
-  .note .went b{display:block;font-weight:700;margin-bottom:4px}
-  .note .went span{display:block;font-size:13.5px;line-height:1.5;color:var(--body)}
+  /* beside the console: the two lines that put it in the reader's own agent */
+  .note .lab{margin-bottom:12px}
+  .note .snip{margin:0}
+  .note p{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--body)}
+  .note p a{text-decoration:underline;text-underline-offset:3px}
 
   .skillgrid{grid-template-columns:repeat(4,1fr)}
   .skillgrid > a{border-bottom:1px solid var(--line);padding:20px;display:block;color:inherit}
@@ -86,10 +84,10 @@
   <a href="theory/">Theory</a>
   <a href="install/">Install</a>
   <span class="sw">
-    <span class="mode">
-      <button type="button" data-set="light" aria-pressed="true">Light</button>
-      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
-    </span>
+    <button type="button" class="theme" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg>
+      <svg class="moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg>
+    </button>
   </span>
 </nav>
 
@@ -153,16 +151,11 @@
       </div>
     </div>
     <div class="note">
-      <p class="lab">Where they went</p>
-      <a class="went" href="skills/reading-experiments/"><b>reading-experiments</b>
-        <span>The flag is live, so the question goes to the checks that decide whether the
-        result is a result.</span></a>
-      <a class="went" href="theory/"><b>settled</b>
-        <span>No skill. The prior store already held the answer, so the ticket closes at the
-        lookup.</span></a>
-      <a class="went" href="skills/defining-metrics/"><b>defining-metrics</b>
-        <span>Nobody owns the metric, so the definition and the source of truth come before
-        any query.</span></a>
+      <p class="lab">Run it on your own question</p>
+      <div class="snip"><pre>/plugin marketplace add 0trm/gallop
+/plugin install gallop@gallop</pre><button type="button" class="copy">Copy</button></div>
+      <p>Then ask Claude Code the question you were about to write a query for.
+      <a href="install/">Other ways in</a>, for any other agent or none.</p>
     </div>
   </div>
 </div>
@@ -266,6 +259,15 @@
     }
     if (btn) btn.addEventListener("click", play);
   })();
+  document.querySelectorAll(".snip .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;
@@ -280,22 +282,21 @@
   })();
   (function () {
     var root = document.documentElement;
-    var buttons = document.querySelectorAll(".mode button");
+    var btn = document.querySelector(".theme");
     function apply(theme) {
       root.dataset.theme = theme;
-      buttons.forEach(function (b) {
-        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
-      });
+      if (!btn) return;
+      btn.setAttribute("aria-pressed", String(theme === "dark"));
+      btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
     }
     try {
       var saved = localStorage.getItem("gallop-theme");
       if (saved === "dark" || saved === "light") apply(saved);
     } catch (e) {}
-    buttons.forEach(function (b) {
-      b.addEventListener("click", function () {
-        apply(b.dataset.set);
-        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
-      });
+    if (btn) btn.addEventListener("click", function () {
+      var next = root.dataset.theme === "dark" ? "light" : "dark";
+      apply(next);
+      try { localStorage.setItem("gallop-theme", next); } catch (e) {}
     });
   })();
 </script>

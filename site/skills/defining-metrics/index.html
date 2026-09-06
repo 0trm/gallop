@@ -27,10 +27,10 @@
   <a href="../../theory/">Theory</a>
   <a href="../../install/">Install</a>
   <span class="sw">
-    <span class="mode">
-      <button type="button" data-set="light" aria-pressed="true">Light</button>
-      <button type="button" data-set="dark" aria-pressed="false">Dark</button>
-    </span>
+    <button type="button" class="theme" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg>
+      <svg class="moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg>
+    </button>
   </span>
 </nav>
 <nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></nav>
@@ -421,22 +421,21 @@ review in a pull request is a registry that goes stale.</li>
   })();
   (function () {
     var root = document.documentElement;
-    var buttons = document.querySelectorAll(".mode button");
+    var btn = document.querySelector(".theme");
     function apply(theme) {
       root.dataset.theme = theme;
-      buttons.forEach(function (b) {
-        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
-      });
+      if (!btn) return;
+      btn.setAttribute("aria-pressed", String(theme === "dark"));
+      btn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
     }
     try {
       var saved = localStorage.getItem("gallop-theme");
       if (saved === "dark" || saved === "light") apply(saved);
     } catch (e) {}
-    buttons.forEach(function (b) {
-      b.addEventListener("click", function () {
-        apply(b.dataset.set);
-        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
-      });
+    if (btn) btn.addEventListener("click", function () {
+      var next = root.dataset.theme === "dark" ? "light" : "dark";
+      apply(next);
+      try { localStorage.setItem("gallop-theme", next); } catch (e) {}
     });
   })();
 </script>

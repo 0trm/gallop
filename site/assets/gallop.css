@@ -88,15 +88,19 @@ img,svg{max-width:100%}
    open under it as full-width rows. */
 .nav{grid-template-columns:220px repeat(5,1fr) 150px;align-items:center}
 .nav .wm{font-size:26px;line-height:1.05}
-.nav .sw{display:flex;justify-content:flex-end}
+.nav .sw{display:flex;justify-content:flex-end;padding:8px 20px}
 .nav a[aria-current="page"]{font-weight:700}
 .nav .menu{display:none}
-.mode{display:inline-flex;border:1px solid var(--fg);font-family:var(--sans);
-      text-transform:uppercase;font-size:11px;letter-spacing:.14em;font-weight:600}
-.mode button{padding:11px 14px;min-height:36px;border:0;background:none;color:inherit;font:inherit;
-             letter-spacing:inherit;cursor:pointer}
-.mode button+button{border-left:1px solid var(--fg)}
-.mode button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+/* the theme switch: one hairline button. It shows the theme you would switch
+   to, a moon on the light page and a sun on the dark one. */
+.theme{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;
+       padding:0;background:none;border:1px solid var(--line-2);color:inherit;cursor:pointer}
+.theme:hover{border-color:var(--fg)}
+.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;
+           stroke-linecap:round;stroke-linejoin:round}
+.theme .sun{display:none}
+:root[data-theme="dark"] .theme .sun{display:block}
+:root[data-theme="dark"] .theme .moon{display:none}
 
 /* --- skip link: the first tab stop on every page --------------------------- */
 .skip{position:absolute;left:-9999px;top:8px;z-index:10;padding:10px 14px;
@@ -218,11 +222,14 @@ img,svg{max-width:100%}
 @media (max-width:620px){.fig text{font-size:14px}}
 
 @media (max-width:1080px){
-  .nav{grid-template-columns:1fr auto}
-  .nav > a:not(.wm),.nav .sw{display:none}
-  .nav .menu{display:flex;align-items:center;justify-content:center;align-self:stretch;
+  /* wordmark, theme, menu on one row; the switch stays in the bar */
+  .nav{grid-template-columns:1fr auto auto}
+  .nav > a:not(.wm){display:none;order:3}
+  .nav .wm{order:0}
+  .nav .sw{order:1;padding:0 10px;align-self:stretch;align-items:center}
+  .nav .menu{order:2;display:flex;align-items:center;justify-content:center;align-self:stretch;
              width:56px;min-height:52px;padding:0;background:none;border:0;
-             border-left:1px solid var(--line);color:inherit;cursor:pointer}
+             color:inherit;cursor:pointer}
   .nav .menu .bars,.nav .menu .bars::before,.nav .menu .bars::after{
     display:block;width:18px;height:2px;background:currentColor;transition:transform .15s}
   .nav .menu .bars{position:relative}
@@ -232,10 +239,8 @@ img,svg{max-width:100%}
   .nav.open .menu .bars{background:transparent}
   .nav.open .menu .bars::before{transform:translateY(6px) rotate(45deg)}
   .nav.open .menu .bars::after{transform:translateY(-6px) rotate(-45deg)}
-  .nav.open > a:not(.wm){display:block}
-  .nav.open .sw{display:flex;justify-content:flex-start}
-  .nav.open > a:not(.wm),.nav.open .sw{grid-column:1 / -1;border-right:0;
-                                       border-top:1px solid var(--line)}
+  .nav.open > a:not(.wm){display:block;grid-column:1 / -1;border-right:0;
+                          border-top:1px solid var(--line)}
 
   /* the foot: wordmark row, Read and Use side by side, the project line last */
   .foot{grid-template-columns:1fr 1fr;font-size:13px}
