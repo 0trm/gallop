@@ -1,10 +1,8 @@
 # Why gallop
 
-Product data science has two kinds of tooling, and neither does the whole job. Libraries carry the statistics and assume you already know which question you are answering: statsmodels estimates, dowhy identifies, causalml targets, and none of them has an opinion about whether the question deserved an analysis. Skill packs for product managers carry that judgment and contain no statistics at all. The place a number goes wrong sits between the two: a question that should have been a lookup becomes a deep dive, a metric nobody validated becomes a readout, a launch with no comparison group gets an effect size anyway.
+Statistics libraries assume you already know which question you are answering. Product management skill packs know which question matters and carry no statistics. A number goes wrong in the gap: a lookup becomes a deep dive, an unvalidated metric becomes a readout, a launch with no comparison group gets an effect size anyway.
 
-gallop puts the routing and the rigour in the same place, as agent skills. A question arrives and the first skill runs one lookup against what the team already knows, three questions, and one gate on whether the metric can be trusted. Most questions leave there, and leaving there is the intended outcome. The rest get the method that matches how the treatment was assigned, sized from the effects the metric has actually produced rather than from a number that would be nice, and read out with the checks a wrong number needs to fail: sample ratio mismatch, exposure against eligibility, a sequential bound, variance reduction, shrinkage toward the prior. What the answer teaches is written back before the ticket closes, so the next question starts smaller.
-
-It ships as skills rather than as a library because a skill is where the judgment lives. A library can compute a minimum detectable effect; it cannot decline to compute one for a metric nobody trusts. The Python package underneath is thin on purpose. It exists because six calculations must come out identical every time, and an agent improvising a sequential bound is the most reliable way to get a different answer each run.
+gallop puts the routing and the rigour in one place, as agent skills. One lookup, three questions and one gate before any query runs, and most questions leave there. The rest get the method that matches how treatment was assigned and a readout that runs the checks a wrong number fails.
 
 ## Who it is for
 
