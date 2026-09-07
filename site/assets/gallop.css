@@ -25,14 +25,14 @@
 }
 
 :root[data-theme="dark"]{
-  --bg:#170D02;                    /* espresso. warmer than #000 under mono type */
+  --bg:#0E1216;                    /* slate. the colour a terminal usually is */
   --fg:#FFFFFF;
-  --line:rgba(255,255,255,.20);
-  --line-2:rgba(255,255,255,.34);
+  --line:rgba(255,255,255,.18);
+  --line-2:rgba(255,255,255,.32);
   --dim:rgba(255,255,255,.55);
   --body:rgba(255,255,255,.80);
   --wash:rgba(255,255,255,.07);
-  --surface:#231608;               /* a step up from the ground, same warmth */
+  --surface:#171C22;               /* a step up from the ground, same hue */
 }
 
 /* --- the previous palette, mapped onto this one -------------------------
@@ -59,7 +59,9 @@
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--fg);
      font-family:var(--mono);font-size:15px;line-height:1.6;
-     -webkit-font-smoothing:antialiased}
+     -webkit-font-smoothing:antialiased;
+     min-height:100vh;display:flex;flex-direction:column}
+body > footer{margin-top:auto}   /* the foot always closes the page */
 a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--fg);outline-offset:2px}
