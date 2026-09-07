@@ -6,7 +6,7 @@
 
 **Skills that make your coding agent think like a product data scientist.**
 
-Eight agent skills for PDS: they decide whether a question deserves an analysis, pick the method it deserves, and check the result before anyone ships on it.
+Eight agent skills for PDS: they decide whether a question deserves an analysis, pick the method it deserves, and check the result before it ships.
 
 ## The map
 
@@ -15,23 +15,16 @@ Eight agent skills for PDS: they decide whether a question deserves an analysis,
   <img src="site/figures/skills-map-light.svg" width="840" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
 </picture>
 
-A question enters at the left and leaves as a decision. Measurement is a
-foundation rather than a phase, because what ships changes the data. Theory is a
-ceiling rather than a report, because what you learn has to outlive the test that
-produced it.
+A question enters at the left and leaves as a decision. Measurement is a foundation rather than a phase, because what ships changes the data. Theory is a ceiling rather than a report, because what you learn has to outlive the test that produced it.
 
-Three method buckets, a floor underneath them, a memory above them, and a layer
-of judgment on top. Each bucket has its own question, its own output, and its own
-failure mode:
+Three method buckets, a floor underneath them, a memory above them, and a layer of judgment on top. Each bucket has its own question and its own output:
+| Bucket | Asks | Hands back |
+|---|---|---|
+| Description | What happened? | A hypothesis |
+| Causation | Did this change cause that? | An effect size |
+| Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation |
 
-| Bucket | Asks | Hands back | Fails by |
-|---|---|---|---|
-| Description | What happened? | A hypothesis | Being mistaken for causation |
-| Causation | Did this change cause that? | An effect size | An invalid comparison group |
-| Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation | Breaking the moment you intervene |
-
-Experimentation and causal inference share all three, so they are one bucket
-separated only by who did the randomising: you, or the world.
+Experimentation and causal inference share all three, so they are one bucket separated only by who did the randomising: you, or the world.
 
 **[Read the full map](https://0trm.github.io/gallop/map/)** ·
 **[Read the intake algorithm](https://0trm.github.io/gallop/intake/)**
@@ -58,10 +51,7 @@ One command, one synthetic dataset, every check once:
 python -m gallop.examples.quickstart
 ```
 
-Fifteen seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a
-CUPED-adjusted effect with an always-valid interval, and the same effect shrunk
-toward a seeded prior store. The full loop, from a question arriving to the
-prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
+Fifteen seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
 
 ## The skills
 
