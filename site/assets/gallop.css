@@ -135,7 +135,9 @@ img,svg{max-width:100%}
 .btn .arr{font-family:var(--mono);font-size:17px;transition:transform .15s}
 .btn.pri{background:var(--fg);color:var(--bg)}
 .btn:hover{background:var(--fg);color:var(--bg);text-decoration:none}
-.btn.pri:hover{box-shadow:inset 0 0 0 2px var(--bg)}
+/* the filled button is already ink on ground, so its hover inverts rather
+   than filling again: ground with ink type, inside the border it always had. */
+.btn.pri:hover{background:var(--bg);color:var(--fg)}
 .btn:hover .arr{transform:translateX(6px)}
 @media (prefers-reduced-motion:reduce){.btn,.btn .arr{transition:none}}
 
