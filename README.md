@@ -1,5 +1,5 @@
 <p align="right">
-  <img src="site/assets/mark.svg" width="275" alt="Three riders carried on one galloping horse">
+  <img src="site/assets/mark.svg" width="285" alt="Three riders carried on one galloping horse">
 </p>
 
 # gallop
