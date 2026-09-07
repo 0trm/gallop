@@ -1,5 +1,6 @@
 # gallop
 
+<br>
 <p align="center">
   <img src="site/assets/mark.svg" width="275" alt="A rider carried on a galloping horse">
 </p>
