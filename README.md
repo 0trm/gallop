@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-666666?labelColor=333333" alt="MIT license" /></a>
-  <a href="https://github.com/0trm/gallop/releases/latest"><img src="https://img.shields.io/github/v/release/0trm/gallop?label=release&labelColor=333333&color=666666" alt="latest stable release" /></a>
-  <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-666666?labelColor=333333&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-888888?labelColor=444444" alt="MIT license" /></a>
+  <a href="https://github.com/0trm/gallop/releases/latest"><img src="https://img.shields.io/github/v/release/0trm/gallop?label=release&labelColor=444444&color=888888" alt="latest stable release" /></a>
+  <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-888888?labelColor=444444&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
 </p>
 
 **Skills that make your coding agent think like a product data scientist.** <br>
