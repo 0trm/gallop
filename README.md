@@ -1,5 +1,5 @@
 <p align="right">
-  <img src="site/assets/mark.svg" width="280" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="275" alt="A rider carried on a galloping horse">
 </p>
 
 # gallop
@@ -77,4 +77,4 @@ The site renders the skills and the two arguments:
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE).
+[MIT](LICENSE)
