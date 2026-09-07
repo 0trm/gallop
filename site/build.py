@@ -56,7 +56,6 @@ FIGURES = {
     ("skills/reading-experiments", "p:Apply <strong>CUPED</strong>"): ("cuped.svg",
         "CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), "
         "so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic."),
-    ("about", "p:The mark is one horse"): ("mark.svg", "", "small"),
     ("theory", "The prior store"): ("prior-store.svg",
         "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
         "wished for sits to the right of every effect the metric has ever produced."),
@@ -482,7 +481,7 @@ def main(argv=None):
     build_content_page("theory", "The theory layer",
                        "The prior store and the knowledge repo: the only object that compounds.", emitted)
     build_content_page("about", "About",
-                       "Why the routing and the rigour live in one place, who it is for, and what the logo means.",
+                       "Why the routing and the rigour live in one place, and who it is for.",
                        emitted)
     build_content_page("install", "Install",
                        "Claude Code plugin, manual copy, or pip.", emitted)
