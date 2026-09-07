@@ -57,8 +57,7 @@ FIGURES = {
         "CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), "
         "so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic."),
     ("about", "p:The mark is one horse"): ("mark.svg",
-        "One rider drawn three times: a question moving from description to cause to decision, "
-        "carried the whole way by the measurement underneath."),
+        ""),
     ("theory", "The prior store"): ("prior-store.svg",
         "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
         "wished for sits to the right of every effect the metric has ever produced."),
@@ -141,7 +140,8 @@ def figure(name, caption):
     src = FIGDIR / name
     if not src.exists():
         sys.exit(f"build: missing figure {src}; run site/figures.py")
-    return f'<figure class="fig">{src.read_text().strip()}<figcaption>{caption}</figcaption></figure>'
+    cap = f"<figcaption>{caption}</figcaption>" if caption else ""
+    return f'<figure class="fig">{src.read_text().strip()}{cap}</figure>'
 
 
 def place_figures(page_key, doc):
@@ -371,11 +371,7 @@ def build_skills_index(dirs, emitted):
     <p class="lab">{COUNT_WORD} skills</p>
   </div>
   <div class="doc mapfig">
-    {figure("skills-map.svg", "Where each skill sits. The ceiling and the floor are bands because every "
-            "question touches them; the three causal skills split on who assigned the treatment; "
-            "the description skill sits below routing, where a what-happened question is localised "
-            "and sized before it comes back as a change question; the prediction skill sits below "
-            "the path, where modeling serves the decision. Each name is a link.")}
+    {figure("skills-map.svg", "Where each skill sits. Each name is a link.")}
   </div>
 </div>
 <div class="band">

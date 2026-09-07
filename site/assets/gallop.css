@@ -159,6 +159,7 @@ img,svg{max-width:100%}
 .term .q{margin-bottom:1.2em}
 .term .row{display:grid;grid-template-columns:9ch 24ch 1fr;padding-left:2ch}
 .term .to{margin-top:1.2em;padding-left:2ch}
+.term .to a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .term .sub{padding-left:5ch}
 .term .run[hidden]{display:none}
 @keyframes blink{50%{opacity:0}}
