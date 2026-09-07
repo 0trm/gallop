@@ -48,7 +48,6 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
 .dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .dg .head{fill:var(--ink)}
-figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
 @media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
 @media (max-width:960px){
   /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
@@ -97,15 +96,6 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 .opts li{display:flex;gap:12px;font-size:14.5px;line-height:1.5}
 .opts li::before{content:"";flex:0 0 7px;height:7px;background:var(--ink);margin-top:7px}
 
-.legend{display:flex;gap:26px;flex-wrap:wrap;margin-top:22px;padding-top:18px;
-        border-top:1px solid var(--pasture-shade)}
-.legend div{display:flex;align-items:center;gap:9px;font-size:12.5px}
-.legend i{width:16px;height:26px;border:var(--hair);display:block;background-color:var(--paper)}
-.l-solid{background-color:var(--ink)!important}
-.l-horiz{background-image:repeating-linear-gradient(180deg,var(--ink) 0 1px,transparent 1px 3px)}
-.l-dot{background-image:radial-gradient(var(--ink) .6px,transparent .7px);background-size:3px 3px}
-.l-vert{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
-.l-hatch{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
 @media (max-width:880px){ .hero{grid-template-columns:1fr} .panels{grid-template-columns:1fr} .two-up{grid-template-columns:1fr} }
 
 .dg .t-title{font-size:15px}
@@ -254,20 +244,12 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   <polyline points="610,308 610,336 208,336" class="feed" marker-end="url(#ah)"/>
   <text class="t-note" x="410" y="330" text-anchor="middle">a hypothesis is a change question, so it re-enters here</text>
 
-  <polyline points="1150,612 1150,736 44,736 44,44 84,44" class="feed" marker-end="url(#ah)"/>
+  <polyline points="1150,612 1150,736 18,736 18,44 84,44" class="feed" marker-end="url(#ah)"/>
   <text class="t-note" x="620" y="728" text-anchor="middle">what ships changes the data, so the next question enters a different world</text>
 
   <line x1="1150" y1="520" x2="1150" y2="-36" class="feed" marker-end="url(#ah)"/>
   <text class="t-note" x="1164" y="300">what we learned</text>
 </svg>
-      <div class="legend">
-        <div><i class="l-solid"></i><span>Measurement Framework</span></div>
-        <div><i class="l-horiz"></i><span>Exploratory Analytics</span></div>
-        <div><i class="l-dot"></i><span>Statistical Modeling</span></div>
-        <div><i class="l-vert"></i><span>Experimentation</span></div>
-        <div><i class="l-hatch"></i><span>Causal Inference</span></div>
-      </div>
-      <figcaption>Solid is the path a question travels; dashed is what feeds back into it. The band down the left edge of each exit is that exit's key, and the two panels below carry the band of the exit they belong to. The gate sits first because it is the floor: every exit above it inherits a wrong definition of success without ever raising an error. The band across the top is the theory layer, read before the question is scoped and written when the decision is made; its key is drawn empty because it is not a method.</figcaption>
     </figure>
   </div>
 </section>
@@ -356,7 +338,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   <div>
     <a class="wm" href=".././">gallop</a>
     <p>Route the question before it becomes an analysis. Product data science as
-    agent skills, with a thin Python package underneath.</p>
+    agent skills, with a Python package underneath.</p>
   </div>
   <div>
     <p class="lab">Read</p>
@@ -372,7 +354,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
   <div>
     <p class="lab">Project</p>
-    <span>pre-1.0</span>
+    <span>v0.3.0</span>
     <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>

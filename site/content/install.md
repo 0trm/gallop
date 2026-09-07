@@ -1,8 +1,6 @@
 # Install
 
-Three ways in, in order of least friction. The skills are the interface; the
-Python package underneath exists because six calculations must be identical
-every time.
+Three ways in, in order of least friction.
 
 ## Claude Code plugin
 
@@ -86,9 +84,3 @@ one to write back to the store; the raw one is the winner's curse waiting.
 | `gallop.priors` | The prior store and metric registry on disk, validated JSONL |
 
 Each runs as a script too: `python -m gallop.trust srm --counts counts.csv`.
-
-## What it is not
-
-Not an experimentation platform. It does not assign traffic, hold flags, or
-replace your warehouse. It routes the question, then runs the
-checks an answer has to pass before it ships.

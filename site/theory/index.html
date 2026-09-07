@@ -34,7 +34,6 @@
     </span>
   </span>
 </nav>
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-knowledge-repo">The knowledge repo</a><a href="#the-prior-store">The prior store</a><a href="#the-format-is-the-discipline">The format is the discipline</a><a href="#dated-conditioned-and-expiring">Dated, conditioned, and expiring</a><a href="#why-this-is-the-part-worth-keeping">Why this is the part worth keeping</a></nav>
 
 <main id="main">
 <div class="band"><div class="doc">
@@ -132,53 +131,6 @@ overstatement grows as power falls. Empirical Bayes shrinkage toward
 the store's distribution is the correction, and the shrunk number is
 what gets written back, so the store deflates rather than inflates.</li>
 </ol>
-<h2 id="the-format-is-the-discipline">The format is the discipline</h2>
-<p>The store is an <strong>append-only JSONL file</strong>, one record per readout,
-validated on write. That is not a storage detail; each property is doing a
-job:</p>
-<ul>
-<li><strong>JSONL, in version control</strong>, because the store must be reviewable in a
-pull request. A store nobody can diff is a store that goes stale, and
-staleness is precisely the ceiling's failure mode.</li>
-<li><strong>Append-only</strong>, because the store is a log of what tests produced. A
-correction is a new record carrying <code>supersedes</code>, never an edit; the
-history of being wrong is part of what the store knows.</li>
-<li><strong>Validated on write</strong>, because a malformed record would flow into a
-shrinkage estimate without an error. The contract is published as JSON
-Schema:
-<a href="https://github.com/0trm/gallop/blob/main/templates/prior-store.schema.json">prior-store.schema.json</a>
-and
-<a href="https://github.com/0trm/gallop/blob/main/templates/metric-registry.schema.json">metric-registry.schema.json</a>,
-and <code>gallop.priors</code> enforces it.</li>
-</ul>
-<p>A record is thirteen flat fields:</p>
-<pre><code>id · metric · date · surface · design · effect · unit · se · n_per_arm
-decision · conditions · expires_on · supersedes
-</code></pre>
-<p><code>effect</code> and <code>se</code> are what shrinkage needs; <code>metric</code> plus <code>effect</code> across
-records is the distribution design reads. The rest is what makes an entry
-legible to a person a year later, which is the whole claim of the layer.</p>
-<h2 id="dated-conditioned-and-expiring">Dated, conditioned, and expiring</h2>
-<p>A wrong metric returns a wrong number without an error; a stale belief
-keeps answering a question nobody re-asked. The two failure modes
-mirror each other, floor and ceiling, and the defence is structural rather
-than a matter of diligence:</p>
-<ul>
-<li>Every entry carries a <strong>date</strong> and the <strong>conditions</strong> it held under:
-season, mix, market, ramp.</li>
-<li>Every entry names its <strong>expiry event</strong>: not a date somebody has to
-remember, but the concrete ship or shift that would invalidate it.
-&quot;Expires if the checkout flow is redesigned.&quot; Whoever redesigns the
-checkout should trip over that line.</li>
-</ul>
-<p>This is why a dated entry with an expiry condition beats a quarterly
-write-up. The quarterly document is true on the day it is written and
-decays invisibly from then on; nothing in it says which paragraphs died
-when the March release changed the funnel. The entry expires itself, at
-the moment the world changes, because the thing that changed the world is
-named in the entry.</p>
-<p>The loop on the map closes through this layer: what ships changes the
-data, and the ship that contradicts a belief is the event that expires it.</p>
 <h2 id="why-this-is-the-part-worth-keeping">Why this is the part worth keeping</h2>
 <p>Skip the theory layer and every quarter starts from zero: the team re-runs
 a test somebody ran two years ago, argues from memory about what a banner
@@ -199,7 +151,7 @@ cheaper than the first.</p>
   <div>
     <a class="wm" href=".././">gallop</a>
     <p>Route the question before it becomes an analysis. Product data science as
-    agent skills, with a thin Python package underneath.</p>
+    agent skills, with a Python package underneath.</p>
   </div>
   <div>
     <p class="lab">Read</p>
@@ -215,7 +167,7 @@ cheaper than the first.</p>
   </div>
   <div>
     <p class="lab">Project</p>
-    <span>pre-1.0</span>
+    <span>v0.3.0</span>
     <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
