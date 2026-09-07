@@ -1,8 +1,9 @@
-<p align="right">
+# gallop
+
+<br>
+<p align="center">
   <img src="site/assets/mark.svg" width="275" alt="A rider carried on a galloping horse">
 </p>
-
-# gallop
 
 **Skills that make your coding agent think like a product data scientist.** <br>
 Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
