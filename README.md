@@ -78,12 +78,6 @@ prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
 | [`writing-readouts`](skills/writing-readouts/SKILL.md) | The decision rule first, the result last; the belief filed where the next question starts | a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year |
 <!-- skills-table:end -->
 
-## What this is not
-
-Not an experimentation platform. It does not assign traffic, hold flags, or
-replace your warehouse. It assumes those exist and writes the part that decides
-whether the number they produced is true.
-
 ## More
 
 The site renders the skills and the two arguments:
