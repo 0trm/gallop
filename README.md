@@ -4,12 +4,7 @@
 
 # gallop
 
-**Routes a product question to the method it deserves, then runs that method with checks in place.**
-
-A product data science system, packaged as agent skills. Most questions leave at
-intake without an analysis. The ones that stay get the method that matches how
-treatment was assigned, and the checks that decide whether the result is a
-result. What they teach is written back, so the next question starts smaller.
+**Agent skills for product data science:** filter most questions at the door, match the rest to the right method, and verify the answer holds.
 
 ## The map
 
