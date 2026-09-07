@@ -46,7 +46,7 @@ pip install gallop-pds
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
-  <img src="site/figures/skills-map-light.svg" width="840" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
+  <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
 </picture>
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
