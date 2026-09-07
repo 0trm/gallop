@@ -4,9 +4,9 @@
 
 # gallop
 
-Skills that make your coding agent think like a product data scientist.
+**Skills that make your coding agent think like a product data scientist.**
 
-**Eight agent skills for product data science:** they decide whether a question deserves an analysis, pick the method it deserves, and check the result before anyone ships on it.
+Eight agent skills for PDS: they decide whether a question deserves an analysis, pick the method it deserves, and check the result before anyone ships on it.
 
 ## The map
 
