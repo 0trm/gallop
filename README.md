@@ -4,7 +4,9 @@
 
 # gallop
 
-**Agent skills for product data science:** filter most questions at the door, match the rest to the right method, and verify the answer holds.
+Skills that make your coding agent think like a product data scientist.
+
+**Eight agent skills for product data science:** they decide whether a question deserves an analysis, pick the method it deserves, and check the result before anyone ships on it.
 
 ## The map
 
