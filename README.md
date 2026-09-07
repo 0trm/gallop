@@ -7,6 +7,30 @@
 **Skills that make your coding agent think like a product data scientist.** <br>
 Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
 
+## Quick Start
+
+One command, one synthetic dataset, every check once:
+
+```bash
+python -m gallop.examples.quickstart
+```
+
+Fifteen seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
+
+## Install
+
+```bash
+# Claude Code
+/plugin marketplace add 0trm/gallop
+/plugin install gallop@gallop
+
+# any other agent, or none: a skill is a directory of markdown
+cp -r gallop/skills/reading-experiments .claude/skills/
+
+# the package; the import name is gallop
+pip install gallop-pds
+```
+
 ## Map
 
 <picture>
@@ -27,30 +51,6 @@ Experimentation and causal inference share all three, so they are one bucket sep
 
 **[Read the full map](https://0trm.github.io/gallop/map/)** ·
 **[Read the intake algorithm](https://0trm.github.io/gallop/intake/)**
-
-## Install
-
-```bash
-# Claude Code
-/plugin marketplace add 0trm/gallop
-/plugin install gallop@gallop
-
-# any other agent, or none: a skill is a directory of markdown
-cp -r gallop/skills/reading-experiments .claude/skills/
-
-# the package; the import name is gallop
-pip install gallop-pds
-```
-
-## Quick Start
-
-One command, one synthetic dataset, every check once:
-
-```bash
-python -m gallop.examples.quickstart
-```
-
-Fifteen seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
 
 ## Skills
 
