@@ -4,9 +4,8 @@
 
 # gallop
 
-**Skills that make your coding agent think like a product data scientist.**
-
-Eight agent skills for PDS: they decide whether a question deserves an analysis, pick the method it deserves, and check the result before it ships.
+**Skills that make your coding agent think like a product data scientist.** <br>
+Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
 
 ## The map
 
@@ -15,7 +14,7 @@ Eight agent skills for PDS: they decide whether a question deserves an analysis,
   <img src="site/figures/skills-map-light.svg" width="840" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
 </picture>
 
-A question enters at the left and leaves as a decision. Measurement is a foundation rather than a phase, because what ships changes the data. Theory is a ceiling rather than a report, because what you learn has to outlive the test that produced it.
+A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
 
 Three method buckets, a floor underneath them, a memory above them, and a layer of judgment on top. Each bucket has its own question and its own output:
 | Bucket | Asks | Hands back |
