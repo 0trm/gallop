@@ -56,8 +56,7 @@ FIGURES = {
     ("skills/reading-experiments", "p:Apply <strong>CUPED</strong>"): ("cuped.svg",
         "CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), "
         "so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic."),
-    ("about", "p:The mark is one horse"): ("mark.svg",
-        ""),
+    ("about", "p:The mark is one horse"): ("mark.svg", "", "small"),
     ("theory", "The prior store"): ("prior-store.svg",
         "Illustrative: a hundred readouts on one metric. The mean is the honest prior; the MDE somebody "
         "wished for sits to the right of every effect the metric has ever produced."),
@@ -136,16 +135,17 @@ def toc(items, minimum=4):
     return f'<nav class="toc" aria-label="Contents"><span class="lab">Contents</span>{links}</nav>\n'
 
 
-def figure(name, caption):
+def figure(name, caption, cls=""):
     src = FIGDIR / name
     if not src.exists():
         sys.exit(f"build: missing figure {src}; run site/figures.py")
     cap = f"<figcaption>{caption}</figcaption>" if caption else ""
-    return f'<figure class="fig">{src.read_text().strip()}{cap}</figure>'
+    klass = f"fig {cls}".strip()
+    return f'<figure class="{klass}">{src.read_text().strip()}{cap}</figure>'
 
 
 def place_figures(page_key, doc):
-    for (page, prefix), (name, caption) in FIGURES.items():
+    for (page, prefix), (name, caption, *cls) in FIGURES.items():
         if page != page_key:
             continue
         if prefix.startswith("p:"):   # after the paragraph that starts with this markup
@@ -154,7 +154,7 @@ def place_figures(page_key, doc):
             pat = re.compile(r'(<h2 id="[^"]*">' + re.escape(prefix) + r'[^<]*</h2>)')
         if not pat.search(doc):
             sys.exit(f"build: nothing starting {prefix!r} on {page_key} for {name}")
-        doc = pat.sub(lambda m: m.group(1) + "\n" + figure(name, caption), doc, count=1)
+        doc = pat.sub(lambda m: m.group(1) + "\n" + figure(name, caption, *cls), doc, count=1)
     return doc
 
 
@@ -240,7 +240,9 @@ def page(*, title, description, body, root, active=None, extra_style="", content
   document.querySelectorAll(".snip .copy").forEach(function (b) {{
     if (!navigator.clipboard) {{ b.hidden = true; return; }}
     b.addEventListener("click", function () {{
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {{
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) {{ g.remove(); }});
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {{
         b.textContent = "Copied";
         setTimeout(function () {{ b.textContent = "Copy"; }}, 1600);
       }});
@@ -336,8 +338,8 @@ def build_skill_page(d, emitted):
       <p class="skdesc">{meta.get("description", "")}</p>
     </div>
     <div>
-      <div class="snip"><pre>git clone https://github.com/0trm/gallop
-cp -r gallop/skills/{name} .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/{name} .claude/skills/</pre></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       {script_note}
@@ -480,7 +482,7 @@ def main(argv=None):
     build_content_page("theory", "The theory layer",
                        "The prior store and the knowledge repo: the only object that compounds.", emitted)
     build_content_page("about", "About",
-                       "What the gallop logo means: the horse, the rider, and the one idea the mark carries.",
+                       "Why the routing and the rigour live in one place, who it is for, and what the logo means.",
                        emitted)
     build_content_page("install", "Install",
                        "Claude Code plugin, manual copy, or pip.", emitted)

@@ -167,7 +167,9 @@ checks an answer has to pass before it ships.</p>
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

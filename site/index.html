@@ -220,8 +220,8 @@
     </div>
     <div class="note">
       <p class="lab">Run it on your own question</p>
-      <div class="snip"><pre>/plugin marketplace add 0trm/gallop
-/plugin install gallop@gallop</pre><button type="button" class="copy">Copy</button></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <p>Then ask your agent the question you were about to write a query for. The plugin
       is the Claude Code route; <a href="install/">any agent that reads skills</a> can take
       the directories instead.</p>
@@ -324,7 +324,9 @@
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

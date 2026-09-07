@@ -48,8 +48,8 @@
       <p class="skdesc">Turns a metric name into a computation, a source of truth, a registry entry, and a written statement of how it will be gamed, then decides whether it is trustworthy enough to promote. Use when defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated.</p>
     </div>
     <div>
-      <div class="snip"><pre>git clone https://github.com/0trm/gallop
-cp -r gallop/skills/defining-metrics .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/defining-metrics .claude/skills/</pre></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/defining-metrics">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
@@ -402,7 +402,9 @@ review in a pull request is a registry that goes stale.</li>
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

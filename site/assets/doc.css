@@ -54,14 +54,18 @@
 .skillhead .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                    max-width:60ch;margin:14px 0 0}
 /* the install snippet is the primary action: filled, mono, a copy control */
-.snip{display:flex;align-items:stretch;background:var(--fg);color:var(--bg);margin:0 0 10px}
-.snip pre{margin:0;padding:14px 16px;font-size:12.5px;line-height:1.6;flex:1;min-width:0;
+.snip{border:1px solid var(--line-2);background:var(--bg);color:var(--fg);margin:0 0 10px}
+.snip .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;
+           border-bottom:1px solid var(--line-2)}
+.snip .path{font-family:var(--mono);font-size:12.5px;display:flex;align-items:center;gap:8px}
+.snip .cur{width:7px;height:13px;background:var(--fg);flex:none}
+.snip pre{margin:0;padding:12px 14px 14px;font-size:12.5px;line-height:1.6;background:var(--surface);
           white-space:pre-wrap;overflow-wrap:anywhere}
-.snip .copy{flex:none;min-width:76px;padding:0 16px;border:0;background:none;color:inherit;
-            border-left:1px solid color-mix(in srgb, var(--bg) 35%, transparent);
+.snip pre .p{color:var(--dim)}
+.snip .copy{border:0;background:none;padding:0;color:var(--dim);cursor:pointer;
             font-family:var(--sans);text-transform:uppercase;font-size:11px;
-            letter-spacing:.14em;font-weight:600;cursor:pointer}
-.snip .copy:hover{background:var(--bg);color:var(--fg)}
+            letter-spacing:.14em;font-weight:600}
+.snip .copy:hover{color:var(--fg)}
 .skillhead .scripts{margin-top:14px}
 .skillhead .scripts ul{margin:8px 0 0;padding-left:18px;font-size:14.5px}
 @media (max-width:1080px){

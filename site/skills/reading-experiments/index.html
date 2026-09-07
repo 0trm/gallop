@@ -48,8 +48,8 @@
       <p class="skdesc">Runs the trust gate on a finished experiment before the result is believed: sample ratio mismatch, exposure counts, always-valid or sequential bounds, guardrails read before the primary metric, the pre-registered segment rather than the most flattering one, CUPED variance reduction, and empirical Bayes shrinkage against the prior store. Use when analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment readout.</p>
     </div>
     <div>
-      <div class="snip"><pre>git clone https://github.com/0trm/gallop
-cp -r gallop/skills/reading-experiments .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/reading-experiments .claude/skills/</pre></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/reading-experiments">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/reading-experiments/scripts/run_checks.py">scripts/run_checks.py</a></li></ul></div>
@@ -459,7 +459,9 @@ covariate is planned at design time.</p>
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

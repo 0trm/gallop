@@ -48,8 +48,8 @@
       <p class="skdesc">Routes an incoming product question to the method it deserves before any analysis starts. Checks what the team already knows, whether the metric can be trusted, whether the question is description or causation, whether the decision is made once or continuously, and who assigned the treatment. Use when a product, analytics, or experimentation request first arrives, when someone asks for a deep dive or a dashboard, or before opening a query editor on any question about impact, lift, or whether something worked.</p>
     </div>
     <div>
-      <div class="snip"><pre>git clone https://github.com/0trm/gallop
-cp -r gallop/skills/routing-questions .claude/skills/</pre><button type="button" class="copy">Copy</button></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/routing-questions .claude/skills/</pre></div>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/routing-questions">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
@@ -257,7 +257,9 @@ answers that were never going to be true.</p>
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      navigator.clipboard.writeText(b.previousElementSibling.textContent).then(function () {
+      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });
