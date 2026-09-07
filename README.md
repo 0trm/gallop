@@ -2,11 +2,11 @@
 
 <br>
 <p align="center">
-  <img src="site/assets/mark.svg" width="275" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="280" alt="A rider carried on a galloping horse">
 </p>
 
 <p align="center">
-  <a href="https://0trm.github.io/gallop/">0trm.github.io/gallop</a> &middot; <a href="#install">install</a> &middot; <a href="#quick-start">quick start</a> &middot; <a href="https://0trm.github.io/gallop/skills/">docs</a>
+  <a href="#install">install</a> &middot; <a href="#quick-start">quick start</a> &middot; <a href="https://0trm.github.io/gallop/skills/">docs</a>
 </p>
 
 <p align="center">
