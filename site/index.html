@@ -22,7 +22,7 @@
 
   .hero{grid-template-columns:1.32fr .68fr}
   .hero .txt{padding:40px 20px 44px}
-  .hero .d{font-size:52px;max-width:16ch;margin-top:14px}
+  .hero .d{font-size:clamp(40px,3.6vw,52px);margin-top:14px}
   .hero p.lede{font-size:15.5px;line-height:1.6;max-width:76ch;margin-top:18px;color:var(--body)}
   .hero .art{display:flex;align-items:center;justify-content:center;padding:24px}
 
@@ -101,7 +101,7 @@
 <div class="band cells hero">
   <div class="txt">
     <p class="lab">Open source &middot; MIT &middot; pre-1.0</p>
-    <h1 class="d">Skills that make your coding agent think like a product data scientist.</h1>
+    <h1 class="d">Skills that make<br>your coding agent<br>think like a product data scientist.</h1>
     <p class="lede">Eight agent skills for product data science: they decide whether a question
     deserves an analysis, pick the method it deserves, and check the result before anyone ships on it.</p>
   </div>
