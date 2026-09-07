@@ -163,7 +163,7 @@ def footer(root):
   <div>
     <a class="wm" href="{root}./">gallop</a>
     <p>Route the question before it becomes an analysis. Product data science as
-    agent skills, with a thin Python package underneath.</p>
+    agent skills, with a Python package underneath.</p>
   </div>
   <div>
     <p class="lab">Read</p>
@@ -179,7 +179,7 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Project</p>
-    <span>pre-1.0</span>
+    <span>v0.3.0</span>
     <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
@@ -371,6 +371,12 @@ def build_skills_index(dirs, emitted):
   <div class="secthead">
     <p class="lab">{COUNT_WORD} skills</p>
   </div>
+  <div class="doc skhead">
+    <h1>The skills</h1>
+    <p class="lede">A skill is a decision procedure your agent runs with you: the questions in
+    order, the checks that have to pass, and the exit that says this one cannot be answered.
+    {COUNT_WORD} of them, one for each position on the method map.</p>
+  </div>
   <div class="doc mapfig">
     {figure("skills-map.svg", "Where each skill sits. Each name is a link.")}
   </div>
@@ -394,6 +400,9 @@ decision made continuously, at volume, leaves it for
 measures the model's impact.</p>
 </div></div>"""
     style = """
+  .skhead{padding-bottom:0}
+  .skhead h1{margin-bottom:12px}
+  .skhead .lede{margin:0;font-size:16px;line-height:1.6;color:var(--body);max-width:72ch}
   .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}

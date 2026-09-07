@@ -59,61 +59,6 @@ The store earns its keep twice per experiment:
    the store's distribution is the correction, and the shrunk number is
    what gets written back, so the store deflates rather than inflates.
 
-## The format is the discipline
-
-The store is an **append-only JSONL file**, one record per readout,
-validated on write. That is not a storage detail; each property is doing a
-job:
-
-- **JSONL, in version control**, because the store must be reviewable in a
-  pull request. A store nobody can diff is a store that goes stale, and
-  staleness is precisely the ceiling's failure mode.
-- **Append-only**, because the store is a log of what tests produced. A
-  correction is a new record carrying `supersedes`, never an edit; the
-  history of being wrong is part of what the store knows.
-- **Validated on write**, because a malformed record would flow into a
-  shrinkage estimate without an error. The contract is published as JSON
-  Schema:
-  [prior-store.schema.json](https://github.com/0trm/gallop/blob/main/templates/prior-store.schema.json)
-  and
-  [metric-registry.schema.json](https://github.com/0trm/gallop/blob/main/templates/metric-registry.schema.json),
-  and `gallop.priors` enforces it.
-
-A record is thirteen flat fields:
-
-```
-id · metric · date · surface · design · effect · unit · se · n_per_arm
-decision · conditions · expires_on · supersedes
-```
-
-`effect` and `se` are what shrinkage needs; `metric` plus `effect` across
-records is the distribution design reads. The rest is what makes an entry
-legible to a person a year later, which is the whole claim of the layer.
-
-## Dated, conditioned, and expiring
-
-A wrong metric returns a wrong number without an error; a stale belief
-keeps answering a question nobody re-asked. The two failure modes
-mirror each other, floor and ceiling, and the defence is structural rather
-than a matter of diligence:
-
-- Every entry carries a **date** and the **conditions** it held under:
-  season, mix, market, ramp.
-- Every entry names its **expiry event**: not a date somebody has to
-  remember, but the concrete ship or shift that would invalidate it.
-  "Expires if the checkout flow is redesigned." Whoever redesigns the
-  checkout should trip over that line.
-
-This is why a dated entry with an expiry condition beats a quarterly
-write-up. The quarterly document is true on the day it is written and
-decays invisibly from then on; nothing in it says which paragraphs died
-when the March release changed the funnel. The entry expires itself, at
-the moment the world changes, because the thing that changed the world is
-named in the entry.
-
-The loop on the map closes through this layer: what ships changes the
-data, and the ship that contradicts a belief is the event that expires it.
-
 ## Why this is the part worth keeping
 
 Skip the theory layer and every quarter starts from zero: the team re-runs
