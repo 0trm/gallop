@@ -2,7 +2,7 @@
 
 <br>
 <p align="center">
-  <img src="site/assets/mark.svg" width="280" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="285" alt="A rider carried on a galloping horse">
 </p>
 
 <p align="center">
@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-888888?labelColor=444444" alt="MIT license" /></a>
-  <a href="https://github.com/0trm/gallop/releases/latest"><img src="https://img.shields.io/github/v/release/0trm/gallop?label=release&labelColor=444444&color=888888" alt="latest stable release" /></a>
-  <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-888888?labelColor=444444&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-999999?labelColor=555555" alt="MIT license" /></a>
+  <a href="https://github.com/0trm/gallop/releases/latest"><img src="https://img.shields.io/github/v/release/0trm/gallop?label=release&labelColor=555555&color=999999" alt="latest stable release" /></a>
+  <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-999999?labelColor=555555&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
 </p>
 
 **Skills that make your coding agent think like a product data scientist.** <br>
