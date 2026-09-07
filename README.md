@@ -1,5 +1,5 @@
 <p align="right">
-  <img src="site/assets/mark.svg" width="275" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="280" alt="A rider carried on a galloping horse">
 </p>
 
 # gallop
@@ -16,7 +16,7 @@ Eight agent skills: they decide whether a question deserves an analysis, pick th
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
 
-Three method buckets, a floor underneath them, a memory above them, and a layer of judgment on top. Each bucket has its own question and its own output:
+Three method buckets, a floor underneath them, a memory above them, and a layer of judgment on top. Each bucket has its own question and output:
 | Bucket | Asks | Hands back |
 |---|---|---|
 | Description | What happened? | A hypothesis |
