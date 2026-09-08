@@ -16,17 +16,17 @@
 </p>
 
 **Skills that make your coding agent think like a product data scientist.** <br>
-Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
+They decide whether a question deserves an analysis, pick the method, and check the result.
 
 ## quick start
 
-One command, one synthetic dataset, every check once:
+One command, a synthetic dataset, and every check once:
 
 ```bash
 python -m gallop.examples.quickstart
 ```
 
-Fifteen seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
+A few seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
 
 ## install
 
@@ -58,7 +58,7 @@ Three method buckets, a floor underneath them, a memory above them, and a layer 
 | Causation | Did this change cause that? | An effect size |
 | Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation |
 
-Experimentation and causal inference share all three, so they are one bucket separated only by who did the randomising: you, or the world.
+Experimentation and causal inference share all 3, so they are one bucket separated only by who did the randomising: you, or the world.
 
 **[Read the full map](https://0trm.github.io/gallop/map/)** ·
 **[Read the intake algorithm](https://0trm.github.io/gallop/intake/)**
