@@ -15,8 +15,10 @@
   <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-999999?labelColor=555555&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
 </p>
 
-**Skills that make your coding agent think like a product data scientist.** <br>
-Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
+<p align="center">
+  <strong>Skills that make your coding agent think like a product data scientist.</strong><br>
+  Eight agent skills: they decide whether a question deserves an analysis, pick the method, and check the result.
+</p>
 
 ## quick start
 
