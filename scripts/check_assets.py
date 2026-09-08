@@ -3,7 +3,7 @@
 
 Git history is permanent: deleting a font binary in a later commit does not remove
 it. So this runs in CI and on every Pages build rather than being a rule someone
-remembers. The rule is in CLAUDE.md under Assets.
+remembers. The rule is in AGENTS.md under Assets.
 """
 # %%
 import re
@@ -64,7 +64,7 @@ def main() -> int:
     for line in problems:
         print(f"FAIL  {line}", file=sys.stderr)
     if problems:
-        print(f"\n{len(problems)} asset problem(s). CLAUDE.md, Assets, explains the rule.", file=sys.stderr)
+        print(f"\n{len(problems)} asset problem(s). AGENTS.md, Assets, explains the rule.", file=sys.stderr)
         return 1
 
     print("OK  no font binaries, no inlined fonts, no dangling font references")

@@ -1,59 +1,61 @@
-# Orchestrating the skills
+# Repo conventions
 
-How the skills hand off to each other when an agent runs a product question
-end to end. Any single skill stands alone; this file is the wiring.
+## The taxonomy is the gate
 
-## The path every question takes
+Six positions: routing, the measurement floor, three method buckets
+(description, causation, prediction), and the theory ceiling. Every skill and
+every module traces to exactly one; causation carries three skills, description
+and prediction one each. A proposal that needs a seventh position is
+refused, not accommodated. This repo has been built once before and abandoned at
+53 documents; the rule exists because of that.
+
+## Skills
+
+- Gerund-form kebab-case directory names, matching the `name` field exactly.
+- `SKILL.md` body under 500 lines. If it will not fit, cut coverage. Never split
+  a skill to get under the limit; one skill per position.
+- References sit exactly one level below `SKILL.md`. Never deeper: Claude
+  partially reads files reached through a chain.
+- Reference files are named for their content, `interference.md`, not `advanced.md`.
+- Forward slashes everywhere.
+- `python3 scripts/validate_skills.py` enforces all of the above. CI runs it.
+
+## Python
+
+- `numpy`, `pandas`, `scipy`. Nothing else in the runtime dependencies.
+- `# %%` cell markers, so every module runs as a script and opens as a notebook.
+- A function earns its place only if a skill calls it and an agent improvising it
+  would plausibly get it wrong.
+- No module imports a database driver. SQL lives in `sql/` as `.sql.tmpl`,
+  substituted with `string.Template` from the standard library.
+
+## The checks
 
 ```
-question arrives
-  └─ routing-questions            always first, even when the destination seems obvious
-       ├─ exit: settled           hand back the knowledge-repo entry; stop
-       ├─ exit: curiosity         no decision changes on the answer; backlog; stop
-       ├─ defining-metrics        the metric cannot be trusted; fix the floor,
-       │                          then RE-ENTER routing with the original question
-       ├─ sizing-opportunities    exploratory work: the floor first, then the move
-       │                          localised and sized; hands back a hypothesis, which
-       │                          re-enters routing as a change question
-       ├─ automating-decisions    decided continuously, at volume: a forecast, a
-       │                          ranking, an allocation. Validated out of time,
-       │                          then designing-experiments before it claims impact
-       ├─ designing-experiments   you control assignment
-       └─ choosing-causal-designs assignment already happened
-              └─ (or the exit: no comparison group; say so; stop, and file the refusal)
-
-experiment runs
-  └─ reading-experiments          trust gate before the number, always
-       └─ writing-readouts        every verdict, including nulls, broken tests
-                                  and refusals; the ticket closes only when the
-                                  readout, the belief and the prior-store record exist
+pytest                              # package tests, one file per module
+ruff check src tests scripts        # lint
+python3 scripts/validate_skills.py  # skill limits
+python3 scripts/run_evals.py        # eval structure; --run executes with the claude CLI
+python3 site/build.py --check       # generated pages and README table in sync
 ```
 
-## Rules that cross skill boundaries
+All five run in CI. `site/build.py` (not the skill files' copies) is the one
+source for skill positions and the README table.
 
-- **The prior store is shared state.** `designing-experiments` reads it to
-  size the MDE; `reading-experiments` shrinks toward it; `writing-readouts`
-  appends to it. One JSONL file, schema in `templates/prior-store.schema.json`,
-  read and written only through `gallop.priors`.
-- **The registry gates the pipeline.** An experiment's primary metric must
-  be `trusted` in the metric registry. If it is not, the question belongs to
-  `defining-metrics` first, whatever the requester asked for.
-- **Pre-registration binds the readout.** `reading-experiments` reads
-  against the plan `designing-experiments` filed: the decision rule, the one
-  segment, the peeking policy. No plan weakens every check downstream and
-  the readout says so.
-- **The loop is not optional.** A question that produced a decision but no
-  knowledge entry and no store record is unfinished work, whichever skill
-  last touched it.
+## Assets
 
-## The package underneath
+Nothing whose provenance is unclear enters the history. Git history is permanent
+and deleting a file later does not remove it. No font binaries, no inlined
+font data, no icons of borrowed lineage; `scripts/check_assets.py` enforces
+the first two.
 
-Skills call `python -m gallop.<module>` (power, trust, variance, sequential,
-shrink, priors, validate, explore) and four bundled scripts:
-`skills/designing-experiments/scripts/size_test.py`,
-`skills/reading-experiments/scripts/run_checks.py`,
-`skills/automating-decisions/scripts/validate_model.py` and
-`skills/sizing-opportunities/scripts/size_opportunity.py`. If the package is not
-installed, `pip install gallop-pds` (or from source,
-`pip install git+https://github.com/0trm/gallop`); do not improvise the
-statistics the modules exist to pin down.
+## Prose
+
+Flat and declarative. State the finding, give the evidence, give the fix. No
+hype adjectives, no em dashes, no emoji in code or commit messages.
+
+## Running the skills
+
+`docs/orchestration.md` is the wiring: the path a question takes through the
+skills, the state they share, and the modules they call. It documents running
+the skills, not changing them, so nothing in it is enforced by the checks.
