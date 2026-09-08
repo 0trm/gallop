@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="#install">Install</a> &middot; <a href="#quick-start">Quick start</a> &middot; <a href="https://0trm.github.io/gallop/skills/">Docs</a>
+  <a href="#install">install</a> &middot; <a href="#quick-start">quick start</a> &middot; <a href="https://0trm.github.io/gallop/skills/">docs</a>
 </p>
 
 <p align="center">
