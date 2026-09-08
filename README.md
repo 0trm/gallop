@@ -2,7 +2,7 @@
 
 <br>
 <p align="center">
-  <img src="site/assets/mark.svg" width="280" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="300" alt="A rider carried on a galloping horse">
 </p>
 
 <p align="center">
