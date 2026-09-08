@@ -26,7 +26,7 @@ one command, a synthetic dataset, and every check once:
 python -m gallop.examples.quickstart
 ```
 
-a few seconds of runtime: an MDE, an SRM verdict, an exposure ratio, a CUPED-adjusted effect with an always-valid interval, and the same effect shrunk toward a seeded prior store. The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
+the full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
 
 ## install
 
