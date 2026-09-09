@@ -60,8 +60,6 @@ A question enters at the left and leaves as a decision. Measurement is a foundat
 | Causation | Did this change cause that? | An effect size |
 | Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation |
 
-Experimentation and causal inference share all 3, so they are one bucket separated only by who did the randomising: you, or the world.
-
 **[Read the full map](https://0trm.github.io/gallop/map/)** ·
 **[Read the intake algorithm](https://0trm.github.io/gallop/intake/)**
 
