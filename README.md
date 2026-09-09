@@ -17,7 +17,7 @@
 
 <p align="center">
   <strong>Skills that make your coding agent think like a product data scientist.</strong><br>
-  They decide whether a question deserves an analysis, pick the method, and check the result.
+  They decide if a question deserves an analysis, pick the method, and check the result.
 </p>
 
 ## Quick start
@@ -44,7 +44,7 @@ cp -r gallop/skills/reading-experiments .claude/skills/
 pip install gallop-pds
 ```
 
-## The map
+## Map
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
