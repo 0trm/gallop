@@ -34,12 +34,12 @@
   /* The mark is inlined rather than loaded from assets/mark.svg so it inherits
      currentColor and follows the switch rather than the operating system. The
      path is the same one; assets/mark.svg is the canonical copy. */
-  .marklink{display:block;width:100%;max-width:370px}
+  .marklink{display:block;width:100%;max-width:361px}
   .logo{width:100%;height:auto;display:block;color:var(--fg)}
 
   .hero{grid-template-columns:1.32fr .68fr}
   .hero .txt{padding:40px 20px 26px}
-  .hero .d{font-size:clamp(40px,3.6vw,52px);margin-top:14px}
+  .hero .d{font-size:clamp(39px,3.51vw,50.7px);margin-top:14px}
   .hero p.lede{font-size:15.5px;line-height:1.6;max-width:76ch;margin:18px 0 0;color:var(--body)}
   .hero .art{display:flex;align-items:center;justify-content:center;padding:24px}
   /* .btn is display:flex, so left alone it would span the whole hero column */
@@ -82,12 +82,12 @@
   @media (max-width:1080px){
     .hero,.demo,.mapband{grid-template-columns:1fr}
     .hero > *,.demo > :first-child,.mapband > :first-child{border-right:0;border-bottom:1px solid var(--line)}
-    .hero .d{font-size:40px}
+    .hero .d{font-size:39px}
   }
   @media (max-width:620px){
     /* the ch caps are sized for a two-column hero; below this they push the
        headline and the lede past the right edge instead of wrapping. */
-    .hero .d{font-size:32px;max-width:none}
+    .hero .d{font-size:31.2px;max-width:none}
     /* the headline's line breaks are composed for a wide measure; a phone
        column is narrower than any of the three lines, so it wraps its own way. */
     .hero .d .lb{display:none}
