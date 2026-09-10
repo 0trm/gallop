@@ -57,3 +57,19 @@ def test_dilution_verdict_states_the_attenuation_not_the_exposure_rate():
     r = trust.exposure_check({"a": 100_000, "b": 100_000}, {"a": 90_000, "b": 90_000})
     assert "attenuated ~10%" in r["verdict"]
     assert r["dilution_factor"] == pytest.approx(1 / 0.9)
+
+
+def test_report_renders_both_checks_and_names_the_causes_on_a_failure():
+    clean = trust.report(trust.srm({"control": 10_000, "treatment": 10_000}))
+    assert "chi2 0.00" in clean and "pass" in clean
+    assert "work the causes" not in clean
+
+    failed = trust.report(trust.srm({"control": 10_000, "treatment": 9_400}))
+    assert "STOP, DO NOT ANALYSE" in failed
+    assert "work the causes in this order" in failed
+    assert len([ln for ln in failed.splitlines() if ln.strip()[:1].isdigit()]) == len(trust.SRM_CAUSES)
+
+    exposure = trust.report(trust.exposure_check({"a": 100_000, "b": 100_000},
+                                                 {"a": 90_000, "b": 90_000}))
+    assert "attenuated ~10%" in exposure
+    assert "1.11" in exposure or "1.111" in exposure

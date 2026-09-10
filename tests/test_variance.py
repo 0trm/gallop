@@ -39,3 +39,21 @@ def test_requires_exactly_two_arms():
     y, x, arm = _experiment(n=300)
     with pytest.raises(ValueError):
         variance.cuped(y, x, np.where(np.arange(600) % 3 == 0, "c", arm))
+
+
+def test_theta_is_the_ols_slope_of_y_on_x_on_a_fixed_array():
+    # Six units, worked by hand: cov(y, x) = 13/5, var(x) = 2.0, so theta = 1.3.
+    # The denominator is the covariate's variance, not the outcome's: var(y) is
+    # 3.5 here, which would give 0.743 and move every adjusted number.
+    y = np.array([2.0, 3.0, 5.0, 4.0, 6.0, 7.0])
+    x = np.array([1.0, 2.0, 3.0, 3.0, 4.0, 5.0])
+    arm = np.array(["control"] * 3 + ["treatment"] * 3)
+    r = variance.cuped(y, x, arm)
+    assert np.cov(y, x, ddof=1)[0, 1] == pytest.approx(2.6)
+    assert np.var(x, ddof=1) == pytest.approx(2.0)
+    assert np.var(y, ddof=1) == pytest.approx(3.5)
+    assert r["theta"] == pytest.approx(1.3)
+    assert r["rho"] == pytest.approx(np.corrcoef(y, x)[0, 1])
+    # and the adjustment is y - theta (x - mean x), recomputed independently
+    y_adj = y - 1.3 * (x - x.mean())
+    assert r["effect_adjusted"] == pytest.approx(y_adj[3:].mean() - y_adj[:3].mean())

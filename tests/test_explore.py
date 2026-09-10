@@ -113,3 +113,20 @@ def test_a_segment_present_in_only_one_period_is_flagged_not_hidden():
     assert bool(row["entered"]) and not bool(row["exited"])
     assert row["rate_contribution"] == pytest.approx(0.025)
     assert not bool(r["table"].set_index("segment").loc["old", "entered"])
+
+
+def test_two_proportion_p_matches_the_pooled_z_test():
+    # Reference: the pooled two-proportion z-test. 40/200 against 60/200 gives
+    # p_pool = 0.25, se = sqrt(0.25 * 0.75 * (1/200 + 1/200)) and z = -0.10/se.
+    from scipy import stats as st
+    got = explore.two_proportion_p([40], [200], [60], [200])
+    p_pool = 100 / 400
+    se = np.sqrt(p_pool * (1 - p_pool) * (1 / 200 + 1 / 200))
+    expected = 2 * st.norm.sf(abs((0.30 - 0.20) / se))
+    assert got[0] == pytest.approx(expected, rel=1e-12)
+    # identical proportions cannot be distinguished
+    assert explore.two_proportion_p([50], [200], [50], [200])[0] == pytest.approx(1.0)
+
+
+def test_two_proportion_p_returns_one_for_an_empty_denominator():
+    assert explore.two_proportion_p([0], [0], [10], [100])[0] == pytest.approx(1.0)
