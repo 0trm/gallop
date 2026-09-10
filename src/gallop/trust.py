@@ -50,7 +50,15 @@ def srm(counts, expected=None, alpha=0.001):
         arms = [f"arm_{i}" for i in range(len(obs))]
     if len(obs) < 2:
         raise ValueError("srm needs at least two arms")
+    if (obs < 0).any():
+        raise ValueError("assignment counts must be non-negative")
+    if obs.sum() <= 0:
+        raise ValueError("srm needs at least one assigned unit")
     share = np.full(len(obs), 1 / len(obs)) if expected is None else np.asarray(expected, float)
+    if (share <= 0).any():
+        # A zero expected cell makes the chi-square undefined; without this the
+        # statistic is nan, nan < alpha is False, and the gate reports "pass".
+        raise ValueError("expected shares must all be positive")
     share = share / share.sum()
     exp = obs.sum() * share
     chi2 = float(((obs - exp) ** 2 / exp).sum())
@@ -79,7 +87,8 @@ def exposure_check(assigned, exposed, min_rate=0.95, alpha=0.001):
     Two verdicts stack. A pooled exposure rate below `min_rate` means the
     intention-to-treat effect is attenuated by roughly that rate; the check
     reports the dilution factor to divide it back out, and whether the design
-    should have logged exposure instead. An SRM test on the exposed counts
+    should have logged exposure instead. The attenuation is the unexposed
+    share: 90% exposure leaves the ITT about 10% short, not 90%. An SRM test on the exposed counts
     (at the assignment split) catches differential triggering, which no
     dilution factor repairs.
     """
@@ -88,6 +97,8 @@ def exposure_check(assigned, exposed, min_rate=0.95, alpha=0.001):
         raise ValueError("assigned and exposed must cover the same arms")
     a = np.array([assigned[k] for k in arms], float)
     e = np.array([exposed[k] for k in arms], float)
+    if (a <= 0).any():
+        raise ValueError("every arm needs a positive assigned count")
     if (e > a).any():
         raise ValueError("exposed count exceeds assigned count in some arm")
     rates = e / a
@@ -97,7 +108,8 @@ def exposure_check(assigned, exposed, min_rate=0.95, alpha=0.001):
     if exposed_srm["srm"]:
         verdict = "DIFFERENTIAL EXPOSURE: the arms trigger unequally, do not analyse"
     elif diluted:
-        verdict = f"diluted: ITT effect attenuated ~{pooled:.0%}, analyse exposed or scale"
+        verdict = (f"diluted: {pooled:.0%} exposed, ITT attenuated ~{1 - pooled:.0%}, "
+                   "analyse exposed or scale")
     else:
         verdict = "pass"
     return {

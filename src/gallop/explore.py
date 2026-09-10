@@ -86,6 +86,11 @@ def mix_rate(before, after, *, segment="segment", n="n", y="y", alpha=0.05):
     with np.errstate(divide="ignore", invalid="ignore"):
         rb = (b[y] / b[n]).fillna(0.0)
         ra = (a[y] / a[n]).fillna(0.0)
+    # A segment present in only one period has no rate in the other; the 0 above
+    # is a filler, so its rate_contribution is an artifact of entry or exit, not
+    # a rate that moved. Flagged per row and counted in the result.
+    entered = (b[n].to_numpy() == 0) & (a[n].to_numpy() > 0)
+    exited = (b[n].to_numpy() > 0) & (a[n].to_numpy() == 0)
     r_before = float(b[y].sum() / b[n].sum())
     r_after = float(a[y].sum() / a[n].sum())
     change = r_after - r_before
@@ -104,6 +109,7 @@ def mix_rate(before, after, *, segment="segment", n="n", y="y", alpha=0.05):
         "rate_contribution": rate_c.to_numpy(), "mix_contribution": mix_c.to_numpy(),
         "contribution": (rate_c + mix_c).to_numpy(), "p": p, "p_adj": p_adj,
         "flagged": p_adj < alpha,
+        "entered": entered, "exited": exited,
     })
     table = table.reindex(table["contribution"].abs().sort_values(ascending=False).index)
     table = table.reset_index(drop=True)
@@ -115,6 +121,7 @@ def mix_rate(before, after, *, segment="segment", n="n", y="y", alpha=0.05):
         "rate_effect": float(rate_c.sum()), "mix_effect": float(mix_c.sum()),
         "rate_share": float(rate_c.sum() / change) if change != 0 else float("nan"),
         "table": table, "simpson": simpson, "n_cuts": len(idx),
+        "n_entering_exiting": int((entered | exited).sum()),
         "n_flagged": int(table["flagged"].sum()), "alpha": alpha,
     }
 

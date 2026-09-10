@@ -56,6 +56,8 @@ def empirical_bayes(effect, se, effects=None, ses=None, mu=None, tau2=None):
     elif mu is None or tau2 is None:
         raise ValueError("pass effects+ses, or mu+tau2")
     else:
+        if float(tau2) < 0:
+            raise ValueError("tau2 must be non-negative")
         prior = {"mu": float(mu), "tau2": float(tau2), "n_priors": None}
     se = float(se)
     if se <= 0:

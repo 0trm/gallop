@@ -54,3 +54,10 @@ def test_from_store_refuses_mixed_units():
 def test_needs_three_priors():
     with pytest.raises(ValueError, match="at least 3"):
         shrink.empirical_bayes(0.05, 0.01, effects=[0.01, 0.02], ses=[0.01, 0.01])
+
+
+def test_negative_tau2_is_refused():
+    # Otherwise the weight exceeds 1 and the shrunk effect comes back larger
+    # than the input, with a negative winner's-curse correction.
+    with pytest.raises(ValueError):
+        shrink.empirical_bayes(0.03, 0.01, mu=0.0, tau2=-1.0)

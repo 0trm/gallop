@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -37,3 +39,17 @@ def test_sd_and_rate_are_mutually_exclusive():
         power.mde(1000, sd=1.0, baseline_rate=0.1)
     with pytest.raises(ValueError):
         power.mde(1000)
+
+
+def test_sample_size_stays_exact_so_mde_inverts_it():
+    n = power.sample_size(0.01, baseline_rate=0.10)
+    assert n == pytest.approx(14127.98, abs=0.01)
+    assert power.power_at(math.ceil(n), 0.01, baseline_rate=0.10) >= 0.80
+    assert power.power_at(math.floor(n), 0.01, baseline_rate=0.10) < 0.80
+
+
+def test_degenerate_arguments_raise_rather_than_returning_a_number():
+    with pytest.raises(ValueError):
+        power.mde(5000, sd=-2.0)
+    with pytest.raises(ValueError):
+        power.sample_size(0.0, sd=1.0)

@@ -97,3 +97,19 @@ def test_size_opportunity_too_small_and_unanchored():
     assert r["verdict"].startswith("TOO SMALL")
     r = explore.size_opportunity(0.02, 10_000, baseline_rate=0.12, units_per_day=8000)
     assert r["fundable"] is None and "unanchored" in r["verdict"]
+
+
+def test_a_segment_present_in_only_one_period_is_flagged_not_hidden():
+    # Nothing moved: the same segment at 100/1000, plus a new one at 100/1000.
+    # The filler rate of 0 books the entry as a 2.5pp rate move, so the row
+    # carries the flag that says the contribution is entry, not a rate change.
+    before = [{"segment": "old", "n": 1000, "y": 100}]
+    after = [{"segment": "old", "n": 1000, "y": 100},
+             {"segment": "new", "n": 1000, "y": 100}]
+    r = explore.mix_rate(before, after)
+    assert r["change"] == pytest.approx(0.0)
+    assert r["n_entering_exiting"] == 1
+    row = r["table"].set_index("segment").loc["new"]
+    assert bool(row["entered"]) and not bool(row["exited"])
+    assert row["rate_contribution"] == pytest.approx(0.025)
+    assert not bool(r["table"].set_index("segment").loc["old", "entered"])

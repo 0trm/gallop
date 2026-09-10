@@ -18,6 +18,7 @@ Run:  python -m gallop.power mde --n 5000 --baseline-rate 0.10
 from __future__ import annotations
 
 import argparse
+import math
 
 import numpy as np
 from scipy import stats
@@ -32,6 +33,8 @@ def _sd(sd: float | None, baseline_rate: float | None) -> float:
         if not 0 < baseline_rate < 1:
             raise ValueError("baseline_rate must be strictly between 0 and 1")
         return float(np.sqrt(baseline_rate * (1 - baseline_rate)))
+    if float(sd) <= 0:
+        raise ValueError("sd must be positive")
     return float(sd)
 
 
@@ -44,7 +47,13 @@ def mde(n_per_arm, *, sd=None, baseline_rate=None, power=0.80, alpha=0.05):
 
 
 def sample_size(effect, *, sd=None, baseline_rate=None, power=0.80, alpha=0.05):
-    """Units per arm needed to detect an absolute `effect`. Inverse of mde()."""
+    """Units per arm needed to detect an absolute `effect`. Inverse of mde().
+
+    Exact, not rounded, so mde() inverts it. Round up before planning: the
+    CLI does, and a fractional arm is always short of the requirement.
+    """
+    if effect == 0:
+        raise ValueError("effect must be non-zero")
     s = _sd(sd, baseline_rate)
     z_alpha = stats.norm.ppf(1 - alpha / 2)
     z_beta = stats.norm.ppf(power)
@@ -105,7 +114,7 @@ def main(argv=None):
     if a.cmd == "mde":
         print(f"mde (absolute): {mde(a.n, power=a.power, **kw):.6f}")
     elif a.cmd == "n":
-        print(f"n per arm: {sample_size(a.effect, power=a.power, **kw):,.0f}")
+        print(f"n per arm: {math.ceil(sample_size(a.effect, power=a.power, **kw)):,}")
     elif a.cmd == "duration":
         d = duration(a.effect, a.units_per_day, power=a.power, arms=a.arms,
                      eligible_share=a.eligible_share, **kw)

@@ -39,3 +39,21 @@ def test_exposure_dilution_and_differential():
 def test_exposure_rejects_impossible_counts():
     with pytest.raises(ValueError):
         trust.exposure_check({"c": 100, "t": 100}, {"c": 101, "t": 90})
+
+
+def test_srm_refuses_degenerate_counts_instead_of_reporting_pass():
+    # A zero expected cell makes the chi-square nan; nan < alpha is False, so
+    # before the guard these returned verdict "pass" on unusable input.
+    with pytest.raises(ValueError):
+        trust.srm({"a": 0, "b": 0})
+    with pytest.raises(ValueError):
+        trust.srm({"a": 100, "b": 300}, expected=[1.0, 0.0])
+    with pytest.raises(ValueError):
+        trust.srm({"a": -100, "b": 300})
+
+
+def test_dilution_verdict_states_the_attenuation_not_the_exposure_rate():
+    # 90% exposed leaves the ITT about 10% short, not 90%.
+    r = trust.exposure_check({"a": 100_000, "b": 100_000}, {"a": 90_000, "b": 90_000})
+    assert "attenuated ~10%" in r["verdict"]
+    assert r["dilution_factor"] == pytest.approx(1 / 0.9)
