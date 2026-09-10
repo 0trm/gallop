@@ -54,7 +54,6 @@ The full loop, from a question arriving to the prior store changing on disk, is 
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
 
-Six positions: routing at the entry, a measurement floor under the three method buckets, and a theory ceiling over all of them.
 | Bucket | Asks | Hands back |
 |---|---|---|
 | Description | What happened? | A hypothesis |
