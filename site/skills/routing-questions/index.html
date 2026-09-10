@@ -59,17 +59,18 @@
 <div class="band"><div class="doc">
 <h1>Routing questions</h1>
 <p>One lookup, three questions, one gate, run before any query is written. The
-output is a routing decision and a filled intake record, never a number. Most
-questions leave without an analysis, and that is the point: roughly one
-request in five dies at the gate, and dying there is a good outcome, because
-the alternative was shipping a wrong answer.</p>
+output is a routing decision and a filled intake record, never a number. Many
+questions leave without an analysis, and that is the point: they exit at the
+lookup as already answered, at the kill rule as curiosity, or at the gate as
+metric work. Dying there is a good outcome, because the alternative was
+shipping a wrong answer.</p>
 <p>Run the whole pass even when the destination seems obvious. The pass takes a
 minute; a mis-routed question costs a sprint.</p>
 <h2 id="step-0-the-lookup">Step 0 · The lookup</h2>
 <p>Before scoping anything, search the theory layer: the knowledge repo (past
 readouts and decisions) and the prior store (what each metric has actually
 moved by). If the team keeps a gallop prior store, read it with:</p>
-<pre><code>python -m gallop.priors read --store &lt;path&gt; --metric &lt;metric&gt;
+<pre><code>python3 -m gallop.priors read --store &lt;path&gt; --metric &lt;metric&gt;
 </code></pre>
 <p>Three outcomes:</p>
 <ul>

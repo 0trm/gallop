@@ -74,7 +74,7 @@ predicts beautifully says nothing about whether the campaign works.</p>
   --data scored.csv --y churned --score p_churn --date week --cutoff 2026-07-01 \
   --k 0.1 [--arm arm --control control] [--features tenure,logins_30d]
 </code></pre>
-<p>Or individually via <code>python -m gallop.validate</code>. The package scores a
+<p>Or individually via <code>python3 -m gallop.validate {lift,calibrate,screen,qini,mase}</code>. The package scores a
 fitted model; it does not fit one. Fit with whatever library is at hand.</p>
 <h2 id="0-is-this-a-model-s-decision">0 · Is this a model's decision?</h2>
 <p>Three things have to be true. Routing checked only the first.</p>

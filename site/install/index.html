@@ -39,7 +39,7 @@
 <main id="main">
 <div class="band"><div class="doc">
 <h1>Install</h1>
-<p>Three ways in, in order of least friction.</p>
+<p>Three ways in, least friction first.</p>
 <h2 id="claude-code-plugin">Claude Code plugin</h2>
 <pre><code>/plugin marketplace add 0trm/gallop
 /plugin install gallop@gallop
@@ -61,8 +61,8 @@ the depth.</p>
 <p><code>numpy</code>, <code>pandas</code>, <code>scipy</code>, nothing else. Every function takes and returns
 arrays or DataFrames, never a database connection; SQL for the three
 queries every readout needs ships as <code>string.Template</code> files in <code>sql/</code>.</p>
-<p>Prove it works in fifteen seconds, no configuration, no warehouse:</p>
-<pre><code>python -m gallop.examples.quickstart
+<p>Prove it works with no configuration and no warehouse:</p>
+<pre><code>python3 -m gallop.examples.quickstart
 </code></pre>
 <p>That runs one simulated experiment through every check. This is what it
 prints:</p>
@@ -124,9 +124,17 @@ one to write back to the store; the raw one is the winner's curse waiting.
 <td><code>gallop.priors</code></td>
 <td>The prior store and metric registry on disk, validated JSONL</td>
 </tr>
+<tr>
+<td><code>gallop.explore</code></td>
+<td>Mix versus rate, funnel steps, segment scan, opportunity sizing</td>
+</tr>
+<tr>
+<td><code>gallop.validate</code></td>
+<td>Out-of-time validation: baseline lift, calibration, leakage, Qini, MASE</td>
+</tr>
 </tbody>
 </table>
-<p>Each runs as a script too: <code>python -m gallop.trust srm --counts counts.csv</code>.</p>
+<p>Each runs as a script too: <code>python3 -m gallop.trust srm --counts counts.csv</code>.</p>
 
 </div></div>
 </main>

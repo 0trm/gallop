@@ -1,6 +1,6 @@
 # Install
 
-Three ways in, in order of least friction.
+Three ways in, least friction first.
 
 ## Claude Code plugin
 
@@ -36,10 +36,10 @@ pip install gallop-pds
 arrays or DataFrames, never a database connection; SQL for the three
 queries every readout needs ships as `string.Template` files in `sql/`.
 
-Prove it works in fifteen seconds, no configuration, no warehouse:
+Prove it works with no configuration and no warehouse:
 
 ```
-python -m gallop.examples.quickstart
+python3 -m gallop.examples.quickstart
 ```
 
 That runs one simulated experiment through every check. This is what it
@@ -82,5 +82,7 @@ one to write back to the store; the raw one is the winner's curse waiting.
 | `gallop.sequential` | Always-valid confidence sequences; O'Brien-Fleming bounds |
 | `gallop.shrink` | Empirical Bayes shrinkage toward the prior store |
 | `gallop.priors` | The prior store and metric registry on disk, validated JSONL |
+| `gallop.explore` | Mix versus rate, funnel steps, segment scan, opportunity sizing |
+| `gallop.validate` | Out-of-time validation: baseline lift, calibration, leakage, Qini, MASE |
 
-Each runs as a script too: `python -m gallop.trust srm --counts counts.csv`.
+Each runs as a script too: `python3 -m gallop.trust srm --counts counts.csv`.

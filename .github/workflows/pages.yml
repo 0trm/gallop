@@ -25,6 +25,10 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Guard against shipping font binaries
         run: python3 scripts/check_assets.py
+      - name: Refuse to deploy stale generated pages
+        run: |
+          pip install markdown-it-py
+          python3 site/build.py --check
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

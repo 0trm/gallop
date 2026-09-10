@@ -6,10 +6,11 @@ description: Routes an incoming product question to the method it deserves befor
 # Routing questions
 
 One lookup, three questions, one gate, run before any query is written. The
-output is a routing decision and a filled intake record, never a number. Most
-questions leave without an analysis, and that is the point: roughly one
-request in five dies at the gate, and dying there is a good outcome, because
-the alternative was shipping a wrong answer.
+output is a routing decision and a filled intake record, never a number. Many
+questions leave without an analysis, and that is the point: they exit at the
+lookup as already answered, at the kill rule as curiosity, or at the gate as
+metric work. Dying there is a good outcome, because the alternative was
+shipping a wrong answer.
 
 Run the whole pass even when the destination seems obvious. The pass takes a
 minute; a mis-routed question costs a sprint.
@@ -21,7 +22,7 @@ readouts and decisions) and the prior store (what each metric has actually
 moved by). If the team keeps a gallop prior store, read it with:
 
 ```
-python -m gallop.priors read --store <path> --metric <metric>
+python3 -m gallop.priors read --store <path> --metric <metric>
 ```
 
 Three outcomes:

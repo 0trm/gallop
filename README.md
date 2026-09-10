@@ -2,7 +2,7 @@
 
 <br>
 <p align="center">
-  <img src="site/assets/mark.svg" width="300" alt="A rider carried on a galloping horse">
+  <img src="site/assets/mark.svg" width="300" alt="Three riders carried on one galloping horse">
 </p>
 
 <p align="center">
@@ -20,16 +20,6 @@
   They decide if a question deserves an analysis, pick the method, and check the result.
 </p>
 
-## Quick start
-
-One command, a synthetic dataset, and every check once:
-
-```bash
-python -m gallop.examples.quickstart
-```
-
-The full loop, from a question arriving to the prior store changing on disk, is `python examples/end-to-end/run_loop.py`.
-
 ## Install
 
 ```bash
@@ -38,11 +28,22 @@ The full loop, from a question arriving to the prior store changing on disk, is 
 /plugin install gallop@gallop
 
 # Any other agent, or none: a skill is a directory of markdown
+git clone https://github.com/0trm/gallop
 cp -r gallop/skills/reading-experiments .claude/skills/
 
 # The package; the import name is gallop
 pip install gallop-pds
 ```
+
+## Quick start
+
+One command, a synthetic dataset, and every check once:
+
+```bash
+python3 -m gallop.examples.quickstart
+```
+
+The full loop, from a question arriving to the prior store changing on disk, is `python3 examples/end-to-end/run_loop.py`.
 
 ## Map
 
@@ -53,7 +54,7 @@ pip install gallop-pds
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
 
-3 method buckets, a floor underneath them, a memory above them, and a layer of judgment on top.
+Six positions: routing at the entry, a measurement floor under the three method buckets, and a theory ceiling over all of them.
 | Bucket | Asks | Hands back |
 |---|---|---|
 | Description | What happened? | A hypothesis |

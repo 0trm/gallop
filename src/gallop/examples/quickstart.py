@@ -18,6 +18,9 @@ from gallop import power, priors, sequential, shrink, trust, variance
 RULE = "=" * 74
 
 
+# %% ------------------------------------------------------------------ main
+
+
 def main():
     rng = np.random.default_rng(7)
 

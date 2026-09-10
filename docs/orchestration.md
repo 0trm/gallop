@@ -40,7 +40,7 @@ experiment runs
   `defining-metrics` first, whatever the requester asked for.
 - **Pre-registration binds the readout.** `reading-experiments` reads
   against the plan `designing-experiments` filed: the decision rule, the one
-  segment, the peeking policy. No plan weakens every check downstream and
+  segment, the peeking policy. The absence of a plan weakens every check downstream, and
   the readout says so.
 - **The loop is not optional.** A question that produced a decision but no
   knowledge entry and no store record is unfinished work, whichever skill
@@ -48,7 +48,7 @@ experiment runs
 
 ## The package underneath
 
-Skills call `python -m gallop.<module>` (power, trust, variance, sequential,
+Skills call `python3 -m gallop.<module>` (power, trust, variance, sequential,
 shrink, priors, validate, explore) and four bundled scripts:
 `skills/designing-experiments/scripts/size_test.py`,
 `skills/reading-experiments/scripts/run_checks.py`,

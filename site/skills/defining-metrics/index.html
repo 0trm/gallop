@@ -273,7 +273,8 @@ came true and the guardrail did not hold.</p>
 <details class="refdoc" id="ref-registry-schema"><summary><span class="lab">reference</span> registry-schema.md</summary>
 <h1>The metric registry, field by field</h1>
 <p>One JSONL file, one metric per line, diffable in a pull request. The contract
-is <code>templates/metric-registry.schema.json</code>; <code>gallop.priors</code> validates every
+is <code>src/gallop/templates/metric-registry.schema.json</code>, published at the repo
+root as <code>templates/metric-registry.schema.json</code>; <code>gallop.priors</code> validates every
 line on read and fails loudly with the line number on a malformed entry.</p>
 <h2>Fields</h2>
 <table>

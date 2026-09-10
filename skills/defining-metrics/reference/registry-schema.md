@@ -1,7 +1,8 @@
 # The metric registry, field by field
 
 One JSONL file, one metric per line, diffable in a pull request. The contract
-is `templates/metric-registry.schema.json`; `gallop.priors` validates every
+is `src/gallop/templates/metric-registry.schema.json`, published at the repo
+root as `templates/metric-registry.schema.json`; `gallop.priors` validates every
 line on read and fails loudly with the line number on a malformed entry.
 
 ## Fields

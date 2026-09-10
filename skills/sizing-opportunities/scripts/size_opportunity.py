@@ -27,7 +27,14 @@ import sys
 
 import pandas as pd
 
-from gallop import explore
+# %%
+# A skill is often copied into .claude/skills/ on its own, without the
+# package. Say so here rather than dying on an ImportError traceback
+# before argparse ever runs.
+try:
+    from gallop import explore
+except ImportError:  # pragma: no cover
+    sys.exit("this script needs the gallop package: pip install gallop-pds")
 
 
 def main(argv=None):

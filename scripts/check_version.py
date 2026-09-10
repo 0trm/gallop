@@ -1,7 +1,15 @@
 """Fail unless pyproject.toml, plugin.json, marketplace.json and gallop.__version__
-all carry the version given as the only argument (the release tag, v-prefix stripped).
+all carry the same version.
+
+  check_version.py            they must agree with each other; pyproject wins
+  check_version.py <tag>      they must all equal <tag>, a leading v stripped
+
+CI runs the first on every push, so a bump that misses a file fails there.
+release.yml runs the second, so a tag that names a version nobody declared
+fails before anything is published.
 """
 
+# %%
 import json
 import re
 import sys
@@ -19,9 +27,8 @@ def find(pattern, path, flags=0):
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("usage: check_version.py <tag>   (a leading v is stripped)")
-    tag = sys.argv[1].removeprefix("v")
+    if len(sys.argv) > 2:
+        sys.exit("usage: check_version.py [tag]")
     versions = {
         "pyproject.toml": find(r'^version = "([^"]+)"', "pyproject.toml", re.MULTILINE),
         ".claude-plugin/plugin.json": json.loads(
@@ -30,9 +37,14 @@ def main():
             (ROOT / ".claude-plugin/marketplace.json").read_text())["plugins"][0]["version"],
         "src/gallop/__init__.py": find(r'__version__ = "([^"]+)"', "src/gallop/__init__.py"),
     }
+    if len(sys.argv) == 2:
+        tag, label = sys.argv[1].removeprefix("v"), f"tag {sys.argv[1]}"
+    else:
+        tag, label = versions["pyproject.toml"], "pyproject.toml"
     bad = {k: v for k, v in versions.items() if v != tag}
     if bad:
-        sys.exit(f"tag {tag} does not match: " + ", ".join(f"{k}={v}" for k, v in bad.items()))
+        sys.exit(f"{label} says {tag}, but: "
+                 + ", ".join(f"{k}={v}" for k, v in bad.items()))
     print(f"version {tag} consistent across {len(versions)} files")
 
 

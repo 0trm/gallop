@@ -29,7 +29,7 @@ python skills/sizing-opportunities/scripts/size_opportunity.py \
   [--store priors.jsonl --metric checkout_rate --baseline-rate 0.034 --units-per-day 7000]
 ```
 
-Or individually via `python -m gallop.explore`.
+Or individually via `python3 -m gallop.explore {mix,funnel,scan,size}`.
 
 ## 0 · The floor, before any story
 

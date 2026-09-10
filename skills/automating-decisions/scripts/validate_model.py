@@ -26,7 +26,14 @@ import sys
 
 import pandas as pd
 
-from gallop import validate
+# %%
+# A skill is often copied into .claude/skills/ on its own, without the
+# package. Say so here rather than dying on an ImportError traceback
+# before argparse ever runs.
+try:
+    from gallop import validate
+except ImportError:  # pragma: no cover
+    sys.exit("this script needs the gallop package: pip install gallop-pds")
 
 MIN_POSITIVES = 200  # below this the window cannot separate a model from the base rate
 

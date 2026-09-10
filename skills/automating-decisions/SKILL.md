@@ -26,7 +26,7 @@ python skills/automating-decisions/scripts/validate_model.py \
   --k 0.1 [--arm arm --control control] [--features tenure,logins_30d]
 ```
 
-Or individually via `python -m gallop.validate`. The package scores a
+Or individually via `python3 -m gallop.validate {lift,calibrate,screen,qini,mase}`. The package scores a
 fitted model; it does not fit one. Fit with whatever library is at hand.
 
 ## 0 · Is this a model's decision?

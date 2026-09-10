@@ -36,10 +36,11 @@ pytest                              # package tests, one file per module
 ruff check src tests scripts        # lint
 python3 scripts/validate_skills.py  # skill limits
 python3 scripts/run_evals.py        # eval structure; --run executes with the claude CLI
+python3 scripts/check_assets.py     # no font binaries, no inlined font data
 python3 site/build.py --check       # generated pages and README table in sync
 ```
 
-All five run in CI. `site/build.py` (not the skill files' copies) is the one
+All six run in CI. `site/build.py` (not the skill files' copies) is the one
 source for skill positions and the README table.
 
 ## Assets

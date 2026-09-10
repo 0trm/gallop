@@ -5,6 +5,7 @@ https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 Exits non-zero on any violation, so CI fails.
 """
 # %%
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -17,6 +18,11 @@ MAX_NAME_CHARS = 64
 MAX_DESC_CHARS = 1024
 NAME_RE = re.compile(r"^[a-z0-9-]+$")
 RESERVED = ("anthropic", "claude")
+# A reference is named for its content. These say only where a file sits in a
+# pile, so they attract whatever has no home and the skill stops being one idea.
+GENERIC_STEMS = {"advanced", "misc", "notes", "more", "other", "extra", "util",
+                 "utils", "helper", "helpers", "index", "readme", "temp", "stuff",
+                 "common", "general", "doc", "docs"}
 
 
 def split_frontmatter(text: str):
@@ -56,6 +62,9 @@ def check(skill_md: Path) -> list[str]:
             errs.append(f"{rel}: name '{name}' contains a reserved word")
         if name != skill_md.parent.name:
             errs.append(f"{rel}: name '{name}' != directory '{skill_md.parent.name}'")
+        if not name.split("-")[0].endswith("ing"):
+            errs.append(f"{rel}: name '{name}' is not gerund-form; a skill names the "
+                        f"work it does, so the first word ends in -ing")
 
     desc = scalar(fm, "description")
     if not desc:
@@ -64,8 +73,21 @@ def check(skill_md: Path) -> list[str]:
         errs.append(f"{rel}: description is {len(desc)} chars, limit {MAX_DESC_CHARS}")
 
     n_lines = len(body.strip().splitlines())
-    if n_lines > MAX_BODY_LINES:
-        errs.append(f"{rel}: body is {n_lines} lines, limit {MAX_BODY_LINES}")
+    if n_lines >= MAX_BODY_LINES:
+        errs.append(f"{rel}: body is {n_lines} lines, must be under {MAX_BODY_LINES}")
+
+    # The link scan below only sees files a SKILL.md links to. Walk the directory
+    # too, so a file nested two levels down cannot hide by going unlinked.
+    for f in sorted(skill_md.parent.rglob("*")):
+        if not f.is_file() or "__pycache__" in f.parts:
+            continue
+        depth = len(f.relative_to(skill_md.parent).parts)
+        if depth > 2:
+            errs.append(f"{rel}: '{f.relative_to(skill_md.parent).as_posix()}' is "
+                        f"{depth - 1} levels below SKILL.md, limit 1")
+        if f.suffix == ".md" and f.stem.lower() in GENERIC_STEMS:
+            errs.append(f"{rel}: '{f.name}' is named for where it sits, not what it "
+                        f"holds; name it for its content")
 
     # References must sit exactly one level below SKILL.md: Claude partially reads
     # files reached through a chain, so a nested reference loses content.
@@ -82,6 +104,7 @@ def check(skill_md: Path) -> list[str]:
 
 
 def main() -> int:
+    argparse.ArgumentParser(description=__doc__.splitlines()[0]).parse_args()
     skills = sorted(SKILLS.glob("*/SKILL.md"))
     if not skills:
         print("no skills found", file=sys.stderr)

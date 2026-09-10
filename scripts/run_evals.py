@@ -27,6 +27,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# %%
 EVALS = ROOT / "evals"
 SKILLS = ROOT / "skills"
 
@@ -37,12 +38,24 @@ def check(path):
         e = json.loads(path.read_text())
     except json.JSONDecodeError as exc:
         return [f"invalid JSON: {exc}"]
-    for key in ("skills", "query", "expected_behavior"):
-        if not e.get(key):
-            errors.append(f"missing or empty {key!r}")
-    for s in e.get("skills", []):
+    if not isinstance(e, dict):
+        return ["top level must be an object"]
+    for key in ("query", "expected_behavior"):
+        v = e.get(key)
+        if not isinstance(v, str) or not v.strip():
+            errors.append(f"{key!r} must be a non-empty string")
+    skills = e.get("skills")
+    if not isinstance(skills, list) or not skills or not all(isinstance(s, str) for s in skills):
+        # A bare string here iterates character by character and reports one
+        # unknown skill per letter.
+        errors.append("'skills' must be a non-empty list of skill names")
+        skills = []
+    for s in skills:
         if not (SKILLS / s / "SKILL.md").exists():
             errors.append(f"names unknown skill {s!r}")
+    unknown = set(e) - {"skills", "query", "expected_behavior", "files"}
+    if unknown:
+        errors.append(f"unknown key(s): {', '.join(sorted(unknown))}")
     files = e.get("files", {})
     if not isinstance(files, dict) or any(
             not isinstance(k, str) or not isinstance(v, str) or Path(k).is_absolute()

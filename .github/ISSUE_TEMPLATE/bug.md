@@ -12,4 +12,4 @@ labels: bug
 The smallest input that shows it: the command, the counts, the data shape.
 
 **Where**
-Module or skill, and version (`pip show gallop`, or the commit).
+Module or skill, and version (`pip show gallop-pds`, or the commit).

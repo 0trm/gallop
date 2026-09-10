@@ -6,6 +6,7 @@ it. So this runs in CI and on every Pages build rather than being a rule someone
 remembers. The rule is in AGENTS.md under Assets.
 """
 # %%
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -34,6 +35,7 @@ def walk():
 
 
 def main() -> int:
+    argparse.ArgumentParser(description=__doc__.splitlines()[0]).parse_args()
     problems = []
 
     for p in walk():

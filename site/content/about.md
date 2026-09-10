@@ -2,7 +2,7 @@
 
 Statistics libraries assume you already know which question you are answering. Product management skill packs know which question matters and carry no statistics. A number goes wrong in the gap: a lookup becomes a deep dive, an unvalidated metric becomes a readout, a launch with no comparison group gets an effect size anyway.
 
-gallop puts the routing and the rigour in one place, as agent skills. One lookup, three questions and one gate before any query runs, and most questions leave there. The rest get the method that matches how treatment was assigned and a readout that runs the checks a wrong number fails.
+gallop puts the routing and the rigour in one place, as agent skills. One lookup, three questions and one gate before any query runs, and many leave at the gate. The rest get the method that matches how treatment was assigned and a readout that runs the checks a wrong number fails.
 
 ## Who it is for
 

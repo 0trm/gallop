@@ -12,7 +12,7 @@ an eval, which is a finding from running these, not a guess (see below).
 python3 scripts/run_evals.py                       # structure check (CI runs this)
 python3 scripts/run_evals.py --run                 # execute all, with skill
 python3 scripts/run_evals.py --run --without-skill # the ablation
-python3 scripts/run_evals.py "routing-*" --run --model opus
+python3 scripts/run_evals.py "routing-*" --run --model sonnet
 ```
 
 `--run` builds a temp workspace per eval (bundled files written in, the
@@ -22,7 +22,7 @@ judge model.
 
 ## What discriminates, from the first full run (2026-09-03, Sonnet)
 
-All 18 passed with the skill loaded. The ablations showed a pattern worth
+All 18 in the suite at that time passed with the skill loaded. The ablations showed a pattern worth
 keeping in mind when writing new evals:
 
 - **Mechanical checks do not discriminate.** The baseline model catches a
