@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Install · gallop</title>
 <meta name="description" content="Claude Code plugin, manual copy, or pip.">
+<link rel="canonical" href="https://0trm.github.io/gallop/install/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="Install · gallop">
+<meta property="og:description" content="Claude Code plugin, manual copy, or pip.">
+<meta property="og:url" content="https://0trm.github.io/gallop/install/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,7 +109,7 @@ true simulated effect: +0.350pp. The shrunk estimate is the
 one to write back to the store; the raw one is the winner's curse waiting.
 </code></pre>
 <h2 id="the-modules">The modules</h2>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Module</th>
@@ -133,7 +150,7 @@ one to write back to the store; the raw one is the winner's curse waiting.
 <td>Out-of-time validation: baseline lift, calibration, leakage, Qini, MASE</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Each runs as a script too: <code>python3 -m gallop.trust srm --counts counts.csv</code>.</p>
 
 </div></div>
@@ -198,10 +215,7 @@ one to write back to the store; the raw one is the winner's curse waiting.
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

@@ -49,7 +49,7 @@ The full loop, from a question arriving to the prior store changing on disk, is 
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
-  <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomize diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
+  <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomise diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
 </picture>
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
@@ -70,7 +70,7 @@ Six positions: routing at the entry, a measurement floor under the three method 
 | Skill | What it decides | Reach for it when |
 |---|---|---|
 | [`routing-questions`](skills/routing-questions/SKILL.md) | Whether this becomes work at all, and which skill it becomes | a product, analytics, or experimentation request first arrives, when someone asks for a deep dive or a dashboard, or before opening a query editor on any question about impact, lift, or whether something worked |
-| [`defining-metrics`](skills/defining-metrics/SKILL.md) | A metric turned into a computation, a source of truth, and a statement of how it will be gamed | defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated |
+| [`defining-metrics`](skills/defining-metrics/SKILL.md) | A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed | defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated |
 | [`sizing-opportunities`](skills/sizing-opportunities/SKILL.md) | A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize | a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it |
 | [`designing-experiments`](skills/designing-experiments/SKILL.md) | The four choices that cannot be repaired after launch, with the MDE from the prior store | planning, powering, or pre-registering an experiment, when deciding whether a question is testable at the available traffic, or when a feature is about to ship without a flag |
 | [`reading-experiments`](skills/reading-experiments/SKILL.md) | Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage | analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment readout |

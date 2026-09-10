@@ -12,6 +12,12 @@
         letter-spacing:.16em;font-weight:700;margin:48px 0 16px;
         padding-top:22px;border-top:1px solid var(--line)}
 .doc h3{font-family:var(--sans);font-size:15px;font-weight:700;margin:26px 0 10px}
+.doc h4{font-family:var(--sans);font-size:14px;font-weight:700;margin:20px 0 8px;
+        color:var(--dim)}
+/* The document title. Every markdown document opens on an h1; build.py demotes
+   it so the page keeps one h1, and this keeps the rank's look. */
+.doc h2.dtitle{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;
+        margin:0 0 18px;text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
 /* running prose is Archivo: these are thousand-word documents, and mono is the
    slowest face to read them in. Tables, code and the terminal stay mono. */
 .doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body)}
@@ -35,6 +41,10 @@
 .doc th, .doc td{border:1px solid var(--line);padding:9px 12px;
                  vertical-align:top;line-height:1.55}
 .doc tr:hover td{background:var(--wash)}
+/* build.py wraps every rendered table in this: the table scrolls, the page does not */
+.doc .scrollx{overflow-x:auto;margin:18px 0}
+.doc .scrollx > table{margin:0}
+.doc .scrollx:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 
 .doc hr{border:0;border-top:1px solid var(--line);margin:32px 0}
 
@@ -48,7 +58,14 @@
 .doc details.refdoc summary:hover{background:var(--wash)}
 .doc details.refdoc[open] summary{border-bottom:1px solid var(--line)}
 .doc details.refdoc > *:not(summary){margin-left:16px;margin-right:16px}
-.doc details.refdoc > h1:first-of-type{font-size:24px;margin-top:16px}
+.doc details.refdoc > h2:first-of-type{font-family:var(--disp);font-weight:700;
+        font-size:24px;line-height:1.1;text-transform:none;letter-spacing:0;
+        border-top:0;padding-top:0;margin-block:16px 14px}
+.doc details.refdoc h3{font-family:var(--sans);text-transform:uppercase;font-size:14px;
+        letter-spacing:.16em;font-weight:700;margin-block:36px 14px;padding-top:20px;
+        border-top:1px solid var(--line)}
+.doc details.refdoc h4{font-family:var(--sans);font-size:15px;font-weight:700;
+        color:var(--fg);margin-block:22px 8px}
 
 /* the skill page header cells */
 .skillhead .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);

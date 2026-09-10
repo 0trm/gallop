@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>sizing-opportunities · gallop</title>
 <meta name="description" content="A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/sizing-opportunities/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="sizing-opportunities · gallop">
+<meta property="og:description" content="A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/sizing-opportunities/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Sizing opportunities</h1>
+<h2 class="dtitle">Sizing opportunities</h2>
 <p>The description position on the map: the box that asks what is happening.
 It tells you that checkout completion fell nine points for mobile users in
 Germany. It cannot tell you why, and it is not supposed to. What it hands
@@ -187,7 +204,7 @@ to the causal branch.</li>
 bigger change proposed.</li>
 </ul>
 <h2 id="worked-requests">Worked requests</h2>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>The request as it arrives</th>
@@ -237,14 +254,14 @@ bigger change proposed.</li>
 <td>A benchmark is a different population; localise a gap you own before sizing it</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 
 <details class="refdoc" id="ref-decomposition"><summary><span class="lab">reference</span> decomposition.md</summary>
-<h1>Decomposition</h1>
+<h2>Decomposition</h2>
 <p>Two identities that turn &quot;the metric moved&quot; into &quot;this is what moved it&quot;.
 Both are exact, so the shares they produce sum to the change and nothing
 is left to interpretation.</p>
-<h2>Mix versus rate</h2>
+<h3>Mix versus rate</h3>
 <p>A rate over a population is a weighted average of segment rates:</p>
 <pre><code>R = Σ s_i · r_i        s_i = share of units in segment i, r_i = its rate
 </code></pre>
@@ -282,7 +299,7 @@ every platform cell's rate falls by about the same amount. The tell is
 uniformity. A rate effect that is the same size in every cell of a view
 is a mix shift in some other dimension, and the view that shows it as a
 mix effect is the one that found the cause.</p>
-<h2>Funnel steps</h2>
+<h3>Funnel steps</h3>
 <p>Overall conversion is a product of step rates:</p>
 <pre><code>C = n_K / n_1 = Π r_k        r_k = n_k / n_{k−1}
 </code></pre>
@@ -297,7 +314,7 @@ worse) both are reported, because a redesign that helps one step and
 hurts the next is a common shape.</p>
 <p>Log shares are exact but can exceed one in magnitude when steps offset
 each other; read the sign and the size together.</p>
-<h2>What decomposition cannot do</h2>
+<h3>What decomposition cannot do</h3>
 <p>It says where, not why. A rate effect in the payment step on Android is a
 location, and the mechanism (a broken wallet integration, a new fee, a
 competitor's launch) is the hypothesis the next step writes. And it
@@ -306,11 +323,11 @@ location for a bug.</p>
 
 </details>
 <details class="refdoc" id="ref-floor-first"><summary><span class="lab">reference</span> floor-first.md</summary>
-<h1>The floor first</h1>
+<h2>The floor first</h2>
 <p>Most sudden moves in a product metric are changes in what is counted, not
 in what people did. This is the checklist that runs before any segment is
 cut, and the tells that say which kind of move you are looking at.</p>
-<h2>What to check, in order</h2>
+<h3>What to check, in order</h3>
 <ol>
 <li><strong>Raw event volumes by day.</strong> The numerator event and the denominator
 event separately, not the rate. A rate stays flat while both halve, and
@@ -336,7 +353,7 @@ a holiday in one market.</li>
 window? <code>defining-metrics</code> keeps the registry; check the entry's notes
 and owner.</li>
 </ol>
-<h2>The tells</h2>
+<h3>The tells</h3>
 <ul>
 <li><strong>Consent banners.</strong> A new or stricter banner reduces the share of
 visitors who are measured, not the share who convert. Every client-side
@@ -353,7 +370,7 @@ or a join, not behaviour.</li>
 <li><strong>Sampling.</strong> Reports built on sampled data drift as traffic crosses
 the sampling threshold; the unsampled export disagrees.</li>
 </ul>
-<h2>What to hand over</h2>
+<h3>What to hand over</h3>
 <p>When the floor is live, the hand-back is a measurement finding, not a
 behavioural hypothesis: which event, which day, which release, the
 source-of-truth comparison, and the size of the counting error. It goes
@@ -363,10 +380,10 @@ drop &quot;in the meantime&quot; produces a story about a bug.</p>
 
 </details>
 <details class="refdoc" id="ref-segment-scan"><summary><span class="lab">reference</span> segment-scan.md</summary>
-<h1>The segment scan</h1>
+<h2>The segment scan</h2>
 <p>What a segment result is, what it is not, and the discipline that keeps a
 deep dive from finding whatever it went looking for.</p>
-<h2>The forking paths</h2>
+<h3>The forking paths</h3>
 <p>Six dimensions with six or seven levels each is forty cuts. At the usual
 threshold, two of forty look significant when nothing is happening, and
 the analyst who stops at the first one has found noise. The defence is
@@ -384,7 +401,7 @@ units that lost a point moved a total of two hundred thousand by
 almost nothing. Contribution to the total change is the sort order;
 the segment's own change is a detail.</li>
 </ul>
-<h2>What a segment result is</h2>
+<h3>What a segment result is</h3>
 <p>A hypothesis with a location: &quot;the payment step on Android in Spain fell
 from 3.8% to 2.9%; if a wallet integration broke in the last release,
 fixing it recovers about a tenth of the total drop&quot;. It goes into the
@@ -392,7 +409,7 @@ hand-back as a hypothesis, sized by its contribution, and it is tested
 before anyone calls it the cause. An unregistered segment found while
 exploring is a hypothesis for the next test, the same rule
 <code>reading-experiments</code> applies to unregistered segments in a readout.</p>
-<h2>What it is not</h2>
+<h3>What it is not</h3>
 <ul>
 <li><strong>Not the cause.</strong> A segment where the metric fell is where the fall
 shows, not why it happened.</li>
@@ -402,7 +419,7 @@ everyone do X would produce; see sizing.</li>
 <li><strong>Not a finding, on its own.</strong> Without the count of cuts and the
 adjustment, a striking segment is an anecdote with a p-value.</li>
 </ul>
-<h2>Which segments</h2>
+<h3>Which segments</h3>
 <ul>
 <li><strong>Behavioural over demographic.</strong> What users did (arrived from search,
 used the wallet, opened the app twice) suggests a mechanism. Who they
@@ -417,7 +434,7 @@ on what was true at the start.</li>
 a few bots spent hours is not engagement. Look at the median and the
 tails before segmenting the mean.</li>
 </ul>
-<h2>When to stop cutting</h2>
+<h3>When to stop cutting</h3>
 <p>When the change has localised to a step and a segment that together
 carry most of it, and a mechanism can be written in one sentence. Cutting
 past that point finds smaller segments with larger swings and less
@@ -426,11 +443,11 @@ segment is the next question, not this one.</p>
 
 </details>
 <details class="refdoc" id="ref-sizing"><summary><span class="lab">reference</span> sizing.md</summary>
-<h1>Sizing</h1>
+<h2>Sizing</h2>
 <p>The number a roadmap weighs, and the three ways it goes wrong: the whole
 gap is assumed to close, the estimate is anchored on nothing, and the
 size is quoted without the traffic that would be needed to see it.</p>
-<h2>Three numbers, always all three</h2>
+<h3>Three numbers, always all three</h3>
 <p><code>gallop.explore.size_opportunity</code> returns them together:</p>
 <ol>
 <li><strong>The ceiling.</strong> Gap times the units affected: every affected unit
@@ -448,7 +465,7 @@ estimate is unanchored, and the hand-back says so in those words.</li>
 the surface can afford. Sizing a change nobody could measure is
 sizing a belief.</li>
 </ol>
-<h2>The verdicts</h2>
+<h3>The verdicts</h3>
 <ul>
 <li><strong>Largest recorded effect at or above the MDE.</strong> A test can find what
 this lever produces. Route to <code>designing-experiments</code> with the anchored
@@ -462,7 +479,7 @@ opportunity is real and the lever is unproven; the test is worth
 funding if the ceiling justifies the traffic, and the expectation stays
 at the anchored mean until the readout says otherwise.</li>
 </ul>
-<h2>The gap is not the prize</h2>
+<h3>The gap is not the prize</h3>
 <p>&quot;Users who add a payment method in their first session convert at 41%
 against 9%.&quot; The 32-point gap multiplied by every signup is not the value
 of forcing the step. The two groups differed before the behaviour: the
@@ -473,7 +490,7 @@ hypothesis is the step, randomised, with signups as a guardrail, because
 a mandatory step also loses people. This is the trap case from
 <code>routing-questions</code>, seen from the sizing side, and it is the single most
 common way a roadmap number is wrong by an order of magnitude.</p>
-<h2>Assumptions visible</h2>
+<h3>Assumptions visible</h3>
 <p>An opportunity estimate is a chain of assumptions, and the hand-back lists
 them as line items with their values: the affected share, the capture
 share, the conversion from the on-platform metric to the business number,
@@ -484,7 +501,7 @@ conversion: on-platform behaviour into an off-platform business claim
 (sessions into sales, signups into revenue, redemptions into retained
 customers). It is usually the least certain number in the chain and it
 belongs on the page with its source.</p>
-<h2>Cost on the same page</h2>
+<h3>Cost on the same page</h3>
 <p>A sized opportunity is half a decision. The other half is what the change
 costs: engineering time, the surface it occupies, the tests it displaces,
 the guardrail it risks. The verdict a PM needs is the two side by side,
@@ -493,7 +510,7 @@ numbers.</p>
 
 </details>
 <details class="refdoc" id="ref-hypothesis"><summary><span class="lab">template</span> hypothesis.md</summary>
-<h1>&lt;What moved, in one line: metric, direction, size, window&gt;</h1>
+<h2>&lt;What moved, in one line: metric, direction, size, window&gt;</h2>
 <p>&lt;date · surface(s) · requested by · the decision this unblocks&gt;</p>
 <p><strong>Against which baseline.</strong> &lt;Same period last year, trend, seasonal
 pattern. The ordinary wobble (week-to-week sd) beside it, and whether
@@ -596,10 +613,7 @@ never left out.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

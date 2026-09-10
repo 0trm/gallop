@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>automating-decisions · gallop</title>
 <meta name="description" content="Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/automating-decisions/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="automating-decisions · gallop">
+<meta property="og:description" content="Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/automating-decisions/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Automating decisions</h1>
+<h2 class="dtitle">Automating decisions</h2>
 <p>The prediction position on the map: a decision made repeatedly, per user or
 per day, by a system rather than by a person reading a readout. A forecast
 that sets inventory, a ranking that picks who gets the offer, an allocation
@@ -209,7 +226,7 @@ question goes to <code>designing-experiments</code>.</li>
 and the prior-store record, from the experiment's numbers.</li>
 </ul>
 <h2 id="worked-requests">Worked requests</h2>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>The request as it arrives</th>
@@ -259,14 +276,14 @@ and the prior-store record, from the experiment's numbers.</li>
 <td>A forecast error is not an effect size; route to the causal branch</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 
 <details class="refdoc" id="ref-forecast-baselines"><summary><span class="lab">reference</span> forecast-baselines.md</summary>
-<h1>Forecast baselines</h1>
+<h2>Forecast baselines</h2>
 <p>A forecast is a claim that the future looks like the past in a stated
 way. The baseline states the simplest such claim, and the model has to
 beat it.</p>
-<h2>The seasonal naive</h2>
+<h3>The seasonal naive</h3>
 <p>Next period equals the same period one season ago. Weekly data with a
 yearly cycle forecasts this week from the same week last year; daily data
 with a weekly cycle forecasts Monday from last Monday. It costs nothing,
@@ -282,7 +299,7 @@ a tuning note.</li>
 </ul>
 <p>The function also reports the naive's error on the test window itself,
 which is the baseline the model is actually competing with on those dates.</p>
-<h2>Intervals</h2>
+<h3>Intervals</h3>
 <p>A point forecast is a decision input only with its interval, and the
 interval has to widen with the horizon. A model whose 90% band is the same
 width at week 12 as at week 1 is not reporting uncertainty; it is
@@ -290,7 +307,7 @@ reporting the residual variance of its fit. Check the band on the
 out-of-time window: roughly nine in ten actuals inside a 90% band, and no
 fewer. A band that holds 60% of actuals is a 60% band whatever the label
 says.</p>
-<h2>Interventions</h2>
+<h3>Interventions</h3>
 <p>The forecast is conditional on nothing changing. Every product change
 inside the horizon breaks that condition, and the model, fit on a past
 without that change, cannot see through it. Three cases:</p>
@@ -310,7 +327,7 @@ plan is not evidence that something worked. It says the past was a good
 guide to the future; it cannot say what caused the difference. Route
 the impact claim to the causal branch.</li>
 </ul>
-<h2>Forecasts as inputs to allocation</h2>
+<h3>Forecasts as inputs to allocation</h3>
 <p>An allocation policy (inventory, budget, staffing) is only as good as the
 forecast under it, and its cost is asymmetric: under-forecasting a stock
 out and over-forecasting a write down are different losses. State the loss
@@ -320,12 +337,12 @@ an experiment or a holdout, never the forecast's accuracy.</p>
 
 </details>
 <details class="refdoc" id="ref-propensity-vs-uplift"><summary><span class="lab">reference</span> propensity-vs-uplift.md</summary>
-<h1>Propensity versus uplift</h1>
+<h2>Propensity versus uplift</h2>
 <p>Two models that look alike on a dashboard and target different people.</p>
-<h2>The four kinds of unit</h2>
+<h3>The four kinds of unit</h3>
 <p>Cross whether a unit responds without the treatment with whether it
 responds with it:</p>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th></th>
@@ -345,7 +362,7 @@ responds with it:</p>
 <td>Lost cause</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>The treatment only earns its cost on persuadables. It is wasted on sure
 things, wasted on lost causes, and harmful on sleeping dogs, the users a
 retention email reminds to cancel.</p>
@@ -357,7 +374,7 @@ the list, where a top-k policy never reaches them.</p>
 P(outcome | treated) minus P(outcome | not treated), per unit. Its top
 decile is the persuadables, and its bottom decile, when negative, is the
 sleeping dogs, the people the campaign should skip.</p>
-<h2>What uplift needs</h2>
+<h3>What uplift needs</h3>
 <p>Randomised rows. Every unit in the training data was assigned the
 treatment or the control at random, and the outcome was logged for both
 arms. That is the only data in which the arm is independent of everything
@@ -373,7 +390,7 @@ population, log exposure, run long enough for the outcome to mature, and
 train the uplift model on those rows. The experiment doubles as the
 impact readout of the untargeted campaign, which is the baseline the model
 later has to beat.</p>
-<h2>Fitting it</h2>
+<h3>Fitting it</h3>
 <p>Any of the standard constructions works and none is in the package:</p>
 <ul>
 <li>Two models, one per arm, uplift as the difference of their predictions.
@@ -384,7 +401,7 @@ prediction with the arm flipped.</li>
 classification target when the arms are balanced.</li>
 </ul>
 <p>The choice matters less than the validation.</p>
-<h2>Reading the Qini curve</h2>
+<h3>Reading the Qini curve</h3>
 <p><code>gallop.validate.qini</code> ranks the randomised rows by score, targets the
 top share, and counts the outcomes gained over what the control rate
 predicts for that many units. The curve runs from zero to the whole
@@ -394,7 +411,7 @@ falls says the bottom of the list contains sleeping dogs: stop targeting
 where the curve peaks, not at a round percentage.</p>
 <p>Precision at k, AUC and calibration are propensity metrics. Reported for
 an uplift model they measure the wrong thing.</p>
-<h2>When propensity is still the right model</h2>
+<h3>When propensity is still the right model</h3>
 <p>When the question is who will do something rather than whom to treat:
 fraud scoring, demand at a location, support routing, capacity. Nobody
 intervenes on the unit scored, so the correlation the model learned is
@@ -403,10 +420,10 @@ treatment meant to change the outcome, the model has to be uplift.</p>
 
 </details>
 <details class="refdoc" id="ref-validation"><summary><span class="lab">reference</span> validation.md</summary>
-<h1>Validation</h1>
+<h2>Validation</h2>
 <p>What has to be true before an offline number means anything, in the order
 the skill checks it.</p>
-<h2>Split by time</h2>
+<h3>Split by time</h3>
 <p>Production scores units whose outcome has not happened yet, using a model
 fit on units whose outcome has. Validation has to look the same: fit on
 rows before a cutoff, score rows on or after it.</p>
@@ -424,7 +441,7 @@ the thing that decides whether the model survives the year.</li>
 <p>Random k-fold cross-validation on time-ordered data is the most common
 reason a model that scored 0.9 offline scores 0.6 live. It is not a
 validation and the skill treats a number from it as unvalidated.</p>
-<h2>The leakage taxonomy</h2>
+<h3>The leakage taxonomy</h3>
 <p>A feature is leaking when it carries the outcome, or information from
 after it, into the training set. <code>gallop.validate.leakage_screen</code> ranks
 features by how well each separates the outcome on its own and flags
@@ -447,7 +464,7 @@ decision can act on only after the outcome, such as &quot;payment failed&quot;.<
 <p>A flagged feature is removed or explained; explained means a sentence
 saying why it is available at scoring time and not downstream of the
 outcome.</p>
-<h2>The operating point</h2>
+<h3>The operating point</h3>
 <p>A decision acts on the top k of a ranking. Everything about the model
 that matters happens there, and AUC, which averages over every possible k,
 says little about it. <code>gallop.validate.baseline_lift</code> reports, at the k
@@ -463,7 +480,7 @@ which bounds how much any policy acting on that set can move the metric.</li>
 </ul>
 <p>If k is not yet chosen, report lift at two or three candidate points and
 let the cost of the treatment choose. Lift always falls as k grows.</p>
-<h2>Calibration</h2>
+<h3>Calibration</h3>
 <p>A ranking needs no calibration. A threshold, an expected value or a
 budget allocation does: &quot;treat everyone above 30%&quot; is only a decision if
 30% means 30%. <code>gallop.validate.calibration</code> returns:</p>
@@ -483,7 +500,7 @@ observed rate across bins.</li>
 </ul>
 <p>Calibration drifts before ranking does. It is the first production check
 to schedule.</p>
-<h2>Volume</h2>
+<h3>Volume</h3>
 <p>For a classifier, the out-of-time window needs enough positives that the
 lift at k has an interval narrower than the lift itself. A working rule:
 a few hundred positive outcomes in the test window; at the top decile
@@ -555,10 +572,7 @@ volume at which a model becomes checkable.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

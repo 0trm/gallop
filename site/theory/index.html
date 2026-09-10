@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The theory layer · gallop</title>
 <meta name="description" content="The prior store and the knowledge repo: the only object that compounds.">
+<link rel="canonical" href="https://0trm.github.io/gallop/theory/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The theory layer · gallop">
+<meta property="og:description" content="The prior store and the knowledge repo: the only object that compounds.">
+<meta property="og:url" content="https://0trm.github.io/gallop/theory/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -206,10 +223,7 @@ cheaper than the first.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>designing-experiments · gallop</title>
 <meta name="description" content="The four choices that cannot be repaired after launch, with the MDE from the prior store">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/designing-experiments/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="designing-experiments · gallop">
+<meta property="og:description" content="The four choices that cannot be repaired after launch, with the MDE from the prior store">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/designing-experiments/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Designing experiments</h1>
+<h2 class="dtitle">Designing experiments</h2>
 <p>Four choices, none of which a bigger sample can fix afterwards. The output is
 an analysis plan attached to the ticket before the flag exists: unit, MDE,
 duration, guardrails, logging spec, and a decision rule. No plan, no flag.</p>
@@ -159,14 +176,14 @@ ticket; <code>reading-experiments</code> will hold the readout to exactly this p
 and <code>writing-readouts</code> will file what it taught.</p>
 
 <details class="refdoc" id="ref-interference"><summary><span class="lab">reference</span> interference.md</summary>
-<h1>Interference</h1>
+<h2>Interference</h2>
 <p>The assumption every standard A/B analysis makes without saying so: one
 unit's assignment does not change another unit's outcome (SUTVA). When it
 fails, the control group is treated through the back door, the comparison
 is between two treated groups of different intensity, and the estimate is
 biased in a direction you can sometimes predict and often cannot. No sample
 size fixes it. It is decided at design time or not at all.</p>
-<h2>Where it lives</h2>
+<h3>Where it lives</h3>
 <p><strong>Shared supply.</strong> Marketplaces, delivery, inventory, ad budgets. Pay one
 courier more and they take the jobs a control courier would have taken; the
 treatment effect reads as the sum of a real effect and a transfer. The
@@ -180,7 +197,7 @@ model, or the variants compete for the same slate positions.</p>
 <p><strong>Capacity.</strong> Anything that saturates: support queues, fraud review,
 promo budgets. Treatment consumes shared capacity; control experiences the
 shortage.</p>
-<h2>The design responses</h2>
+<h3>The design responses</h3>
 <ol>
 <li><strong>Switchback.</strong> Flip the entire system between arms on a randomised
 schedule (hours or days). Handles supply-side interference directly.
@@ -198,7 +215,7 @@ say so in the plan, and treat the estimate as an upper bound in the
 direction the leak inflates it. Written down before launch, this is a
 legitimate call; discovered afterwards, it is an excuse.</li>
 </ol>
-<h2>The design-time question</h2>
+<h3>The design-time question</h3>
 <p>Ask it in one sentence at the review: <strong>if we treat half the users, does
 the other half's experience change through any shared resource?</strong> Name the
 resource or name &quot;none&quot;. If a resource is named, the design is switchback
@@ -207,12 +224,12 @@ which usually changes the answer to &quot;is this testable at our traffic&quot;.
 
 </details>
 <details class="refdoc" id="ref-pre-registration"><summary><span class="lab">reference</span> pre-registration.md</summary>
-<h1>Pre-registration</h1>
+<h2>Pre-registration</h2>
 <p>The analysis plan, written before the flag flips, attached to the ticket
 that launches the test. Its purpose is to make the readout a comparison
 against commitments rather than a negotiation with hindsight. Everything in
 it is short; all of it is binding.</p>
-<h2>The template</h2>
+<h3>The template</h3>
 <pre><code>EXPERIMENT        &lt;name, ticket link, flag name&gt;
 MECHANISM         if we change &lt;X&gt;, &lt;metric&gt; moves because &lt;Z&gt;
 UNIT              randomised on &lt;unit&gt;; analysis aggregates to &lt;unit&gt;
@@ -229,7 +246,7 @@ DECISION RULE     if the interval excludes &lt;X&gt;, ship; else &lt;kill | iter
                   guardrail breach ⇒ rollback, readout still written
 READOUT DATE      &lt;the Tuesday it will be read, in the room&gt;
 </code></pre>
-<h2>The rules the template encodes</h2>
+<h3>The rules the template encodes</h3>
 <p><strong>The decision rule is a number, not a mood.</strong> &quot;If the interval excludes a
 0.2pp lift we ship&quot; survives contact with an ambiguous result;
 &quot;significant and meaningful&quot; does not. Write the rule so that both possible
@@ -250,7 +267,7 @@ a guardrail breach is a rollback, not a negotiation.</p>
 <p><strong>Amendments are dated.</strong> Reality intervenes: traffic shifts, a bug forces
 a restart. Amend the plan in writing, with the date and the reason, before
 the readout. An amended plan is honest; a retrofitted one is fiction.</p>
-<h2>Why this is worth a page of ceremony</h2>
+<h3>Why this is worth a page of ceremony</h3>
 <p>Five of the six steps of an experiment can hand back a wrong number
 without the readout looking any different. Every line above pins one
 of those steps to a commitment made while nobody knew the answer. Written
@@ -259,15 +276,15 @@ happened; the entire value is in the timestamp.</p>
 
 </details>
 <details class="refdoc" id="ref-randomisation-unit"><summary><span class="lab">reference</span> randomisation-unit.md</summary>
-<h1>Choosing the randomisation unit</h1>
+<h2>Choosing the randomisation unit</h2>
 <p>The unit is the thing the coin flip assigns. It fixes what the analysis may
 treat as independent, so it is the first choice and the least repairable.</p>
-<h2>The rule</h2>
+<h3>The rule</h3>
 <p>Randomise on the unit that (a) experiences the treatment consistently and
 (b) the primary metric is defined on. When those two disagree, the analysis
 must aggregate to the randomisation unit, and the design must accept the
 power cost of doing so.</p>
-<h2>The options</h2>
+<h3>The options</h3>
 <p><strong>User (stable ID).</strong> The default. Survives sessions and devices if the ID
 does; check the identity join before trusting it. Anonymous or logged-out
 traffic randomised on cookies leaks across devices and clears; if the
@@ -287,7 +304,7 @@ control on a schedule. The standard answer for marketplaces and anything
 with shared supply. Randomise the schedule, analyse at the time-slice
 level, leave burn-in gaps between flips so carry-over from one period does
 not contaminate the next.</p>
-<h2>The mismatch that produces false positives</h2>
+<h3>The mismatch that produces false positives</h3>
 <p>Randomise on users, analyse on sessions, and every user contributes several
 correlated rows that the test treats as independent. The standard errors
 shrink, the false positive rate multiplies, and nothing looks wrong in the
@@ -299,7 +316,7 @@ the session-level t-test and hoping.</p>
 <p>Ratio metrics hide the same trap: sessions-with-conversion / sessions is a
 per-session metric under user randomisation. Aggregate to per-user rates, or
 delta-method it. The naive interval can be roughly half the honest width.</p>
-<h2>Practical checks</h2>
+<h3>Practical checks</h3>
 <ul>
 <li>Write the unit into the analysis plan as a sentence: &quot;randomised on
 user_id from the assignment service; analysis aggregates to user.&quot;</li>
@@ -373,10 +390,7 @@ the arms are no longer comparable populations.</li>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

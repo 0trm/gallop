@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>reading-experiments · gallop</title>
 <meta name="description" content="Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/reading-experiments/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="reading-experiments · gallop">
+<meta property="og:description" content="Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/reading-experiments/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Reading experiments</h1>
+<h2 class="dtitle">Reading experiments</h2>
 <p>Whether the result is a result. Five of the six steps in an experiment can
 hand back a wrong number without the readout looking any different, so the reading order is fixed and the checks come before the
 number. Read against the pre-registered plan; if no plan exists, say so
@@ -266,10 +283,10 @@ in the readout that the next design fixes the licence.</li>
 honest if losses and broken tests are written back as faithfully as wins.</p>
 
 <details class="refdoc" id="ref-shrinkage"><summary><span class="lab">reference</span> shrinkage.md</summary>
-<h1>Empirical Bayes shrinkage</h1>
+<h2>Empirical Bayes shrinkage</h2>
 <p>The winner's-curse correction, and the moment the prior store pays for
 itself.</p>
-<h2>Why raw winners are inflated</h2>
+<h3>Why raw winners are inflated</h3>
 <p>A result is reported because it crossed a threshold. Conditioning on
 crossing selects the realisations noise pushed up, so the expected reported
 effect exceeds the true one, and the excess grows as power falls. An
@@ -277,7 +294,7 @@ underpowered test that &quot;wins big&quot; is the most inflated object in the
 building: with 20% power, a just-significant result overstates the true
 effect by roughly a factor of two or more. The sign is usually right; the
 magnitude is not, which is worse for planning than a clean false positive.</p>
-<h2>The model</h2>
+<h3>The model</h3>
 <p>Normal-normal. The prior is what this metric has actually done, estimated
 from the store by method of moments:</p>
 <pre><code>mu   = mean of past effects
@@ -302,7 +319,7 @@ That verdict is itself worth surfacing in the readout.</li>
 <p>The shrunk number is the planning number: what to forecast from, what to
 write into the prior store, what to tell the roadmap. The raw number and
 interval are still reported beside it, labelled.</p>
-<h2>Preconditions, checked by the tooling</h2>
+<h3>Preconditions, checked by the tooling</h3>
 <ul>
 <li><strong>At least 3 past effects</strong> for the metric (<code>gallop.shrink</code> refuses
 fewer; below ~8 the prior itself is noisy, so say so).</li>
@@ -313,7 +330,7 @@ metric under comparable designs; a store polluted with one 10x outlier
 from a pricing change will inflate tau² and under-shrink. <code>supersedes</code>
 exists for corrections; use it.</li>
 </ul>
-<h2>When there is no store</h2>
+<h3>When there is no store</h3>
 <p>First tests at a company have no prior. Options, in honesty order: borrow
 the published base rate (most experiments do nothing; the honest prior mean
 is roughly zero, so at minimum discount the raw estimate mentally and say
@@ -323,10 +340,10 @@ raw number as a forecast: that is the exact error the correction exists for.</p>
 
 </details>
 <details class="refdoc" id="ref-trust-gate"><summary><span class="lab">reference</span> trust-gate.md</summary>
-<h1>The trust gate</h1>
+<h2>The trust gate</h2>
 <p>Two mechanical checks that run before any effect is read. Both exist because
 their failure modes produce readouts indistinguishable from healthy ones.</p>
-<h2>Sample ratio mismatch</h2>
+<h3>Sample ratio mismatch</h3>
 <p>The check: chi-square goodness of fit of assignment counts against the
 intended split.</p>
 <pre><code>python -m gallop.trust srm --counts counts.csv        # columns: arm, assigned
@@ -356,7 +373,7 @@ by variant.</li>
 </ol>
 <p>Check daily during the run, not once at the end: an SRM caught on day two
 costs two days; caught at readout it costs the whole test.</p>
-<h2>Exposure versus eligibility</h2>
+<h3>Exposure versus eligibility</h3>
 <p>The check: exposure counts per arm against assignment counts.</p>
 <pre><code>python -m gallop.trust exposure --counts counts.csv   # columns: arm, assigned, exposed
 </code></pre>
@@ -380,8 +397,8 @@ effect than anyone thought they were testing.</p>
 
 </details>
 <details class="refdoc" id="ref-variance-reduction"><summary><span class="lab">reference</span> variance-reduction.md</summary>
-<h1>Variance reduction at readout</h1>
-<h2>CUPED</h2>
+<h2>Variance reduction at readout</h2>
+<h3>CUPED</h3>
 <p>Deng, Xu, Kohavi &amp; Walker (2013). Adjust the metric by a pre-experiment
 covariate that treatment cannot have touched:</p>
 <pre><code>Y_adj = Y - theta (X - mean(X)),   theta = Cov(Y,X) / Var(X)
@@ -414,7 +431,7 @@ covered users.</li>
 <p>The natural covariate is the same metric over an equal-length pre-period.
 Anything pre-treatment and correlated works; the same metric is usually the
 most correlated thing available.</p>
-<h2>The alternatives</h2>
+<h3>The alternatives</h3>
 <p><strong>Post-stratification</strong> on a discrete covariate (platform, country,
 tenure): weight each stratum by its pooled share. Wins over CUPED only when
 the covariate is genuinely categorical or must be fixed before launch.</p>
@@ -488,10 +505,7 @@ covariate is planned at design time.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

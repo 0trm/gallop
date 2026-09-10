@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>writing-readouts · gallop</title>
 <meta name="description" content="The decision rule first, the result last; the belief filed where the next question starts">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/writing-readouts/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="writing-readouts · gallop">
+<meta property="og:description" content="The decision rule first, the result last; the belief filed where the next question starts">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/writing-readouts/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Writing readouts</h1>
+<h2 class="dtitle">Writing readouts</h2>
 <p>The ceiling. A readout answers one question and dies with the ticket; a
 belief is what the next three questions start from. This skill produces
 three artifacts, and the ticket does not close until all three exist: the
@@ -148,7 +165,7 @@ the only object in the system that gets more valuable the longer it runs;
 measure the quarter by decisions produced and entries filed, not by wins.</p>
 
 <details class="refdoc" id="ref-knowledge-entry"><summary><span class="lab">template</span> knowledge-entry.md</summary>
-<h1>&lt;The question, phrased so two answers were imaginable&gt;</h1>
+<h2>&lt;The question, phrased so two answers were imaginable&gt;</h2>
 <p>&lt;date filed · surface(s) · prior store id(s) · status: settled | superseded by <link>&gt;</p>
 <p><strong>Decision unblocked.</strong> &lt;What changed on the answer, and who made the call.
 A named person, a named choice.&gt;</p>
@@ -179,20 +196,20 @@ is step 0 of routing-questions.</p>
 
 </details>
 <details class="refdoc" id="ref-readout"><summary><span class="lab">template</span> readout.md</summary>
-<h1>Readout · <experiment name></h1>
+<h2>Readout · <experiment name></h2>
 <p>&lt;question issue link · flag name · dates run · readout date&gt;</p>
-<h2>The decision rule, as pre-registered</h2>
+<h3>The decision rule, as pre-registered</h3>
 <blockquote>
 <p>If the interval excludes <X>, we ship; otherwise &lt;kill | iterate&gt;.
 Registered <date>, amended &lt;date/none&gt;.</p>
 </blockquote>
-<h2>Trust gate</h2>
+<h3>Trust gate</h3>
 <ul>
 <li>SRM: &lt;chi2, p, pass/fail&gt; (alpha 0.001)</li>
 <li>Exposure: &lt;pooled rate, differential p, verdict&gt;</li>
 </ul>
-<h2>Guardrails (read before the primary)</h2>
-<table>
+<h3>Guardrails (read before the primary)</h3>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Guardrail</th>
@@ -217,8 +234,8 @@ Registered <date>, amended &lt;date/none&gt;.</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h2>Primary metric: <registry name></h2>
+</table></div>
+<h3>Primary metric: <registry name></h3>
 <ul>
 <li>Effect (raw): <value> <unit>, se <value></li>
 <li>Interval under the licence held: &lt;always-valid | fixed-horizon&gt; 95% CI
@@ -230,24 +247,24 @@ number</li>
 <li>&lt;For causal designs: identifying assumption, one sentence; falsification
 checks run and their results&gt;</li>
 </ul>
-<h2>Pre-registered segment: <segment></h2>
+<h3>Pre-registered segment: <segment></h3>
 <p>&lt;effect, interval. Nothing else. Unregistered observations go below.&gt;</p>
-<h2>Decision</h2>
+<h3>Decision</h3>
 <p><strong>&lt;Ship | Kill | Iterate | Rollback | No-measurement&gt;</strong> – &lt;one sentence:
 how the rule dictated it, or why the human call diverged from the rule&gt;.</p>
 <p>&lt;If the metric is a proxy: the bridge sentence. &quot;This is a change in claim
 rate; we currently value a claim at <Y> redemptions, and that assumption is
 doing the work.&quot;&gt;</p>
-<h2>The belief</h2>
+<h3>The belief</h3>
 <blockquote>
 <p>&lt;Lever, one step generalised · magnitude, shrunk · conditions it held
 under · the event that expires it.&gt;</p>
 </blockquote>
-<h2>Hypotheses opened</h2>
+<h3>Hypotheses opened</h3>
 <ul>
 <li>&lt;anything from unregistered cuts, phrased as next questions, not results&gt;</li>
 </ul>
-<h2>Filed</h2>
+<h3>Filed</h3>
 <ul>
 <li>Knowledge entry: <link> · Prior store id: <id> · Decision on issue: <link></li>
 </ul>
@@ -314,10 +331,7 @@ under · the event that expires it.&gt;</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

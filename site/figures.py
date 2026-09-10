@@ -241,7 +241,7 @@ def skills_map():
     # the diamond
     b.append('<polygon class="node" points="356,230 420,190 484,230 420,270"/>')
     b.append(text(420, 226, "can you", "t-q", "middle"))
-    b.append(text(420, 241, "randomize?", "t-q", "middle"))
+    b.append(text(420, 241, "randomise?", "t-q", "middle"))
     # the two causal boxes
     b.append(box(540, 112, 260, 96, "Experimentation", ["designing-experiments", "reading-experiments"], "pv"))
     b.append(box(540, 260, 260, 76, "Causal inference", ["choosing-causal-designs"], "px"))
@@ -265,7 +265,7 @@ def skills_map():
     return svg(560, "\n".join(b),
                "The skills placed on the method map: writing-readouts on the theory layer across the top, "
                "defining-metrics on the measurement framework across the bottom, routing-questions at the "
-               "entry before the can-you-randomize diamond, designing-experiments and reading-experiments on "
+               "entry before the can-you-randomise diamond, designing-experiments and reading-experiments on "
                "the experimentation box, choosing-causal-designs on the causal inference box, "
                "sizing-opportunities on the exploratory analytics box below routing, reached by the "
                "description exit and returning a hypothesis, and automating-decisions on the "

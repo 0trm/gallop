@@ -8,7 +8,24 @@
 <link rel="stylesheet" href="../assets/gallop.css">
 <link rel="stylesheet" href="../assets/doc.css">
 <title>The method map · gallop</title>
-<meta name="description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomize fork, and leaves as a decision, with measurement underneath and theory across the top.">
+<meta name="description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomise fork, and leaves as a decision, with measurement underneath and theory across the top.">
+<link rel="canonical" href="https://0trm.github.io/gallop/map/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The method map · gallop">
+<meta property="og:description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomise fork, and leaves as a decision, with measurement underneath and theory across the top.">
+<meta property="og:url" content="https://0trm.github.io/gallop/map/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -159,7 +176,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 <section class="win" id="the-map">
   <div class="bar"><span class="close"></span><h2>the map</h2></div>
   <div class="body">
-    <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomize diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
+    <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
   <defs>
     <marker id="m" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
       markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
@@ -185,7 +202,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 
   <polygon points="380,208 458,258 380,308 302,258" class="node"/>
   <text class="t-q" x="380" y="254" text-anchor="middle">can you</text>
-  <text class="t-q" x="380" y="271" text-anchor="middle">randomize?</text>
+  <text class="t-q" x="380" y="271" text-anchor="middle">randomise?</text>
 
   <rect x="475" y="96" width="350" height="120" class="node"/>
   <rect x="475" y="96" width="14" height="120" class="key" fill="url(#mx-v)"/>
@@ -276,12 +293,12 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
     <p class="prose" style="margin-bottom:22px">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
     <ol class="callouts">
       <li><span class="n">1</span><div><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><p class="prod"><span>produces</span><b>A hypothesis worth testing.</b></p></div></li>
-      <li><span class="n">2</span><div><h4>Can you randomize?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
+      <li><span class="n">2</span><div><h4>Can you randomise?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
       <li><span class="n">3</span><div><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
       <li><span class="n">4</span><div><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD, matching, IV, ITS.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
-      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Sits below the main path, not on it: two outgoing arrows, no incoming one from the question path.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
+      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Forecasts, rankings, allocations, and the estimators the causal designs run on. Sits below the main path, not on it: two outgoing arrows, no incoming one from the question path.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
       <li><span class="n">6</span><div><h4>Decision</h4><p>Ship, kill, reallocate. An ellipse because it is a terminal state, not another activity.</p><p class="prod"><span>produces</span><b>A change to the product, and new data.</b></p></div></li>
-      <li><span class="n">7</span><div><h4>Theory layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer the team runs.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
+      <li><span class="n">7</span><div><h4>Theory layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer a team runs it.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
       <li><span class="n">8</span><div><h4>Measurement framework</h4><p>The band underneath everything: north-star and core metrics, event instrumentation, the source of truth, the definition of success.</p><p class="prod"><span>produces</span><b>A number the rest of the map can stand on.</b></p></div></li>
     </ol>
   </div>
@@ -314,13 +331,13 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   <div class="bar"><span class="close"></span><h2>the service layer</h2></div>
   <div class="body">
     <div class="sec"><span class="n">3</span><h3>Where statistical modeling fits, and why it is off the path</h3></div>
-    <p class="prose" style="margin-bottom:22px">This is the part of the map that is easiest to misread, and the geometry is the answer. Statistical modeling has no incoming solid arrow. No question ever travels into it. It is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
+    <p class="prose" style="margin-bottom:22px">Statistical modeling has no incoming solid arrow: no question travels into it, because it is a service layer the other boxes call. Statistical modeling has no incoming solid arrow. No question ever travels into it. It is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
     <div class="two">
       <div class="card"><h4>1 · Supplies estimators (dashed)</h4><p>The dashed line runs up into the causal study design container. Dashed means supports. Modeling is the machinery inside a causal study, not a rival to it. Difference-in-differences is a regression. Synthetic control is a weighted model of a counterfactual. The causal design decides what comparison is valid; modeling is how the number gets computed.</p><div class="prod"><span>produces</span><b>The analysis a trial design calls for.</b></div></div>
       <div class="card"><h4>2 · Automates the decision (solid)</h4><p>The solid line runs straight to the decision ellipse, bypassing the causal box entirely. This is modeling in production: a forecast that sets inventory, an optimizer that allocates budget, an uplift model that picks who gets the offer. The decision gets made repeatedly, per user or per day, by a system rather than by a person reading a readout.</p><div class="prod"><span>produces</span><b>A decision made at volume.</b></div></div>
     </div>
     <div class="prose" style="margin-top:22px">
-      <p><b>An analogy.</b> The causal boxes are a courtroom: the design of the trial is what makes the verdict trustworthy, and its output is a single judgement about one defendant. Statistical modeling is the forensics lab. In job one it works for the court, running the analysis that the trial design calls for. In job two it skips the court entirely and runs an automated screening system that flags cases by itself, at volume, with no trial at all.</p>
+      <p><b>An analogy.</b> The causal boxes are a courtroom: the design of the trial is what makes the verdict trustworthy, and its output is a single judgment about one defendant. Statistical modeling is the forensics lab. In job one it works for the court, running the analysis that the trial design calls for. In job two it skips the court entirely and runs an automated screening system that flags cases by itself, at volume, with no trial at all.</p>
       <p><b>What it needs.</b> Historical data from the measurement framework, which is why an arrow from the band feeds it like every other box. Modeling needs volume and history in a way exploratory analytics does not.</p>
       <p><b>What it gives back.</b> A fitted relationship. A prediction, an estimate with uncertainty around it, a ranking, or an allocation. Note what is missing: on its own it does not output an effect size. Effect sizes come from the causal boxes, which is where both of those labelled arrows originate.</p>
       <p><b>What the neighbours cannot do.</b> Exploratory analytics describes what already happened, one slice at a time. Modeling generalises: it fits a relationship across many variables at once and extends it to cases you have not seen, including the future. That is the thing neither a funnel nor a cohort chart can do.</p>
@@ -434,7 +451,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
     <ul class="brk">
       <li><b>Before all three</b><span>Has this been answered, and what does this metric usually do? Search the theory layer before you scope anything. Three outcomes: it is settled and you hand back the entry, it is stale and you have a prior instead of a blank page, or it is genuinely new. Either way the prior store gives you the effect size this metric has historically moved by, which is what turns the MDE from a wish into a number. The lookup costs a minute and the test costs a sprint.</span></li>
       <li><b>Description or change?</b><span>If the sentence contains <span class="q">what, where, how many, who</span>, you are in exploratory analytics. If it contains <span class="q">because, caused, lift, impact, worth it</span>, you are heading for the diamond.</span></li>
-      <li><b>Who assigned treatment?</b><span>If you can assign it, or could have, go into experimentation. If assignment already happened, by launch date, by geography, by self-selection, go into causal inference and pick the method that matches how assignment happened. This is the single highest-leverage habit on the map.</span></li>
+      <li><b>Who assigned treatment?</b><span>If you can assign it, or could have, go into experimentation. If assignment already happened, by launch date, by geography, by self-selection, go into causal inference and pick the method that matches how assignment happened. This is the trap case at step 3 of the intake: the observed gap is self-selection, not effect.</span></li>
       <li><b>Once, or continuously?</b><span>Once means you need an effect size. Continuously, per user or per day, means you are building for the statistical modeling box and the solid arrow into the decision.</span></li>
       <li><b>And underneath all three</b><span>Do I trust the metric? If the answer is no, the measurement framework is the actual work, and everything above it is premature.</span></li>
     </ul>
@@ -475,7 +492,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="../skills/">The six skills</a>
+    <a href="../skills/">The skills</a>
     <a href="../install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>
@@ -509,10 +526,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

@@ -40,7 +40,7 @@ in the product itself; a media flight is a diffuse, ramping shock whose
 effect shape is unknown, it usually arrives with seasonality and other
 pushes, and the pre-trend projection cannot separate any of that. That
 case takes the last row: bounds at most, a referral to whoever owns mix
-modelling or panel data, and a holdout designed into the next flight.
+modeling or panel data, and a holdout designed into the next flight.
 
 The second row has its own misread: **two units, one treated, is still
 DiD.** An Android switch with iOS untouched has a comparison group, and

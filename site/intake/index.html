@@ -9,6 +9,23 @@
 <link rel="stylesheet" href="../assets/doc.css">
 <title>The intake · gallop</title>
 <meta name="description" content="One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.">
+<link rel="canonical" href="https://0trm.github.io/gallop/intake/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The intake · gallop">
+<meta property="og:description" content="One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.">
+<meta property="og:url" content="https://0trm.github.io/gallop/intake/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -282,7 +299,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
     <div class="body">
       <span class="keyto">keyed to experimentation</span>
       <h3>Before it ships, it is a choice</h3>
-      <p class="cap">Once it has launched, <span class="mark">can you randomize?</span> is a fact about the past. Asked early, it is a design decision you still own:</p>
+      <p class="cap">Once it has launched, <span class="mark">can you randomise?</span> is a fact about the past. Asked early, it is a design decision you still own:</p>
       <ul class="opts">
         <li>hold out a slice of users</li>
         <li>stagger the rollout by market or by cohort</li>
@@ -348,7 +365,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
   </div>
   <div>
     <p class="lab">Use</p>
-    <a href="../skills/">The six skills</a>
+    <a href="../skills/">The skills</a>
     <a href="../install/">Install</a>
     <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
   </div>
@@ -382,10 +399,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

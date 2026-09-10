@@ -33,6 +33,8 @@ from pathlib import Path
 from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parents[1]
+SITE_URL = "https://0trm.github.io/gallop/"
+CHECK_ONLY = False   # set by --check; write() renders to memory instead of disk
 SITE = ROOT / "site"
 SKILLS = ROOT / "skills"
 CONTENT = SITE / "content"
@@ -64,7 +66,7 @@ FIGURES = {
 # The one place the skills' positions live. Build fails if this and skills/ drift.
 POSITIONS = {
     "routing-questions": ("Routing", "Whether this becomes work at all, and which skill it becomes"),
-    "defining-metrics": ("The floor", "A metric turned into a computation, a source of truth, and a statement of how it will be gamed"),
+    "defining-metrics": ("The floor", "A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed"),
     "sizing-opportunities": ("Description", "A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize"),
     "designing-experiments": ("Causation", "The four choices that cannot be repaired after launch, with the MDE from the prior store"),
     "reading-experiments": ("Causation", "Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage"),
@@ -74,6 +76,12 @@ POSITIONS = {
 }
 
 COUNT_WORD = {6: "Six", 7: "Seven", 8: "Eight"}.get(len(POSITIONS), str(len(POSITIONS)))
+N_POSITIONS = len({p for p, _ in POSITIONS.values()})
+
+# One version in the tree, read rather than retyped, so the foot cannot go stale
+# on the next tag. scripts/check_version.py keeps the four declarations in step.
+VERSION = re.search(r'__version__ = "([^"]+)"',
+                    (ROOT / "src/gallop/__init__.py").read_text()).group(1)
 
 md = MarkdownIt("commonmark", {"typographer": False}).enable("table")
 
@@ -94,7 +102,31 @@ def frontmatter(text):
 
 
 def render(markdown_text):
-    return md.render(markdown_text)
+    return wrap_tables(md.render(markdown_text))
+
+
+def wrap_tables(doc):
+    """A markdown table is the one block that will not reflow at phone width.
+
+    Give each its own scroll container so the page body never scrolls sideways,
+    and tabindex so the container is reachable by keyboard (WCAG 2.1.1).
+    """
+    return re.sub(
+        r"<table>.*?</table>",
+        lambda m: ('<div class="scrollx" role="region" aria-label="Table" tabindex="0">'
+                   f"{m.group(0)}</div>"),
+        doc, flags=re.S)
+
+
+def demote(doc, levels=1):
+    """Push every heading down `levels`, so the page keeps a single h1.
+
+    Markdown documents each open on an h1. Rendered under a page that already
+    has one, a skill page ended up with as many as seven, and the reference
+    docs inlined at the foot outranked the sections above them.
+    """
+    return re.sub(r"<(/?)h([1-5])>",
+                  lambda m: f"<{m.group(1)}h{min(int(m.group(2)) + levels, 6)}>", doc)
 
 
 def slug(text):
@@ -179,14 +211,15 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Project</p>
-    <span>v0.3.0</span>
+    <span>v{VERSION}</span>
     <a href="https://github.com/0trm/gallop/releases">Releases &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
 </footer>"""
 
 
-def page(*, title, description, body, root, active=None, extra_style="", contents=""):
+def page(*, title, description, body, root, url="", active=None, extra_style="",
+         contents=""):
     """The shared chrome: skip link, nav band, contents strip, foot band, theme switch."""
     nav_items = [
         ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
@@ -203,7 +236,24 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
-<meta name="description" content="{description}">
+<meta name="description" content="{html.escape(description, quote=True)}">
+<link rel="canonical" href="{SITE_URL}{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="{html.escape(title, quote=True)}">
+<meta property="og:description" content="{html.escape(description, quote=True)}">
+<meta property="og:url" content="{SITE_URL}{url}">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {{
+    try {{
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    }} catch (e) {{}}
+  }})();
+</script>
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -268,10 +318,7 @@ def page(*, title, description, body, root, active=None, extra_style="", content
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       }});
     }}
-    try {{
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    }} catch (e) {{}}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {{
       b.addEventListener("click", function () {{
         apply(b.dataset.set);
@@ -286,10 +333,22 @@ def page(*, title, description, body, root, active=None, extra_style="", content
 """
 
 
+RENDERED: dict[Path, str] = {}   # every page this run built, path -> html
+
+
 def write(path, content, emitted):
+    """Record the render; only touch disk outside --check.
+
+    --check used to call the same builders and let them write, so it repaired
+    the staleness it was reporting: the run failed, the tree was silently
+    fixed, and a second run passed with nothing committed.
+    """
+    RENDERED[path] = content
+    emitted.append(path)
+    if CHECK_ONLY:
+        return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content)
-    emitted.append(path)
 
 
 # %% ------------------------------------------------------------ skill pages
@@ -314,7 +373,7 @@ def build_skill_page(d, emitted):
     sections = []
     for sub in ("reference", "templates"):
         for f in sorted((d / sub).glob("*.md")):
-            inner = render(f.read_text())
+            inner = demote(render(f.read_text()))
             label = "template" if sub == "templates" else "reference"
             sections.append(
                 f'<details class="refdoc" id="ref-{f.stem}"><summary><span class="lab">{label}'
@@ -347,12 +406,16 @@ def build_skill_page(d, emitted):
 </div>"""
     main_html, items = anchor_headings(render(body))
     main_html = place_figures(f"skills/{name}", main_html)
+    # anchor_headings and place_figures both key off h2, so demote the document
+    # title only, after they have run. The hero above it is the page's h1.
+    main_html = re.sub(r"<h1>(.*?)</h1>", r'<h2 class="dtitle">\1</h2>', main_html, count=1)
     doc = f'<div class="band"><div class="doc">\n{main_html}\n' + "\n".join(sections) + "</div></div>"
     # Cross-references between the markdown files become anchors to the
     # collapsed sections inlined above.
     doc = re.sub(r'href="(?:reference/|templates/)?([\w-]+)\.md"', r'href="#ref-\1"', doc)
     out = page(title=f"{name} · gallop", description=decides, root="../../",
-               active="skills/", body=header + "\n" + doc, contents=toc(items))
+               url=f"skills/{name}/", active="skills/",
+               body=header + "\n" + doc, contents=toc(items))
     write(SITE / "skills" / name / "index.html", out, emitted)
 
 
@@ -364,7 +427,7 @@ def build_skills_index(dirs, emitted):
         position, decides = POSITIONS[name]
         rows.append(f"""    <a class="skrow" href="{name}/">
       <span class="pos dim">{position}</span>
-      <h3>{name}</h3>
+      <h2>{name}</h2>
       <p>{decides}.</p>
     </a>""")
     body = f"""<div class="band">
@@ -375,7 +438,8 @@ def build_skills_index(dirs, emitted):
     <h1>The skills</h1>
     <p class="lede">A skill is a decision procedure your agent runs with you: the questions in
     order, the checks that have to pass, and the exit that says this one cannot be answered.
-    {COUNT_WORD} of them, one for each position on the method map.</p>
+    {COUNT_WORD} of them across {N_POSITIONS} positions on the method map;
+    causation carries three.</p>
   </div>
   <div class="doc mapfig">
     {figure("skills-map.svg", "Where each skill sits. Each name is a link.")}
@@ -406,7 +470,8 @@ measures the model's impact.</p>
   .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
-  .sixlinks h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
+  .sixlinks h2{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0;
+    text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
   .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .skillgrid{grid-template-columns:repeat(4,1fr)}
@@ -416,8 +481,9 @@ measures the model's impact.</p>
   @media (max-width:1080px){.skillgrid{grid-template-columns:1fr}
     .skillgrid > *{border-right:0;border-bottom:1px solid var(--line)!important}}"""
     out = page(title="The skills · gallop",
-               description=f"{COUNT_WORD} skills, one position on the method map each.",
-               root="../", active="skills/", body=body, extra_style=style)
+               description=f"{COUNT_WORD} skills across {N_POSITIONS} positions "
+                           f"on the method map, one position each.",
+               root="../", url="skills/", active="skills/", body=body, extra_style=style)
     write(SITE / "skills" / "index.html", out, emitted)
 
 
@@ -432,7 +498,7 @@ def build_content_page(stem, title, description, emitted):
     inner = place_figures(stem, inner)
     body = f'<div class="band"><div class="doc">\n{inner}\n</div></div>'
     out = page(title=f"{title} · gallop", description=description, root="../",
-               active=f"{stem}/", body=body, contents=toc(items))
+               url=f"{stem}/", active=f"{stem}/", body=body, contents=toc(items))
     write(SITE / stem / "index.html", out, emitted)
 
 
@@ -475,15 +541,12 @@ def main(argv=None):
                     help="fail if committed output differs from a fresh build")
     a = ap.parse_args(argv)
 
+    global CHECK_ONLY
+    CHECK_ONLY = a.check
+    targets = [SITE / "skills", SITE / "theory", SITE / "install", SITE / "about"]
+
     dirs = skill_dirs()
     emitted = []
-    if a.check:
-        before = {}
-        targets = [SITE / "skills", SITE / "theory", SITE / "install", SITE / "about"]
-        for t in targets:
-            for f in t.rglob("*.html") if t.exists() else []:
-                before[f] = f.read_text()
-
     for d in dirs:
         build_skill_page(d, emitted)
     build_skills_index(dirs, emitted)
@@ -497,9 +560,10 @@ def main(argv=None):
     readme_path, readme_new = build_readme(dirs)
 
     if a.check:
-        after = {f: f.read_text() for f in emitted}
-        stale = [str(f.relative_to(ROOT)) for f, c in after.items() if before.get(f) != c]
-        extra = [str(f.relative_to(ROOT)) for f in before if f not in after]
+        stale = [str(f.relative_to(ROOT)) for f, c in RENDERED.items()
+                 if not f.exists() or f.read_text() != c]
+        on_disk = {f for t in targets if t.exists() for f in t.rglob("*.html")}
+        extra = sorted(str(f.relative_to(ROOT)) for f in on_disk - set(RENDERED))
         if readme_path.read_text() != readme_new:
             stale.append("README.md (skills table)")
         if stale or extra:

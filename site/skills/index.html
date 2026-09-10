@@ -4,7 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The skills · gallop</title>
-<meta name="description" content="Eight skills, one position on the method map each.">
+<meta name="description" content="Eight skills across 6 positions on the method map, one position each.">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The skills · gallop">
+<meta property="og:description" content="Eight skills across 6 positions on the method map, one position each.">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +36,8 @@
   .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
-  .sixlinks h3{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0}
+  .sixlinks h2{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0;
+    text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
   .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .skillgrid{grid-template-columns:repeat(4,1fr)}
@@ -59,10 +77,11 @@
     <h1>The skills</h1>
     <p class="lede">A skill is a decision procedure your agent runs with you: the questions in
     order, the checks that have to pass, and the exit that says this one cannot be answered.
-    Eight of them, one for each position on the method map.</p>
+    Eight of them across 6 positions on the method map;
+    causation carries three.</p>
   </div>
   <div class="doc mapfig">
-    <figure class="fig"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomize diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, sizing-opportunities on the exploratory analytics box below routing, reached by the description exit and returning a hypothesis, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
+    <figure class="fig"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomise diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, sizing-opportunities on the exploratory analytics box below routing, reached by the description exit and returning a hypothesis, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
 <defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="pd" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
 <rect class="node" x="40" y="20" width="760" height="56"/>
 <rect class="node" x="40" y="20" width="12" height="56"/>
@@ -85,7 +104,7 @@
 <text x="64.0" y="432.0" class="dimt" text-anchor="start">the question, localised and sized</text>
 <polygon class="node" points="356,230 420,190 484,230 420,270"/>
 <text x="420.0" y="226.0" class="t-q" text-anchor="middle">can you</text>
-<text x="420.0" y="241.0" class="t-q" text-anchor="middle">randomize?</text>
+<text x="420.0" y="241.0" class="t-q" text-anchor="middle">randomise?</text>
 <rect class="node" x="540" y="112" width="260" height="96"/>
 <rect class="node" x="540" y="112" width="12" height="96" fill="url(#pv)"/>
 <text x="564.0" y="136.0" class="t-title" text-anchor="start">Experimentation</text>
@@ -120,42 +139,42 @@
   <div class="cells skillgrid sixlinks">
     <a class="skrow" href="routing-questions/">
       <span class="pos dim">Routing</span>
-      <h3>routing-questions</h3>
+      <h2>routing-questions</h2>
       <p>Whether this becomes work at all, and which skill it becomes.</p>
     </a>
     <a class="skrow" href="defining-metrics/">
       <span class="pos dim">The floor</span>
-      <h3>defining-metrics</h3>
-      <p>A metric turned into a computation, a source of truth, and a statement of how it will be gamed.</p>
+      <h2>defining-metrics</h2>
+      <p>A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed.</p>
     </a>
     <a class="skrow" href="sizing-opportunities/">
       <span class="pos dim">Description</span>
-      <h3>sizing-opportunities</h3>
+      <h2>sizing-opportunities</h2>
       <p>A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize.</p>
     </a>
     <a class="skrow" href="designing-experiments/">
       <span class="pos dim">Causation</span>
-      <h3>designing-experiments</h3>
+      <h2>designing-experiments</h2>
       <p>The four choices that cannot be repaired after launch, with the MDE from the prior store.</p>
     </a>
     <a class="skrow" href="reading-experiments/">
       <span class="pos dim">Causation</span>
-      <h3>reading-experiments</h3>
+      <h2>reading-experiments</h2>
       <p>Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage.</p>
     </a>
     <a class="skrow" href="choosing-causal-designs/">
       <span class="pos dim">Causation</span>
-      <h3>choosing-causal-designs</h3>
+      <h2>choosing-causal-designs</h2>
       <p>The method that matches how assignment happened, and the exit that says there is no comparison group.</p>
     </a>
     <a class="skrow" href="automating-decisions/">
       <span class="pos dim">Prediction</span>
-      <h3>automating-decisions</h3>
+      <h2>automating-decisions</h2>
       <p>Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact.</p>
     </a>
     <a class="skrow" href="writing-readouts/">
       <span class="pos dim">The ceiling</span>
-      <h3>writing-readouts</h3>
+      <h2>writing-readouts</h2>
       <p>The decision rule first, the result last; the belief filed where the next question starts.</p>
     </a>
   </div>
@@ -234,10 +253,7 @@ measures the model's impact.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

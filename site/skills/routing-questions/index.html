@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>routing-questions · gallop</title>
 <meta name="description" content="Whether this becomes work at all, and which skill it becomes">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/routing-questions/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="routing-questions · gallop">
+<meta property="og:description" content="Whether this becomes work at all, and which skill it becomes">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/routing-questions/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Routing questions</h1>
+<h2 class="dtitle">Routing questions</h2>
 <p>One lookup, three questions, one gate, run before any query is written. The
 output is a routing decision and a filled intake record, never a number. Many
 questions leave without an analysis, and that is the point: they exit at the
@@ -165,7 +182,7 @@ registry status, the type, the assignment answer, the destination skill, and
 the expected hand-back. If a field is empty, the question is not ready to be
 ranked, which is a cheaper argument to have than the one about priorities.</p>
 <h2 id="worked-routings">Worked routings</h2>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>The question as it arrives</th>
@@ -215,7 +232,7 @@ ranked, which is a cheaper argument to have than the one about priorities.</p>
 <td>Say so; refer out; offer a holdout for the next one</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <h2 id="two-rules-that-close-the-pass">Two rules that close the pass</h2>
 <p><strong>No mechanism, no test.</strong> If the requester cannot write the mechanism – if
 we change X, metric Y moves because Z – there is nothing to confirm or
@@ -287,10 +304,7 @@ answers that were never going to be true.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

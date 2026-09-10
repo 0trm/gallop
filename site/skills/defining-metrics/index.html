@@ -4,7 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>defining-metrics · gallop</title>
-<meta name="description" content="A metric turned into a computation, a source of truth, and a statement of how it will be gamed">
+<meta name="description" content="A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/defining-metrics/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="defining-metrics · gallop">
+<meta property="og:description" content="A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/defining-metrics/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,7 +74,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Defining metrics</h1>
+<h2 class="dtitle">Defining metrics</h2>
 <p>The floor. Not a stage: everything above it inherits its errors, and a wrong
 definition does not raise an error, it just returns the wrong number. This skill
 produces four artifacts for one metric: a computation, a source of truth, a
@@ -165,13 +182,13 @@ re-enter <code>routing-questions</code> with the original question, which can no
 answered on a floor that holds.</p>
 
 <details class="refdoc" id="ref-gaming"><summary><span class="lab">reference</span> gaming.md</summary>
-<h1>How metrics get gamed</h1>
+<h2>How metrics get gamed</h2>
 <p>Goodhart's law, made operational: when a measure becomes a target, it stops
 measuring. The registry requires a <code>gaming</code> statement because the failure is
 predictable before it happens, and predicting it names the guardrail. None of
 these require bad faith; each is a reasonable team optimising exactly what it
 was told to optimise.</p>
-<h2>The patterns</h2>
+<h3>The patterns</h3>
 <p><strong>Widen the numerator.</strong> The cheapest game. &quot;Activated&quot; grows to
 include lighter and lighter actions; the rate climbs while the behaviour it
 stood for does not. Guardrail: pin the qualifying action list in the
@@ -200,7 +217,7 @@ unsubscribes) attached to every experiment by default.</p>
 X once&quot; is inflatable with a modal. The lift is real, the value is not, and
 retention of the prompted cohort shows it. Guardrail: cohort retention of
 prompted vs organic users on the same action.</p>
-<h2>Writing the statement</h2>
+<h3>Writing the statement</h3>
 <p>One or two sentences in the registry <code>gaming</code> field, concrete enough to
 recognise when it starts happening:</p>
 <blockquote>
@@ -215,22 +232,22 @@ also the argument for its promotion.</p>
 
 </details>
 <details class="refdoc" id="ref-promotion"><summary><span class="lab">reference</span> promotion.md</summary>
-<h1>The promotion checklist</h1>
+<h2>The promotion checklist</h2>
 <p>A metric moves from <code>provisional</code> to <code>trusted</code> only when every item below
 passes. Trusted is the status that licenses primary or guardrail duty in an
 experiment; everything else in the registry is context. Run the checklist as
 written, record the date it passed, and re-run it after any definition change.</p>
-<h2>1 · Definition closed</h2>
+<h3>1 · Definition closed</h3>
 <p>Someone who has never seen the codebase can reimplement the metric from the
 registry text and match the number within rounding. Test this literally when
 the stakes justify it: hand the definition to a second person, have them
 compute yesterday's value from the source of truth, compare.</p>
-<h2>2 · One source of truth</h2>
+<h3>2 · One source of truth</h3>
 <p>Exactly one table or model is named. Every surface that shows the metric
 (dashboard, report, experiment readout) reads from it or from a documented
 derivative. If two surfaces currently disagree, promotion is blocked until
 one of them is fixed or killed; a metric with two values is not a metric.</p>
-<h2>3 · Instrumentation validated end to end</h2>
+<h3>3 · Instrumentation validated end to end</h3>
 <p>The events the metric is built on have been traced from the client (or the
 service) to the warehouse at least once, by someone, on purpose:</p>
 <ul>
@@ -242,28 +259,28 @@ country; the total looks plausible while a segment is dark.</li>
 <li>Confirm the identity join. A metric per user is only as good as the
 mapping from event to user, across devices and sessions.</li>
 </ul>
-<h2>4 · Gaming statement written</h2>
+<h3>4 · Gaming statement written</h3>
 <p>The <code>gaming</code> field is filled in with a plausible mechanism, and the guardrail
 that would catch it exists or is explicitly declined with a reason. See
 <a href="#ref-gaming">gaming.md</a>.</p>
-<h2>5 · Owner named</h2>
+<h3>5 · Owner named</h3>
 <p>One person answers for the definition. Not a team: a person. The owner is
 who arbitrates the next disagreement and who signs off on version changes.</p>
-<h2>6 · Stability known</h2>
+<h3>6 · Stability known</h3>
 <p>Enough history exists to know the metric's normal variance: week-over-week
 movement under no intervention, seasonality shape, and the size of day-level
 noise. Without this, no experiment on the metric can be sized honestly and
 no anomaly on it can be triaged. Concretely: pull at least eight weeks of
 daily values, compute the coefficient of variation, and record the typical
 week-over-week swing in the registry <code>notes</code>.</p>
-<h2>7 · Sensitivity plausible</h2>
+<h3>7 · Sensitivity plausible</h3>
 <p>The metric can move at the traffic and timescale a test actually has. A
 metric that is 95% determined by behaviour outside the product's control, or
 that responds to change with a six-week lag, can be a guardrail but should
 not be a primary. If the answer is &quot;this cannot detectably move in a
 two-week test&quot;, promote a nearer proxy as primary instead and keep this one
 directional, and say so in <code>notes</code>.</p>
-<h2>Demotion</h2>
+<h3>Demotion</h3>
 <p>Deprecate, never delete. A deprecated entry keeps its definition and dates so
 old readouts stay interpretable. Deprecation triggers: the definition was
 superseded, the instrumentation broke irrecoverably, or the gaming statement
@@ -271,13 +288,13 @@ came true and the guardrail did not hold.</p>
 
 </details>
 <details class="refdoc" id="ref-registry-schema"><summary><span class="lab">reference</span> registry-schema.md</summary>
-<h1>The metric registry, field by field</h1>
+<h2>The metric registry, field by field</h2>
 <p>One JSONL file, one metric per line, diffable in a pull request. The contract
 is <code>src/gallop/templates/metric-registry.schema.json</code>, published at the repo
 root as <code>templates/metric-registry.schema.json</code>; <code>gallop.priors</code> validates every
 line on read and fails loudly with the line number on a malformed entry.</p>
-<h2>Fields</h2>
-<table>
+<h3>Fields</h3>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -337,8 +354,8 @@ line on read and fails loudly with the line number on a malformed entry.</p>
 <td>Stability facts (typical weekly swing, seasonality), proxy bridge, version history</td>
 </tr>
 </tbody>
-</table>
-<h2>A worked entry</h2>
+</table></div>
+<h3>A worked entry</h3>
 <pre><code class="language-json">{&quot;name&quot;: &quot;activation_rate&quot;,
  &quot;definition&quot;: &quot;users with &gt;=1 core action (save, share, or publish) within 7 days of signup / signups; excludes internal accounts and known bots; UTC day boundaries; user counted once&quot;,
  &quot;source&quot;: &quot;warehouse.marts.user_activation&quot;,
@@ -350,14 +367,14 @@ line on read and fails loudly with the line number on a malformed entry.</p>
  &quot;owner&quot;: &quot;0trm&quot;,
  &quot;notes&quot;: &quot;weekly swing ~0.4pp under no intervention; signup mix shifts seasonally in September; v1 since 2026-05&quot;}
 </code></pre>
-<h2>Reading it</h2>
+<h3>Reading it</h3>
 <pre><code>python -m gallop.priors registry --registry metrics.jsonl
 python -m gallop.priors registry --registry metrics.jsonl --status trusted
 </code></pre>
 <p>The second form is what <code>designing-experiments</code> runs: an experiment's primary
 metric must come back from that filter. If it does not, the experiment is
 blocked on <code>defining-metrics</code>, not on more traffic.</p>
-<h2>Conventions</h2>
+<h3>Conventions</h3>
 <ul>
 <li>The registry lives in version control next to the prior store. Changes go
 through review; the reviewer is the owner.</li>
@@ -432,10 +449,7 @@ review in a pull request is a registry that goes stale.</li>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);

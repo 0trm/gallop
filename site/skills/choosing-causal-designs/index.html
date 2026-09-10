@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>choosing-causal-designs · gallop</title>
 <meta name="description" content="The method that matches how assignment happened, and the exit that says there is no comparison group">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/choosing-causal-designs/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="choosing-causal-designs · gallop">
+<meta property="og:description" content="The method that matches how assignment happened, and the exit that says there is no comparison group">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/choosing-causal-designs/">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,7 +73,7 @@
   </div>
 </div>
 <div class="band"><div class="doc">
-<h1>Choosing causal designs</h1>
+<h2 class="dtitle">Choosing causal designs</h2>
 <p>Assignment already happened; the design's job is to reconstruct the
 comparison that randomisation would have provided. Pick by <strong>how assignment
 happened</strong>, not by which method is fashionable, and hand back an effect size
@@ -67,7 +84,7 @@ If the change has not fully shipped, a holdout or staggered rollout is still
 possible and strictly better. This skill is for the past tense.</p>
 <h2 id="the-selection-table">The selection table</h2>
 <p>Work down; take the first row whose conditions hold.</p>
-<table>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
 <tr>
 <th>Assignment looked like</th>
@@ -107,7 +124,7 @@ possible and strictly better. This skill is for the past tense.</p>
 <td>Honesty</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>The last row is a first-class exit, not a failure. Saying &quot;there is no
 defensible number here&quot; out loud beats shipping a number that dissolves
 under the first follow-up question, and the reference file says what to
@@ -119,7 +136,7 @@ in the product itself; a media flight is a diffuse, ramping shock whose
 effect shape is unknown, it usually arrives with seasonality and other
 pushes, and the pre-trend projection cannot separate any of that. That
 case takes the last row: bounds at most, a referral to whoever owns mix
-modelling or panel data, and a holdout designed into the next flight.</p>
+modeling or panel data, and a holdout designed into the next flight.</p>
 <p>The second row has its own misread: <strong>two units, one treated, is still
 DiD.</strong> An Android switch with iOS untouched has a comparison group, and
 the twin is the counterfactual, not a falsification check bolted onto an
@@ -166,12 +183,12 @@ learns which of its designs to trust.</li>
 </ul>
 
 <details class="refdoc" id="ref-did"><summary><span class="lab">reference</span> did.md</summary>
-<h1>Difference-in-differences</h1>
+<h2>Difference-in-differences</h2>
 <p>Some units got the change, some did not, and both are observed before and
 after. The counterfactual for the treated units is their own pre-period
 level plus the <em>untreated units' change over time</em>. The effect is
 (treated after − treated before) − (untreated after − untreated before).</p>
-<h2>When it fits</h2>
+<h3>When it fits</h3>
 <ul>
 <li>Assignment varied across units for reasons unrelated to the outcome's
 trajectory: a rollout by market, a policy that hit one country, some CRM
@@ -180,7 +197,7 @@ waves getting the change earlier.</li>
 treated units would have moved like the untreated ones. Untestable
 directly; the pre-period is the evidence.</li>
 </ul>
-<h2>How to run it honestly</h2>
+<h3>How to run it honestly</h3>
 <ol>
 <li><strong>Plot both groups' pre-trends first</strong>, before any regression. If they
 were not moving together before, the design is dead on arrival, and no
@@ -204,7 +221,7 @@ comparing each cohort to not-yet-treated units) rather than naive TWFE.</li>
 <li><strong>Falsification</strong>: a placebo outcome the treatment could not touch, and
 a placebo date in the pre-period.</li>
 </ol>
-<h2>What breaks it</h2>
+<h3>What breaks it</h3>
 <ul>
 <li><strong>Selection into treatment on the trajectory.</strong> If the markets chosen to
 get the feature first were chosen <em>because</em> they were trending up, the
@@ -217,7 +234,7 @@ word-of-mouth make the control dirty and bias the effect toward zero
 (new-user influx in treated markets), the units are not the same units
 after.</li>
 </ul>
-<h2>Stating the result</h2>
+<h3>Stating the result</h3>
 <p>&quot;Redemptions rose 2.3pp more in the provinces that got the feature than in
 those that did not (event study: flat pre-trends for 8 weeks, effect stable
 from week 2), assuming the provinces would have moved in parallel; rollout
@@ -226,11 +243,11 @@ why the assumption is plausible in this instance.</p>
 
 </details>
 <details class="refdoc" id="ref-its"><summary><span class="lab">reference</span> its.md</summary>
-<h1>Interrupted time series</h1>
+<h2>Interrupted time series</h2>
 <p>One unit (often the whole product), one switch date, no untreated twin. The
 counterfactual is the pre-period's own trajectory, projected forward; the
 effect is the level (and possibly slope) break at the switch.</p>
-<h2>When it fits</h2>
+<h3>When it fits</h3>
 <ul>
 <li>The change hit everyone at once on a known date: a migration, a policy
 change, a redesign shipped to 100%.</li>
@@ -241,7 +258,7 @@ than 3x the post-period you intend to read.</li>
 usually fails: launches ship with marketing pushes, and ITS attributes
 the sum to the switch.</li>
 </ul>
-<h2>How to run it honestly</h2>
+<h3>How to run it honestly</h3>
 <ol>
 <li><strong>Model the pre-period only</strong>: trend + seasonality (weekly at minimum;
 annual if the history supports it). Segmented regression is the
@@ -267,7 +284,7 @@ date, the jump is the environment, not the change.</li>
 mechanism's timescale. Extending the window until significance is
 peeking with extra steps.</li>
 </ol>
-<h2>What breaks it</h2>
+<h3>What breaks it</h3>
 <ul>
 <li><strong>Simultaneous shocks</strong> (the marketing push, a price change, a
 competitor event, a pandemic). ITS cannot separate them; say which ones
@@ -280,7 +297,7 @@ clean switch; check for one before settling on ITS.</li>
 indistinguishable from an effect. Check the registry's version history
 first.</li>
 </ul>
-<h2>Stating the result</h2>
+<h3>Stating the result</h3>
 <p>&quot;Deliveries ran 4.1% above the pre-trend projection for the eight weeks
 after the migration (placebo dates: −0.5% to +0.9%), assuming the
 pre-period trend would have continued and noting the June price change sits
@@ -289,12 +306,12 @@ one sentence each.</p>
 
 </details>
 <details class="refdoc" id="ref-matching-iv"><summary><span class="lab">reference</span> matching-iv.md</summary>
-<h1>Matching, and instrumental variables</h1>
+<h2>Matching, and instrumental variables</h2>
 <p>The two designs for self-selection, in descending order of how often they
 apply. Both answer &quot;did adopting X cause Y&quot; when individuals chose X
 themselves; both rest on assumptions stronger than the other designs in
 this skill, and the readout must say so.</p>
-<h2>Matching (and its regression cousins)</h2>
+<h3>Matching (and its regression cousins)</h3>
 <p><strong>The claim being made:</strong> adopters and non-adopters differ <em>only</em> on things
 you observed and matched. Selection on observables. Say the claim out loud
 before running anything, because it is a strong one: the reason someone
@@ -329,7 +346,7 @@ observables miss the selection entirely (likely, admit it).</li>
 what we could measure&quot;, which is an upper bound on the causal effect
 whenever the unmeasured selection points the usual direction (the
 motivated adopt). Say &quot;upper bound&quot; when that is what it is.</p>
-<h2>Instrumental variables</h2>
+<h3>Instrumental variables</h3>
 <p><strong>The shape:</strong> something (the instrument) shifted uptake of the treatment
 without touching the outcome through any other path. Effect = the outcome
 shift attributable to the instrument, scaled by the uptake shift.</p>
@@ -356,7 +373,7 @@ users touched the outcome twice.</li>
 uptake the instrument changed, not on everyone. For a prompt instrument
 that is exactly the population the decision is about, which is why
 encouragement designs are the clean case.</p>
-<h2>Choosing between them</h2>
+<h3>Choosing between them</h3>
 <p>Ask what drives selection. Observable and measured → matching, with the
 sensitivity analysis. Unobservable → IV if a real instrument exists,
 otherwise this question has no comparison group yet; see
@@ -366,14 +383,14 @@ sprint&quot;.</p>
 
 </details>
 <details class="refdoc" id="ref-no-comparison-group"><summary><span class="lab">reference</span> no-comparison-group.md</summary>
-<h1>No comparison group</h1>
+<h2>No comparison group</h2>
 <p>The exit that says so. It fires when every row of the selection table has
 failed: everyone got the change at once, no untreated twin exists anywhere,
 the pre-period is too short or too shocked to project, selection is on
 unobservables, and there is no instrument. The canonical case: the campaign
 that ran across every market simultaneously with nothing held back, asked
 about after the fact.</p>
-<h2>Why shipping a number anyway is the worst option</h2>
+<h3>Why shipping a number anyway is the worst option</h3>
 <p>Whatever number gets produced under these conditions is a before/after
 difference wearing a method's name. It will be repeated without the
 caveats, become the campaign's official value, justify the next three
@@ -382,7 +399,7 @@ whatever else moved that month. The refusal costs one uncomfortable
 conversation; the number costs a planning cycle. This exit exists because
 &quot;I would rather say that out loud than ship the number anyway&quot; is a
 complete professional answer.</p>
-<h2>What to say</h2>
+<h3>What to say</h3>
 <p>Three sentences, in order:</p>
 <ol>
 <li><strong>The fact.</strong> &quot;The change reached everyone at once with nothing held
@@ -398,7 +415,7 @@ randomised encouragement, a 5% control. The refusal converts into
 design leverage on the next iteration, which is the entire point of
 making it politely and in writing.</li>
 </ol>
-<h2>What can still be said honestly</h2>
+<h3>What can still be said honestly</h3>
 <p>Without a comparison group there is still descriptive work with integrity,
 as long as it is labelled description:</p>
 <ul>
@@ -410,7 +427,7 @@ honest where point estimates are not.</li>
 <li>A forward monitoring plan: what would have to stay elevated, for how
 long, to be even consistent with an effect.</li>
 </ul>
-<h2>File the refusal</h2>
+<h3>File the refusal</h3>
 <p>Write the routing and the reason into the knowledge repo via
 <code>writing-readouts</code> (decision: <code>no-measurement</code>, with the offer recorded).
 Eight months later, when the question returns, the entry is the difference
@@ -419,12 +436,12 @@ refusals per quarter is itself the argument for the holdout policy.</p>
 
 </details>
 <details class="refdoc" id="ref-synthetic-control"><summary><span class="lab">reference</span> synthetic-control.md</summary>
-<h1>Synthetic control</h1>
+<h2>Synthetic control</h2>
 <p>One treated unit, many untreated candidates. Build the counterfactual as a
 weighted blend of donor units chosen so the blend tracks the treated unit's
 pre-period closely; the effect is the post-period gap between the unit and
 its synthetic twin.</p>
-<h2>When it fits</h2>
+<h3>When it fits</h3>
 <ul>
 <li>Exactly one (or very few) treated units: one country got the launch, one
 city got the policy.</li>
@@ -438,7 +455,7 @@ metrics).</li>
 <p>Two units total is not a synthetic control; that is a comparison with one
 donor, and it should be called DiD-with-one-control and given its weak
 inference honestly.</p>
-<h2>How to run it honestly</h2>
+<h3>How to run it honestly</h3>
 <ol>
 <li><strong>Freeze the donor pool first</strong>, excluding any unit the treatment could
 have touched (spillovers make donors dirty and the effect biased toward
@@ -457,7 +474,7 @@ one; with 20 donors, the best achievable is 1/21).</li>
 check it tracks the second half. A twin that fails backdating is
 overfit to noise.</li>
 </ol>
-<h2>What breaks it</h2>
+<h3>What breaks it</h3>
 <ul>
 <li><strong>A shocked donor</strong>: one donor gets its own event in the post-period and
 drags the twin. Inspect the twin's components over time.</li>
@@ -468,7 +485,7 @@ without matching the mechanism.</li>
 equally well and the choice among them is arbitrary; report the
 sensitivity across them.</li>
 </ul>
-<h2>Stating the result</h2>
+<h3>Stating the result</h3>
 <p>&quot;Sell-out in the launch country ran 6% above its synthetic twin (0.4
 Germany, 0.35 Netherlands, 0.25 Sweden) for the twelve post-launch weeks;
 in placebo runs on the 14 donors, the largest gap was 2.8%, so the effect
@@ -537,10 +554,7 @@ markets.&quot; Twin, gap, placebo distribution, assumption.</p>
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
     }
-    try {
-      var saved = localStorage.getItem("gallop-theme");
-      if (saved === "dark" || saved === "light") apply(saved);
-    } catch (e) {}
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
     buttons.forEach(function (b) {
       b.addEventListener("click", function () {
         apply(b.dataset.set);
