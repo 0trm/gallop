@@ -49,6 +49,7 @@
   .mapband{grid-template-columns:1.55fr 1fr}
   .mapcell{background:var(--surface);padding:26px 28px}
   .mapcell .fig{margin:0;padding:0;border:0;background:none}
+  .scrollhint{display:none;margin:12px 0 0;font-size:10px}
   .legend{padding:0;display:flex;flex-direction:column}
   .legend .lab{padding:16px 20px 12px;border-bottom:1px solid var(--line)}
   .legend > a{display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:baseline;
@@ -94,11 +95,17 @@
     .hero p.lede{max-width:none}
     .hero .txt{padding:26px 18px 30px}
     /* a phone reads the console straight after the hero, then the install,
-       then the skills as a list; the map itself waits for the map page */
+       then the map and the skills as a list. */
     main{display:flex;flex-direction:column}
     #route{order:1}
     #skills{order:2}
-    .mapcell{display:none}
+    /* The drawing is 840 units wide and its labels are sized in those units, so
+       fitting it to a phone shrinks the smallest of them to about 4px. It keeps
+       the width it has on a 1440 desktop, 820px, and the plate scrolls instead. */
+    .mapcell{padding:18px 16px 16px}
+    .mapcell .fig{overflow-x:auto;overscroll-behavior-x:contain}
+    .mapcell .fig svg{min-width:820px}
+    .scrollhint{display:block}
   }
 </style>
 </head>
@@ -141,7 +148,7 @@
     <a class="btn pri" href="map/"><span>Read the method map</span><span class="arr">&rarr;</span></a>
   </div>
   <div class="cells mapband">
-    <div class="mapcell"><figure class="fig"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomise diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, sizing-opportunities on the exploratory analytics box below routing, reached by the description exit and returning a hypothesis, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
+    <div class="mapcell"><figure class="fig" role="region" aria-label="The method map" tabindex="0"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomise diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, sizing-opportunities on the exploratory analytics box below routing, reached by the description exit and returning a hypothesis, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
 <defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="pd" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
 <rect class="node" x="40" y="20" width="760" height="56"/>
 <rect class="node" x="40" y="20" width="12" height="56"/>
@@ -192,7 +199,7 @@
 <path class="ax dash" marker-end="url(#sm)" d="M200 364V294"/>
 <text x="112.0" y="330.0" class="t-edge" text-anchor="end">description</text>
 <text x="208.0" y="330.0" class="t-edge" text-anchor="start">hypothesis</text>
-</svg></figure></div>
+</svg></figure><p class="lab dim scrollhint">Scroll sideways</p></div>
     <div class="legend">
       <p class="lab">All skills</p>
       <a href="skills/routing-questions/"><h2>routing-questions</h2><p class="pos dim">Routing</p><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></a>
