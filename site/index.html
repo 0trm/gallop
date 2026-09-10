@@ -51,14 +51,19 @@
   .mapcell .fig{margin:0;padding:0;border:0;background:none}
   .legend{padding:0;display:flex;flex-direction:column}
   .legend .lab{padding:16px 20px 12px;border-bottom:1px solid var(--line)}
-  .legend > a:not(.btn){display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:baseline;
+  .legend > a{display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:baseline;
               padding:11px 20px 12px;border-bottom:1px solid var(--line);color:inherit}
-  .legend > a:not(.btn):hover{background:var(--wash);text-decoration:none}
+  /* the button used to close this column with its own margin; without it the
+     last row's rule lands on the band's and reads as a double hairline. */
+  .legend > a:last-child{border-bottom:0}
+  .legend > a:hover{background:var(--wash);text-decoration:none}
   .legend h2{font-family:var(--mono);font-size:15px;font-weight:700;margin:0;
     text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
   .legend .pos{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin:0}
-  .legend > a:not(.btn) p:last-child{grid-column:1 / -1;margin:3px 0 0;font-size:13px;line-height:1.5;color:var(--body)}
-  .legend .btn{margin:auto 20px 20px}
+  .legend > a p:last-child{grid-column:1 / -1;margin:3px 0 0;font-size:13px;line-height:1.5;color:var(--body)}
+  /* every other secthead pairs a label with a line of type, so it aligns on the
+     baseline; this one holds the band's one control, which wants centring. */
+  #skills .secthead{align-items:center}
 
   .demo{grid-template-columns:1.35fr .65fr}
   /* beside the console: the two lines that put it in the reader's own agent */
@@ -131,6 +136,10 @@
 </div>
 
 <div class="band" id="skills">
+  <div class="secthead">
+    <p class="lab">Where each skill sits</p>
+    <a class="btn pri" href="map/"><span>Read the method map</span><span class="arr">&rarr;</span></a>
+  </div>
   <div class="cells mapband">
     <div class="mapcell"><figure class="fig"><svg viewBox="0 0 840 560" role="img" aria-label="The skills placed on the method map: writing-readouts on the theory layer across the top, defining-metrics on the measurement framework across the bottom, routing-questions at the entry before the can-you-randomise diamond, designing-experiments and reading-experiments on the experimentation box, choosing-causal-designs on the causal inference box, sizing-opportunities on the exploratory analytics box below routing, reached by the description exit and returning a hypothesis, and automating-decisions on the statistical modeling box below the path, with a dashed arrow up into causal inference because modeling supplies its estimators.">
 <defs><marker id="sm" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4L0 8z" class="dot"/></marker><pattern id="ph" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="dot"/></pattern><pattern id="pv" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="dot"/></pattern><pattern id="pd" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="dot"/></pattern><pattern id="px" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" class="ax"/></pattern></defs>
@@ -194,7 +203,6 @@
       <a href="skills/choosing-causal-designs/"><h2>choosing-causal-designs</h2><p class="pos dim">Causation</p><p>ITS, DiD, synthetic control, matching, IV, and the exit that says there is no control group.</p></a>
       <a href="skills/automating-decisions/"><h2>automating-decisions</h2><p class="pos dim">Prediction</p><p>A decision made at volume. Validated out of time, against the base rate, then a holdout for the impact.</p></a>
       <a href="skills/writing-readouts/"><h2>writing-readouts</h2><p class="pos dim">The ceiling</p><p>The decision rule first, the result last. The belief, not just the number.</p></a>
-      <a class="btn pri" href="map/"><span>Read the method map</span><span class="arr">&rarr;</span></a>
     </div>
   </div>
 </div>
