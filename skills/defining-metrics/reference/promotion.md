@@ -61,6 +61,16 @@ not be a primary. If the answer is "this cannot detectably move in a
 two-week test", promote a nearer proxy as primary instead and keep this one
 directional, and say so in `notes`.
 
+## While provisional
+
+A metric that fails any item above stays `provisional`, and the item it
+failed is what goes in the registry's `promotion_blocker`, by number: "3,
+scroll events never traced from client to warehouse; owned by the web
+platform team". Paired with `provisional_reason`, `blocked` or `deferred`,
+that turns the provisional lines into ranked floor work instead of a list of
+metrics nobody got round to. The conditions under which a question may run
+on one of them are in the skill body, under the provisional exit.
+
 ## Demotion
 
 Deprecate, never delete. A deprecated entry keeps its definition and dates so

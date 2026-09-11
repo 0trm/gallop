@@ -74,9 +74,13 @@ def test_registry_roundtrip_and_status_filter(tmp_path):
         "gaming": "widen the definition of activated", "status": "trusted",
     }
     reg.write_text(json.dumps(entry) + "\n" + json.dumps(
-        {**entry, "name": "clicks", "status": "provisional"}) + "\n")
+        {**entry, "name": "clicks", "status": "provisional",
+         "provisional_reason": "blocked",
+         "promotion_blocker": "3, click events never traced; owned by web platform"}) + "\n")
     assert len(priors.read_registry(reg)) == 2
     assert priors.read_registry(reg, status="trusted")["name"].tolist() == ["activation_rate"]
+    backlog = priors.read_registry(reg, status="provisional")
+    assert backlog["provisional_reason"].tolist() == ["blocked"]
 
 
 def test_published_contract_matches_the_packaged_schema():

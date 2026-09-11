@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://0trm.github.io/gallop/schemas/metric-registry.schema.json",
   "title": "Gallop metric registry entry",
-  "description": "One line of the JSONL metric registry. A metric is promotable only when every required field is filled in and `status` is trusted; the gaming field is mandatory because a metric nobody has thought about gaming is a metric that will be.",
+  "description": "One line of the JSONL metric registry. A metric is promotable only when every required field is filled in and `status` is trusted; the gaming field is mandatory because a metric nobody has thought about gaming is a metric that will be. A provisional entry carries `provisional_reason`, which is what makes the registry the floor's backlog and not just its inventory.",
   "type": "object",
   "required": ["name", "definition", "source", "unit_of_analysis", "direction", "gaming", "status"],
   "properties": {
@@ -14,6 +14,8 @@
     "role": { "type": "string", "enum": ["primary", "guardrail", "diagnostic"], "description": "How experiments may use it" },
     "gaming": { "type": "string", "description": "How this metric gets gamed, stated before it happens" },
     "status": { "type": "string", "enum": ["trusted", "provisional", "deprecated"], "description": "Only trusted metrics carry a readout" },
+    "provisional_reason": { "type": "string", "enum": ["blocked", "deferred"], "description": "Why a provisional metric is not trusted yet: blocked (the promotion work cannot be done now) or deferred (it could be and has not been ranked). Set it whenever a question runs on the metric under the provisional exit" },
+    "promotion_blocker": { "type": "string", "description": "The unmet promotion-checklist item, by number, and for blocked, who owns closing it" },
     "owner": { "type": "string", "description": "Who answers for the definition" },
     "notes": { "type": "string" }
   },

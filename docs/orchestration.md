@@ -11,7 +11,10 @@ question arrives
        ├─ exit: settled           hand back the knowledge-repo entry; stop
        ├─ exit: curiosity         no decision changes on the answer; backlog; stop
        ├─ defining-metrics        the metric cannot be trusted; fix the floor,
-       │                          then RE-ENTER routing with the original question
+       │                          then RE-ENTER routing with the original question.
+       │                          The provisional exit (description only, signed
+       │                          off, bounded defect, no belief filed) is the
+       │                          one way past without fixing it first
        ├─ sizing-opportunities    exploratory work: the floor first, then the move
        │                          localised and sized; hands back a hypothesis, which
        │                          re-enters routing as a change question
@@ -37,7 +40,9 @@ experiment runs
   read and written only through `gallop.priors`.
 - **The registry gates the pipeline.** An experiment's primary metric must
   be `trusted` in the metric registry. If it is not, the question belongs to
-  `defining-metrics` first, whatever the requester asked for.
+  `defining-metrics` first, whatever the requester asked for. The provisional
+  exit does not reach here: it opens toward description, files no belief, and
+  an experiment whose primary metric is provisional does not run.
 - **Pre-registration binds the readout.** `reading-experiments` reads
   against the plan `designing-experiments` filed: the decision rule, the one
   segment, the peeking policy. The absence of a plan weakens every check downstream, and

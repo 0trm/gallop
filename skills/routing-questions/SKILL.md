@@ -60,6 +60,15 @@ measurement work is the actual work; every exit above the floor inherits a
 wrong definition without ever raising an error. Do not run the analysis "in
 the meantime".
 
+One narrow exception, and it never reaches a test: exploratory work may run
+on a provisional metric when a named person signs off, the defect is bounded
+and cannot change the answer, and the result files no belief. An
+unreconciled discrepancy is not a bounded defect, so the two-dashboards case
+above is not eligible. The reason goes on the registry line as `blocked` or
+`deferred`, which is what turns the refusal into the floor's backlog rather
+than losing it. Conditions in `defining-metrics`; an experiment's primary
+metric has no such exit.
+
 ## Step 2 · Description, or a change?
 
 Read the question's own verbs.

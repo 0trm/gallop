@@ -17,6 +17,8 @@ Knowledge repo checked on: · Nearest prior entry:
 **The metric it rides on**
 Registry status (trusted / provisional / absent):
 If not trusted, the work is `defining-metrics`, not analysis.
+Running on a provisional metric? Signed off by: · the defect and its bound:
+· registry reason (blocked / deferred): · and no belief is filed from the answer.
 
 **Description or causation?**
 What happened / what will happen → description or prediction.

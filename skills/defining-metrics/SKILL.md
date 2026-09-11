@@ -87,6 +87,52 @@ Until then it is **provisional**: usable for exploration, barred from
 readouts. Retired definitions become **deprecated**, kept in the registry so
 old readouts remain interpretable.
 
+## The provisional exit
+
+Barring provisional metrics from readouts is the rule. A rule with no exit
+gets ignored rather than followed, and an ignored rule leaves no record of
+what it failed to stop. This exit is narrow, and it is logged.
+
+Work may proceed on a provisional metric when all three hold:
+
+- **A person signs off.** Named, not a team: whoever would be the registry
+  `owner` once the metric is promoted.
+- **The defect is bounded and cannot change the answer.** Name the defect,
+  bound it, and show the conclusion holds at both ends of the bound. Two
+  sources 8% apart on the level do not stop "which segment is largest";
+  they do stop "did it decline". An unreconciled discrepancy is not a
+  bounded defect: until the diff is traced to a filter or a broken join,
+  nobody knows which end is which, and nothing can be shown to hold at
+  both. If the question turns on the quantity the defect touches, the exit
+  is closed and the floor work is the work.
+- **Nothing is filed.** The result carries an expiry, not a belief: no
+  prior-store record, no knowledge-repo entry. It answers one decision and
+  dies with it.
+
+The exit opens toward description only, where a hypothesis is the hand-back
+anyway. An experiment's primary or guardrail metric comes back from the
+trusted filter or the experiment does not run; `designing-experiments` has
+no equivalent hatch, and this one does not reach it.
+
+## The exit's backlog
+
+Every use of the exit writes its reason onto the metric's registry line, in
+`provisional_reason`:
+
+- **`blocked`** – the promotion work cannot be done now. The instrumentation
+  is missing, the source table does not exist, no owner exists to arbitrate
+  the definition. The fix belongs to someone who is not in this
+  conversation, and `promotion_blocker` names the unmet checklist item and
+  who owns closing it.
+- **`deferred`** – the promotion work could be done and has not been ranked
+  high enough to do. Nobody is blocked; the metric has not been worth the
+  week.
+
+The split is what makes the registry a backlog instead of a leak. The
+`blocked` lines are a dependency list to take to the team that owns the fix.
+A `deferred` line that keeps carrying questions is the argument for ranking
+its promotion, and one nobody has used is correctly ignored.
+
 ## The registry entry
 
 The registry is a JSONL file beside the prior store, one metric per line,

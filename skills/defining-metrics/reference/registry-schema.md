@@ -17,8 +17,16 @@ line on read and fails loudly with the line number on a malformed entry.
 | `role` | no | `primary`, `guardrail`, or `diagnostic`: how experiments may use it |
 | `gaming` | yes | How the metric gets hit without the value being created, and the guardrail that catches it |
 | `status` | yes | `trusted`, `provisional`, or `deprecated`. Only trusted metrics carry a readout |
+| `provisional_reason` | if provisional | `blocked` (the promotion work cannot be done now) or `deferred` (it could be and has not been ranked) |
+| `promotion_blocker` | if provisional | The unmet [promotion checklist](promotion.md) item, by number, and for `blocked`, who owns closing it |
 | `owner` | no | The person who answers for the definition |
 | `notes` | no | Stability facts (typical weekly swing, seasonality), proxy bridge, version history |
+
+The last two are optional in the schema because `gallop.priors.validate`
+has no conditional rules; the discipline is that a `provisional` line
+without them is incomplete, the same way an intake record with an empty
+field is not ready to rank. They are what the provisional filter reads as
+a backlog.
 
 ## A worked entry
 
@@ -33,6 +41,23 @@ line on read and fails loudly with the line number on a malformed entry.
  "status": "trusted",
  "owner": "0trm",
  "notes": "weekly swing ~0.4pp under no intervention; signup mix shifts seasonally in September; v1 since 2026-05"}
+```
+
+And one provisional entry, which is a line of backlog as much as a metric:
+
+```json
+{"name": "engaged_reader_rate",
+ "definition": "sessions with >=30s on an article and >=50% scroll depth / article sessions; 28-day window; excludes known bots; UTC day boundaries",
+ "source": "warehouse.staging.article_events",
+ "unit_of_analysis": "session",
+ "direction": "increase_good",
+ "role": "diagnostic",
+ "gaming": "lazy-loaded or autoplaying elements fire scroll events with no reader behind them; guardrail: return visits within 7 days",
+ "status": "provisional",
+ "provisional_reason": "blocked",
+ "promotion_blocker": "3, scroll events never traced from client to warehouse; owned by the web platform team",
+ "owner": "0trm",
+ "notes": "carried two sizing questions in Q3; source is a staging table, not a mart"}
 ```
 
 ## Reading it

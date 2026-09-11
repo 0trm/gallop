@@ -96,6 +96,11 @@ Rules the schema enforces or the discipline requires:
   `supersedes`; nothing is edited. The store is a log.
 - **`design` is honest**: an ITS effect is recorded as `its`, so future
   sizing can weight it accordingly.
+- **A provisional metric writes nothing.** A number produced under the
+  `defining-metrics` provisional exit is a hypothesis, not a decision: it
+  states its expiry in the readout and gets no store record and no
+  knowledge entry. The store is what every later question reads, and a
+  definition nobody validated does not get to write to it.
 
 ## Done, defined
 

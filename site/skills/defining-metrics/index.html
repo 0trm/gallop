@@ -51,7 +51,7 @@
     </span>
   </span>
 </nav>
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-provisional-exit">The provisional exit</a><a href="#the-exit-s-backlog">The exit's backlog</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></nav>
 
 <main id="main">
 <div class="band">
@@ -148,6 +148,47 @@ owner, and stability checked over enough history to know its variance.
 Until then it is <strong>provisional</strong>: usable for exploration, barred from
 readouts. Retired definitions become <strong>deprecated</strong>, kept in the registry so
 old readouts remain interpretable.</p>
+<h2 id="the-provisional-exit">The provisional exit</h2>
+<p>Barring provisional metrics from readouts is the rule. A rule with no exit
+gets ignored rather than followed, and an ignored rule leaves no record of
+what it failed to stop. This exit is narrow, and it is logged.</p>
+<p>Work may proceed on a provisional metric when all three hold:</p>
+<ul>
+<li><strong>A person signs off.</strong> Named, not a team: whoever would be the registry
+<code>owner</code> once the metric is promoted.</li>
+<li><strong>The defect is bounded and cannot change the answer.</strong> Name the defect,
+bound it, and show the conclusion holds at both ends of the bound. Two
+sources 8% apart on the level do not stop &quot;which segment is largest&quot;;
+they do stop &quot;did it decline&quot;. An unreconciled discrepancy is not a
+bounded defect: until the diff is traced to a filter or a broken join,
+nobody knows which end is which, and nothing can be shown to hold at
+both. If the question turns on the quantity the defect touches, the exit
+is closed and the floor work is the work.</li>
+<li><strong>Nothing is filed.</strong> The result carries an expiry, not a belief: no
+prior-store record, no knowledge-repo entry. It answers one decision and
+dies with it.</li>
+</ul>
+<p>The exit opens toward description only, where a hypothesis is the hand-back
+anyway. An experiment's primary or guardrail metric comes back from the
+trusted filter or the experiment does not run; <code>designing-experiments</code> has
+no equivalent hatch, and this one does not reach it.</p>
+<h2 id="the-exit-s-backlog">The exit's backlog</h2>
+<p>Every use of the exit writes its reason onto the metric's registry line, in
+<code>provisional_reason</code>:</p>
+<ul>
+<li><strong><code>blocked</code></strong> – the promotion work cannot be done now. The instrumentation
+is missing, the source table does not exist, no owner exists to arbitrate
+the definition. The fix belongs to someone who is not in this
+conversation, and <code>promotion_blocker</code> names the unmet checklist item and
+who owns closing it.</li>
+<li><strong><code>deferred</code></strong> – the promotion work could be done and has not been ranked
+high enough to do. Nobody is blocked; the metric has not been worth the
+week.</li>
+</ul>
+<p>The split is what makes the registry a backlog instead of a leak. The
+<code>blocked</code> lines are a dependency list to take to the team that owns the fix.
+A <code>deferred</code> line that keeps carrying questions is the argument for ranking
+its promotion, and one nobody has used is correctly ignored.</p>
 <h2 id="the-registry-entry">The registry entry</h2>
 <p>The registry is a JSONL file beside the prior store, one metric per line,
 validated against <code>templates/metric-registry.schema.json</code>. Field-by-field
@@ -280,6 +321,14 @@ that responds to change with a six-week lag, can be a guardrail but should
 not be a primary. If the answer is &quot;this cannot detectably move in a
 two-week test&quot;, promote a nearer proxy as primary instead and keep this one
 directional, and say so in <code>notes</code>.</p>
+<h3>While provisional</h3>
+<p>A metric that fails any item above stays <code>provisional</code>, and the item it
+failed is what goes in the registry's <code>promotion_blocker</code>, by number: &quot;3,
+scroll events never traced from client to warehouse; owned by the web
+platform team&quot;. Paired with <code>provisional_reason</code>, <code>blocked</code> or <code>deferred</code>,
+that turns the provisional lines into ranked floor work instead of a list of
+metrics nobody got round to. The conditions under which a question may run
+on one of them are in the skill body, under the provisional exit.</p>
 <h3>Demotion</h3>
 <p>Deprecate, never delete. A deprecated entry keeps its definition and dates so
 old readouts stay interpretable. Deprecation triggers: the definition was
@@ -344,6 +393,16 @@ line on read and fails loudly with the line number on a malformed entry.</p>
 <td><code>trusted</code>, <code>provisional</code>, or <code>deprecated</code>. Only trusted metrics carry a readout</td>
 </tr>
 <tr>
+<td><code>provisional_reason</code></td>
+<td>if provisional</td>
+<td><code>blocked</code> (the promotion work cannot be done now) or <code>deferred</code> (it could be and has not been ranked)</td>
+</tr>
+<tr>
+<td><code>promotion_blocker</code></td>
+<td>if provisional</td>
+<td>The unmet <a href="#ref-promotion">promotion checklist</a> item, by number, and for <code>blocked</code>, who owns closing it</td>
+</tr>
+<tr>
 <td><code>owner</code></td>
 <td>no</td>
 <td>The person who answers for the definition</td>
@@ -355,6 +414,11 @@ line on read and fails loudly with the line number on a malformed entry.</p>
 </tr>
 </tbody>
 </table></div>
+<p>The last two are optional in the schema because <code>gallop.priors.validate</code>
+has no conditional rules; the discipline is that a <code>provisional</code> line
+without them is incomplete, the same way an intake record with an empty
+field is not ready to rank. They are what the provisional filter reads as
+a backlog.</p>
 <h3>A worked entry</h3>
 <pre><code class="language-json">{&quot;name&quot;: &quot;activation_rate&quot;,
  &quot;definition&quot;: &quot;users with &gt;=1 core action (save, share, or publish) within 7 days of signup / signups; excludes internal accounts and known bots; UTC day boundaries; user counted once&quot;,
@@ -366,6 +430,20 @@ line on read and fails loudly with the line number on a malformed entry.</p>
  &quot;status&quot;: &quot;trusted&quot;,
  &quot;owner&quot;: &quot;0trm&quot;,
  &quot;notes&quot;: &quot;weekly swing ~0.4pp under no intervention; signup mix shifts seasonally in September; v1 since 2026-05&quot;}
+</code></pre>
+<p>And one provisional entry, which is a line of backlog as much as a metric:</p>
+<pre><code class="language-json">{&quot;name&quot;: &quot;engaged_reader_rate&quot;,
+ &quot;definition&quot;: &quot;sessions with &gt;=30s on an article and &gt;=50% scroll depth / article sessions; 28-day window; excludes known bots; UTC day boundaries&quot;,
+ &quot;source&quot;: &quot;warehouse.staging.article_events&quot;,
+ &quot;unit_of_analysis&quot;: &quot;session&quot;,
+ &quot;direction&quot;: &quot;increase_good&quot;,
+ &quot;role&quot;: &quot;diagnostic&quot;,
+ &quot;gaming&quot;: &quot;lazy-loaded or autoplaying elements fire scroll events with no reader behind them; guardrail: return visits within 7 days&quot;,
+ &quot;status&quot;: &quot;provisional&quot;,
+ &quot;provisional_reason&quot;: &quot;blocked&quot;,
+ &quot;promotion_blocker&quot;: &quot;3, scroll events never traced from client to warehouse; owned by the web platform team&quot;,
+ &quot;owner&quot;: &quot;0trm&quot;,
+ &quot;notes&quot;: &quot;carried two sizing questions in Q3; source is a staging table, not a mart&quot;}
 </code></pre>
 <h3>Reading it</h3>
 <pre><code>python -m gallop.priors registry --registry metrics.jsonl
