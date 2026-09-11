@@ -60,7 +60,7 @@ A question enters at the left and leaves as a decision. Measurement is a foundat
   <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomise diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
 </picture>
 
-> **[Read the full map](https://0trm.github.io/gallop/map/)**
+> [Read the full map](https://0trm.github.io/gallop/map/)
 
 ## Skills
 
