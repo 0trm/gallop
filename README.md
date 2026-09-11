@@ -45,23 +45,22 @@ python3 -m gallop.examples.quickstart
 
 The full loop, from a question arriving to the prior store changing on disk, is `python3 examples/end-to-end/run_loop.py`.
 
-## Map
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
-  <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomise diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
-</picture>
-
-A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
-
 | Bucket | Asks | Hands back |
 |---|---|---|
 | Description | What happened? | A hypothesis |
 | Causation | Did this change cause that? | An effect size |
 | Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation |
 
-**[Read the full map](https://0trm.github.io/gallop/map/)** ·
-**[Read the intake algorithm](https://0trm.github.io/gallop/intake/)**
+## Map
+
+A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Theory is a ceiling because what you learn has to outlive the test that produced it.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="site/figures/skills-map-dark.svg">
+  <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomise diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the theory layer as the ceiling">
+</picture>
+
+> **[Read the full map](https://0trm.github.io/gallop/map/)**
 
 ## Skills
 
