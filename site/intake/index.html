@@ -42,6 +42,7 @@ p{margin:0}
 .lead{font-size:16px;line-height:1.6;max-width:78ch;color:var(--body)}
 .cap{font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
 .cap b{color:var(--fg)}
+.cap a{text-decoration:underline;text-underline-offset:3px}
 .mark{background:var(--vellum);padding:0 3px}
 
 footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
@@ -312,32 +313,24 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
   <section class="win keyed k-vert" style="grid-column:1/-1">
     <div class="bar"><span class="close"></span><h2>the platform</h2><span class="grow"></span><span class="keyto">keyed to experimentation</span></div>
     <div class="body">
-      <h3>Two checklists, and a platform that runs them for you</h3>
-      <p class="cap">On a mature team almost none of this is a matter of remembering. You file an experiment the way you file a pull request: the metric comes from a registry rather than a text box, the detectable effect is filled in from the prior store for that metric, guardrails attach themselves, and randomisation, the ratio check, variance reduction and the sequential test are defaults you would have to work to switch off. Where the platform does not do it for you, these are the lists you run by hand.</p>
+      <h3>Two gates, and a platform that runs them for you</h3>
+      <p class="cap">On a mature team almost none of this is a matter of remembering. You file an experiment the way you file a pull request: the metric comes from a registry rather than a text box, the detectable effect is filled in from the prior store for that metric, guardrails attach themselves, and randomisation, the ratio check, variance reduction and the sequential test are defaults you would have to work to switch off. Where the platform does not do it for you, the two skills below are the checklist.</p>
       <div class="two-up">
         <div>
           <span class="keyto">before it starts &#183; no plan, no flag</span>
-          <ul class="opts">
-            <li>the metric comes from the registry, not from a text box</li>
-            <li>the MDE comes from the prior store, not from what would be nice</li>
-            <li>guardrails attached up front: crashes, latency, refunds</li>
-            <li>behind a flag, logging exposure rather than eligibility</li>
-            <li>one live test per surface, in its own layer</li>
-            <li>switchback or clusters if treating one unit touches another</li>
-            <li>the decision rule written before launch, not after the readout</li>
-          </ul>
+          <p class="cap"><a href="../skills/designing-experiments/"><b>designing-experiments</b></a>
+          turns the four choices you cannot repair after launch into an analysis plan on the ticket:
+          the randomisation unit and whether units interfere, the MDE sized from the prior store
+          rather than from a wish, exposure logging rather than eligibility, and a decision rule
+          written before traffic starts.</p>
         </div>
         <div>
           <span class="keyto">before you believe it</span>
-          <ul class="opts">
-            <li>sample ratio check: did randomisation actually hold?</li>
-            <li>exposure counts: did the variant reach anyone at all?</li>
-            <li>sequential or always-valid, so the day-three peek was licensed</li>
-            <li>guardrails read before the primary metric</li>
-            <li>the segment you pre-registered, not the eleven on offer</li>
-            <li>CUPED against the pre-period, before you ask for more traffic</li>
-            <li>the estimate shrunk toward the prior, because raw winners are inflated</li>
-          </ul>
+          <p class="cap"><a href="../skills/reading-experiments/"><b>reading-experiments</b></a>
+          runs the trust gate before the number: sample ratio, exposure, the sequential licence for
+          the day-three peek, guardrails ahead of the primary metric, the segment you registered
+          rather than the eleven on offer, CUPED against the pre-period, and the estimate shrunk
+          toward what this metric actually does.</p>
         </div>
       </div>
       <div class="warn">
