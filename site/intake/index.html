@@ -127,6 +127,18 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .dg .pk{fill:var(--ink)}
 .dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+/* The big diagram opens fitted to the viewport so the whole shape is on one
+   screen; at 1440x900 it overshot by 281px. Fitted, the labels run about 0.74
+   scale, so the bar carries a control that returns it to actual size. Below
+   961px the figure scrolls sideways at full size instead, as before. */
+.fitctl{border:0;background:none;padding:0;cursor:pointer;color:var(--dim);
+        font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+        text-transform:uppercase}
+.fitctl:hover{color:var(--fg)}
+@media (max-width:960px){.fitctl{display:none}}
+@media (min-width:961px){
+  figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
 </style>
 <a class="skip" href="#main">Skip to content</a>
 <nav class="band cells nav" aria-label="Site">
@@ -159,9 +171,9 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 </section>
 
 <section class="win">
-  <div class="bar"><span class="close"></span><h2>algorithm</h2></div>
+  <div class="bar"><span class="close"></span><h2>algorithm</h2><span class="grow"></span><button type="button" class="fitctl" aria-controls="algorithm-figure">actual size</button></div>
   <div class="body">
-    <figure class="dg"><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
+    <figure class="dg fit" id="algorithm-figure"><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
   <defs>
     <marker id="ah" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
       markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
@@ -339,6 +351,16 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 </footer>
 
 <script>
+  (function () {
+    document.querySelectorAll(".fitctl").forEach(function (b) {
+      var fig = document.getElementById(b.getAttribute("aria-controls"));
+      if (!fig) return;
+      b.addEventListener("click", function () {
+        var fit = fig.classList.toggle("fit");
+        b.textContent = fit ? "actual size" : "fit to screen";
+      });
+    });
+  })();
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;

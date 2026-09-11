@@ -131,6 +131,18 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 .callouts .prod b{font-weight:700;color:var(--fg)}
 @media (max-width:860px){.callouts{grid-template-columns:1fr}.callouts li{border-right:0}}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+/* The big diagram opens fitted to the viewport so the whole shape is on one
+   screen; at 1440x900 it overshot by 281px. Fitted, the labels run about 0.74
+   scale, so the bar carries a control that returns it to actual size. Below
+   961px the figure scrolls sideways at full size instead, as before. */
+.fitctl{border:0;background:none;padding:0;cursor:pointer;color:var(--dim);
+        font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+        text-transform:uppercase}
+.fitctl:hover{color:var(--fg)}
+@media (max-width:960px){.fitctl{display:none}}
+@media (min-width:961px){
+  figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
 </style>
 <a class="skip" href="#main">Skip to content</a>
 <nav class="band cells nav" aria-label="Site">
@@ -165,9 +177,9 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 <nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
 
 <section class="win" id="the-map">
-  <div class="bar"><span class="close"></span><h2>1 · the map</h2></div>
+  <div class="bar"><span class="close"></span><h2>1 · the map</h2><span class="grow"></span><button type="button" class="fitctl" aria-controls="map-figure">actual size</button></div>
   <div class="body">
-    <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
+    <figure class="dg fit" id="map-figure"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
   <defs>
     <marker id="m" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
       markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
@@ -432,6 +444,16 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 </footer>
 
 <script>
+  (function () {
+    document.querySelectorAll(".fitctl").forEach(function (b) {
+      var fig = document.getElementById(b.getAttribute("aria-controls"));
+      if (!fig) return;
+      b.addEventListener("click", function () {
+        var fit = fig.classList.toggle("fit");
+        b.textContent = fit ? "actual size" : "fit to screen";
+      });
+    });
+  })();
   (function () {
     var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
     if (!btn) return;
