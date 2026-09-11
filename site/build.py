@@ -152,11 +152,21 @@ def anchor_headings(doc):
 
 
 def short(label, limit=34):
-    """The strip shows the heading's head: before a colon, or the last comma that fits."""
-    head = label.split(":")[0].strip()
-    if len(head) > limit and "," in head[:limit]:
-        head = head[:limit].rsplit(",", 1)[0].strip()
-    return head
+    """The strip shows the heading's head: the number without the word Step, the
+    part before a colon, and past the limit the last comma or whole word that
+    fits, never ending on a function word. A 49-character heading used to pass
+    through whole and wrap the strip to a second sticky row."""
+    head = re.sub(r"^Step\s+", "", label.split(":")[0].strip())
+    if len(head) > limit:
+        cut = head[:limit]
+        if "," in cut:
+            cut = cut.rsplit(",", 1)[0]
+        elif head[limit] != " ":
+            cut = cut.rsplit(" ", 1)[0]
+        head = cut
+    head = re.sub(r"(\s+(the|a|an|and|or|of|to|in|on|for|with|this|that|is|are))+$",
+                  "", head, flags=re.I)
+    return head.rstrip(" ,\u00b7")
 
 
 def toc(items, minimum=4):
@@ -406,9 +416,10 @@ def build_skill_page(d, emitted):
 </div>"""
     main_html, items = anchor_headings(render(body))
     main_html = place_figures(f"skills/{name}", main_html)
-    # anchor_headings and place_figures both key off h2, so demote the document
-    # title only, after they have run. The hero above it is the page's h1.
-    main_html = re.sub(r"<h1>(.*?)</h1>", r'<h2 class="dtitle">\1</h2>', main_html, count=1)
+    # anchor_headings and place_figures both key off h2, so drop the document
+    # title only after they have run. The hero above carries position, name and
+    # description; rendered again here it was the same words at the same size.
+    main_html = re.sub(r"<h1>.*?</h1>\n?", "", main_html, count=1)
     doc = f'<div class="band"><div class="doc">\n{main_html}\n' + "\n".join(sections) + "</div></div>"
     # Cross-references between the markdown files become anchors to the
     # collapsed sections inlined above.
@@ -470,10 +481,10 @@ measures the model's impact.</p>
   .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
-  .sixlinks h2{font-family:var(--mono);font-size:15.5px;font-weight:700;margin:0;
+  .sixlinks h2{font-family:var(--mono);font-size:15px;font-weight:700;margin:0;
     text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
   .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
-  .sixlinks .pos{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+  .sixlinks .pos{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .skillgrid{grid-template-columns:repeat(4,1fr)}
   .skillgrid > *{border-bottom:1px solid var(--line)}
   .skillgrid > *:nth-child(4n){border-right:0}

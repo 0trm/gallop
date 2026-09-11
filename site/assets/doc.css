@@ -12,15 +12,12 @@
         letter-spacing:.16em;font-weight:700;margin:48px 0 16px;
         padding-top:22px;border-top:1px solid var(--line)}
 .doc h3{font-family:var(--sans);font-size:15px;font-weight:700;margin:26px 0 10px}
-.doc h4{font-family:var(--sans);font-size:14px;font-weight:700;margin:20px 0 8px;
-        color:var(--dim)}
-/* The document title. Every markdown document opens on an h1; build.py demotes
-   it so the page keeps one h1, and this keeps the rank's look. */
-.doc h2.dtitle{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;
-        margin:0 0 18px;text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
+.doc h4{font-family:var(--sans);text-transform:uppercase;font-size:11px;
+        letter-spacing:.14em;font-weight:600;margin:22px 0 8px;color:var(--dim)}
 /* running prose is Archivo: these are thousand-word documents, and mono is the
    slowest face to read them in. Tables, code and the terminal stay mono. */
-.doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body)}
+.doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
+                max-width:80ch}   /* figures, code and tables keep the full column */
 .doc li{margin:6px 0}
 .doc strong{color:var(--fg)}
 .doc a{text-decoration:underline;text-underline-offset:2px}
@@ -47,6 +44,9 @@
 .doc .scrollx:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 
 .doc hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+/* gallop.css leaves the caption's face to inherit, which is mono; under Archivo
+   prose it read as a code block */
+.doc .fig figcaption{font-family:var(--sans);font-size:14px}
 
 /* collapsed reference documents on a skill page */
 .doc details.refdoc{border:1px solid var(--line-2);margin:14px 0}
