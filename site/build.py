@@ -136,7 +136,7 @@ def slug(text):
 
 
 def anchor_headings(doc):
-    """Give every h2 an id and return (doc, [(id, text)]) for the contents strip."""
+    """Give every h2 an id and return (doc, [(id, text)]) for the contents."""
     seen, items = {}, []
 
     def sub(m):
@@ -151,11 +151,11 @@ def anchor_headings(doc):
     return re.sub(r"<h2>(.*?)</h2>", sub, doc), items
 
 
-def short(label, limit=34):
-    """The strip shows the heading's head: the number without the word Step, the
-    part before a colon, and past the limit the last comma or whole word that
-    fits, never ending on a function word. A 49-character heading used to pass
-    through whole and wrap the strip to a second sticky row."""
+def short(label, limit=52):
+    """The contents show the heading's head: the number without the word Step,
+    the part before a colon, and past the limit the last comma or whole word
+    that fits, never ending on a function word. The limit is the width of the
+    rail, not of one strip row, so today every heading survives whole."""
     head = re.sub(r"^Step\s+", "", label.split(":")[0].strip())
     if len(head) > limit:
         cut = head[:limit]
@@ -169,11 +169,17 @@ def short(label, limit=34):
     return head.rstrip(" ,\u00b7")
 
 
-def toc(items, minimum=4):
+def rail(items, minimum=2):
+    """The contents as the column beside the document rather than a strip over
+    it. The strip had one row to spend, so it cut every heading to 34
+    characters and the ten-section pages wrapped to a second row anyway. The
+    column spells them out, holds the right third of the page that the
+    document was leaving empty, and marks the section being read."""
     if len(items) < minimum:
         return ""
     links = "".join(f'<a href="#{i}">{short(t)}</a>' for i, t in items)
-    return f'<nav class="toc" aria-label="Contents"><span class="lab">Contents</span>{links}</nav>\n'
+    return ('<nav class="rail" aria-label="Contents"><div class="railin">'
+            f'<p class="lab">Contents</p>{links}</div></nav>')
 
 
 def figure(name, caption, cls=""):
@@ -228,9 +234,9 @@ def footer(root):
 </footer>"""
 
 
-def page(*, title, description, body, root, url="", active=None, extra_style="",
-         contents=""):
-    """The shared chrome: skip link, nav band, contents strip, foot band, theme switch."""
+def page(*, title, description, body, root, url="", active=None, extra_style=""):
+    """The shared chrome: skip link, nav band, foot band, theme switch. The
+    contents belong to the document, so they are built into the body."""
     nav_items = [
         ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
         ("theory/", "Theory"), ("install/", "Install"), ("about/", "About"),
@@ -288,7 +294,6 @@ def page(*, title, description, body, root, url="", active=None, extra_style="",
     </span>
   </span>
 </nav>
-{contents}
 <main id="main">
 {body}
 </main>
@@ -318,6 +323,46 @@ def page(*, title, description, body, root, url="", active=None, extra_style="",
     nav.addEventListener("keydown", function (e) {{
       if (e.key === "Escape" && nav.classList.contains("open")) {{ set(false); btn.focus(); }}
     }});
+  }})();
+  (function () {{
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {{
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {{
+        el.open = true;
+        el.scrollIntoView();
+      }}
+    }}
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  }})();
+  (function () {{
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {{
+      return document.getElementById(a.getAttribute("href").slice(1));
+    }});
+    var queued = false;
+    function mark() {{
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {{
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }}
+      links.forEach(function (a, k) {{
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      }});
+    }}
+    addEventListener("scroll", function () {{
+      if (!queued) {{ queued = true; requestAnimationFrame(mark); }}
+    }}, {{passive: true}});
+    mark();
   }})();
   (function () {{
     var root = document.documentElement;
@@ -420,13 +465,14 @@ def build_skill_page(d, emitted):
     # title only after they have run. The hero above carries position, name and
     # description; rendered again here it was the same words at the same size.
     main_html = re.sub(r"<h1>.*?</h1>\n?", "", main_html, count=1)
-    doc = f'<div class="band"><div class="doc">\n{main_html}\n' + "\n".join(sections) + "</div></div>"
+    doc = (f'<div class="band docgrid">{rail(items)}<div class="doc">\n{main_html}\n'
+           + "\n".join(sections) + "</div></div>")
     # Cross-references between the markdown files become anchors to the
     # collapsed sections inlined above.
     doc = re.sub(r'href="(?:reference/|templates/)?([\w-]+)\.md"', r'href="#ref-\1"', doc)
     out = page(title=f"{name} · gallop", description=decides, root="../../",
                url=f"skills/{name}/", active="skills/",
-               body=header + "\n" + doc, contents=toc(items))
+               body=header + "\n" + doc)
     write(SITE / "skills" / name / "index.html", out, emitted)
 
 
@@ -501,15 +547,36 @@ measures the model's impact.</p>
 # %% ---------------------------------------------------------- content pages
 
 
-def build_content_page(stem, title, description, emitted):
+def build_content_page(stem, title, label, description, emitted):
     src = CONTENT / f"{stem}.md"
     if not src.exists():
         sys.exit(f"build: missing {src}")
     inner, items = anchor_headings(render(src.read_text()))
     inner = place_figures(stem, inner)
-    body = f'<div class="band"><div class="doc">\n{inner}\n</div></div>'
+    # The title and the opening paragraph become a header band, so a content
+    # page opens the way a skill page does: a label, the name, one description,
+    # then the document. Lifted after the figures are placed, which key off the
+    # headings and the paragraphs around them.
+    h1 = re.search(r"<h1>(.*?)</h1>\n?", inner, re.S)
+    lede = re.search(r"<p>(.*?)</p>\n?", inner, re.S)
+    if not h1 or not lede:
+        sys.exit(f"build: {src.name} needs a title and an opening paragraph")
+    inner = inner.replace(h1.group(0), "", 1).replace(lede.group(0), "", 1)
+    header = f"""<div class="band">
+  <div class="secthead">
+    <p class="lab">{label}</p>
+  </div>
+  <div class="cells pagehead">
+    <div>
+      <h1 class="d" style="font-size:34px">{h1.group(1)}</h1>
+      <p class="skdesc">{lede.group(1)}</p>
+    </div>
+  </div>
+</div>"""
+    body = (f'{header}\n<div class="band docgrid">{rail(items)}'
+            f'<div class="doc">\n{inner.lstrip()}\n</div></div>')
     out = page(title=f"{title} · gallop", description=description, root="../",
-               url=f"{stem}/", active=f"{stem}/", body=body, contents=toc(items))
+               url=f"{stem}/", active=f"{stem}/", body=body)
     write(SITE / stem / "index.html", out, emitted)
 
 
@@ -561,12 +628,12 @@ def main(argv=None):
     for d in dirs:
         build_skill_page(d, emitted)
     build_skills_index(dirs, emitted)
-    build_content_page("theory", "The theory layer",
+    build_content_page("theory", "The theory layer", "The ceiling",
                        "The prior store and the knowledge repo: the only object that compounds.", emitted)
-    build_content_page("about", "About",
+    build_content_page("about", "About", "The project",
                        "Why the routing and the rigour live in one place, and who it is for.",
                        emitted)
-    build_content_page("install", "Install",
+    build_content_page("install", "Install", "Setup",
                        "Claude Code plugin, manual copy, or pip.", emitted)
     readme_path, readme_new = build_readme(dirs)
 

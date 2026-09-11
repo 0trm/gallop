@@ -3,11 +3,36 @@
    two faces, no new colour. gallop.css is the base; this styles the
    markdown that build.py renders into .doc. */
 
-/* the body sits on the site's left edge like the map and the intake, not in a
-   centred column; prose stops at 80ch and everything wider stops at 880px */
+/* The document and its contents are one grid, continuing the hairline the
+   skill header draws at two thirds. The document was a 710px column of prose
+   on the left edge of a 1440px band, under rules that ran the full 1348: three
+   right edges and an empty right third. Now the column stops at the hairline,
+   the rules and the tables stop with it, and the contents hold the third.
+   Prose keeps its own measure inside the column; figures and code, which are
+   drawn at a size, stop at 880 wherever they sit. */
+.docgrid{display:grid;grid-template-columns:2fr 1fr}
+.docgrid > .doc{grid-area:1/1;border-right:1px solid var(--line);min-width:0}
+.docgrid > .rail{grid-area:1/2;min-width:0}
 .doc{padding:40px var(--gutter) 56px}
-.doc .fig, .doc pre, .doc .scrollx, .doc details.refdoc{max-width:880px}
+.doc .fig, .doc pre{max-width:880px}
 .doc > :first-child{margin-top:0}
+/* a document that opens on a heading would show the band's edge and the
+   heading's own rule 40px apart */
+.doc > h2:first-child{border-top:0;padding-top:0}
+
+/* The contents column. It is sticky, it spells the headings out, and it marks
+   the section being read with 2px of its left border, so a marked label and an
+   unmarked one keep the same left edge. That edge is the gutter, measured from
+   the hairline, which puts the contents under the header cell above them. */
+.rail{font-family:var(--sans)}
+.rail .railin{position:sticky;top:0;max-height:100vh;overflow-y:auto;
+              overscroll-behavior:contain;
+              padding:38px var(--gutter) 34px calc(var(--gutter) - 16px)}
+.rail .lab{margin:0 0 12px;padding-left:16px;color:var(--dim)}
+.rail a{display:block;padding:7px 0 7px 14px;border-left:2px solid transparent;
+        font-size:14px;line-height:1.4;color:var(--dim)}
+.rail a:hover{color:var(--fg);text-decoration:none}
+.rail a[aria-current="true"]{color:var(--fg);font-weight:600;border-left-color:var(--fg)}
 
 .doc h1{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;
         margin:0 0 18px}
@@ -70,10 +95,10 @@
 .doc details.refdoc h4{font-family:var(--sans);font-size:15px;font-weight:700;
         color:var(--fg);margin-block:22px 8px}
 
-/* the skill page header cells: the hero body shares the document's edge */
-.skillhead > *{padding:26px var(--gutter) 30px}
-.skillhead .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
-                   max-width:60ch;margin:14px 0 0}
+/* the page header cells: the hero body shares the document's edge */
+.skillhead > *, .pagehead > *{padding:26px var(--gutter) 30px}
+.skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
+        max-width:60ch;margin:14px 0 0}
 /* the install snippet is the primary action: filled, mono, a copy control */
 .snip{border:1px solid var(--line-2);background:var(--bg);color:var(--fg);margin:0 0 10px}
 .snip .bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;
@@ -93,4 +118,18 @@
   .skillhead{grid-template-columns:1fr!important}
   .skillhead > *{border-right:0;border-bottom:1px solid var(--line)}
   .skillhead > *:last-child{border-bottom:0}
+  /* no room for a column beside the document, so the contents lie back down
+     into the strip they replaced: one sticky row that scrolls sideways, where
+     a long heading costs width instead of a second row */
+  .docgrid{grid-template-columns:1fr}
+  .docgrid > .doc{grid-area:2/1;border-right:0}
+  .docgrid > .rail{grid-area:1/1;border-bottom:1px solid var(--line)}
+  .rail .railin{display:flex;flex-wrap:nowrap;overflow-x:auto;max-height:none;
+                -webkit-overflow-scrolling:touch;background:var(--surface);
+                padding:0 var(--gutter)}
+  .rail .lab{display:flex;align-items:center;flex:none;margin:0;padding:10px 20px 10px 0}
+  .rail a{flex:none;white-space:nowrap;padding:11px 16px;font-size:11px;
+          border-left:1px solid var(--line);text-transform:uppercase;
+          letter-spacing:.14em;font-weight:600}
+  .rail a[aria-current="true"]{border-left-color:var(--line);background:var(--wash)}
 }

@@ -51,8 +51,6 @@
     </span>
   </span>
 </nav>
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-provisional-exit">The provisional exit</a><a href="#the-exit-s-backlog">The exit's backlog</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></nav>
-
 <main id="main">
 <div class="band">
   <div class="secthead">
@@ -73,7 +71,7 @@
     </div>
   </div>
 </div>
-<div class="band"><div class="doc">
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#when-two-numbers-disagree">When two numbers disagree</a><a href="#writing-the-definition">Writing the definition</a><a href="#the-proxy-bridge">The proxy bridge</a><a href="#how-it-will-be-gamed">How it will be gamed</a><a href="#the-promotion-gate">The promotion gate</a><a href="#the-provisional-exit">The provisional exit</a><a href="#the-exit-s-backlog">The exit's backlog</a><a href="#the-registry-entry">The registry entry</a><a href="#maintenance">Maintenance</a><a href="#hand-back">Hand-back</a></div></nav><div class="doc">
 <p>The floor. Not a stage: everything above it inherits its errors, and a wrong
 definition does not raise an error, it just returns the wrong number. This skill
 produces four artifacts for one metric: a computation, a source of truth, a
@@ -516,6 +514,46 @@ review in a pull request is a registry that goes stale.</li>
     nav.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
     });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
   })();
   (function () {
     var root = document.documentElement;

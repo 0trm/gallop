@@ -51,8 +51,6 @@
     </span>
   </span>
 </nav>
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#1-the-readout">1 · The readout</a><a href="#2-the-belief">2 · The belief</a><a href="#3-the-knowledge-repo-entry">3 · The knowledge-repo entry</a><a href="#4-the-prior-store-record">4 · The prior-store record</a><a href="#done-defined">Done, defined</a></nav>
-
 <main id="main">
 <div class="band">
   <div class="secthead">
@@ -73,7 +71,7 @@
     </div>
   </div>
 </div>
-<div class="band"><div class="doc">
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#1-the-readout">1 · The readout</a><a href="#2-the-belief">2 · The belief</a><a href="#3-the-knowledge-repo-entry">3 · The knowledge-repo entry</a><a href="#4-the-prior-store-record">4 · The prior-store record</a><a href="#done-defined">Done, defined</a></div></nav><div class="doc">
 <p>The ceiling. A readout answers one question and dies with the ticket; a
 belief is what the next three questions start from. This skill produces
 three artifacts, and the ticket does not close until all three exist: the
@@ -325,6 +323,46 @@ under · the event that expires it.&gt;</p>
     nav.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
     });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
   })();
   (function () {
     var root = document.documentElement;

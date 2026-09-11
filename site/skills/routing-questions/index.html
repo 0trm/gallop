@@ -51,8 +51,6 @@
     </span>
   </span>
 </nav>
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#step-0-the-lookup">0 · The lookup</a><a href="#step-0-5-the-kill-rule">0.5 · The kill rule</a><a href="#step-1-the-gate-do-i-trust-the-metric">1 · The gate</a><a href="#step-2-description-or-a-change">2 · Description, or a change?</a><a href="#step-3-decided-once-or-continuously">3 · Decided once, or continuously?</a><a href="#step-4-who-assigned-the-treatment">4 · Who assigned the treatment?</a><a href="#after-the-answer">After the answer</a><a href="#the-intake-record">The intake record</a><a href="#worked-routings">Worked routings</a><a href="#two-rules-that-close-the-pass">Two rules that close the pass</a></nav>
-
 <main id="main">
 <div class="band">
   <div class="secthead">
@@ -73,7 +71,7 @@
     </div>
   </div>
 </div>
-<div class="band"><div class="doc">
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#step-0-the-lookup">0 · The lookup</a><a href="#step-0-5-the-kill-rule">0.5 · The kill rule</a><a href="#step-1-the-gate-do-i-trust-the-metric">1 · The gate</a><a href="#step-2-description-or-a-change">2 · Description, or a change?</a><a href="#step-3-decided-once-or-continuously">3 · Decided once, or continuously?</a><a href="#step-4-who-assigned-the-treatment">4 · Who assigned the treatment?</a><a href="#after-the-answer">After the answer</a><a href="#the-intake-record">The intake record</a><a href="#worked-routings">Worked routings</a><a href="#two-rules-that-close-the-pass">Two rules that close the pass</a></div></nav><div class="doc">
 <p>One lookup, three questions, one gate, run before any query is written. The
 output is a routing decision and a filled intake record, never a number. Many
 questions leave without an analysis, and that is the point: they exit at the
@@ -301,6 +299,46 @@ answers that were never going to be true.</p>
     nav.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
     });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
   })();
   (function () {
     var root = document.documentElement;

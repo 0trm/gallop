@@ -51,16 +51,24 @@
     </span>
   </span>
 </nav>
-
 <main id="main">
-<div class="band"><div class="doc">
-<h1>The theory layer</h1>
-<p>The band across the top of <a href="../map/">the map</a>, drawn as a band because every
+<div class="band">
+  <div class="secthead">
+    <p class="lab">The ceiling</p>
+  </div>
+  <div class="cells pagehead">
+    <div>
+      <h1 class="d" style="font-size:34px">The theory layer</h1>
+      <p class="skdesc">The band across the top of <a href="../map/">the map</a>, drawn as a band because every
 box touches it. It is not a stage and it is not a method: it is where the map
 keeps what it learned, and it is the only object in the whole system that
 gets more valuable the longer a team runs it. Everything else on the map
 answers a question and stops. The ceiling is where the answers accumulate
 into something the next question can stand on.</p>
+    </div>
+  </div>
+</div>
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#the-knowledge-repo">The knowledge repo</a><a href="#the-prior-store">The prior store</a><a href="#why-this-is-the-part-worth-keeping">Why this is the part worth keeping</a></div></nav><div class="doc">
 <p>It has two halves, and they are different kinds of object.</p>
 <h2 id="the-knowledge-repo">The knowledge repo</h2>
 <p>Prose. One searchable entry per question, holding the design, the number,
@@ -213,6 +221,46 @@ cheaper than the first.</p>
     nav.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
     });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
   })();
   (function () {
     var root = document.documentElement;
