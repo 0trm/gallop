@@ -36,15 +36,22 @@
 .body{padding:32px var(--gutter) 40px}
 .desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
 
-.label{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
-h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
-h4{font-size:16px;font-weight:700;margin:0 0 5px}
+h3{font-size:19px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
+h4{font-size:15px;font-weight:700;margin:0 0 6px}
 p{margin:0}
-.lead{font-size:17px;line-height:1.5;max-width:72ch}
-.cap{font-size:13px;line-height:1.45}
-.prose{display:flex;flex-direction:column;gap:16px}
-.mark{background:var(--vellum);padding:0 3px}
+.lead{font-size:16px;line-height:1.6;max-width:78ch;color:var(--body)}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:84ch;color:var(--body)}
+.prose b,.brk li b{color:var(--fg)}
+/* the paragraph that opens a section, before the first module */
+p.intro{font-size:15px;line-height:1.6;max-width:84ch;margin:0 0 24px;color:var(--body)}
+/* A module label opens a block sitting on the section ground: a hairline
+   above it and the same uppercase label the bands and the foot use, so a
+   section reads as parts rather than one column of text. Cards and notes
+   carry their own border and do not take one. */
+.modlab{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--dim);border-top:1px solid var(--line);
+        margin:34px 0 18px;padding-top:20px}
 
 footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
 
@@ -81,35 +88,37 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 }
 
 @page{ size: A4; margin: 12mm; }
-.hero{display:grid;grid-template-columns:minmax(300px,.85fr) 1.15fr;gap:44px;align-items:end}
+.hero{display:grid;grid-template-columns:minmax(300px,.8fr) 1.2fr;gap:44px;align-items:baseline}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:30px}
 .card{border:var(--hair);padding:20px 22px 21px}
-.card h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 7px}
-.card p{font-size:14px;line-height:1.5}
+.card h4{font-size:15px;font-weight:700;margin:0 0 8px}
+.card p{font-size:14px;line-height:1.6;color:var(--body)}
 .card .prod{margin-top:14px;padding-top:12px;border-top:1px solid var(--pasture-shade)}
-.card .prod span{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-                 display:block;opacity:.6;margin-bottom:2px}
-.card .prod b{font-size:13.5px;font-weight:600}
-.sec{display:flex;align-items:baseline;gap:14px;margin:0 0 22px}
-.sec .n{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.14em;
-        background:var(--ink);color:var(--paper);padding:3px 7px}
-.sec h3{margin:0}
+.card .prod span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+                 text-transform:uppercase;display:block;color:var(--dim);margin-bottom:3px}
+.card .prod b{font-size:14px;font-weight:700}
+.sec{margin:0 0 16px}
 .note{border:var(--hair);background:var(--surface);padding:22px 24px;margin-top:30px}
-.note h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 6px}
-.note p{font-size:14.5px;line-height:1.5}
-.brk{margin:22px 0 0;padding:0;list-style:none;display:flex;flex-direction:column}
+.note h4{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+         text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+.note p{font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
+.note p b{color:var(--fg)}
+.brk{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
 .brk li{display:flex;gap:18px;padding:15px 0;border-top:1px solid var(--pasture-shade);
-        font-size:14.5px;line-height:1.5}
+        font-size:14px;line-height:1.6;color:var(--body)}
 .brk li b{flex:0 0 152px;font-weight:700}
+.brk li span{max-width:84ch}
 .scrollx{overflow-x:auto}
-.route{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
-.route th{text-align:left;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-          padding:0 18px 11px 0;border-bottom:var(--hair);vertical-align:bottom}
-.route td{padding:15px 18px 15px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.45}
+.route{width:100%;border-collapse:collapse;font-size:14px;margin-top:0;color:var(--body)}
+.route th{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+          text-transform:uppercase;color:var(--dim);padding:0 18px 12px 0;border-bottom:var(--hair);
+          vertical-align:bottom}
+.route td{padding:15px 18px 15px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.6}
 .route td:first-child{width:31%}
-.route td:nth-child(2){width:20%;font-family:var(--f-chrome);font-size:12.5px;letter-spacing:.02em}
+.route td:nth-child(2){width:20%;font-weight:700;color:var(--fg)}
 .route tr:last-child td{border-bottom:none}
 .q{font-style:italic}
+.prose a,p.intro a{text-decoration:underline;text-underline-offset:3px}
 @media (max-width:860px){ .hero{grid-template-columns:1fr} .two{grid-template-columns:1fr}
   .brk li{flex-direction:column;gap:3px} .brk li b{flex:none} }
 
@@ -133,11 +142,12 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 .callouts .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);
              font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
              align-items:center;justify-content:center;margin-top:-2px}
-.callouts h4{font-family:var(--f-chrome);font-size:14px;font-weight:400;letter-spacing:.03em;margin:0 0 5px}
-.callouts p{font-size:14px;line-height:1.5;margin:0}
-.callouts .prod{margin-top:7px}
-.callouts .prod span{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-right:8px}
-.callouts .prod b{font-weight:600}
+.callouts h4{font-size:15px;font-weight:700;margin:0 0 6px}
+.callouts p{font-size:14px;line-height:1.6;margin:0;max-width:84ch;color:var(--body)}
+.callouts .prod{margin-top:9px}
+.callouts .prod span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+                     text-transform:uppercase;color:var(--dim);margin-right:8px}
+.callouts .prod b{font-weight:700;color:var(--fg)}
 @media (max-width:860px){.callouts{grid-template-columns:1fr}.callouts li{border-right:0}}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
@@ -171,10 +181,10 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
 </section>
 
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#what-is-on-the-page">On the page</a><a href="#order">Order</a><a href="#the-service-layer">Service layer</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#order">Order</a><a href="#the-service-layer">Service layer</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
 
 <section class="win" id="the-map">
-  <div class="bar"><span class="close"></span><h2>the map</h2></div>
+  <div class="bar"><span class="close"></span><h2>1 · the map</h2></div>
   <div class="body">
     <figure class="dg"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
   <defs>
@@ -286,17 +296,17 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
 </section>
 
-<section class="win" id="what-is-on-the-page">
-  <div class="bar"><span class="close"></span><h2>what is on the page</h2></div>
+<section class="win" id="legend">
+  <div class="bar"><span class="close"></span><h2>2 · the legend</h2></div>
   <div class="body">
-    <div class="sec"><span class="n">1</span><h3>What the map is made of</h3></div>
-    <p class="prose" style="margin-bottom:22px">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
+    <h3 class="sec">The eight objects, and what each one produces</h3>
+    <p class="intro">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
     <ol class="callouts">
       <li><span class="n">1</span><div><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><p class="prod"><span>produces</span><b>A hypothesis worth testing.</b></p></div></li>
       <li><span class="n">2</span><div><h4>Can you randomise?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
       <li><span class="n">3</span><div><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
       <li><span class="n">4</span><div><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD, matching, IV, ITS.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
-      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Forecasts, rankings, allocations, and the estimators the causal designs run on. Sits below the main path, not on it: two outgoing arrows, no incoming one from the question path.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
+      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Forecasts, rankings, allocations, and the estimators the causal designs run on: below the main path, not on it.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
       <li><span class="n">6</span><div><h4>Decision</h4><p>Ship, kill, reallocate. An ellipse because it is a terminal state, not another activity.</p><p class="prod"><span>produces</span><b>A change to the product, and new data.</b></p></div></li>
       <li><span class="n">7</span><div><h4>Theory layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer a team runs it.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
       <li><span class="n">8</span><div><h4>Measurement framework</h4><p>The band underneath everything: north-star and core metrics, event instrumentation, the source of truth, the definition of success.</p><p class="prod"><span>produces</span><b>A number the rest of the map can stand on.</b></p></div></li>
@@ -305,17 +315,18 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 </section>
 
 <section class="win" id="order">
-  <div class="bar"><span class="close"></span><h2>order</h2></div>
+  <div class="bar"><span class="close"></span><h2>3 · order</h2></div>
   <div class="body">
-    <div class="sec"><span class="n">2</span><h3>Why the stages sit in this order</h3></div>
+    <h3 class="sec">Why the stages sit in this order</h3>
+    <p class="intro">Think of a doctor. Symptoms come first, then a diagnosis, then a trial of treatment, then a verdict on whether to keep prescribing it. You cannot skip to the trial without a symptom to explain, and you cannot judge the treatment without having measured the patient the same way before and after. The map is that sequence, and each stage answers exactly one question.</p>
+    <h4 class="modlab">Each stage answers one question</h4>
     <div class="prose">
-      <p>Think of a doctor. Symptoms come first, then a diagnosis, then a trial of treatment, then a verdict on whether to keep prescribing it. You cannot skip to the trial without a symptom to explain, and you cannot judge the treatment without having measured the patient the same way before and after. The map is that sequence, and each stage answers exactly one question.</p>
       <p><b>Exploratory analytics asks what is happening.</b> It is description. It tells you that checkout completion fell nine points for mobile users in Germany. It cannot tell you why, and it is not supposed to. Its output is a hypothesis, which is a guess with a shape: if we change X, metric Y moves.</p>
       <p><b>The diamond asks whether you can assign treatment.</b> This is the hinge of the entire map. Randomising means you decide who gets the change, by coin flip. That coin flip is what makes the comparison group honest, because it guarantees the two groups differ only by luck and by the treatment.</p>
       <p><b>Experimentation and causal inference both ask how big the effect is.</b> They emit the same currency, an effect size, which is why both arrows into the decision carry that identical label. One earns it by design, the other by reconstruction.</p>
       <p><b>The decision asks what we do about it.</b> Ship, kill, reallocate. This is the point of the whole map, and the reason it is an ellipse: work that ends anywhere else has not finished.</p>
     </div>
-    <h4 style="margin-top:26px">What breaks when you skip a stage</h4>
+    <h4 class="modlab">What breaks when you skip a stage</h4>
     <ul class="brk">
       <li><b>Exploratory analytics</b><span>You test guesses instead of hypotheses, and burn the scarcest resource you have, which is traffic. Sizing the opportunity first is what tells you whether a two percent lift is worth a quarter of engineering time.</span></li>
       <li><b>The diamond</b><span>The most expensive mistake available to a PDS: you compare users who chose the feature against users who did not, and you call the difference an effect. It is not. Users who adopt a feature were already different.</span></li>
@@ -328,20 +339,20 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 </section>
 
 <section class="win" id="the-service-layer">
-  <div class="bar"><span class="close"></span><h2>the service layer</h2></div>
+  <div class="bar"><span class="close"></span><h2>4 · the service layer</h2></div>
   <div class="body">
-    <div class="sec"><span class="n">3</span><h3>Where statistical modeling fits, and why it is off the path</h3></div>
-    <p class="prose" style="margin-bottom:22px">Statistical modeling has no incoming solid arrow: no question travels into it, because it is a service layer the other boxes call. Statistical modeling has no incoming solid arrow. No question ever travels into it. It is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
+    <h3 class="sec">Where statistical modeling fits, and why it is off the path</h3>
+    <p class="intro">Statistical modeling has no incoming solid arrow. No question ever travels into it, so it is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
+    <h4 class="modlab">The two arrows out</h4>
     <div class="two">
       <div class="card"><h4>1 · Supplies estimators (dashed)</h4><p>The dashed line runs up into the causal study design container. Dashed means supports. Modeling is the machinery inside a causal study, not a rival to it. Difference-in-differences is a regression. Synthetic control is a weighted model of a counterfactual. The causal design decides what comparison is valid; modeling is how the number gets computed.</p><div class="prod"><span>produces</span><b>The analysis a trial design calls for.</b></div></div>
       <div class="card"><h4>2 · Automates the decision (solid)</h4><p>The solid line runs straight to the decision ellipse, bypassing the causal box entirely. This is modeling in production: a forecast that sets inventory, an optimizer that allocates budget, an uplift model that picks who gets the offer. The decision gets made repeatedly, per user or per day, by a system rather than by a person reading a readout.</p><div class="prod"><span>produces</span><b>A decision made at volume.</b></div></div>
     </div>
-    <div class="prose" style="margin-top:22px">
-      <p><b>An analogy.</b> The causal boxes are a courtroom: the design of the trial is what makes the verdict trustworthy, and its output is a single judgment about one defendant. Statistical modeling is the forensics lab. In job one it works for the court, running the analysis that the trial design calls for. In job two it skips the court entirely and runs an automated screening system that flags cases by itself, at volume, with no trial at all.</p>
+    <h4 class="modlab">What modeling needs, gives, and cannot do</h4>
+    <div class="prose">
       <p><b>What it needs.</b> Historical data from the measurement framework, which is why an arrow from the band feeds it like every other box. Modeling needs volume and history in a way exploratory analytics does not.</p>
-      <p><b>What it gives back.</b> A fitted relationship. A prediction, an estimate with uncertainty around it, a ranking, or an allocation. Note what is missing: on its own it does not output an effect size. Effect sizes come from the causal boxes, which is where both of those labelled arrows originate.</p>
       <p><b>What the neighbours cannot do.</b> Exploratory analytics describes what already happened, one slice at a time. Modeling generalises: it fits a relationship across many variables at once and extends it to cases you have not seen, including the future. That is the thing neither a funnel nor a cohort chart can do.</p>
-      <p><b>And what it cannot do.</b> The causal boxes answer <span class="q">did this change cause that</span>. Modeling answers <span class="q">what will happen</span> and <span class="q">which option is best</span>. Those sound similar and are not. A model that predicts churn beautifully tells you nothing about whether your retention campaign reduces churn, because the model learned patterns in a world where the campaign was targeted at the people most likely to churn. Prediction rides on correlation and does not care why. Causal work exists precisely because you are about to intervene, and intervening breaks the correlations the model relied on.</p>
+      <p><b>What it gives back, and what it does not.</b> A fitted relationship: a prediction, an estimate with uncertainty around it, a ranking, or an allocation. Not an effect size. The causal boxes answer <span class="q">did this change cause that</span>; modeling answers <span class="q">what will happen</span> and <span class="q">which option is best</span>. A model that predicts churn beautifully tells you nothing about whether your retention campaign reduces churn, because it learned patterns in a world where the campaign was aimed at the people most likely to churn. Prediction rides on correlation and does not care why. Causal work exists precisely because you are about to intervene, and intervening breaks the correlations the model relied on.</p>
     </div>
     <div class="note">
       <h4>When statistical modeling is the wrong tool</h4>
@@ -354,10 +365,10 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 </section>
 
 <section class="win" id="inside-the-box">
-  <div class="bar"><span class="close"></span><h2>inside the box</h2></div>
+  <div class="bar"><span class="close"></span><h2>5 · inside the box</h2></div>
   <div class="body">
-    <div class="sec"><span class="n">4</span><h3>What is inside the experimentation box</h3></div>
-    <p class="prose" style="margin-bottom:22px">The map draws experimentation as one rectangle, which is honest at two tests a quarter and misleading at two hundred. The rectangle contains six steps, and five of them have a way of handing back a wrong number without the readout looking any different. An experimentation platform is the thing that makes those five steps configuration instead of craft, and the reason mature teams describe themselves as running a learning system rather than running tests.</p>
+    <h3 class="sec">What is inside the experimentation box</h3>
+    <p class="intro">The map draws experimentation as one rectangle, which is honest at two tests a quarter and misleading at two hundred. The rectangle contains six steps, and five of them have a way of handing back a wrong number without the readout looking any different. An experimentation platform is the thing that makes those five steps configuration instead of craft, and the reason mature teams describe themselves as running a learning system rather than running tests.</p>
 
     <figure class="dg"><svg viewBox="0 0 1200 342" role="img" aria-label="The experiment lifecycle: idea, design, assignment, logging, analysis, decision, running left to right. A theory layer band across the top supplies priors to design and shrinkage to analysis, and is written back to by the decision. A dashed container marks design through analysis as the part a platform automates.">
   <defs>
@@ -421,42 +432,27 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
       <figcaption>The chain runs left to right. The theory layer feeds it twice and is written by it once, which is the whole difference between a team that runs tests and a team that accumulates. The dashed container marks what a mature platform does for you: sizing, assignment, logging and analysis are configuration rather than judgment, and the two steps outside it are the two nobody can automate.</figcaption>
     </figure>
 
-    <h4 style="margin-top:28px">Where each step breaks</h4>
-    <ul class="brk">
-      <li><b>Idea</b><span>&#8220;Let us test blue&#8221; is not a hypothesis. Problem, mechanism, metric, prior: if you cannot write the mechanism, there is nothing for the test to confirm or falsify, and whatever comes back you will explain after the fact. No mechanism, no test, is a cheap rule that removes most of the bad ones.</span></li>
-      <li><b>Design</b><span>The prior store says what this metric has actually done across the last hundred tests, so the MDE stops being a wish. Effects are small and most ideas do nothing: seventy to ninety percent of experiments are killed or neutral everywhere it has been measured, which means the honest prior mean is roughly zero. A test powered for a lift nobody at this company has ever produced was decided before it launched.</span></li>
-      <li><b>Assignment</b><span>Flags, a randomisation service, layers so concurrent tests do not interact, and holdouts. Then the case a bigger sample cannot fix: when treating one user changes another user&#8217;s experience, through shared supply, a feed, or an inventory both sides draw from, your control group is treated through the back door. That is switchback or cluster randomisation, decided at design time or not at all.</span></li>
-      <li><b>Logging</b><span>Exposure, not eligibility. If the log records who was bucketed rather than who actually saw the variant, the estimate is diluted toward zero and nothing downstream flags it, because the test looks exactly like a test that ran. This is the most common bug in the chain and the one that survives longest.</span></li>
-      <li><b>Analysis</b><span>CUPED against pre-period covariates cuts the sample you need, often by half. The SRM check asks whether randomisation actually held. Sequential or always-valid p-values make daily peeking a licensed thing to do rather than a violation, which matters because the platform will show the PM a curve on day three whatever you agreed. ATE says whether it worked, CATE says who it worked for, and empirical Bayes shrinkage pulls the estimate back toward what this metric usually does, which is the correction for the winner&#8217;s curse.</span></li>
-      <li><b>Decision</b><span>Ship, kill, or roll back, then write it up either way. A rollback triggered by a guardrail is the platform working, not a failure. The only real failure is a finished test whose result goes nowhere, because that is the loop staying open.</span></li>
-    </ul>
-
-    <div class="note">
-      <h4>What an experimentation platform actually is</h4>
-      <p>Assignment, plus logging, plus a causal engine, plus memory. Most companies build the first two, call the result a platform, and cannot work out why the wins never add up to anything. The engine is where the sample gets halved and the false positives get caught. The memory is where the next test gets sized and the last one stops being repeated. On a mature team you file an experiment the way you file a pull request: the metric comes from a registry rather than a text box, the system fills in the detectable effect from the prior distribution for that metric, guardrails attach themselves, and randomisation, the ratio check, variance reduction and the sequential test are defaults you would have to work to switch off. Nothing reaches every user without a link back to the experiment that justified it.</p>
-    </div>
-
-    <div class="note">
-      <h4>Measure learning, not wins</h4>
-      <p>Win rates are low everywhere and a team judged on them will stop proposing anything that could fail. Spotify has published its own numbers against exactly that incentive: roughly one experiment in eight wins, while around two thirds teach the team enough to make a decision, and the four in ten stopped by a guardrail count as the system doing its job. The metric that survives is whether the experiment produced a decision, not whether it produced a lift, and it is the only version of the count that rewards testing the risky idea.</p>
+    <h4 class="modlab">Where each step breaks</h4>
+    <div class="prose">
+      <p>Each of the six steps has its own way of handing back a wrong number, and the corrections are the
+      skills, not the map. <a href="../skills/designing-experiments/"><b>designing-experiments</b></a> covers
+      the four choices that cannot be repaired after launch, with the MDE taken from the prior store.
+      <a href="../skills/reading-experiments/"><b>reading-experiments</b></a> covers whether the result is a
+      result: SRM, exposure, the sequential bound, CUPED, shrinkage.</p>
     </div>
   </div>
 </section>
 
 <section class="win" id="day-to-day">
-  <div class="bar"><span class="close"></span><h2>day to day</h2></div>
+  <div class="bar"><span class="close"></span><h2>6 · day to day</h2></div>
   <div class="body">
-    <div class="sec"><span class="n">5</span><h3>Using the map day to day</h3></div>
-    <p class="prose" style="margin-bottom:20px">Turn the map into three questions you ask in order, before you open a query editor, with one lookup above them and one check underneath. That bracket is the map&#8217;s own shape. It takes about a minute and it is the whole discipline.</p>
-    <ul class="brk">
-      <li><b>Before all three</b><span>Has this been answered, and what does this metric usually do? Search the theory layer before you scope anything. Three outcomes: it is settled and you hand back the entry, it is stale and you have a prior instead of a blank page, or it is genuinely new. Either way the prior store gives you the effect size this metric has historically moved by, which is what turns the MDE from a wish into a number. The lookup costs a minute and the test costs a sprint.</span></li>
-      <li><b>Description or change?</b><span>If the sentence contains <span class="q">what, where, how many, who</span>, you are in exploratory analytics. If it contains <span class="q">because, caused, lift, impact, worth it</span>, you are heading for the diamond.</span></li>
-      <li><b>Who assigned treatment?</b><span>If you can assign it, or could have, go into experimentation. If assignment already happened, by launch date, by geography, by self-selection, go into causal inference and pick the method that matches how assignment happened. This is the trap case at step 3 of the intake: the observed gap is self-selection, not effect.</span></li>
-      <li><b>Once, or continuously?</b><span>Once means you need an effect size. Continuously, per user or per day, means you are building for the statistical modeling box and the solid arrow into the decision.</span></li>
-      <li><b>And underneath all three</b><span>Do I trust the metric? If the answer is no, the measurement framework is the actual work, and everything above it is premature.</span></li>
-    </ul>
-
-    <h4 style="margin-top:28px">Worked routings</h4>
+    <h3 class="sec">Using the map day to day</h3>
+    <p class="intro">Search the theory layer before you scope anything. Either the question is settled and you
+    hand back the entry, or the prior store gives you the effect size this metric has historically moved by,
+    which is what turns the MDE from a wish into a number. The lookup costs a minute and the test costs a
+    sprint. Then route the question, and underneath all of it ask whether you trust the metric at all: if you
+    do not, the measurement framework is the actual work.</p>
+    <h4 class="modlab">Worked routings</h4>
     <div class="scrollx">
     <table class="route">
       <thead><tr><th>The question as it arrives</th><th>Routes to</th><th>Why, and what you get back</th></tr></thead>
