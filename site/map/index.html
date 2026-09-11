@@ -42,7 +42,7 @@ h4{font-size:15px;font-weight:700;margin:0 0 6px}
 p{margin:0}
 .lead{font-size:16px;line-height:1.6;max-width:78ch;color:var(--body)}
 .prose{display:flex;flex-direction:column;gap:16px;max-width:84ch;color:var(--body)}
-.prose b,.brk li b{color:var(--fg)}
+.prose b{color:var(--fg)}
 /* the paragraph that opens a section, before the first module */
 p.intro{font-size:15px;line-height:1.6;max-width:84ch;margin:0 0 24px;color:var(--body)}
 /* A module label opens a block sitting on the section ground: a hairline
@@ -83,31 +83,13 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 
 @media print{
   html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    figure.dg,.card,.note,.brk li,tr{break-inside:avoid}
+    figure.dg,.callouts li,tr{break-inside:avoid}
   h3,h4,.sec{break-after:avoid}
 }
 
 @page{ size: A4; margin: 12mm; }
 .hero{display:grid;grid-template-columns:minmax(300px,.8fr) 1.2fr;gap:44px;align-items:baseline}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:30px}
-.card{border:var(--hair);padding:20px 22px 21px}
-.card h4{font-size:15px;font-weight:700;margin:0 0 8px}
-.card p{font-size:14px;line-height:1.6;color:var(--body)}
-.card .prod{margin-top:14px;padding-top:12px;border-top:1px solid var(--pasture-shade)}
-.card .prod span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
-                 text-transform:uppercase;display:block;color:var(--dim);margin-bottom:3px}
-.card .prod b{font-size:14px;font-weight:700}
 .sec{margin:0 0 16px}
-.note{border:var(--hair);background:var(--surface);padding:22px 24px;margin-top:30px}
-.note h4{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
-         text-transform:uppercase;color:var(--dim);margin:0 0 10px}
-.note p{font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
-.note p b{color:var(--fg)}
-.brk{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
-.brk li{display:flex;gap:18px;padding:15px 0;border-top:1px solid var(--pasture-shade);
-        font-size:14px;line-height:1.6;color:var(--body)}
-.brk li b{flex:0 0 152px;font-weight:700}
-.brk li span{max-width:84ch}
 .scrollx{overflow-x:auto}
 .route{width:100%;border-collapse:collapse;font-size:14px;margin-top:0;color:var(--body)}
 .route th{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
@@ -119,8 +101,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 .route tr:last-child td{border-bottom:none}
 .q{font-style:italic}
 .prose a,p.intro a{text-decoration:underline;text-underline-offset:3px}
-@media (max-width:860px){ .hero{grid-template-columns:1fr} .two{grid-template-columns:1fr}
-  .brk li{flex-direction:column;gap:3px} .brk li b{flex:none} }
+@media (max-width:860px){ .hero{grid-template-columns:1fr} }
 
 .dg .key{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 .dg .pk{fill:var(--ink)}
@@ -181,7 +162,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
 </section>
 
-<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#order">Order</a><a href="#the-service-layer">Service layer</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
 
 <section class="win" id="the-map">
   <div class="bar"><span class="close"></span><h2>1 · the map</h2></div>
@@ -314,58 +295,8 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
   </div>
 </section>
 
-<section class="win" id="order">
-  <div class="bar"><span class="close"></span><h2>3 · order</h2></div>
-  <div class="body">
-    <h3 class="sec">Why the stages sit in this order</h3>
-    <p class="intro">Think of a doctor. Symptoms come first, then a diagnosis, then a trial of treatment, then a verdict on whether to keep prescribing it. You cannot skip to the trial without a symptom to explain, and you cannot judge the treatment without having measured the patient the same way before and after. The map is that sequence, and each stage answers exactly one question.</p>
-    <h4 class="modlab">Each stage answers one question</h4>
-    <div class="prose">
-      <p><b>Exploratory analytics asks what is happening.</b> It is description. It tells you that checkout completion fell nine points for mobile users in Germany. It cannot tell you why, and it is not supposed to. Its output is a hypothesis, which is a guess with a shape: if we change X, metric Y moves.</p>
-      <p><b>The diamond asks whether you can assign treatment.</b> This is the hinge of the entire map. Randomising means you decide who gets the change, by coin flip. That coin flip is what makes the comparison group honest, because it guarantees the two groups differ only by luck and by the treatment.</p>
-      <p><b>Experimentation and causal inference both ask how big the effect is.</b> They emit the same currency, an effect size, which is why both arrows into the decision carry that identical label. One earns it by design, the other by reconstruction.</p>
-      <p><b>The decision asks what we do about it.</b> Ship, kill, reallocate. This is the point of the whole map, and the reason it is an ellipse: work that ends anywhere else has not finished.</p>
-    </div>
-    <h4 class="modlab">What breaks when you skip a stage</h4>
-    <ul class="brk">
-      <li><b>Exploratory analytics</b><span>You test guesses instead of hypotheses, and burn the scarcest resource you have, which is traffic. Sizing the opportunity first is what tells you whether a two percent lift is worth a quarter of engineering time.</span></li>
-      <li><b>The diamond</b><span>The most expensive mistake available to a PDS: you compare users who chose the feature against users who did not, and you call the difference an effect. It is not. Users who adopt a feature were already different.</span></li>
-      <li><b>The causal stage</b><span>You are shipping on correlation. Some of those calls will be right, and you will never know which ones.</span></li>
-      <li><b>The decision</b><span>You have produced a document, not an outcome. The analysis existed to change what the team does.</span></li>
-      <li><b>The theory layer</b><span>Every quarter starts from zero. You re-run a test somebody ran two years ago, argue from memory about what a banner is worth, and power each experiment as though you had never seen an effect size at this company before. The cost is not one wasted test, it is that nothing compounds.</span></li>
-      <li><b>The measurement framework</b><span>Everything above it degrades. If the event that fires on purchase is unreliable, your funnel is wrong, your experiment readout is wrong, and your forecast is trained on noise, all at once and all without warning.</span></li>
-    </ul>
-  </div>
-</section>
-
-<section class="win" id="the-service-layer">
-  <div class="bar"><span class="close"></span><h2>4 · the service layer</h2></div>
-  <div class="body">
-    <h3 class="sec">Where statistical modeling fits, and why it is off the path</h3>
-    <p class="intro">Statistical modeling has no incoming solid arrow. No question ever travels into it, so it is not a fifth stage of the journey. It sits below the main path with two arrows going out, which makes it a service layer: something the other boxes call on, rather than something a question passes through.</p>
-    <h4 class="modlab">The two arrows out</h4>
-    <div class="two">
-      <div class="card"><h4>1 · Supplies estimators (dashed)</h4><p>The dashed line runs up into the causal study design container. Dashed means supports. Modeling is the machinery inside a causal study, not a rival to it. Difference-in-differences is a regression. Synthetic control is a weighted model of a counterfactual. The causal design decides what comparison is valid; modeling is how the number gets computed.</p><div class="prod"><span>produces</span><b>The analysis a trial design calls for.</b></div></div>
-      <div class="card"><h4>2 · Automates the decision (solid)</h4><p>The solid line runs straight to the decision ellipse, bypassing the causal box entirely. This is modeling in production: a forecast that sets inventory, an optimizer that allocates budget, an uplift model that picks who gets the offer. The decision gets made repeatedly, per user or per day, by a system rather than by a person reading a readout.</p><div class="prod"><span>produces</span><b>A decision made at volume.</b></div></div>
-    </div>
-    <h4 class="modlab">What modeling needs, gives, and cannot do</h4>
-    <div class="prose">
-      <p><b>What it needs.</b> Historical data from the measurement framework, which is why an arrow from the band feeds it like every other box. Modeling needs volume and history in a way exploratory analytics does not.</p>
-      <p><b>What the neighbours cannot do.</b> Exploratory analytics describes what already happened, one slice at a time. Modeling generalises: it fits a relationship across many variables at once and extends it to cases you have not seen, including the future. That is the thing neither a funnel nor a cohort chart can do.</p>
-      <p><b>What it gives back, and what it does not.</b> A fitted relationship: a prediction, an estimate with uncertainty around it, a ranking, or an allocation. Not an effect size. The causal boxes answer <span class="q">did this change cause that</span>; modeling answers <span class="q">what will happen</span> and <span class="q">which option is best</span>. A model that predicts churn beautifully tells you nothing about whether your retention campaign reduces churn, because it learned patterns in a world where the campaign was aimed at the people most likely to churn. Prediction rides on correlation and does not care why. Causal work exists precisely because you are about to intervene, and intervening breaks the correlations the model relied on.</p>
-    </div>
-    <div class="note">
-      <h4>When statistical modeling is the wrong tool</h4>
-      <p><b>When the question is causal and you reach for a model instead of a design.</b> Adding control variables to a regression does not substitute for randomisation or for a valid comparison group.<br>
-      <b>When you have not done the exploration yet.</b> Fitting a model to a question you have not described is how you get a technically impressive answer to the wrong question.<br>
-      <b>When a decision is made once.</b> A model earns its keep on decisions made repeatedly and at volume. A one-time ship-or-kill call needs an effect size, not a forecast.<br>
-      <b>When the measurement framework is shaky.</b> Modeling amplifies instrumentation problems rather than revealing them, because a model will happily fit noise and report confidence.</p>
-    </div>
-  </div>
-</section>
-
 <section class="win" id="inside-the-box">
-  <div class="bar"><span class="close"></span><h2>5 · inside the box</h2></div>
+  <div class="bar"><span class="close"></span><h2>3 · inside the box</h2></div>
   <div class="body">
     <h3 class="sec">What is inside the experimentation box</h3>
     <p class="intro">The map draws experimentation as one rectangle, which is honest at two tests a quarter and misleading at two hundred. The rectangle contains six steps, and five of them have a way of handing back a wrong number without the readout looking any different. An experimentation platform is the thing that makes those five steps configuration instead of craft, and the reason mature teams describe themselves as running a learning system rather than running tests.</p>
@@ -444,7 +375,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
 </section>
 
 <section class="win" id="day-to-day">
-  <div class="bar"><span class="close"></span><h2>6 · day to day</h2></div>
+  <div class="bar"><span class="close"></span><h2>4 · day to day</h2></div>
   <div class="body">
     <h3 class="sec">Using the map day to day</h3>
     <p class="intro">Search the theory layer before you scope anything. Either the question is settled and you
