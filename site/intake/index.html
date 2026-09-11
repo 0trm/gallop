@@ -129,11 +129,17 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 /* The big diagram opens fitted to the viewport so the whole shape is on one
    screen; at 1440x900 it overshot by 281px. Fitted, the labels run about 0.74
-   scale, so the bar carries a control that returns it to actual size. Below
-   961px the figure scrolls sideways at full size instead, as before. */
-.fitctl{border:0;background:none;padding:0;cursor:pointer;color:var(--dim);
-        font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
-        text-transform:uppercase}
+   scale, so the top right corner of the bar carries the control that returns
+   it to actual size: the two corner glyphs, drawn in the stroke the theme
+   switch uses, with the words kept on hover. Below 961px the figure scrolls
+   sideways at full size instead, as before. */
+.fitctl{width:24px;height:19px;margin-right:-6px;padding:0;border:0;background:none;
+        display:inline-flex;align-items:center;justify-content:center;
+        cursor:pointer;color:var(--dim)}
+.fitctl svg{display:none;width:16px;height:16px;fill:none;stroke:currentColor;
+            stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.fitctl.is-fit .out{display:block}
+.fitctl:not(.is-fit) .in{display:block}
 .fitctl:hover{color:var(--fg)}
 @media (max-width:960px){.fitctl{display:none}}
 @media (min-width:961px){
@@ -171,7 +177,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 </section>
 
 <section class="win">
-  <div class="bar"><span class="close"></span><h2>algorithm</h2><span class="grow"></span><button type="button" class="fitctl" aria-controls="algorithm-figure">actual size</button></div>
+  <div class="bar"><span class="close"></span><h2>algorithm</h2><span class="grow"></span><button type="button" class="fitctl is-fit" aria-controls="algorithm-figure" title="Show at actual size" aria-label="Show at actual size"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button></div>
   <div class="body">
     <figure class="dg fit" id="algorithm-figure"><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
   <defs>
@@ -357,7 +363,10 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
       if (!fig) return;
       b.addEventListener("click", function () {
         var fit = fig.classList.toggle("fit");
-        b.textContent = fit ? "actual size" : "fit to screen";
+        var label = fit ? "Show at actual size" : "Fit to screen";
+        b.classList.toggle("is-fit", fit);
+        b.setAttribute("title", label);
+        b.setAttribute("aria-label", label);
       });
     });
   })();
