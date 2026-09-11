@@ -175,7 +175,10 @@ img,svg{max-width:100%}
    Their markup calls a section a .win with a .bar header. Under this system a
    window is a cell, so the frame goes flat, the striped title bar becomes a
    labelled band, and the window furniture stops rendering. */
-.desk{--gutter:clamp(20px,3.2vw,60px)}   /* a margin, not a column: the diagrams scale to the viewport */
+/* the one left edge for every document and hero body, on every page. Bars,
+   nav and grid cells keep their own 20px; this is a margin, not a column,
+   so the diagrams scale to the viewport and prose stops at its measure. */
+:root{--gutter:clamp(20px,3.2vw,60px)}
 .win{background:var(--bg);border:1px solid var(--line);box-shadow:none}
 .bar{height:auto;min-height:38px;display:flex;align-items:center;gap:10px;
      padding:9px 20px;border-bottom:1px solid var(--line);
@@ -261,7 +264,7 @@ img,svg{max-width:100%}
   .nav .wm{font-size:24px}
   .foot > :first-child{display:flex;gap:16px;align-items:baseline}
   .foot > :first-child .wm{margin:0;flex:none}
-  .desk{--gutter:16px}
+  :root{--gutter:16px}
   .term .run{padding:14px 16px 16px;font-size:13px}
   .term .row{grid-template-columns:8ch 1fr;padding-left:0}
   .term .row span:last-child{grid-column:2}

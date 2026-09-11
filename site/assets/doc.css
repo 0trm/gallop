@@ -3,7 +3,10 @@
    two faces, no new colour. gallop.css is the base; this styles the
    markdown that build.py renders into .doc. */
 
-.doc{max-width:880px;margin:0 auto;padding:40px 20px 56px}
+/* the body sits on the site's left edge like the map and the intake, not in a
+   centred column; prose stops at 80ch and everything wider stops at 880px */
+.doc{padding:40px var(--gutter) 56px}
+.doc .fig, .doc pre, .doc .scrollx, .doc details.refdoc{max-width:880px}
 .doc > :first-child{margin-top:0}
 
 .doc h1{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;
@@ -67,7 +70,8 @@
 .doc details.refdoc h4{font-family:var(--sans);font-size:15px;font-weight:700;
         color:var(--fg);margin-block:22px 8px}
 
-/* the skill page header cells */
+/* the skill page header cells: the hero body shares the document's edge */
+.skillhead > *{padding:26px var(--gutter) 30px}
 .skillhead .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                    max-width:60ch;margin:14px 0 0}
 /* the install snippet is the primary action: filled, mono, a copy control */
