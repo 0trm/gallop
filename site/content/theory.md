@@ -2,12 +2,12 @@
 
 The band across the top of [the map](../map/), drawn as a band because every
 box touches it. It is not a stage and it is not a method: it is where the map
-keeps what it learned, and it is the only object in the whole system that
-gets more valuable the longer a team runs it. Everything else on the map
-answers a question and stops. The ceiling is where the answers accumulate
-into something the next question can stand on.
+keeps what it learned.
 
-It has two halves, and they are different kinds of object.
+It is the only object in the whole system that gets more valuable the longer
+a team runs it. Everything else on the map answers a question and stops; the
+ceiling is where the answers accumulate into something the next question can
+stand on. It has two halves, and they are different kinds of object.
 
 ## The knowledge repo
 

@@ -594,11 +594,9 @@ def build_content_page(stem, title, label, description, emitted):
         sys.exit(f"build: {src.name} needs a title and an opening paragraph")
     inner = inner.replace(h1.group(0), "", 1).replace(lede.group(0), "", 1)
     header = f"""<div class="band">
-  <div class="secthead">
-    <p class="lab">{label}</p>
-  </div>
   <div class="cells pagehead">
     <div>
+      <p class="lab kick">{label}</p>
       <h1 class="d" style="font-size:34px">{h1.group(1)}</h1>
       <p class="skdesc">{lede.group(1)}</p>
     </div>

@@ -34,8 +34,8 @@
 <rect class="hbar" x="437.0" y="221.8" width="61.3" height="34.2"/>
 <rect class="hbar" x="500.3" y="221.8" width="61.3" height="34.2"/>
 <line class="ax dash" x1="330.7" y1="28" x2="330.7" y2="256"/>
-<text x="322.7" y="32.0" text-anchor="end">mean +0.07pp: the honest prior</text>
+<text x="303.3" y="48.0" text-anchor="end">mean +0.07pp: the honest prior</text>
 <line class="ax dash" x1="784.3" y1="28" x2="784.3" y2="256"/>
-<text x="776.3" y="32.0" text-anchor="end">an MDE of 1.5pp, which nothing here has ever produced</text>
+<text x="776.3" y="48.0" text-anchor="end">an MDE of 1.5pp, which nothing here has ever produced</text>
 <text x="550.4" y="211.8" class="dimt" text-anchor="middle">largest ever: +0.76pp</text>
 </svg>

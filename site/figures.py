@@ -189,9 +189,12 @@ def prior_store():
         body.append(f'<rect class="hbar" x="{x0:.1f}" y="{ax.y(c):.1f}" width="{x1 - x0:.1f}" height="{ax.b - ax.y(c):.1f}"/>')
     m = effects.mean()
     body.append(f'<line class="ax dash" x1="{ax.x(m):.1f}" y1="{ax.t}" x2="{ax.x(m):.1f}" y2="{ax.b}"/>')
-    body.append(text(ax.x(m) - 8, ax.t + 4, f"mean {m:+.2f}pp: the honest prior", "", "end"))
+    # both notes sit under the top gridline, clear of it and of the axis title; the
+    # mean note ends at the left edge of the bin the mean falls in, clear of its bar
+    lo_m = edges[np.searchsorted(edges, m) - 1]
+    body.append(text(ax.x(lo_m) - 6, ax.t + 20, f"mean {m:+.2f}pp: the honest prior", "", "end"))
     body.append(f'<line class="ax dash" x1="{ax.x(wish):.1f}" y1="{ax.t}" x2="{ax.x(wish):.1f}" y2="{ax.b}"/>')
-    body.append(text(ax.x(wish) - 8, ax.t + 4, f"an MDE of {wish:.1f}pp, which nothing here has ever produced", "", "end"))
+    body.append(text(ax.x(wish) - 8, ax.t + 20, f"an MDE of {wish:.1f}pp, which nothing here has ever produced", "", "end"))
     mx = effects.max()
     top = counts[int((mx - edges[0]) // 0.2)]
     body.append(text(ax.x(mx), ax.y(top) - 10, f"largest ever: {mx:+.2f}pp", "dimt", "middle"))

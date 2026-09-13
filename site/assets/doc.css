@@ -49,6 +49,11 @@
 .doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                 max-width:80ch}   /* figures, code and tables keep the full column */
 .doc li{margin:6px 0}
+/* bulleted lists wear the square ink marker the intake uses, not the browser's disc */
+.doc ul{list-style:none;padding-left:0}
+.doc ul > li{position:relative;padding-left:22px}
+.doc ul > li::before{content:"";position:absolute;left:2px;top:calc(.8em - 3.5px);
+                     width:7px;height:7px;background:var(--fg)}
 .doc strong{color:var(--fg)}
 .doc a{text-decoration:underline;text-underline-offset:2px}
 
@@ -100,7 +105,15 @@
 .doc details.refdoc h4{font-family:var(--sans);font-size:15px;font-weight:700;
         color:var(--fg);margin-block:22px 8px}
 
+/* a chart is drawn 840 units wide; fitted to a phone its labels fell to about
+   5px, so below 620px it keeps 640px and its plate scrolls sideways */
+@media (max-width:620px){
+  .doc .fig{overflow-x:auto;overscroll-behavior-x:contain}
+  .doc .fig svg{min-width:640px}
+}
+
 /* the page header cells: the hero body shares the document's edge */
+.pagehead .kick{margin:0 0 12px}
 .skillhead > *, .pagehead > *{padding:26px var(--gutter) 30px}
 .skdesc{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
         max-width:60ch;margin:14px 0 0}
