@@ -179,17 +179,20 @@ def short(label, limit=52):
         elif head[limit] != " ":
             cut = cut.rsplit(" ", 1)[0]
         head = cut
-    head = re.sub(r"(\s+(the|a|an|and|or|of|to|in|on|for|with|this|that|is|are))+$",
-                  "", head, flags=re.I)
+        # only a cut label loses its trailing function words; run on every
+        # label, it turned "Who it is for" into "Who it"
+        head = re.sub(r"(\s+(the|a|an|and|or|of|to|in|on|for|with|this|that|is|are))+$",
+                      "", head, flags=re.I)
     return head.rstrip(" ,\u00b7")
 
 
-def rail(items, minimum=2):
+def rail(items, minimum=3):
     """The contents as the column beside the document rather than a strip over
     it. The strip had one row to spend, so it cut every heading to 34
     characters and the ten-section pages wrapped to a second row anyway. The
     column spells them out, holds the right third of the page that the
-    document was leaving empty, and marks the section being read."""
+    document was leaving empty, and marks the section being read. Below three
+    sections it is two links in a column, so the page goes without."""
     if len(items) < minimum:
         return ""
     links = "".join(f'<a href="#{i}">{short(t)}</a>' for i, t in items)
@@ -492,7 +495,8 @@ def build_skill_page(d, emitted):
     # title only after they have run. The hero above carries position, name and
     # description; rendered again here it was the same words at the same size.
     main_html = re.sub(r"<h1>.*?</h1>\n?", "", main_html, count=1)
-    doc = (f'<div class="band docgrid">{rail(items)}<div class="doc">\n{main_html}\n'
+    contents = rail(items)
+    doc = (f'<div class="band docgrid{"" if contents else " norail"}">{contents}<div class="doc">\n{main_html}\n'
            + "\n".join(sections) + "</div></div>")
     # Cross-references between the markdown files become anchors to the
     # collapsed sections inlined above.
@@ -621,7 +625,8 @@ def build_content_page(stem, title, label, description, emitted):
     </div>
   </div>
 </div>"""
-    body = (f'{header}\n<div class="band docgrid">{rail(items)}'
+    contents = rail(items)
+    body = (f'{header}\n<div class="band docgrid{"" if contents else " norail"}">{contents}'
             f'<div class="doc">\n{inner.lstrip()}\n</div></div>')
     out = page(title=f"{title} · gallop", description=description, root="../",
                url=f"{stem}/", active=f"{stem}/", body=body)

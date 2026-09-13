@@ -13,6 +13,8 @@
 .docgrid{display:grid;grid-template-columns:2fr 1fr}
 .docgrid > .doc{grid-area:1/1;border-right:1px solid var(--line);min-width:0}
 .docgrid > .rail{grid-area:1/2;min-width:0}
+/* a page too short for contents keeps the column, without a hairline beside nothing */
+.docgrid.norail > .doc{border-right:0}
 .doc{padding:40px var(--gutter) 56px}
 .doc .fig, .doc pre{max-width:880px}
 .doc > :first-child{margin-top:0}
