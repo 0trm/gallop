@@ -69,6 +69,7 @@
 <span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
         <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
 <span class="p">$</span> cp -r gallop/skills/writing-readouts .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/writing-readouts">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
@@ -138,14 +139,14 @@ and an archive that records what did not work is the thing that stops
 the team paying twice for the same lesson.</p>
 <h2 id="4-the-prior-store-record">4 · The prior-store record</h2>
 <p>The write that makes the next test cheaper. Append, never edit:</p>
-<pre><code>python -m gallop.priors append --store priors.jsonl --json '{
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python -m gallop.priors append --store priors.jsonl --json '{
   &quot;id&quot;: &quot;2026-09-signup-form-simplify&quot;, &quot;metric&quot;: &quot;activation_rate&quot;,
   &quot;date&quot;: &quot;2026-09-03&quot;, &quot;surface&quot;: &quot;signup&quot;, &quot;design&quot;: &quot;experiment&quot;,
   &quot;effect&quot;: 0.0021, &quot;unit&quot;: &quot;pp&quot;, &quot;se&quot;: 0.0009, &quot;n_per_arm&quot;: 41000,
   &quot;decision&quot;: &quot;ship&quot;,
   &quot;conditions&quot;: &quot;September traffic mix, pre-redesign flow&quot;,
   &quot;expires_on&quot;: &quot;signup flow redesign&quot;}'
-</code></pre>
+</code></pre></div>
 <p>Rules the schema enforces or the discipline requires:</p>
 <ul>
 <li><strong>The shrunk effect</strong> is what gets recorded, with its se. Recording raw
@@ -306,12 +307,15 @@ under · the event that expires it.&gt;</p>
 </footer>
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

@@ -69,6 +69,7 @@
 <span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
         <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
 <span class="p">$</span> cp -r gallop/skills/designing-experiments .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/designing-experiments">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
@@ -104,10 +105,10 @@ intervals plus an interaction risk nobody will notice.</li>
 <h2 id="choice-2-the-mde-from-the-prior-store">Choice 2 · The MDE, from the prior store</h2>
 <p>The minimum detectable effect is a fact about traffic and history, not an
 ambition. Compute it before anyone commits to the test:</p>
-<pre><code>python skills/designing-experiments/scripts/size_test.py \
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python skills/designing-experiments/scripts/size_test.py \
   --store priors.jsonl --metric activation_rate \
   --baseline-rate 0.12 --units-per-day 8000
-</code></pre>
+</code></pre></div>
 <p>The script reads what this metric has actually moved by across past tests,
 computes the MDE at the available traffic (the arithmetic is
 <code>2.8 × sqrt(2p(1-p)/n)</code> at the usual thresholds), and returns a verdict:
@@ -232,7 +233,7 @@ that launches the test. Its purpose is to make the readout a comparison
 against commitments rather than a negotiation with hindsight. Everything in
 it is short; all of it is binding.</p>
 <h3>The template</h3>
-<pre><code>EXPERIMENT        &lt;name, ticket link, flag name&gt;
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>EXPERIMENT        &lt;name, ticket link, flag name&gt;
 MECHANISM         if we change &lt;X&gt;, &lt;metric&gt; moves because &lt;Z&gt;
 UNIT              randomised on &lt;unit&gt;; analysis aggregates to &lt;unit&gt;
 INTERFERENCE      shared resource: &lt;named, or &quot;none&quot;&gt;; design: &lt;user | cluster | switchback&gt;
@@ -247,7 +248,7 @@ SEGMENT           one, pre-registered: &lt;segment, chosen from the mechanism&gt
 DECISION RULE     if the interval excludes &lt;X&gt;, ship; else &lt;kill | iterate&gt;
                   guardrail breach ⇒ rollback, readout still written
 READOUT DATE      &lt;the Tuesday it will be read, in the room&gt;
-</code></pre>
+</code></pre></div>
 <h3>The rules the template encodes</h3>
 <p><strong>The decision rule is a number, not a mood.</strong> &quot;If the interval excludes a
 0.2pp lift we ship&quot; survives contact with an ambiguous result;
@@ -360,12 +361,15 @@ the arms are no longer comparable populations.</li>
 </footer>
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

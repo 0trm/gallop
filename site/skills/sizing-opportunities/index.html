@@ -69,6 +69,7 @@
 <span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
         <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
 <span class="p">$</span> cp -r gallop/skills/sizing-opportunities .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/sizing-opportunities">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
@@ -91,11 +92,11 @@ hand over the link, and mean it. What remains is a question, and it ends
 here as a hypothesis with a size, routed back through <code>routing-questions</code>
 as a change question.</p>
 <p>The arithmetic is scripted. Given segment counts for two periods:</p>
-<pre><code>python skills/sizing-opportunities/scripts/size_opportunity.py \
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python skills/sizing-opportunities/scripts/size_opportunity.py \
   --segments segments.csv --before 2026-07 --after 2026-08 \
   [--funnel funnel.csv] \
   [--store priors.jsonl --metric checkout_rate --baseline-rate 0.034 --units-per-day 7000]
-</code></pre>
+</code></pre></div>
 <p>Or individually via <code>python3 -m gallop.explore {mix,funnel,scan,size}</code>.</p>
 <h2 id="0-the-floor-before-any-story">0 · The floor, before any story</h2>
 <p>A sudden move is instrumentation more often than behaviour, and a
@@ -265,12 +266,12 @@ Both are exact, so the shares they produce sum to the change and nothing
 is left to interpretation.</p>
 <h3>Mix versus rate</h3>
 <p>A rate over a population is a weighted average of segment rates:</p>
-<pre><code>R = Σ s_i · r_i        s_i = share of units in segment i, r_i = its rate
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>R = Σ s_i · r_i        s_i = share of units in segment i, r_i = its rate
+</code></pre></div>
 <p>Between two periods it changes because rates changed or shares changed:</p>
-<pre><code>ΔR = Σ (r_i' − r_i) · (s_i + s_i')/2               the rate effect
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>ΔR = Σ (r_i' − r_i) · (s_i + s_i')/2               the rate effect
    + Σ (s_i' − s_i) · ((r_i + r_i')/2 − R̄)         the mix effect
-</code></pre>
+</code></pre></div>
 <p>with R̄ the average of the two overall rates. <code>gallop.explore.mix_rate</code>
 computes both from segment counts, and the two sum exactly to the change.
 The centring on R̄ costs nothing in the sum (share changes sum to zero)
@@ -303,11 +304,11 @@ is a mix shift in some other dimension, and the view that shows it as a
 mix effect is the one that found the cause.</p>
 <h3>Funnel steps</h3>
 <p>Overall conversion is a product of step rates:</p>
-<pre><code>C = n_K / n_1 = Π r_k        r_k = n_k / n_{k−1}
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>C = n_K / n_1 = Π r_k        r_k = n_k / n_{k−1}
+</code></pre></div>
 <p>so its change in logs is a sum:</p>
-<pre><code>log(C'/C) = Σ log(r_k'/r_k)
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>log(C'/C) = Σ log(r_k'/r_k)
+</code></pre></div>
 <p><code>gallop.explore.funnel_steps</code> reports each step's term and its share of
 the total. The step with the largest share is where the change happened,
 and it is the step to cut by segment; the other steps are noise for this
@@ -583,12 +584,15 @@ never left out.</p>
 </footer>
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

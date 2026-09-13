@@ -45,7 +45,8 @@
 .doc h4{font-family:var(--sans);text-transform:uppercase;font-size:11px;
         letter-spacing:.14em;font-weight:600;margin:22px 0 8px;color:var(--dim)}
 /* running prose is Archivo: these are thousand-word documents, and mono is the
-   slowest face to read them in. Tables, code and the terminal stay mono. */
+   slowest face to read them in. Table cells read in it too; code and the
+   terminal stay mono. */
 .doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                 max-width:80ch}   /* figures, code and tables keep the full column */
 .doc li{margin:6px 0}
@@ -70,6 +71,7 @@
 .doc table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}
 .doc th{font-family:var(--sans);text-transform:uppercase;font-size:11px;
         letter-spacing:.14em;text-align:left;font-weight:600}
+.doc td{font-family:var(--sans)}
 .doc th, .doc td{border:1px solid var(--line);padding:9px 12px;
                  vertical-align:top;line-height:1.55}
 .doc tr:hover td{background:var(--wash)}
@@ -77,6 +79,26 @@
 .doc .scrollx{overflow-x:auto;margin:18px 0}
 .doc .scrollx > table{margin:0}
 .doc .scrollx:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+/* on a phone a table keeps 560px and scrolls, rather than wrapping a column to
+   fifteen characters a line */
+@media (max-width:620px){.doc .scrollx > table{min-width:560px}}
+
+/* a command block carries its copy control in the top right corner */
+.doc .codecopy{position:relative;margin:18px 0;max-width:880px}
+.doc .codecopy pre{margin:0;padding-right:76px}
+.doc .codecopy .copy{position:absolute;top:10px;right:10px;z-index:1;border:0;padding:4px 6px;
+  background:var(--surface);color:var(--dim);cursor:pointer;font-family:var(--sans);
+  text-transform:uppercase;font-size:11px;letter-spacing:.14em;font-weight:600}
+.doc .codecopy .copy:hover{color:var(--fg)}
+/* what a command prints folds shut under a label */
+.doc details.out{margin:18px 0;max-width:880px;border:1px solid var(--line)}
+.doc details.out summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;
+  gap:12px;padding:12px 16px;color:var(--dim)}
+.doc details.out summary::-webkit-details-marker{display:none}
+.doc details.out summary::after{content:"+";margin-left:auto;font-family:var(--mono)}
+.doc details.out[open] summary::after{content:"\2212"}
+.doc details.out summary:hover{background:var(--wash);color:var(--fg)}
+.doc details.out pre{margin:0;border:0;border-top:1px solid var(--line)}
 
 .doc hr{border:0;border-top:1px solid var(--line);margin:32px 0}
 /* gallop.css leaves the caption's face to inherit, which is mono; under Archivo

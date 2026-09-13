@@ -15,10 +15,17 @@ matches one. The bundled scripts call the `gallop` package, so add
 
 ## Any other agent, or none
 
-A skill is a directory of markdown. Copy what you need:
+A skill is a directory of markdown. Clone the repo and copy all eight:
 
 ```
 git clone https://github.com/0trm/gallop
+mkdir -p .claude/skills
+cp -r gallop/skills/* .claude/skills/
+```
+
+Or copy one, by its name on [the skills page](../skills/):
+
+```
 cp -r gallop/skills/reading-experiments .claude/skills/
 ```
 
@@ -42,10 +49,9 @@ Prove it works with no configuration and no warehouse:
 python3 -m gallop.examples.quickstart
 ```
 
-That runs one simulated experiment through every check. This is what it
-prints:
+That runs one simulated experiment through every check.
 
-```
+```output
 gallop quickstart: one experiment through every check
 
 1 · Size it before running it (gallop.power)

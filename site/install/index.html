@@ -63,32 +63,35 @@
 </div>
 <div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#claude-code-plugin">Claude Code plugin</a><a href="#any-other-agent-or-none">Any other agent, or none</a><a href="#the-package">The package</a><a href="#the-modules">The modules</a></div></nav><div class="doc">
 <h2 id="claude-code-plugin">Claude Code plugin</h2>
-<pre><code>/plugin marketplace add 0trm/gallop
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>/plugin marketplace add 0trm/gallop
 /plugin install gallop@gallop
-</code></pre>
+</code></pre></div>
 <p>All eight skills, invoked by name or picked up automatically when a question
 matches one. The bundled scripts call the <code>gallop</code> package, so add
 <code>pip install gallop-pds</code> if you want the checks to run rather than be described.</p>
 <h2 id="any-other-agent-or-none">Any other agent, or none</h2>
-<p>A skill is a directory of markdown. Copy what you need:</p>
-<pre><code>git clone https://github.com/0trm/gallop
-cp -r gallop/skills/reading-experiments .claude/skills/
-</code></pre>
+<p>A skill is a directory of markdown. Clone the repo and copy all eight:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>git clone https://github.com/0trm/gallop
+mkdir -p .claude/skills
+cp -r gallop/skills/* .claude/skills/
+</code></pre></div>
+<p>Or copy one, by its name on <a href="../skills/">the skills page</a>:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>cp -r gallop/skills/reading-experiments .claude/skills/
+</code></pre></div>
 <p>Works with anything that reads Agent Skills, and reads fine as prose:
 each <code>SKILL.md</code> is the procedure, the <code>reference/</code> files one level down are
 the depth.</p>
 <h2 id="the-package">The package</h2>
-<pre><code>pip install gallop-pds
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>pip install gallop-pds
+</code></pre></div>
 <p><code>numpy</code>, <code>pandas</code>, <code>scipy</code>, nothing else. Every function takes and returns
 arrays or DataFrames, never a database connection; SQL for the three
 queries every readout needs ships as <code>string.Template</code> files in <code>sql/</code>.</p>
 <p>Prove it works with no configuration and no warehouse:</p>
-<pre><code>python3 -m gallop.examples.quickstart
-</code></pre>
-<p>That runs one simulated experiment through every check. This is what it
-prints:</p>
-<pre><code>gallop quickstart: one experiment through every check
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python3 -m gallop.examples.quickstart
+</code></pre></div>
+<p>That runs one simulated experiment through every check.</p>
+<details class="out"><summary><span class="lab">What it prints</span></summary><pre><code>gallop quickstart: one experiment through every check
 
 1 · Size it before running it (gallop.power)
    at n=40,000 per arm on a 12.5% rate, the MDE is 0.66pp;
@@ -112,7 +115,7 @@ prints:</p>
 
 true simulated effect: +0.350pp. The shrunk estimate is the
 one to write back to the store; the raw one is the winner's curse waiting.
-</code></pre>
+</code></pre></details>
 <h2 id="the-modules">The modules</h2>
 <div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
 <thead>
@@ -188,12 +191,15 @@ one to write back to the store; the raw one is the winner's curse waiting.
 </footer>
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });

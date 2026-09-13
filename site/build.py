@@ -102,7 +102,22 @@ def frontmatter(text):
 
 
 def render(markdown_text):
-    return wrap_tables(md.render(markdown_text))
+    return code_blocks(wrap_tables(md.render(markdown_text)))
+
+
+def code_blocks(doc):
+    """A command block gets a copy control in its corner. A block fenced as
+    `output` is what a command prints: it folds shut under a label, with
+    nothing to copy."""
+    def sub(m):
+        lang, code = m.group(1) or "", m.group(2)
+        if lang == "output":
+            return ('<details class="out"><summary><span class="lab">What it prints</span>'
+                    f'</summary><pre><code>{code}</code></pre></details>')
+        cls = f' class="language-{lang}"' if lang else ""
+        return ('<div class="codecopy"><button type="button" class="copy">Copy</button>'
+                f'<pre><code{cls}>{code}</code></pre></div>')
+    return re.sub(r'<pre><code(?: class="language-([\w-]+)")?>(.*?)</code></pre>', sub, doc, flags=re.S)
 
 
 def wrap_tables(doc):
@@ -301,12 +316,15 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
 {footer(root)}
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {{
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {{
     if (!navigator.clipboard) {{ b.hidden = true; return; }}
     b.addEventListener("click", function () {{
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) {{ g.remove(); }});
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {{
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {{
         b.textContent = "Copied";
         setTimeout(function () {{ b.textContent = "Copy"; }}, 1600);
       }});
@@ -460,6 +478,7 @@ def build_skill_page(d, emitted):
 <span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
         <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
 <span class="p">$</span> cp -r gallop/skills/{name} .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>

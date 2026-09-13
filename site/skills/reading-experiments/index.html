@@ -69,6 +69,7 @@
 <span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
       <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
         <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
 <span class="p">$</span> cp -r gallop/skills/reading-experiments .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/reading-experiments">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
@@ -83,10 +84,10 @@ number. Read against the pre-registered plan; if no plan exists, say so
 first, because everything below weakens without one.</p>
 <p>The mechanical checks are scripted. Given assignment/exposure counts and
 unit-level data, run them in one pass:</p>
-<pre><code>python skills/reading-experiments/scripts/run_checks.py \
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python skills/reading-experiments/scripts/run_checks.py \
   --counts counts.csv --data units.csv --y metric --x pre_metric --arm arm \
   [--store priors.jsonl --metric activation_rate --unit pp]
-</code></pre>
+</code></pre></div>
 <p>Or individually via <code>python -m gallop.trust|variance|sequential|shrink</code>.</p>
 <h2 id="1-the-trust-gate-before-any-effect">1 · The trust gate, before any effect</h2>
 <p>Two checks, and a failure at either stops the reading. Details and the
@@ -299,13 +300,13 @@ magnitude is not, which is worse for planning than a clean false positive.</p>
 <h3>The model</h3>
 <p>Normal-normal. The prior is what this metric has actually done, estimated
 from the store by method of moments:</p>
-<pre><code>mu   = mean of past effects
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>mu   = mean of past effects
 tau² = max( var(past effects) − mean(past se²), 0 )
-</code></pre>
+</code></pre></div>
 <p>Posterior mean = w·effect + (1−w)·mu, with w = tau²/(tau² + se²).</p>
-<pre><code>python -m gallop.shrink eb --effect 0.0031 --se 0.0012 \
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python -m gallop.shrink eb --effect 0.0031 --se 0.0012 \
     --store priors.jsonl --metric activation_rate --unit pp
-</code></pre>
+</code></pre></div>
 <p>Reading the output:</p>
 <ul>
 <li><strong>w near 1</strong>: the test was precise relative to how much true effects
@@ -348,8 +349,8 @@ their failure modes produce readouts indistinguishable from healthy ones.</p>
 <h3>Sample ratio mismatch</h3>
 <p>The check: chi-square goodness of fit of assignment counts against the
 intended split.</p>
-<pre><code>python -m gallop.trust srm --counts counts.csv        # columns: arm, assigned
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python -m gallop.trust srm --counts counts.csv        # columns: arm, assigned
+</code></pre></div>
 <p><strong>Alpha is 0.001, not 0.05, deliberately.</strong> The check runs on every
 experiment ever analysed; at 0.05 it would fire on one healthy test in
 twenty, be ignored within a quarter, and protect nothing. At 0.001 a firing
@@ -377,8 +378,8 @@ by variant.</li>
 costs two days; caught at readout it costs the whole test.</p>
 <h3>Exposure versus eligibility</h3>
 <p>The check: exposure counts per arm against assignment counts.</p>
-<pre><code>python -m gallop.trust exposure --counts counts.csv   # columns: arm, assigned, exposed
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python -m gallop.trust exposure --counts counts.csv   # columns: arm, assigned, exposed
+</code></pre></div>
 <p>Two distinct failures:</p>
 <p><strong>Differential exposure</strong> (the exposed counts fail an SRM at the assignment
 split): the arms trigger unequally, which is a bug in the trigger or the
@@ -403,13 +404,13 @@ effect than anyone thought they were testing.</p>
 <h3>CUPED</h3>
 <p>Deng, Xu, Kohavi &amp; Walker (2013). Adjust the metric by a pre-experiment
 covariate that treatment cannot have touched:</p>
-<pre><code>Y_adj = Y - theta (X - mean(X)),   theta = Cov(Y,X) / Var(X)
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>Y_adj = Y - theta (X - mean(X)),   theta = Cov(Y,X) / Var(X)
+</code></pre></div>
 <p>Var(Y_adj) = Var(Y)(1 - rho²): the entire benefit is the squared pre/post
 correlation, so measure rho before promising anyone a number. At rho 0.7 the
 required sample halves; at rho 0.2 the gain is cosmetic.</p>
-<pre><code>python -m gallop.variance cuped --data units.csv --y metric --x pre_metric --arm arm
-</code></pre>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>python -m gallop.variance cuped --data units.csv --y metric --x pre_metric --arm arm
+</code></pre></div>
 <p><strong>The validity rule, in one sentence:</strong> the covariate must be fully
 determined before the first unit was exposed, and defined identically for
 every unit, including units with no history (impute a constant, usually the
@@ -475,12 +476,15 @@ covariate is planned at design time.</p>
 </footer>
 
 <script>
-  document.querySelectorAll(".snip .copy").forEach(function (b) {
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }
     b.addEventListener("click", function () {
-      var pre = b.closest(".snip").querySelector("pre").cloneNode(true);
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
       pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
-      navigator.clipboard.writeText(pre.textContent.replace(/^ /gm, "")).then(function () {
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
         b.textContent = "Copied";
         setTimeout(function () { b.textContent = "Copy"; }, 1600);
       });
