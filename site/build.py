@@ -278,6 +278,7 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
 <meta property="og:description" content="{html.escape(description, quote=True)}">
 <meta property="og:url" content="{SITE_URL}{url}">
 <meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
 <script>
   /* Before paint. Read at the foot instead, a remembered dark theme arrives
      after the light page is already on screen, on every navigation. */
@@ -390,6 +391,9 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
     var buttons = document.querySelectorAll(".theme button");
     function apply(theme) {{
       root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
       buttons.forEach(function (b) {{
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       }});

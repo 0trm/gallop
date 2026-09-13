@@ -16,6 +16,7 @@
 <meta property="og:description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomise fork, and leaves as a decision, with measurement underneath and theory across the top.">
 <meta property="og:url" content="https://0trm.github.io/gallop/map/">
 <meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
 <script>
   /* Before paint. Read at the foot instead, a remembered dark theme arrives
      after the light page is already on screen, on every navigation. */
@@ -499,6 +500,9 @@ figure.dg .fitctl{position:absolute;top:10px;right:12px;margin:0;z-index:1}
     var buttons = document.querySelectorAll(".theme button");
     function apply(theme) {
       root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
       buttons.forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.dataset.set === theme));
       });
