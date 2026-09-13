@@ -487,19 +487,21 @@ def build_skills_index(dirs, emitted):
       <h2>{name}</h2>
       <p>{decides}.</p>
     </a>""")
+
+    def sk(name):
+        return f'<a href="{name}/"><code>{name}</code></a>'
+
+    # The cards come first: they are what the page is for, and the map and the
+    # sentence above them already open the home page. The map follows on two
+    # thirds, with the walk through it beside it rather than under the cards.
     body = f"""<div class="band">
-  <div class="secthead">
-    <p class="lab">{COUNT_WORD} skills</p>
-  </div>
   <div class="doc skhead">
+    <p class="lab kick">{COUNT_WORD} skills</p>
     <h1>The skills</h1>
     <p class="lede">A skill is a decision procedure your agent runs with you: the questions in
     order, the checks that have to pass, and the exit that says this one cannot be answered.
     {COUNT_WORD} of them across {N_POSITIONS} positions on the method map;
     causation carries three.</p>
-  </div>
-  <div class="doc mapfig">
-    {figure("skills-map.svg", "Where each skill sits. Each name is a link.")}
   </div>
 </div>
 <div class="band">
@@ -507,36 +509,57 @@ def build_skills_index(dirs, emitted):
 {chr(10).join(rows)}
   </div>
 </div>
-<div class="band"><div class="doc">
-<p>Each skill covers one position on <a href="../map/">the method map</a> and one
-failure mode. Together they run one question end to end: it arrives at
-<code>routing-questions</code>, stands on the floor <code>defining-metrics</code>
-maintains, gets its method from <code>designing-experiments</code> or
-<code>choosing-causal-designs</code>, is believed or not by
-<code>reading-experiments</code>, and is filed by <code>writing-readouts</code>
-so the next question starts smaller. A what-happened question leaves the path
-for <code>sizing-opportunities</code> and comes back as a sized hypothesis; a
-decision made continuously, at volume, leaves it for
-<code>automating-decisions</code> and comes back for the experiment that
-measures the model's impact.</p>
-</div></div>"""
+<div class="band">
+  <div class="cells mapgrid">
+    <div class="doc mapfig">
+      {figure("skills-map.svg", "Where each skill sits. Each name is a link.")}
+    </div>
+    <div class="doc flow">
+      <p class="lab">One question, end to end</p>
+      <p>Each skill covers one position on <a href="../map/">the method map</a> and one
+      failure mode. Together they run one question end to end: it arrives at
+      {sk("routing-questions")}, stands on the floor {sk("defining-metrics")}
+      maintains, gets its method from {sk("designing-experiments")} or
+      {sk("choosing-causal-designs")}, is believed or not by
+      {sk("reading-experiments")}, and is filed by {sk("writing-readouts")}
+      so the next question starts smaller.</p>
+      <p>A what-happened question leaves the path for {sk("sizing-opportunities")}
+      and comes back as a sized hypothesis; a decision made continuously, at volume,
+      leaves it for {sk("automating-decisions")} and comes back for the experiment
+      that measures the model's impact.</p>
+    </div>
+  </div>
+</div>"""
     style = """
-  .skhead{padding-bottom:0}
+  .doc p.lab{font-size:11px;line-height:1.4;color:var(--fg)}
+  .skhead{padding-bottom:36px}
+  .skhead .kick{margin:0 0 12px}
   .skhead h1{margin-bottom:12px}
   .skhead .lede{margin:0;font-size:16px;line-height:1.6;color:var(--body);max-width:72ch}
-  .mapfig{padding-top:28px;padding-bottom:8px}
   .sixlinks .skrow{display:block;color:inherit}
   .sixlinks .skrow:hover{background:var(--wash);text-decoration:none}
   .sixlinks h2{font-family:var(--mono);font-size:15px;font-weight:700;margin:0;
     text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
-  .sixlinks p{margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--body)}
+  .sixlinks p{margin:8px 0 0;font-family:var(--sans);font-size:14.5px;line-height:1.5;color:var(--body)}
   .sixlinks .pos{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .skillgrid{grid-template-columns:repeat(4,1fr)}
   .skillgrid > *{border-bottom:1px solid var(--line)}
   .skillgrid > *:nth-child(4n){border-right:0}
   .skillgrid > *:nth-child(n+5){border-bottom:0}
+  .mapgrid{grid-template-columns:2fr 1fr}
+  .mapfig .fig{margin:0}
+  .flow p.lab{margin:0 0 14px;color:var(--dim)}
+  .flow p{font-size:15px}
+  .flow a code{background:none;padding:0;font-weight:700;color:var(--fg);white-space:nowrap}
   @media (max-width:1080px){.skillgrid{grid-template-columns:1fr}
-    .skillgrid > *{border-right:0;border-bottom:1px solid var(--line)!important}}"""
+    .skillgrid > *{border-right:0;border-bottom:1px solid var(--line)!important}
+    .mapgrid{grid-template-columns:1fr}
+    .mapgrid > *{border-right:0}
+    .mapgrid > .mapfig{border-bottom:1px solid var(--line)}}
+  /* the drawing is 840 units wide; fitted to a phone its names fall to 4px, so
+     it keeps 820px and the plate scrolls, as on the home page */
+  @media (max-width:620px){.mapfig .fig{overflow-x:auto;overscroll-behavior-x:contain}
+    .mapfig .fig svg{min-width:820px}}"""
     out = page(title="The skills · gallop",
                description=f"{COUNT_WORD} skills across {N_POSITIONS} positions "
                            f"on the method map, one position each.",
