@@ -37,14 +37,15 @@
 .desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
 
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
-h3{font-size:19px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
-h4{font-size:15px;font-weight:700;margin:0 0 6px}
+/* prose and headings in Archivo, as doc.css sets them; code, tables and diagram edges stay mono */
+h3{font-family:var(--sans);font-size:19px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
+h4{font-family:var(--sans);font-size:15px;font-weight:700;margin:0 0 6px}
 p{margin:0}
-.lead{font-size:16px;line-height:1.6;max-width:78ch;color:var(--body)}
-.prose{display:flex;flex-direction:column;gap:16px;max-width:84ch;color:var(--body)}
+.lead{font-family:var(--sans);font-size:17px;line-height:1.6;max-width:78ch;color:var(--body)}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:84ch;font-family:var(--sans);color:var(--body)}
 .prose b{color:var(--fg)}
 /* the paragraph that opens a section, before the first module */
-p.intro{font-size:15px;line-height:1.6;max-width:84ch;margin:0 0 24px;color:var(--body)}
+p.intro{font-family:var(--sans);font-size:15px;line-height:1.6;max-width:84ch;margin:0 0 24px;color:var(--body)}
 /* A module label opens a block sitting on the section ground: a hairline
    above it and the same uppercase label the bands and the foot use, so a
    section reads as parts rather than one column of text. Cards and notes
@@ -72,7 +73,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
 .dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
 .dg .head{fill:var(--ink)}
-figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
+figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
 @media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
 @media (max-width:960px){
   /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
@@ -124,7 +125,7 @@ figcaption{font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opaci
              font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
              align-items:center;justify-content:center;margin-top:-2px}
 .callouts h4{font-size:15px;font-weight:700;margin:0 0 6px}
-.callouts p{font-size:14px;line-height:1.6;margin:0;max-width:84ch;color:var(--body)}
+.callouts p{font-family:var(--sans);font-size:14px;line-height:1.6;margin:0;max-width:84ch;color:var(--body)}
 .callouts .prod{margin-top:9px}
 .callouts .prod span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
                      text-transform:uppercase;color:var(--dim);margin-right:8px}

@@ -37,10 +37,11 @@
 .desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
 
 h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
-h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+/* prose and headings in Archivo, as doc.css sets them; code, tables and diagram edges stay mono */
+h3{font-family:var(--sans);font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
 p{margin:0}
-.lead{font-size:16px;line-height:1.6;max-width:78ch;color:var(--body)}
-.cap{font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
+.lead{font-family:var(--sans);font-size:17px;line-height:1.6;max-width:78ch;color:var(--body)}
+.cap{font-family:var(--sans);font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
 .cap b{color:var(--fg)}
 .mark{background:var(--vellum);padding:0 3px}
 
@@ -112,7 +113,7 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .warn{display:flex;gap:16px;align-items:flex-start;margin-top:20px;padding-top:18px;
       border-top:1px solid var(--pasture-shade)}
 .opts{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
-.opts li{display:flex;gap:12px;font-size:14px;line-height:1.6;color:var(--body)}
+.opts li{display:flex;gap:12px;font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--body)}
 .opts li::before{content:"";flex:0 0 7px;height:7px;background:var(--ink);margin-top:8px}
 
 @media (max-width:880px){ .hero{grid-template-columns:1fr} .panels{grid-template-columns:1fr} }

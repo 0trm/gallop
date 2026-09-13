@@ -34,42 +34,37 @@
   /* The mark is inlined rather than loaded from assets/mark.svg so it inherits
      currentColor and follows the switch rather than the operating system. The
      path is the same one; assets/mark.svg is the canonical copy. */
-  .marklink{display:block;width:100%;max-width:361px}
+  .marklink{display:block;width:100%;max-width:400px}
   .logo{width:100%;height:auto;display:block;color:var(--fg)}
 
-  .hero{grid-template-columns:1.32fr .68fr}
-  .hero .txt{padding:40px 20px 26px}
-  .hero .d{font-size:clamp(39px,3.51vw,50.7px);margin-top:14px}
-  .hero p.lede{font-size:15.5px;line-height:1.6;max-width:76ch;margin:18px 0 0;color:var(--body)}
-  .hero .art{display:flex;align-items:center;justify-content:center;padding:24px}
+  /* the hero, the map band and the demo share one rule at two thirds, the
+     rule the document pages draw */
+  .hero{grid-template-columns:2fr 1fr}
+  .hero .txt{padding:44px 20px 36px}
+  .hero .d{font-size:clamp(39px,4.55vw,66px);line-height:1;margin-top:14px}
+  .hero p.lede{font-family:var(--sans);font-size:18px;line-height:1.55;max-width:46ch;margin:22px 0 0;color:var(--body)}
+  .hero .art{display:flex;align-items:center;justify-content:center;padding:32px 40px}
   /* .btn is display:flex, so left alone it would span the whole hero column */
-  .hero .txt .btn{display:inline-flex;margin-top:22px}
+  .hero .txt .btn{display:inline-flex;margin-top:28px}
 
 
-  /* the map is the hero's second act: the drawing on a plate, the eight
-     skills as its legend, one row each, and the way into the argument. */
-  .mapband{grid-template-columns:1.55fr 1fr}
+  /* the map is the hero's second act: the drawing on a plate, every skill
+     name on it a link, and beside it one definition and the way to the
+     skills. The eight-row list it replaces repeated the /skills cards. */
+  .mapband{grid-template-columns:2fr 1fr}
   .mapcell{background:var(--surface);padding:26px 28px}
   .mapcell .fig{margin:0;padding:0;border:0;background:none}
   .scrollhint{display:none;margin:12px 0 0;font-size:10px}
-  .legend{padding:0;display:flex;flex-direction:column}
-  .legend .lab{padding:16px 20px 12px;border-bottom:1px solid var(--line)}
-  .legend > a{display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:baseline;
-              padding:11px 20px 12px;border-bottom:1px solid var(--line);color:inherit}
-  /* the button used to close this column with its own margin; without it the
-     last row's rule lands on the band's and reads as a double hairline. */
-  .legend > a:last-child{border-bottom:0}
-  .legend > a:hover{background:var(--wash);text-decoration:none}
-  .legend h2{font-family:var(--mono);font-size:15px;font-weight:700;margin:0;
-    text-transform:none;letter-spacing:0;border-top:0;padding-top:0}
-  .legend .pos{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin:0}
-  .legend > a p:last-child{grid-column:1 / -1;margin:3px 0 0;font-size:13px;line-height:1.5;color:var(--body)}
+  .skillnote{display:flex;flex-direction:column;gap:14px;padding:26px 20px 30px}
+  .skillnote .lab{margin-bottom:4px}
+  .skillnote p:not(.lab){font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);margin:0;max-width:44ch}
+  .skillnote .btn{align-self:flex-start;margin-top:10px}
 
-  .demo{grid-template-columns:1.35fr .65fr}
+  .demo{grid-template-columns:2fr 1fr}
   /* beside the console: the two lines that put it in the reader's own agent */
   .note .lab{margin-bottom:12px}
   .note .snip{margin:0}
-  .note p{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--body)}
+  .note p{margin:12px 0 0;font-family:var(--sans);font-size:13.5px;line-height:1.55;color:var(--body)}
   .note p a{text-decoration:underline;text-underline-offset:3px}
 
   .term .picks{margin-left:auto;display:flex}
@@ -83,6 +78,7 @@
     .hero,.demo,.mapband{grid-template-columns:1fr}
     .hero > *,.demo > :first-child,.mapband > :first-child{border-right:0;border-bottom:1px solid var(--line)}
     .hero .d{font-size:39px}
+    .hero .art{padding:24px}
   }
   @media (max-width:620px){
     /* the ch caps are sized for a two-column hero; below this they push the
@@ -196,16 +192,11 @@
 <text x="112.0" y="330.0" class="t-edge" text-anchor="end">description</text>
 <text x="208.0" y="330.0" class="t-edge" text-anchor="start">hypothesis</text>
 </svg></figure><p class="lab dim scrollhint">Scroll sideways</p></div>
-    <div class="legend">
-      <p class="lab">All skills</p>
-      <a href="skills/routing-questions/"><h2>routing-questions</h2><p class="pos dim">Routing</p><p>One lookup, three questions, one gate. Decides whether this becomes work at all.</p></a>
-      <a href="skills/defining-metrics/"><h2>defining-metrics</h2><p class="pos dim">The floor</p><p>A metric turned into a computation, a source of truth, a registry entry, and how it will be gamed.</p></a>
-      <a href="skills/sizing-opportunities/"><h2>sizing-opportunities</h2><p class="pos dim">Description</p><p>The floor first, then mix or rate, the step, the segment. A hypothesis with a size, never an effect.</p></a>
-      <a href="skills/designing-experiments/"><h2>designing-experiments</h2><p class="pos dim">Causation</p><p>The four choices that cannot be repaired after launch. MDE comes from the prior store.</p></a>
-      <a href="skills/reading-experiments/"><h2>reading-experiments</h2><p class="pos dim">Causation</p><p>SRM, exposure, the sequential bound, CUPED, shrinkage. Whether the result is a result.</p></a>
-      <a href="skills/choosing-causal-designs/"><h2>choosing-causal-designs</h2><p class="pos dim">Causation</p><p>ITS, DiD, synthetic control, matching, IV, and the exit that says there is no control group.</p></a>
-      <a href="skills/automating-decisions/"><h2>automating-decisions</h2><p class="pos dim">Prediction</p><p>A decision made at volume. Validated out of time, against the base rate, then a holdout for the impact.</p></a>
-      <a href="skills/writing-readouts/"><h2>writing-readouts</h2><p class="pos dim">The ceiling</p><p>The decision rule first, the result last. The belief, not just the number.</p></a>
+    <div class="skillnote">
+      <p class="lab">Eight skills, six positions</p>
+      <p>A skill is a decision procedure your agent runs with you: the questions in order, the checks that have to pass, and the exit that says this one cannot be answered.</p>
+      <p>Every name on the map is a link. Causation carries three skills; each other position carries one.</p>
+      <a class="btn" href="skills/"><span>Browse the skills</span><span class="arr">&rarr;</span></a>
     </div>
   </div>
 </div>
@@ -291,7 +282,9 @@
 <script>
   /* One frame, three runs in turn: each types out, holds, then gives way to
      the next. The picks jump; the pointer resting on the frame holds it.
-     Reduced-motion readers get run 1 at rest and step with the picks. */
+     Run 1 opens at rest, printed in full, so the first frame is an answer
+     and not an empty box; the cycle types from run 2. Reduced-motion
+     readers step with the picks. */
   (function () {
     var term = document.querySelector(".term");
     if (!term) return;
@@ -316,15 +309,16 @@
       if (held) { at(800, next); return; }
       show((cur + 1) % runs.length);
     }
-    function show(i) {
+    function show(i, rest) {
       timers.forEach(clearTimeout); timers = [];
       cur = i; mark(i);
       runs.forEach(function (r, k) { r.hidden = k !== i; });
       var r = runs[i], items = Array.prototype.slice.call(r.children);
       var typed = r.querySelector(".typed"), text = r.dataset.text;
-      if (reduce) {
+      if (reduce || rest) {
         typed.textContent = text;
         items.forEach(function (el) { el.style.visibility = ""; });
+        if (rest && !reduce) at(HOLD, next);
         return;
       }
       var t = 0;
@@ -350,7 +344,7 @@
     term.addEventListener("focusin", function () { held = true; });
     term.addEventListener("focusout", function () { held = false; });
     picks.forEach(function (p, k) { p.addEventListener("click", function () { show(k); }); });
-    show(0);
+    show(0, true);
   })();
   document.querySelectorAll(".snip .copy").forEach(function (b) {
     if (!navigator.clipboard) { b.hidden = true; return; }

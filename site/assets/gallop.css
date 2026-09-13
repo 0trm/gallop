@@ -85,13 +85,24 @@ img,svg{max-width:100%}
 .mono{font-family:var(--mono)}
 
 /* --- the shared nav band -------------------------------------------------
-   Seven cells: the wordmark, five links, the theme switch. Below 1080px the
-   band is one row, wordmark and a menu button, and the links and the switch
-   open under it as full-width rows. */
-.nav{grid-template-columns:220px repeat(6,1fr) 150px;align-items:center}
+   The wordmark on the left; six links sized to their labels and set right,
+   in the uppercase chrome face the contents strip and the buttons use; the
+   theme switch last. Equal cells left most of each one empty. The current
+   page carries a 2px underline. Below 1080px the band is one row, wordmark
+   and a menu button, and the links and the switch open under it as
+   full-width rows. */
+.nav{grid-template-columns:220px 1fr repeat(6,auto) auto;align-items:center}
 .nav .wm{font-size:26px;line-height:1.05}
-.nav .sw{display:flex;justify-content:flex-end;padding:8px 20px}
+.nav .sw{display:flex;justify-content:flex-end;padding:8px 16px 8px 12px}
 .nav a[aria-current="page"]{font-weight:700}
+@media (min-width:1081px){
+  .nav .wm{border-right:0}
+  .nav > .menu + a{grid-column-start:3;border-left:1px solid var(--line)}
+  .nav > a:not(.wm){align-self:stretch;display:flex;align-items:center;padding:0 22px;
+    font-family:var(--sans);text-transform:uppercase;font-size:11.5px;letter-spacing:.14em;font-weight:600}
+  .nav > a:not(.wm):hover{background:var(--wash);text-decoration:none}
+  .nav a[aria-current="page"]{font-weight:600;box-shadow:inset 0 -2px 0 var(--fg)}
+}
 .nav .menu{display:none}
 /* the theme switch: sun and moon side by side, no frame; the current one in
    ink, the other dimmed */
@@ -193,7 +204,7 @@ img,svg{max-width:100%}
       background:var(--surface)}
 .foot > *{padding:24px 20px 28px}
 .foot .wm{font-size:22px;display:block;margin-bottom:8px}
-.foot p{margin:0;max-width:34ch;color:var(--body);line-height:1.6}
+.foot p{margin:0;max-width:34ch;font-family:var(--sans);color:var(--body);line-height:1.6}
 .foot .lab{margin-bottom:10px;color:var(--dim)}
 .foot a,.foot span{display:block;line-height:1.95}
 .foot .dim{color:var(--dim)}
