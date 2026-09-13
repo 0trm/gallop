@@ -119,7 +119,6 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
 .callouts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;border:var(--hair)}
 .callouts li{display:flex;gap:14px;padding:16px 18px;border-bottom:var(--hair);border-right:var(--hair);min-width:0}
 .callouts li:nth-child(2n){border-right:0}
-.callouts li:nth-last-child(-n+2){grid-column:1/-1;border-right:0}
 .callouts li:last-child{border-bottom:0}
 .callouts .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);
              font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
@@ -132,12 +131,12 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
 .callouts .prod b{font-weight:700;color:var(--fg)}
 @media (max-width:860px){.callouts{grid-template-columns:1fr}.callouts li{border-right:0}}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
-/* The big diagram opens fitted to the viewport so the whole shape is on one
-   screen; at 1440x900 it overshot by 281px. Fitted, the labels run about 0.74
-   scale, so the top right corner of the bar carries the control that returns
-   it to actual size: the two corner glyphs, drawn in the stroke the theme
-   switch uses, with the words kept on hover. Below 961px the figure scrolls
-   sideways at full size instead, as before. */
+/* The big diagram opens at actual width. Fitted to a 1440x900 viewport it ran
+   at 0.69 scale, its notes near 7px, and still started below a 374px header.
+   The top right corner of the plate carries the control that fits it to the
+   screen: the two corner glyphs, drawn in the stroke the theme switch uses,
+   with the words kept on hover. Below 961px the figure scrolls sideways at
+   full size instead. */
 .fitctl{width:24px;height:19px;margin-right:-6px;padding:0;border:0;background:none;
         display:inline-flex;align-items:center;justify-content:center;
         cursor:pointer;color:var(--dim)}
@@ -149,6 +148,26 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
 @media (max-width:960px){.fitctl{display:none}}
 @media (min-width:961px){
   figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
+
+/* the title row carries the page label, so no bar stands above it */
+.hero{align-items:end}
+.hero .kick{margin:0 0 12px}
+figure.dg{position:relative}
+figure.dg .fitctl{position:absolute;top:10px;right:12px;margin:0;z-index:1}
+/* eight callouts, four rows of two */
+@media (min-width:861px){.callouts li:nth-child(7){border-bottom:0}}
+/* the reason column is paragraphs, so it reads in Archivo; questions and routes stay mono */
+.route td:nth-child(3){font-family:var(--sans);font-size:14.5px}
+/* on a phone each routing is a card: the question, the route, the reason */
+@media (max-width:620px){
+  .route thead{display:none}
+  .route,.route tbody,.route tr,.route td{display:block;width:auto!important}
+  .route tr{padding:14px 0;border-bottom:1px solid var(--pasture-shade)}
+  .route tr:last-child{border-bottom:0}
+  .route td{border:0;padding:0}
+  .route td:nth-child(2){margin:8px 0 4px}
+  .route td:nth-child(2)::before{content:"\2192  ";font-family:var(--mono);color:var(--dim);font-weight:400}
 }
 </style>
 <a class="skip" href="#main">Skip to content</a>
@@ -172,9 +191,9 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
 <main class="desk" id="main">
 
 <section class="win">
-  <div class="bar"><span class="close"></span><h2>field guide</h2><span class="grow"></span><span class="size"></span></div>
   <div class="body hero">
     <div>
+      <p class="lab kick">Field guide</p>
       <h1>The method map</h1>
     </div>
     <p class="lead">Product data science on one page. A question enters at the left and leaves as a decision. Measurement is a foundation, not a phase, because what ships changes the data; theory is a ceiling, not a report, because what you learn has to outlive the test that produced it.</p>
@@ -184,9 +203,8 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
 <nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
 
 <section class="win" id="the-map">
-  <div class="bar"><span class="close"></span><h2>1 · the map</h2><span class="grow"></span><button type="button" class="fitctl is-fit" aria-controls="map-figure" title="Show at actual size" aria-label="Show at actual size"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button></div>
   <div class="body">
-    <figure class="dg fit" id="map-figure"><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
+    <figure class="dg" id="map-figure"><button type="button" class="fitctl" aria-controls="map-figure" title="Fit to screen" aria-label="Fit to screen"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a theory layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
   <defs>
     <marker id="m" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
       markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
@@ -304,8 +322,8 @@ figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:2
     <ol class="callouts">
       <li><span class="n">1</span><div><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><p class="prod"><span>produces</span><b>A hypothesis worth testing.</b></p></div></li>
       <li><span class="n">2</span><div><h4>Can you randomise?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
-      <li><span class="n">3</span><div><h4>Experimentation</h4><p>You control assignment. A/B, switchback, power, sequential tests, HTE.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
-      <li><span class="n">4</span><div><h4>Causal inference</h4><p>Assignment already happened. Synthetic control, DiD, matching, IV, ITS.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">3</span><div><h4>Experimentation</h4><p>The one box where you decide who is treated, so the comparison is built before the data exists. Power it before launch, not after.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">4</span><div><h4>Causal inference</h4><p>A launch, a policy or a region already decided who was treated. The design recovers a comparison the data does not hand you, and states the assumption it cannot test.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
       <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Forecasts, rankings, allocations, and the estimators the causal designs run on: below the main path, not on it.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
       <li><span class="n">6</span><div><h4>Decision</h4><p>Ship, kill, reallocate. An ellipse because it is a terminal state, not another activity.</p><p class="prod"><span>produces</span><b>A change to the product, and new data.</b></p></div></li>
       <li><span class="n">7</span><div><h4>Theory layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer a team runs it.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
