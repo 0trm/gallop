@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">automating-decisions</h1>
-      <p class="skdesc">Decides whether a repeated, at-volume decision belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.</p>
+      <p class="skdesc">Whether a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Decides whether a repeated, at-volume decision belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/automating-decisions .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/automating-decisions .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/automating-decisions">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/automating-decisions/scripts/validate_model.py">scripts/validate_model.py</a></li></ul></div>
@@ -275,7 +280,7 @@ and the prior-store record, from the experiment's numbers.</li>
 </tbody>
 </table></div>
 
-<details class="refdoc" id="ref-forecast-baselines"><summary><span class="lab">reference</span> forecast-baselines.md</summary>
+<details class="refdoc" id="ref-forecast-baselines"><summary><span class="lab">reference</span> <span class="rt">Forecast baselines</span> <span class="fn">forecast-baselines.md</span></summary>
 <h2>Forecast baselines</h2>
 <p>A forecast is a claim that the future looks like the past in a stated
 way. The baseline states the simplest such claim, and the model has to
@@ -333,7 +338,7 @@ median is rarely it. The allocation's own impact, once it runs, is again
 an experiment or a holdout, never the forecast's accuracy.</p>
 
 </details>
-<details class="refdoc" id="ref-propensity-vs-uplift"><summary><span class="lab">reference</span> propensity-vs-uplift.md</summary>
+<details class="refdoc" id="ref-propensity-vs-uplift"><summary><span class="lab">reference</span> <span class="rt">Propensity versus uplift</span> <span class="fn">propensity-vs-uplift.md</span></summary>
 <h2>Propensity versus uplift</h2>
 <p>Two models that look alike on a dashboard and target different people.</p>
 <h3>The four kinds of unit</h3>
@@ -416,7 +421,7 @@ the one that holds. The line to draw: if the score decides who receives a
 treatment meant to change the outcome, the model has to be uplift.</p>
 
 </details>
-<details class="refdoc" id="ref-validation"><summary><span class="lab">reference</span> validation.md</summary>
+<details class="refdoc" id="ref-validation"><summary><span class="lab">reference</span> <span class="rt">Validation</span> <span class="fn">validation.md</span></summary>
 <h2>Validation</h2>
 <p>What has to be true before an offline number means anything, in the order
 the skill checks it.</p>

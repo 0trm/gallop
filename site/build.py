@@ -430,9 +430,12 @@ def build_skill_page(d, emitted):
         for f in sorted((d / sub).glob("*.md")):
             inner = demote(render(f.read_text()))
             label = "template" if sub == "templates" else "reference"
+            m = re.search(r"<h2>(.*?)</h2>", inner)
+            title = html.unescape(re.sub(r"<[^>]+>", "", m.group(1))) if m else ""
+            rt = f' <span class="rt">{html.escape(title)}</span>' if title else ""
             sections.append(
                 f'<details class="refdoc" id="ref-{f.stem}"><summary><span class="lab">{label}'
-                f'</span> {f.name}</summary>\n{inner}\n</details>')
+                f'</span>{rt} <span class="fn">{f.name}</span></summary>\n{inner}\n</details>')
     scripts = sorted((d / "scripts").glob("*.py")) if (d / "scripts").exists() else []
     script_note = ""
     if scripts:
@@ -448,11 +451,16 @@ def build_skill_page(d, emitted):
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">{name}</h1>
-      <p class="skdesc">{meta.get("description", "")}</p>
+      <p class="skdesc">{decides}.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>{meta.get("description", "")}</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/{name} .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/{name} .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/{name}">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       {script_note}

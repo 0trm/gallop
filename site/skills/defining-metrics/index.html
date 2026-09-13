@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">defining-metrics</h1>
-      <p class="skdesc">Turns a metric name into a computation, a source of truth, a registry entry, and a written statement of how it will be gamed, then decides whether it is trustworthy enough to promote. Use when defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated.</p>
+      <p class="skdesc">A metric turned into a computation, a source of truth, a registry entry, and a statement of how it will be gamed.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Turns a metric name into a computation, a source of truth, a registry entry, and a written statement of how it will be gamed, then decides whether it is trustworthy enough to promote. Use when defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a readout depends on a metric nobody has validated.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/defining-metrics .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/defining-metrics .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/defining-metrics">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
@@ -219,7 +224,7 @@ current value is, and which past readouts, if any, are now suspect. Then
 re-enter <code>routing-questions</code> with the original question, which can now be
 answered on a floor that holds.</p>
 
-<details class="refdoc" id="ref-gaming"><summary><span class="lab">reference</span> gaming.md</summary>
+<details class="refdoc" id="ref-gaming"><summary><span class="lab">reference</span> <span class="rt">How metrics get gamed</span> <span class="fn">gaming.md</span></summary>
 <h2>How metrics get gamed</h2>
 <p>Goodhart's law, made operational: when a measure becomes a target, it stops
 measuring. The registry requires a <code>gaming</code> statement because the failure is
@@ -269,7 +274,7 @@ it usually means the metric is very close to actual value exchange, which is
 also the argument for its promotion.</p>
 
 </details>
-<details class="refdoc" id="ref-promotion"><summary><span class="lab">reference</span> promotion.md</summary>
+<details class="refdoc" id="ref-promotion"><summary><span class="lab">reference</span> <span class="rt">The promotion checklist</span> <span class="fn">promotion.md</span></summary>
 <h2>The promotion checklist</h2>
 <p>A metric moves from <code>provisional</code> to <code>trusted</code> only when every item below
 passes. Trusted is the status that licenses primary or guardrail duty in an
@@ -333,7 +338,7 @@ superseded, the instrumentation broke irrecoverably, or the gaming statement
 came true and the guardrail did not hold.</p>
 
 </details>
-<details class="refdoc" id="ref-registry-schema"><summary><span class="lab">reference</span> registry-schema.md</summary>
+<details class="refdoc" id="ref-registry-schema"><summary><span class="lab">reference</span> <span class="rt">The metric registry, field by field</span> <span class="fn">registry-schema.md</span></summary>
 <h2>The metric registry, field by field</h2>
 <p>One JSONL file, one metric per line, diffable in a pull request. The contract
 is <code>src/gallop/templates/metric-registry.schema.json</code>, published at the repo

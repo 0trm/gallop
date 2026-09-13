@@ -42,8 +42,8 @@
 <circle class="dot" cx="422.9" cy="85.2" r="3.5"/>
 <circle class="dot" cx="553.9" cy="67.9" r="3.5"/>
 <circle class="dot" cx="816.0" cy="43.3" r="3.5"/>
-<text x="66.0" y="221.5" text-anchor="start">1 look: 5%</text>
-<text x="170.8" y="152.3" text-anchor="start">5 looks: 14%</text>
-<text x="432.9" y="89.2" text-anchor="start">15 looks: 22%</text>
-<text x="808.0" y="47.3" text-anchor="end">30 looks: 28%</text>
+<text x="62.0" y="235.5" text-anchor="start">1 look: 5%</text>
+<text x="166.8" y="166.3" text-anchor="start">5 looks: 14%</text>
+<text x="428.9" y="103.2" text-anchor="start">15 looks: 22%</text>
+<text x="802.0" y="65.3" text-anchor="end">30 looks: 28%</text>
 </svg>

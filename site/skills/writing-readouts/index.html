@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">writing-readouts</h1>
-      <p class="skdesc">Writes an experiment or analysis readout with the decision rule first and the result last, converts the finding into a durable belief rather than a number, and files both the knowledge-repo entry and the prior-store record before the ticket closes. Use when a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year.</p>
+      <p class="skdesc">The decision rule first, the result last; the belief filed where the next question starts.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Writes an experiment or analysis readout with the decision rule first and the result last, converts the finding into a durable belief rather than a number, and files both the knowledge-repo entry and the prior-store record before the ticket closes. Use when a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/writing-readouts .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/writing-readouts .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/writing-readouts">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
@@ -166,7 +171,7 @@ no-measurement) is written on the issue by name. The loop this closes is
 the only object in the system that gets more valuable the longer it runs;
 measure the quarter by decisions produced and entries filed, not by wins.</p>
 
-<details class="refdoc" id="ref-knowledge-entry"><summary><span class="lab">template</span> knowledge-entry.md</summary>
+<details class="refdoc" id="ref-knowledge-entry"><summary><span class="lab">template</span> <span class="rt">&lt;The question, phrased so two answers were imaginable&gt;</span> <span class="fn">knowledge-entry.md</span></summary>
 <h2>&lt;The question, phrased so two answers were imaginable&gt;</h2>
 <p>&lt;date filed · surface(s) · prior store id(s) · status: settled | superseded by <link>&gt;</p>
 <p><strong>Decision unblocked.</strong> &lt;What changed on the answer, and who made the call.
@@ -197,7 +202,7 @@ same care as wins. Search this repo before scoping anything; that lookup
 is step 0 of routing-questions.</p>
 
 </details>
-<details class="refdoc" id="ref-readout"><summary><span class="lab">template</span> readout.md</summary>
+<details class="refdoc" id="ref-readout"><summary><span class="lab">template</span> <span class="rt">Readout · </span> <span class="fn">readout.md</span></summary>
 <h2>Readout · <experiment name></h2>
 <p>&lt;question issue link · flag name · dates run · readout date&gt;</p>
 <h3>The decision rule, as pre-registered</h3>

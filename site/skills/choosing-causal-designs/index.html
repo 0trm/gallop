@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">choosing-causal-designs</h1>
-      <p class="skdesc">Selects a causal design when assignment already happened and randomisation was never possible: interrupted time series for one unit and one switch date, difference-in-differences for treated and untreated units seen before and after, synthetic control for one treated unit and many donors, matching on observables, instrumental variables, and the exit that says there is no valid comparison group. Use when measuring the impact of something already rolled out, a launch, a migration, a pricing change, or a campaign that reached everyone at once.</p>
+      <p class="skdesc">The method that matches how assignment happened, and the exit that says there is no comparison group.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Selects a causal design when assignment already happened and randomisation was never possible: interrupted time series for one unit and one switch date, difference-in-differences for treated and untreated units seen before and after, synthetic control for one treated unit and many donors, matching on observables, instrumental variables, and the exit that says there is no valid comparison group. Use when measuring the impact of something already rolled out, a launch, a migration, a pricing change, or a campaign that reached everyone at once.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/choosing-causal-designs .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/choosing-causal-designs .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/choosing-causal-designs">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       
@@ -180,7 +185,7 @@ never checks its observational calls against experimental ones never
 learns which of its designs to trust.</li>
 </ul>
 
-<details class="refdoc" id="ref-did"><summary><span class="lab">reference</span> did.md</summary>
+<details class="refdoc" id="ref-did"><summary><span class="lab">reference</span> <span class="rt">Difference-in-differences</span> <span class="fn">did.md</span></summary>
 <h2>Difference-in-differences</h2>
 <p>Some units got the change, some did not, and both are observed before and
 after. The counterfactual for the treated units is their own pre-period
@@ -240,7 +245,7 @@ order was alphabetical, which supports it.&quot; Effect, check, assumption, and
 why the assumption is plausible in this instance.</p>
 
 </details>
-<details class="refdoc" id="ref-its"><summary><span class="lab">reference</span> its.md</summary>
+<details class="refdoc" id="ref-its"><summary><span class="lab">reference</span> <span class="rt">Interrupted time series</span> <span class="fn">its.md</span></summary>
 <h2>Interrupted time series</h2>
 <p>One unit (often the whole product), one switch date, no untreated twin. The
 counterfactual is the pre-period's own trajectory, projected forward; the
@@ -303,7 +308,7 @@ inside the window.&quot; Effect, falsification range, assumption, known threat,
 one sentence each.</p>
 
 </details>
-<details class="refdoc" id="ref-matching-iv"><summary><span class="lab">reference</span> matching-iv.md</summary>
+<details class="refdoc" id="ref-matching-iv"><summary><span class="lab">reference</span> <span class="rt">Matching, and instrumental variables</span> <span class="fn">matching-iv.md</span></summary>
 <h2>Matching, and instrumental variables</h2>
 <p>The two designs for self-selection, in descending order of how often they
 apply. Both answer &quot;did adopting X cause Y&quot; when individuals chose X
@@ -380,7 +385,7 @@ encouragement design converts &quot;no instrument&quot; into &quot;instrument ne
 sprint&quot;.</p>
 
 </details>
-<details class="refdoc" id="ref-no-comparison-group"><summary><span class="lab">reference</span> no-comparison-group.md</summary>
+<details class="refdoc" id="ref-no-comparison-group"><summary><span class="lab">reference</span> <span class="rt">No comparison group</span> <span class="fn">no-comparison-group.md</span></summary>
 <h2>No comparison group</h2>
 <p>The exit that says so. It fires when every row of the selection table has
 failed: everyone got the change at once, no untreated twin exists anywhere,
@@ -433,7 +438,7 @@ between re-litigating the refusal and pointing at it, and the count of
 refusals per quarter is itself the argument for the holdout policy.</p>
 
 </details>
-<details class="refdoc" id="ref-synthetic-control"><summary><span class="lab">reference</span> synthetic-control.md</summary>
+<details class="refdoc" id="ref-synthetic-control"><summary><span class="lab">reference</span> <span class="rt">Synthetic control</span> <span class="fn">synthetic-control.md</span></summary>
 <h2>Synthetic control</h2>
 <p>One treated unit, many untreated candidates. Build the counterfactual as a
 weighted blend of donor units chosen so the blend tracks the treated unit's

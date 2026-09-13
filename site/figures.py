@@ -100,7 +100,9 @@ def peeking():
     body.append(text(ax.r, ax.y(.05) - 6, "the 5% you signed up for", "dimt", "end"))
     for k, f in zip(looks, fpr):
         body.append(f'<circle class="dot" cx="{ax.x(k):.1f}" cy="{ax.y(f):.1f}" r="3.5"/>')
-    for k, f, dx, dy in ((1, fpr[0], 10, 4), (5, fpr[4], 10, 4), (14, fpr[8], 10, 4), (30, fpr[-1], -8, 4)):
+    # below and right of each point, where a rising, flattening curve leaves room;
+    # the last one below and left, clear of the curve and of the 30% gridline
+    for k, f, dx, dy in ((1, fpr[0], 6, 18), (5, fpr[4], 6, 18), (14, fpr[8], 6, 18), (30, fpr[-1], -14, 22)):
         i = looks.index(k if k != 14 else 15)
         anchor = "end" if k == 30 else "start"
         body.append(text(ax.x(looks[i]) + dx, ax.y(fpr[i]) + dy, f"{looks[i]} look{'s' if looks[i] > 1 else ''}: {fpr[i]:.0%}", "", anchor))
@@ -125,7 +127,8 @@ def cuped():
         f = float(np.sqrt(1 - r**2))
         body.append(f'<line class="grid dash" x1="{ax.x(r):.1f}" y1="{ax.y(f):.1f}" x2="{ax.x(r):.1f}" y2="{ax.b}"/>')
         body.append(f'<circle class="dot" cx="{ax.x(r):.1f}" cy="{ax.y(f):.1f}" r="3.5"/>')
-        body.append(text(ax.x(r) - 8, ax.y(f) - 8, f"rho {r:.1f}: se x{f:.2f}", "", "end"))
+        # below and left: the falling curve is higher to the left of every point
+        body.append(text(ax.x(r) - 10, ax.y(f) + 18, f"rho {r:.1f}: se x{f:.2f}", "", "end"))
     return svg(300, "\n".join(body),
                "The standard error after CUPED as a share of the raw standard error, "
                "sqrt(1 minus rho squared): 0.87 at rho 0.5, 0.71 at 0.7, 0.44 at 0.9.")

@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">sizing-opportunities</h1>
-      <p class="skdesc">Turns a what-happened question into a localised, sized hypothesis: rules out the measurement floor before any behavioural story, decomposes a moved metric into mix and rate, splits the change across funnel steps, scans segments with the number of cuts declared, and sizes the opportunity as a ceiling and a prior-anchored estimate against the MDE, then hands the hypothesis back to routing as a change question. Use when a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it.</p>
+      <p class="skdesc">A what-happened question turned into a localised, sized hypothesis, with the floor checked first and the gap never quoted as the prize.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Turns a what-happened question into a localised, sized hypothesis: rules out the measurement floor before any behavioural story, decomposes a moved metric into mix and rate, splits the change across funnel steps, scans segments with the number of cuts declared, and sizes the opportunity as a ceiling and a prior-anchored estimate against the MDE, then hands the hypothesis back to routing as a change question. Use when a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/sizing-opportunities .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/sizing-opportunities .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/sizing-opportunities">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/sizing-opportunities/scripts/size_opportunity.py">scripts/size_opportunity.py</a></li></ul></div>
@@ -253,7 +258,7 @@ bigger change proposed.</li>
 </tbody>
 </table></div>
 
-<details class="refdoc" id="ref-decomposition"><summary><span class="lab">reference</span> decomposition.md</summary>
+<details class="refdoc" id="ref-decomposition"><summary><span class="lab">reference</span> <span class="rt">Decomposition</span> <span class="fn">decomposition.md</span></summary>
 <h2>Decomposition</h2>
 <p>Two identities that turn &quot;the metric moved&quot; into &quot;this is what moved it&quot;.
 Both are exact, so the shares they produce sum to the change and nothing
@@ -319,7 +324,7 @@ inherits the floor: decomposing a tracking change produces a precise
 location for a bug.</p>
 
 </details>
-<details class="refdoc" id="ref-floor-first"><summary><span class="lab">reference</span> floor-first.md</summary>
+<details class="refdoc" id="ref-floor-first"><summary><span class="lab">reference</span> <span class="rt">The floor first</span> <span class="fn">floor-first.md</span></summary>
 <h2>The floor first</h2>
 <p>Most sudden moves in a product metric are changes in what is counted, not
 in what people did. This is the checklist that runs before any segment is
@@ -376,7 +381,7 @@ and re-enters the question once the number can be trusted. Analysing the
 drop &quot;in the meantime&quot; produces a story about a bug.</p>
 
 </details>
-<details class="refdoc" id="ref-segment-scan"><summary><span class="lab">reference</span> segment-scan.md</summary>
+<details class="refdoc" id="ref-segment-scan"><summary><span class="lab">reference</span> <span class="rt">The segment scan</span> <span class="fn">segment-scan.md</span></summary>
 <h2>The segment scan</h2>
 <p>What a segment result is, what it is not, and the discipline that keeps a
 deep dive from finding whatever it went looking for.</p>
@@ -439,7 +444,7 @@ meaning. Time-box the scan and hand back what is localised; the next
 segment is the next question, not this one.</p>
 
 </details>
-<details class="refdoc" id="ref-sizing"><summary><span class="lab">reference</span> sizing.md</summary>
+<details class="refdoc" id="ref-sizing"><summary><span class="lab">reference</span> <span class="rt">Sizing</span> <span class="fn">sizing.md</span></summary>
 <h2>Sizing</h2>
 <p>The number a roadmap weighs, and the three ways it goes wrong: the whole
 gap is assumed to close, the estimate is anchored on nothing, and the
@@ -506,7 +511,7 @@ and it is the PDS's to write, because nobody else in the room has both
 numbers.</p>
 
 </details>
-<details class="refdoc" id="ref-hypothesis"><summary><span class="lab">template</span> hypothesis.md</summary>
+<details class="refdoc" id="ref-hypothesis"><summary><span class="lab">template</span> <span class="rt">&lt;What moved, in one line: metric, direction, size, window&gt;</span> <span class="fn">hypothesis.md</span></summary>
 <h2>&lt;What moved, in one line: metric, direction, size, window&gt;</h2>
 <p>&lt;date · surface(s) · requested by · the decision this unblocks&gt;</p>
 <p><strong>Against which baseline.</strong> &lt;Same period last year, trend, seasonal

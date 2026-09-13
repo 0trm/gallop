@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">designing-experiments</h1>
-      <p class="skdesc">Designs an A/B test around the four choices that cannot be repaired after launch: the randomisation unit and whether units interfere, the minimum detectable effect sized from prior experiments rather than from a wish, exposure logging rather than eligibility logging, and a decision rule written before traffic starts. Use when planning, powering, or pre-registering an experiment, when deciding whether a question is testable at the available traffic, or when a feature is about to ship without a flag.</p>
+      <p class="skdesc">The four choices that cannot be repaired after launch, with the MDE from the prior store.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Designs an A/B test around the four choices that cannot be repaired after launch: the randomisation unit and whether units interfere, the minimum detectable effect sized from prior experiments rather than from a wish, exposure logging rather than eligibility logging, and a decision rule written before traffic starts. Use when planning, powering, or pre-registering an experiment, when deciding whether a question is testable at the available traffic, or when a feature is about to ship without a flag.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/designing-experiments .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/designing-experiments .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/designing-experiments">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/designing-experiments/scripts/size_test.py">scripts/size_test.py</a></li></ul></div>
@@ -172,7 +177,7 @@ the test is not designed yet. If all are filled, file the plan on the
 ticket; <code>reading-experiments</code> will hold the readout to exactly this plan,
 and <code>writing-readouts</code> will file what it taught.</p>
 
-<details class="refdoc" id="ref-interference"><summary><span class="lab">reference</span> interference.md</summary>
+<details class="refdoc" id="ref-interference"><summary><span class="lab">reference</span> <span class="rt">Interference</span> <span class="fn">interference.md</span></summary>
 <h2>Interference</h2>
 <p>The assumption every standard A/B analysis makes without saying so: one
 unit's assignment does not change another unit's outcome (SUTVA). When it
@@ -220,7 +225,7 @@ or cluster, and the duration arithmetic must be redone at the new unit,
 which usually changes the answer to &quot;is this testable at our traffic&quot;.</p>
 
 </details>
-<details class="refdoc" id="ref-pre-registration"><summary><span class="lab">reference</span> pre-registration.md</summary>
+<details class="refdoc" id="ref-pre-registration"><summary><span class="lab">reference</span> <span class="rt">Pre-registration</span> <span class="fn">pre-registration.md</span></summary>
 <h2>Pre-registration</h2>
 <p>The analysis plan, written before the flag flips, attached to the ticket
 that launches the test. Its purpose is to make the readout a comparison
@@ -272,7 +277,7 @@ after the numbers are visible, the same lines are just the story of what
 happened; the entire value is in the timestamp.</p>
 
 </details>
-<details class="refdoc" id="ref-randomisation-unit"><summary><span class="lab">reference</span> randomisation-unit.md</summary>
+<details class="refdoc" id="ref-randomisation-unit"><summary><span class="lab">reference</span> <span class="rt">Choosing the randomisation unit</span> <span class="fn">randomisation-unit.md</span></summary>
 <h2>Choosing the randomisation unit</h2>
 <p>The unit is the thing the coin flip assigns. It fixes what the analysis may
 treat as independent, so it is the first choice and the least repairable.</p>

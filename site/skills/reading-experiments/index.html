@@ -60,11 +60,16 @@
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">reading-experiments</h1>
-      <p class="skdesc">Runs the trust gate on a finished experiment before the result is believed: sample ratio mismatch, exposure counts, always-valid or sequential bounds, guardrails read before the primary metric, the pre-registered segment rather than the most flattering one, CUPED variance reduction, and empirical Bayes shrinkage against the prior store. Use when analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment readout.</p>
+      <p class="skdesc">Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Runs the trust gate on a finished experiment before the result is believed: sample ratio mismatch, exposure counts, always-valid or sequential bounds, guardrails read before the primary metric, the pre-registered segment rather than the most flattering one, CUPED variance reduction, and empirical Bayes shrinkage against the prior store. Use when analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment readout.</p></details>
     </div>
     <div>
-      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
-<span class="p">$</span> cp -r gallop/skills/reading-experiments .claude/skills/</pre></div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>claude</span><button type="button" class="copy">Copy</button></div><pre><span class="p">&gt;</span> /plugin marketplace add 0trm/gallop
+<span class="p">&gt;</span> /plugin install gallop@gallop</pre></div>
+      <details class="alt"><summary><span class="lab">Or copy just this skill</span></summary>
+        <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> cp -r gallop/skills/reading-experiments .claude/skills/</pre></div></details>
       <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/reading-experiments">
         <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
       <div class="scripts"><p class="lab">Ships with</p><ul><li><a href="https://github.com/0trm/gallop/blob/main/skills/reading-experiments/scripts/run_checks.py">scripts/run_checks.py</a></li></ul></div>
@@ -149,10 +154,10 @@ triggered by a guardrail is the system working and still gets a readout.</p>
 <circle class="dot" cx="422.9" cy="85.2" r="3.5"/>
 <circle class="dot" cx="553.9" cy="67.9" r="3.5"/>
 <circle class="dot" cx="816.0" cy="43.3" r="3.5"/>
-<text x="66.0" y="221.5" text-anchor="start">1 look: 5%</text>
-<text x="170.8" y="152.3" text-anchor="start">5 looks: 14%</text>
-<text x="432.9" y="89.2" text-anchor="start">15 looks: 22%</text>
-<text x="808.0" y="47.3" text-anchor="end">30 looks: 28%</text>
+<text x="62.0" y="235.5" text-anchor="start">1 look: 5%</text>
+<text x="166.8" y="166.3" text-anchor="start">5 looks: 14%</text>
+<text x="428.9" y="103.2" text-anchor="start">15 looks: 22%</text>
+<text x="802.0" y="65.3" text-anchor="end">30 looks: 28%</text>
 </svg><figcaption>Read a fixed-horizon test every day and the false-positive rate is not 5%. Simulated under a true null at alpha 0.05, 100,000 runs: about 14% at five looks, 28% at thirty.</figcaption></figure>
 <ul>
 <li><strong>If the design was fixed-horizon and nobody looked early</strong>: the plain
@@ -199,13 +204,13 @@ and failure modes: <a href="#ref-variance-reduction">reference/variance-reductio
 <path class="ln" d="M56.0 28.0 L63.6 28.0 L71.2 28.0 L78.8 28.1 L86.4 28.2 L94.0 28.3 L101.6 28.4 L109.2 28.6 L116.8 28.7 L124.4 28.9 L132.0 29.1 L139.6 29.4 L147.2 29.6 L154.8 29.9 L162.4 30.2 L170.0 30.6 L177.6 30.9 L185.2 31.3 L192.8 31.7 L200.4 32.2 L208.0 32.6 L215.6 33.1 L223.2 33.6 L230.8 34.1 L238.4 34.7 L246.0 35.2 L253.6 35.8 L261.2 36.5 L268.8 37.1 L276.4 37.8 L284.0 38.5 L291.6 39.2 L299.2 40.0 L306.8 40.8 L314.4 41.6 L322.0 42.4 L329.6 43.3 L337.2 44.2 L344.8 45.1 L352.4 46.1 L360.0 47.0 L367.6 48.0 L375.2 49.1 L382.8 50.2 L390.4 51.3 L398.0 52.4 L405.6 53.6 L413.2 54.8 L420.8 56.0 L428.4 57.2 L436.0 58.5 L443.6 59.9 L451.2 61.3 L458.8 62.7 L466.4 64.1 L474.0 65.6 L481.6 67.1 L489.2 68.7 L496.8 70.3 L504.4 71.9 L512.0 73.6 L519.6 75.3 L527.2 77.1 L534.8 78.9 L542.4 80.8 L550.0 82.7 L557.6 84.7 L565.2 86.7 L572.8 88.8 L580.4 91.0 L588.0 93.2 L595.6 95.4 L603.2 97.8 L610.8 100.2 L618.4 102.6 L626.0 105.2 L633.6 107.8 L641.2 110.5 L648.8 113.3 L656.4 116.2 L664.0 119.2 L671.6 122.3 L679.2 125.5 L686.8 128.8 L694.4 132.3 L702.0 135.9 L709.6 139.7 L717.2 143.6 L724.8 147.7 L732.4 152.0 L740.0 156.6 L747.6 161.5 L755.2 166.6 L762.8 172.2 L770.4 178.2 L778.0 184.8 L785.6 192.2 L793.2 200.6 L800.8 210.6 L808.4 223.8 L816.0 256.0"/>
 <line class="grid dash" x1="436.0" y1="58.5" x2="436.0" y2="256"/>
 <circle class="dot" cx="436.0" cy="58.5" r="3.5"/>
-<text x="428.0" y="50.5" text-anchor="end">rho 0.5: se x0.87</text>
+<text x="426.0" y="76.5" text-anchor="end">rho 0.5: se x0.87</text>
 <line class="grid dash" x1="588.0" y1="93.2" x2="588.0" y2="256"/>
 <circle class="dot" cx="588.0" cy="93.2" r="3.5"/>
-<text x="580.0" y="85.2" text-anchor="end">rho 0.7: se x0.71</text>
+<text x="578.0" y="111.2" text-anchor="end">rho 0.7: se x0.71</text>
 <line class="grid dash" x1="740.0" y1="156.6" x2="740.0" y2="256"/>
 <circle class="dot" cx="740.0" cy="156.6" r="3.5"/>
-<text x="732.0" y="148.6" text-anchor="end">rho 0.9: se x0.44</text>
+<text x="730.0" y="174.6" text-anchor="end">rho 0.9: se x0.44</text>
 </svg><figcaption>CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic.</figcaption></figure>
 <p><strong>A null is an interval, not a zero.</strong> &quot;No difference&quot; when the MDE was
 1.4pp means &quot;we could not have seen less than 1.4pp&quot;. Report the interval
@@ -279,7 +284,7 @@ in the readout that the next design fixes the licence.</li>
 <p>Every verdict flows to <code>writing-readouts</code>; the prior store only stays
 honest if losses and broken tests are written back as faithfully as wins.</p>
 
-<details class="refdoc" id="ref-shrinkage"><summary><span class="lab">reference</span> shrinkage.md</summary>
+<details class="refdoc" id="ref-shrinkage"><summary><span class="lab">reference</span> <span class="rt">Empirical Bayes shrinkage</span> <span class="fn">shrinkage.md</span></summary>
 <h2>Empirical Bayes shrinkage</h2>
 <p>The winner's-curse correction, and the moment the prior store pays for
 itself.</p>
@@ -336,7 +341,7 @@ that shrinkage begins from test four. What is not available is treating the
 raw number as a forecast: that is the exact error the correction exists for.</p>
 
 </details>
-<details class="refdoc" id="ref-trust-gate"><summary><span class="lab">reference</span> trust-gate.md</summary>
+<details class="refdoc" id="ref-trust-gate"><summary><span class="lab">reference</span> <span class="rt">The trust gate</span> <span class="fn">trust-gate.md</span></summary>
 <h2>The trust gate</h2>
 <p>Two mechanical checks that run before any effect is read. Both exist because
 their failure modes produce readouts indistinguishable from healthy ones.</p>
@@ -393,7 +398,7 @@ test that &quot;ran fine&quot; with a 60% exposure rate was a test on a 40% smal
 effect than anyone thought they were testing.</p>
 
 </details>
-<details class="refdoc" id="ref-variance-reduction"><summary><span class="lab">reference</span> variance-reduction.md</summary>
+<details class="refdoc" id="ref-variance-reduction"><summary><span class="lab">reference</span> <span class="rt">Variance reduction at readout</span> <span class="fn">variance-reduction.md</span></summary>
 <h2>Variance reduction at readout</h2>
 <h3>CUPED</h3>
 <p>Deng, Xu, Kohavi &amp; Walker (2013). Adjust the metric by a pre-experiment
