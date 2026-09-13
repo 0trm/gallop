@@ -128,12 +128,12 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 .dg .pk{fill:var(--ink)}
 .dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
 .dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
-/* The big diagram opens fitted to the viewport so the whole shape is on one
-   screen; at 1440x900 it overshot by 281px. Fitted, the labels run about 0.74
-   scale, so the top right corner of the bar carries the control that returns
-   it to actual size: the two corner glyphs, drawn in the stroke the theme
-   switch uses, with the words kept on hover. Below 961px the figure scrolls
-   sideways at full size instead, as before. */
+/* The big diagram opens at actual width. Fitted to a 1440x900 viewport it ran
+   at 0.75 scale, its notes near 8px, and still started below a 321px header.
+   The top right corner of the plate carries the control that fits it to the
+   screen: the two corner glyphs, drawn in the stroke the theme switch uses,
+   with the words kept on hover. Below 961px the figure scrolls sideways at
+   full size instead. */
 .fitctl{width:24px;height:19px;margin-right:-6px;padding:0;border:0;background:none;
         display:inline-flex;align-items:center;justify-content:center;
         cursor:pointer;color:var(--dim)}
@@ -145,6 +145,30 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 @media (max-width:960px){.fitctl{display:none}}
 @media (min-width:961px){
   figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
+
+/* the title row carries the page label, so no bar stands above it */
+.hero{align-items:end}
+.hero .kick{margin:0 0 12px}
+figure.dg{position:relative}
+figure.dg .fitctl{position:absolute;top:10px;right:12px;margin:0;z-index:1}
+/* the diamond, the upper branch, takes the left third; the methods table two
+   thirds, so its rows sit on one line and the panels end close together */
+@media (min-width:881px){.panels{grid-template-columns:1fr 2fr}}
+.meth td:nth-child(3){font-family:var(--sans);font-size:14.5px}
+/* on a phone: the keyed-to label under the panel name, and each method as the
+   shape and name, then when to use it at full width */
+@media (max-width:620px){
+  .panels .bar{flex-wrap:wrap;row-gap:4px}
+  .panels .bar .grow{display:none}
+  .panels .bar .keyto{flex-basis:100%}
+  .meth,.meth tbody{display:block}
+  .meth thead{display:none}
+  .meth tr{display:grid;grid-template-columns:64px 1fr;padding:12px 0;border-bottom:1px solid var(--pasture-shade)}
+  .meth tr:last-child{border-bottom:0}
+  .meth td{display:block;border:0;padding:0}
+  .meth td.pic{grid-row:1 / span 2}
+  .meth td:nth-child(3){grid-column:2;margin-top:4px}
 }
 </style>
 <a class="skip" href="#main">Skip to content</a>
@@ -168,9 +192,9 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 <main class="desk" id="main">
 
 <section class="win">
-  <div class="bar"><span class="close"></span><h2>intake</h2><span class="grow"></span><span class="size"></span></div>
   <div class="body hero">
     <div>
+      <p class="lab kick">Intake</p>
       <h1>Run this on<br>every question</h1>
     </div>
     <p class="lead">One lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
@@ -178,9 +202,8 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 </section>
 
 <section class="win">
-  <div class="bar"><span class="close"></span><h2>algorithm</h2><span class="grow"></span><button type="button" class="fitctl is-fit" aria-controls="algorithm-figure" title="Show at actual size" aria-label="Show at actual size"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button></div>
   <div class="body">
-    <figure class="dg fit" id="algorithm-figure"><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
+    <figure class="dg" id="algorithm-figure"><button type="button" class="fitctl" aria-controls="algorithm-figure" title="Fit to screen" aria-label="Fit to screen"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button><svg viewBox="0 -124 1300 904" role="img" aria-label="The intake algorithm: a question is checked against the theory layer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the theory layer.">
   <defs>
     <marker id="ah" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
       markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
@@ -293,26 +316,6 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
 </section>
 
 <div class="panels">
-  <section class="win keyed k-hatch">
-    <div class="bar"><span class="close"></span><h2>it already happened</h2><span class="grow"></span><span class="keyto">keyed to causal inference</span></div>
-    <div class="body">
-      <h3>Pick the method by how assignment happened</h3>
-      <table class="meth">
-        <thead><tr><th class="pic"><span class="sr">Shape</span></th><th>Method</th><th>Use it when</th></tr></thead>
-        <tbody>
-          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="s" d="M3 19H26M26 9H53"/><path class="d" d="M26 3V25"/></svg></td><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
-          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 22L53 18"/><path class="s" d="M3 16L26 13M26 6L53 2"/><path class="d" d="M26 13L53 10"/><path class="d" d="M26 2V26"/></svg></td><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
-          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 8L26 10L53 12M3 22L26 20L53 21M3 17L26 15L53 18"/><path class="s" d="M3 14L26 13L53 4"/><path class="d" d="M26 13L53 14"/><path class="d" d="M26 2V26"/></svg></td><td>Synthetic<br>control</td><td>one treated unit, many untreated ones to blend</td></tr>
-          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="f" cx="14" cy="6" r="2.6"/><circle class="f" cx="14" cy="14" r="2.6"/><circle class="f" cx="14" cy="22" r="2.6"/><circle class="o" cx="42" cy="8" r="2.6"/><circle class="o" cx="42" cy="15" r="2.6"/><circle class="o" cx="42" cy="23" r="2.6"/><path class="w" d="M17 6L39 8M17 14L39 15M17 22L39 23"/></svg></td><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
-          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="o" cx="8" cy="18" r="5"/><circle class="o" cx="28" cy="18" r="5"/><circle class="o" cx="48" cy="18" r="5"/><text x="8" y="20.5" text-anchor="middle">Z</text><text x="28" y="20.5" text-anchor="middle">X</text><text x="48" y="20.5" text-anchor="middle">Y</text><path class="s" d="M13 18H22M33 18H42"/><circle class="o" cx="38" cy="5" r="3.5"/><path class="d" d="M35 7L30 13M41 7L46 13"/></svg></td><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
-        </tbody>
-      </table>
-      <div class="warn">
-        <p class="cap">If none of these fit, you do not have a comparison group. Say that out loud rather than shipping the number anyway.</p>
-      </div>
-    </div>
-  </section>
-
   <section class="win keyed k-vert">
     <div class="bar"><span class="close"></span><h2>the diamond</h2><span class="grow"></span><span class="keyto">keyed to experimentation</span></div>
     <div class="body">
@@ -323,6 +326,26 @@ figure.dg{margin:0;overflow-x:auto;background:var(--surface);
         <li>stagger the rollout by market or by cohort</li>
         <li>randomise the prompt, not the feature</li>
       </ul>
+    </div>
+  </section>
+
+  <section class="win keyed k-hatch">
+    <div class="bar"><span class="close"></span><h2>it already happened</h2><span class="grow"></span><span class="keyto">keyed to causal inference</span></div>
+    <div class="body">
+      <h3>Pick the method by how assignment happened</h3>
+      <table class="meth">
+        <thead><tr><th class="pic"><span class="sr">Shape</span></th><th>Method</th><th>Use it when</th></tr></thead>
+        <tbody>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="s" d="M3 19H26M26 9H53"/><path class="d" d="M26 3V25"/></svg></td><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 22L53 18"/><path class="s" d="M3 16L26 13M26 6L53 2"/><path class="d" d="M26 13L53 10"/><path class="d" d="M26 2V26"/></svg></td><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 8L26 10L53 12M3 22L26 20L53 21M3 17L26 15L53 18"/><path class="s" d="M3 14L26 13L53 4"/><path class="d" d="M26 13L53 14"/><path class="d" d="M26 2V26"/></svg></td><td>Synthetic control</td><td>one treated unit, many untreated ones to blend</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="f" cx="14" cy="6" r="2.6"/><circle class="f" cx="14" cy="14" r="2.6"/><circle class="f" cx="14" cy="22" r="2.6"/><circle class="o" cx="42" cy="8" r="2.6"/><circle class="o" cx="42" cy="15" r="2.6"/><circle class="o" cx="42" cy="23" r="2.6"/><path class="w" d="M17 6L39 8M17 14L39 15M17 22L39 23"/></svg></td><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="o" cx="8" cy="18" r="5"/><circle class="o" cx="28" cy="18" r="5"/><circle class="o" cx="48" cy="18" r="5"/><text x="8" y="20.5" text-anchor="middle">Z</text><text x="28" y="20.5" text-anchor="middle">X</text><text x="48" y="20.5" text-anchor="middle">Y</text><path class="s" d="M13 18H22M33 18H42"/><circle class="o" cx="38" cy="5" r="3.5"/><path class="d" d="M35 7L30 13M41 7L46 13"/></svg></td><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <p class="cap">If none of these fit, you do not have a comparison group. Say that out loud rather than shipping the number anyway.</p>
+      </div>
     </div>
   </section>
 
