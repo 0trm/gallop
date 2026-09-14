@@ -42,7 +42,7 @@
      rule the document pages draw */
   .hero{grid-template-columns:2fr 1fr}
   .hero .txt{padding:44px 20px 36px}
-  .hero .d{font-size:clamp(36.9px,4.3vw,62.4px);line-height:1;margin-top:14px}
+  .hero .d{font-size:clamp(37.8px,4.41vw,64px);line-height:1;margin-top:14px}
   .hero p.lede{font-family:var(--sans);font-size:18px;line-height:1.55;max-width:46ch;margin:22px 0 0;color:var(--body)}
   .hero .art{display:flex;align-items:center;justify-content:center;padding:32px 40px}
   /* .btn is display:flex, so left alone it would span the whole hero column */
@@ -79,13 +79,13 @@
   @media (max-width:1080px){
     .hero,.demo,.mapband{grid-template-columns:1fr}
     .hero > *,.demo > :first-child,.mapband > :first-child{border-right:0;border-bottom:1px solid var(--line)}
-    .hero .d{font-size:36.9px}
+    .hero .d{font-size:37.8px}
     .hero .art{padding:24px}
   }
   @media (max-width:620px){
     /* the ch caps are sized for a two-column hero; below this they push the
        headline and the lede past the right edge instead of wrapping. */
-    .hero .d{font-size:29.5px;max-width:none}
+    .hero .d{font-size:30.2px;max-width:none}
     /* the headline's line breaks are composed for a wide measure; a phone
        column is narrower than any of the three lines, so it wraps its own way. */
     .hero .d .lb{display:none}
