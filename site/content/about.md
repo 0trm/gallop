@@ -13,4 +13,4 @@ The data scientist embedded in a product team, and the analyst or product manage
 - [Install](../install/): the plugin in two commands, or the skill directories for any other agent.
 - [The skills](../skills/): all eight, and where each sits on the method map.
 - [The method map](../map/): the buckets, the layering, why measurement is a floor rather than a phase, and why theory is a ceiling rather than a report.
-- [The intake](../intake/): the routing pass run on every request.
+- [Routing](../routing/): the pass run on every request.

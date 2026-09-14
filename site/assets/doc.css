@@ -52,7 +52,7 @@
 .doc p, .doc li{font-family:var(--sans);font-size:15.5px;line-height:1.6;color:var(--body);
                 max-width:80ch}   /* figures, code and tables keep the full column */
 .doc li{margin:6px 0}
-/* bulleted lists wear the square ink marker the intake uses, not the browser's disc */
+/* bulleted lists wear the square ink marker the routing page uses, not the browser's disc */
 .doc ul{list-style:none;padding-left:0}
 .doc ul > li{position:relative;padding-left:22px}
 .doc ul > li::before{content:"";position:absolute;left:2px;top:calc(.8em - 3.5px);

@@ -39,7 +39,7 @@
 }
 
 /* --- the previous palette, mapped onto this one -------------------------
-   The map and the intake are hand-authored documents whose diagrams are
+   The map and the routing page are hand-authored documents whose diagrams are
    written against these names. Aliasing rather than rewriting keeps the
    inline SVG untouched and makes both documents theme with everything else. */
 :root{
@@ -49,7 +49,7 @@
   --pasture-shade:var(--line);
   --vellum:color-mix(in srgb, var(--fg) 13%, var(--bg));
   --f-chrome:var(--disp);
-  /* --f-body feeds the diagram labels on the map and the intake, and nothing
+  /* --f-body feeds the diagram labels on the map and the routing page, and nothing
      else. Those geometries were drawn against a proportional face, so a mono
      one runs every label past its box. It stays proportional. */
   --f-body:var(--sans);
@@ -156,7 +156,7 @@ img,svg{max-width:100%}
 @media (prefers-reduced-motion:reduce){.btn,.btn .arr{transition:none}}
 
 /* --- a terminal, when a page shows one -----------------------------------
-   No window furniture. The map and the intake had their title-bar controls
+   No window furniture. The map and the routing page had their title-bar controls
    removed by the .bar rules below, and a traffic light borrowed from another
    operating system was the last of it left standing. The bar names the run
    instead: a cursor block, the skill, and what this is. */
@@ -185,7 +185,7 @@ img,svg{max-width:100%}
         vertical-align:-2px;animation:blink 1s step-end infinite}
 @media (prefers-reduced-motion:reduce){.cursor{animation:none}}
 
-/* --- long-form documents: the map and the intake -------------------------
+/* --- long-form documents: the map and routing ----------------------------
    Their markup calls a section a .win with a .bar header. Under this system a
    window is a cell, so the frame goes flat, the striped title bar becomes a
    labelled band, and the window furniture stops rendering. */

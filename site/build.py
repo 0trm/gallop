@@ -1,6 +1,6 @@
 """Build the generated half of the site.
 
-Hand-authored pages (index, map, intake) are left untouched; this script
+Hand-authored pages (index, map, routing) are left untouched; this script
 emits everything derived from repo sources, one HTML file per document, with
 real URLs, rendering fine from file://.
 
@@ -234,7 +234,7 @@ def footer(root):
   <div>
     <p class="lab">Read</p>
     <a href="{root}map/">The method map</a>
-    <a href="{root}intake/">The intake</a>
+    <a href="{root}routing/">Routing</a>
     <a href="{root}theory/">The theory layer</a>
   </div>
   <div>
@@ -256,7 +256,7 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
     """The shared chrome: skip link, nav band, foot band, theme switch. The
     contents belong to the document, so they are built into the body."""
     nav_items = [
-        ("map/", "The map"), ("intake/", "The intake"), ("skills/", "Skills"),
+        ("map/", "The map"), ("routing/", "Routing"), ("skills/", "Skills"),
         ("theory/", "Theory"), ("install/", "Install"), ("about/", "About"),
     ]
     links = []
