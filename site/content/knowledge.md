@@ -58,18 +58,3 @@ The store earns its keep twice per experiment:
    overstatement grows as power falls. Empirical Bayes shrinkage toward
    the store's distribution is the correction, and the shrunk number is
    what gets written back, so the store deflates rather than inflates.
-
-## Why this is the part worth keeping
-
-Skip the knowledge layer and every quarter starts from zero: the team re-runs
-a test somebody ran two years ago, argues from memory about what a banner
-is worth, and powers each experiment as though it had never seen an effect
-size at this company before. The cost is not one wasted test; it is that
-nothing compounds.
-
-Run it, and the write-back is a condition of shipping rather than an act
-of virtue: nothing reaches every user without a link back to the
-experiment that justified it, and the report that closes the test writes
-the belief in the same motion. The skills in this repo exist to run one
-question around that loop; the layer is what makes the second question
-cheaper than the first.
