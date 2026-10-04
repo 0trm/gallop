@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+<title>Routing · gallop</title>
+<meta name="description" content="One decision, one lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.">
+<link rel="canonical" href="https://0trm.github.io/gallop/routing/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="Routing · gallop">
+<meta property="og:description" content="One decision, one lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.">
+<meta property="og:url" content="https://0trm.github.io/gallop/routing/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../assets/track.js" defer></script>
+<style>
+.desk{display:flex;flex-direction:column;gap:0}
+.desk > .win{border-left:0;border-right:0;border-top:0}
+/* one centred content column; the band rules stay full-bleed. --gutter lives in gallop.css */
+.body{padding:32px var(--gutter) 40px}
+.desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
+
+h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
+/* prose and headings in Archivo, as doc.css sets them; code, tables and diagram edges stay mono */
+h3{font-family:var(--sans);font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+p{margin:0}
+.lead{font-family:var(--sans);font-size:17px;line-height:1.6;max-width:78ch;color:var(--body)}
+.cap{font-family:var(--sans);font-size:14px;line-height:1.6;max-width:84ch;color:var(--body)}
+.cap b{color:var(--fg)}
+.mark{background:var(--vellum);padding:0 3px}
+
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
+
+/* diagram */
+figure.dg{margin:0;overflow-x:auto;background:var(--surface);
+          border:1px solid var(--line);padding:20px 22px}
+/* 1:1 with the viewBox inside the column; below 900px the figure scrolls sideways rather than shrinking its labels */
+.dg svg{display:block;width:100%;height:auto;min-width:900px}
+.dg text{font-family:var(--f-body);fill:var(--ink)}
+.dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
+.dg .t-sub{font-size:11.5px}
+.dg .t-give{font-size:10.5px;opacity:.62}
+.dg .t-q{font-size:12px}
+.dg .t-edge{font-family:var(--f-mono);font-size:10.5px}
+.dg .t-note{font-size:9.5px;opacity:.62}
+.dg .node{fill:var(--paper);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .sel{fill:var(--vellum);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
+.dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.dg .head{fill:var(--ink)}
+@media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
+@media (max-width:960px){
+  /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
+  figure.dg::before{content:"scroll sideways for the whole diagram";display:block;position:sticky;left:0;
+                    font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+                    opacity:.55;margin-bottom:6px}
+}
+
+@media print{
+  html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    figure.dg,.band,.warn,.opts li,tr{break-inside:avoid}
+  h3{break-after:avoid}
+}
+
+.hero{display:grid;grid-template-columns:minmax(300px,.8fr) 1.2fr;gap:44px;align-items:baseline}
+.panels{display:grid;grid-template-columns:1.12fr 1fr;gap:34px;align-items:stretch;padding:0 var(--gutter)}
+.panels > .win{display:flex;flex-direction:column}
+.panels > .win > .body{flex:1}
+
+/* the key: a 1-bit band standing in for the original's tints */
+.keyed .body{padding-left:44px;position:relative}
+.keyed .body::before{content:"";position:absolute;left:0;top:0;bottom:0;width:14px;
+                     border-right:var(--hair);background-color:var(--paper)}
+.k-hatch .body::before{background-image:repeating-linear-gradient(45deg,var(--ink) 0 1px,transparent 1px 4px)}
+.k-vert  .body::before{background-image:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 3px)}
+.keyto{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+       text-transform:uppercase;color:var(--dim);display:block;margin-bottom:14px}
+/* in the title bar it sits beside the section name, not above the heading */
+.bar .keyto{margin:0}
+
+.meth{width:100%;border-collapse:collapse;font-size:14px}
+.meth th{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+         text-transform:uppercase;color:var(--dim);padding:0 0 10px;border-bottom:var(--hair)}
+.meth td{padding:12px 14px 12px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;
+         line-height:1.6;color:var(--body)}
+/* the method name is the second cell; the first has held the shape since that column was added */
+.meth td:nth-child(2){font-weight:700;color:var(--fg);padding-right:20px}
+.meth tr:last-child td{border-bottom:none}
+.meth .pic{width:64px;padding-right:20px}
+.pict{width:56px;height:28px;display:block}
+.pict .s{stroke:var(--ink);fill:none;stroke-width:1.5;stroke-linecap:round}
+.pict .d{stroke:var(--ink);fill:none;stroke-width:1;stroke-dasharray:3 2}
+.pict .w{stroke:var(--ink);fill:none;stroke-width:1;opacity:.4}
+.pict .f{fill:var(--ink)}
+.pict .o{fill:var(--paper);stroke:var(--ink);stroke-width:1.2}
+.pict text{font-family:var(--f-body);font-size:7px;fill:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.warn{display:flex;gap:16px;align-items:flex-start;margin-top:20px;padding-top:18px;
+      border-top:1px solid var(--pasture-shade)}
+.opts{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.opts li{display:flex;gap:12px;font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--body)}
+.opts li::before{content:"";flex:0 0 7px;height:7px;background:var(--ink);margin-top:8px}
+
+@media (max-width:880px){ .hero{grid-template-columns:1fr} .panels{grid-template-columns:1fr} }
+
+.dg .t-title{font-size:15px}
+.dg .t-sub{font-size:12.5px}
+.dg .t-give{font-size:11.5px}
+.dg .t-q{font-size:13px}
+.dg .t-edge{font-size:11.5px}
+.dg .t-note{font-size:10.5px}
+.dg .key{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .pk{fill:var(--ink)}
+.dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
+.dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+/* The big diagram opens at actual width. Fitted to a 1440x900 viewport it ran
+   at 0.75 scale, its notes near 8px, and still started below a 321px header.
+   The top right corner of the plate carries the control that fits it to the
+   screen: the two corner glyphs, drawn in the stroke the theme switch uses,
+   with the words kept on hover. Below 961px the figure scrolls sideways at
+   full size instead. */
+.fitctl{width:24px;height:19px;margin-right:-6px;padding:0;border:0;background:none;
+        display:inline-flex;align-items:center;justify-content:center;
+        cursor:pointer;color:var(--dim)}
+.fitctl svg{display:none;width:16px;height:16px;fill:none;stroke:currentColor;
+            stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.fitctl.is-fit .out{display:block}
+.fitctl:not(.is-fit) .in{display:block}
+.fitctl:hover{color:var(--fg)}
+@media (max-width:960px){.fitctl{display:none}}
+@media (min-width:961px){
+  figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
+
+/* the title row carries the page label, so no bar stands above it */
+.hero{align-items:end}
+.hero .kick{margin:0 0 12px}
+figure.dg{position:relative}
+figure.dg .fitctl{position:absolute;top:10px;right:12px;margin:0;z-index:1}
+/* the diamond, the upper branch, takes the left third; the methods table two
+   thirds, so its rows sit on one line and the panels end close together */
+@media (min-width:881px){.panels{grid-template-columns:1fr 2fr}}
+.meth td:nth-child(3){font-family:var(--sans);font-size:14.5px}
+/* on a phone: the keyed-to label under the panel name, and each method as the
+   shape and name, then when to use it at full width */
+@media (max-width:620px){
+  .panels .bar{flex-wrap:wrap;row-gap:4px}
+  .panels .bar .grow{display:none}
+  .panels .bar .keyto{flex-basis:100%}
+  .meth,.meth tbody{display:block}
+  .meth thead{display:none}
+  .meth tr{display:grid;grid-template-columns:64px 1fr;padding:12px 0;border-bottom:1px solid var(--pasture-shade)}
+  .meth tr:last-child{border-bottom:0}
+  .meth td{display:block;border:0;padding:0}
+  .meth td.pic{grid-row:1 / span 2}
+  .meth td:nth-child(3){grid-column:2;margin-top:4px}
+}
+</style>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href="../">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../map/">The map</a>
+  <a href="../routing/" aria-current="page">Routing</a>
+  <a href="../skills/">Skills</a>
+  <a href="../knowledge/">Knowledge</a>
+  <a href="../install/">Install</a>
+  <a href="../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+
+<main class="desk" id="main">
+
+<section class="win">
+  <div class="body hero">
+    <div>
+      <p class="lab kick">Routing</p>
+      <h1>Run this on<br>every question</h1>
+    </div>
+    <p class="lead">One decision, one lookup, three questions and one gate, asked before you open a query editor. Each exit names what you hand back.</p>
+  </div>
+</section>
+
+<section class="win">
+  <div class="body">
+    <figure class="dg" id="algorithm-figure"><button type="button" class="fitctl" aria-controls="algorithm-figure" title="Fit to screen" aria-label="Fit to screen"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button><svg viewBox="0 -124 1300 1044" role="img" aria-label="The routing algorithm: a question is checked against the knowledge layer, then asked who decides what on the answer, then passes one metric gate and three questions, exiting to one of four methods, all of which end at a decision that changes the data the next question arrives in and writes what it taught back to the knowledge layer.">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+    <pattern id="px-h" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="pk"/></pattern>
+    <pattern id="px-v" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="pk"/></pattern>
+    <pattern id="px-d" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="pk"/></pattern>
+    <pattern id="px-x" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0,4 L4,0 M-1,1 L1,-1 M3,5 L5,3" class="ps"/></pattern>
+  </defs>
+
+  <rect x="40" y="-100" width="1220" height="62" class="band"/>
+  <rect x="40" y="-100" width="14" height="62" class="key" style="fill:var(--paper)"/>
+  <text class="t-title" x="80" y="-62">Knowledge Layer</text>
+  <text class="t-sub" x="360" y="-72">knowledge repo &#183; what was already tried on this surface, wins and losses alike</text>
+  <text class="t-sub" x="360" y="-50">prior store &#183; what this metric has actually moved by, so the MDE is a number</text>
+  <text class="t-note" x="1258" y="-110" text-anchor="end">read before the question is scoped, written when the decision is made</text>
+
+  <line x1="190" y1="-36" x2="190" y2="22" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="204" y="-8">settled, stale, or new? and what is the prior?</text>
+
+  <rect x="86" y="24" width="208" height="40" rx="20" class="node"/>
+  <text class="t-title" x="190" y="50" text-anchor="middle">a question arrives</text>
+
+  <polygon points="190,82 342,126 190,170 38,126" class="node"/>
+    <text class="t-q" x="190" y="122" text-anchor="middle">who decides what,</text>
+    <text class="t-q" x="190" y="139" text-anchor="middle">on this answer?</text>
+  <polygon points="190,222 342,266 190,310 38,266" class="node"/>
+    <text class="t-q" x="190" y="262" text-anchor="middle">do I trust the metric</text>
+    <text class="t-q" x="190" y="279" text-anchor="middle">and the definition of success?</text>
+  <polygon points="190,362 342,406 190,450 38,406" class="node"/>
+    <text class="t-q" x="190" y="402" text-anchor="middle">is this description,</text>
+    <text class="t-q" x="190" y="419" text-anchor="middle">a forecast, or a change?</text>
+  <polygon points="190,502 342,546 190,590 38,546" class="node"/>
+    <text class="t-q" x="190" y="542" text-anchor="middle">is the decision made once,</text>
+    <text class="t-q" x="190" y="559" text-anchor="middle">or continuously?</text>
+  <polygon points="190,662 342,706 190,750 38,706" class="node"/>
+    <text class="t-q" x="190" y="702" text-anchor="middle">who assigned</text>
+    <text class="t-q" x="190" y="719" text-anchor="middle">the treatment?</text>
+
+  <rect x="530" y="84" width="360" height="84" class="node"/>
+    <text class="t-title" x="566" y="112">Backlog</text>
+    <text class="t-sub" x="566" y="133">nobody decides on it, or it is already decided</text>
+    <text class="t-give" x="566" y="152">hands back: a backlog line, not a method</text>
+  <rect x="530" y="224" width="360" height="84" class="node"/>
+    <rect x="530" y="224" width="14" height="84" class="key" style="fill:var(--ink)"/>
+    <text class="t-title" x="566" y="252">Measurement Framework</text>
+    <text class="t-sub" x="566" y="273">fix the definition, the source of truth, the registry</text>
+    <text class="t-give" x="566" y="292">hands back: a number the rest of the map can stand on</text>
+  <rect x="530" y="364" width="360" height="84" class="node"/>
+    <rect x="530" y="364" width="14" height="84" class="key" fill="url(#px-h)"/>
+    <text class="t-title" x="566" y="392">Exploratory Analytics</text>
+    <text class="t-sub" x="566" y="413">deep dives · funnels · segmentation · opp sizing</text>
+    <text class="t-give" x="566" y="432">hands back: a hypothesis</text>
+  <rect x="530" y="504" width="360" height="84" class="node"/>
+    <rect x="530" y="504" width="14" height="84" class="key" fill="url(#px-d)"/>
+    <text class="t-title" x="566" y="532">Statistical Modeling</text>
+    <text class="t-sub" x="566" y="553">forecast · optimizer · uplift model</text>
+    <text class="t-give" x="566" y="572">hands back: a forecast, a ranking, an allocation</text>
+  <rect x="530" y="612" width="360" height="80" class="node"/>
+    <rect x="530" y="612" width="14" height="80" class="key" fill="url(#px-v)"/>
+    <text class="t-title" x="566" y="640">Experimentation</text>
+    <text class="t-sub" x="566" y="661">A/B · switchback · power · sequential · HTE</text>
+    <text class="t-give" x="566" y="680">hands back: an effect size</text>
+  <rect x="530" y="720" width="360" height="80" class="node"/>
+    <rect x="530" y="720" width="14" height="80" class="key" fill="url(#px-x)"/>
+    <text class="t-title" x="566" y="748">Causal Inference</text>
+    <text class="t-sub" x="566" y="769">match the method to how assignment happened</text>
+    <text class="t-give" x="566" y="788">hands back: an effect size, plus its assumptions</text>
+
+  <ellipse cx="1150" cy="706" rx="96" ry="46" class="sel"/>
+  <text class="t-title" x="1150" y="701" text-anchor="middle">Decision</text>
+  <text class="t-sub" x="1150" y="721" text-anchor="middle">ship · kill · reallocate</text>
+
+  <line x1="190" y1="64" x2="190" y2="80" class="path" marker-end="url(#ah)"/>
+  <line x1="190" y1="170" x2="190" y2="220" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="198">a named choice</text>
+
+  <line x1="342" y1="126" x2="528" y2="126" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="117" text-anchor="middle">none, or made</text>
+  <text class="t-note" x="437" y="143" text-anchor="middle">unless the lookup settles it</text>
+  <line x1="190" y1="310" x2="190" y2="360" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="338">yes</text>
+  <line x1="190" y1="450" x2="190" y2="500" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="492">a change</text>
+  <line x1="190" y1="590" x2="190" y2="660" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="202" y="621">once</text>
+  <text class="t-note" x="202" y="636">one ship-or-kill call</text>
+
+  <line x1="342" y1="266" x2="528" y2="266" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="257" text-anchor="middle">no</text>
+  <line x1="342" y1="406" x2="528" y2="406" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="397" text-anchor="middle">description</text>
+  <text class="t-note" x="437" y="423" text-anchor="middle">what · where · how many · who</text>
+  <polyline points="304,417 304,516 528,516" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="509" text-anchor="middle">a forecast</text>
+  <text class="t-note" x="437" y="493" text-anchor="middle">how many will we get · for a plan</text>
+  <line x1="342" y1="546" x2="528" y2="546" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="437" y="537" text-anchor="middle">continuously</text>
+  <text class="t-note" x="437" y="563" text-anchor="middle">per user · per day · at volume</text>
+
+  <polyline points="342,706 372,706 372,652 528,652" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="450" y="645" text-anchor="middle">you can, or could have</text>
+  <polyline points="342,706 372,706 372,760 528,760" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="450" y="753" text-anchor="middle">it already happened</text>
+
+  <polyline points="890,652 1010,652 1010,706" class="path"/>
+  <polyline points="890,760 1010,760 1010,706" class="path"/>
+  <line x1="1010" y1="706" x2="1050" y2="706" class="path" marker-end="url(#ah)"/>
+  <text class="t-edge" x="950" y="645" text-anchor="middle">effect size</text>
+  <text class="t-edge" x="950" y="753" text-anchor="middle">effect size</text>
+
+  <line x1="570" y1="588" x2="570" y2="610" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="584" y="604">a model that acts on users still needs an experiment to prove it moves anything</text>
+
+  <polyline points="610,448 610,476 208,476" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="622" y="470">a hypothesis is a change question, so it re-enters here</text>
+
+  <polyline points="1150,752 1150,876 18,876 18,44 84,44" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="620" y="868" text-anchor="middle">what ships changes the data, so the next question enters a different world</text>
+
+  <line x1="1150" y1="660" x2="1150" y2="-36" class="feed" marker-end="url(#ah)"/>
+  <text class="t-note" x="1164" y="440">what we learned</text>
+</svg>
+    </figure>
+  </div>
+</section>
+
+<div class="panels">
+  <section class="win keyed k-vert">
+    <div class="bar"><span class="close"></span><h2>the diamond</h2><span class="grow"></span><span class="keyto">keyed to experimentation</span></div>
+    <div class="body">
+      <h3>Before it ships, it is a choice</h3>
+      <p class="cap">Once it has launched, <span class="mark">can you randomise?</span> is a fact about the past. Asked early, it is a design decision you still own:</p>
+      <ul class="opts">
+        <li>hold out a slice of users</li>
+        <li>stagger the rollout by market or by cohort</li>
+        <li>randomise the prompt, not the feature</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="win keyed k-hatch">
+    <div class="bar"><span class="close"></span><h2>it already happened</h2><span class="grow"></span><span class="keyto">keyed to causal inference</span></div>
+    <div class="body">
+      <h3>Pick the method by how assignment happened</h3>
+      <table class="meth">
+        <thead><tr><th class="pic"><span class="sr">Shape</span></th><th>Method</th><th>Use it when</th></tr></thead>
+        <tbody>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="s" d="M3 19H26M26 9H53"/><path class="d" d="M26 3V25"/></svg></td><td>ITS</td><td>one unit, one switch date, no untreated twin</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 22L53 18"/><path class="s" d="M3 16L26 13M26 6L53 2"/><path class="d" d="M26 13L53 10"/><path class="d" d="M26 2V26"/></svg></td><td>DiD</td><td>treated and untreated units, both seen before and after</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><path class="w" d="M3 8L26 10L53 12M3 22L26 20L53 21M3 17L26 15L53 18"/><path class="s" d="M3 14L26 13L53 4"/><path class="d" d="M26 13L53 14"/><path class="d" d="M26 2V26"/></svg></td><td>Synthetic control</td><td>one treated unit, many untreated ones to blend</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="f" cx="14" cy="6" r="2.6"/><circle class="f" cx="14" cy="14" r="2.6"/><circle class="f" cx="14" cy="22" r="2.6"/><circle class="o" cx="42" cy="8" r="2.6"/><circle class="o" cx="42" cy="15" r="2.6"/><circle class="o" cx="42" cy="23" r="2.6"/><path class="w" d="M17 6L39 8M17 14L39 15M17 22L39 23"/></svg></td><td>Matching</td><td>groups differ on things you can actually observe</td></tr>
+          <tr><td class="pic"><svg class="pict" viewBox="0 0 56 28" aria-hidden="true"><circle class="o" cx="8" cy="18" r="5"/><circle class="o" cx="28" cy="18" r="5"/><circle class="o" cx="48" cy="18" r="5"/><text x="8" y="20.5" text-anchor="middle">Z</text><text x="28" y="20.5" text-anchor="middle">X</text><text x="48" y="20.5" text-anchor="middle">Y</text><path class="s" d="M13 18H22M33 18H42"/><circle class="o" cx="38" cy="5" r="3.5"/><path class="d" d="M35 7L30 13M41 7L46 13"/></svg></td><td>IV</td><td>something shifted uptake without touching the outcome</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <p class="cap">If none of these fit, you do not have a comparison group. Say that out loud rather than shipping the number anyway.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../routing/">Routing</a>
+    <a href="../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    document.querySelectorAll(".fitctl").forEach(function (b) {
+      var fig = document.getElementById(b.getAttribute("aria-controls"));
+      if (!fig) return;
+      b.addEventListener("click", function () {
+        var fit = fig.classList.toggle("fit");
+        var label = fit ? "Show at actual size" : "Fit to screen";
+        b.classList.toggle("is-fit", fit);
+        b.setAttribute("title", label);
+        b.setAttribute("aria-label", label);
+      });
+    });
+  })();
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Install · gallop</title>
+<meta name="description" content="Copy the skill directories into your agent.">
+<link rel="canonical" href="https://0trm.github.io/gallop/install/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="Install · gallop">
+<meta property="og:description" content="Copy the skill directories into your agent.">
+<meta property="og:url" content="https://0trm.github.io/gallop/install/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../assets/track.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href=".././">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../map/">The map</a>
+  <a href="../routing/">Routing</a>
+  <a href="../skills/">Skills</a>
+  <a href="../knowledge/">Knowledge</a>
+  <a href="../install/" aria-current="page">Install</a>
+  <a href="../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+<main id="main">
+<div class="band">
+  <div class="cells pagehead">
+    <div>
+      <p class="lab kick">Setup</p>
+      <h1 class="d" style="font-size:34px">Install</h1>
+      <p class="skdesc">A skill is a directory of markdown. Clone the repo and copy all eight into
+your agent's skills folder:</p>
+    </div>
+  </div>
+</div>
+<div class="band docgrid norail"><div class="doc">
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>git clone https://github.com/0trm/gallop
+mkdir -p .claude/skills
+cp -r gallop/skills/* .claude/skills/
+</code></pre></div>
+<p>Or copy one, by its name on <a href="../skills/">the skills page</a>:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>cp -r gallop/skills/reading-experiments .claude/skills/
+</code></pre></div>
+<p>Works with anything that reads Agent Skills, and reads fine as prose:
+each <code>SKILL.md</code> is the procedure, the <code>reference/</code> files one level down are
+the depth.</p>
+
+</div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../routing/">Routing</a>
+    <a href="../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

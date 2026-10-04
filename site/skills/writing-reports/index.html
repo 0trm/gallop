@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>writing-reports · gallop</title>
+<meta name="description" content="The decision rule first, the result last; the belief filed where the next question starts">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/writing-reports/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="writing-reports · gallop">
+<meta property="og:description" content="The decision rule first, the result last; the belief filed where the next question starts">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/writing-reports/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../../assets/track.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href="../.././">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../../map/">The map</a>
+  <a href="../../routing/">Routing</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../knowledge/">Knowledge</a>
+  <a href="../../install/">Install</a>
+  <a href="../../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+<main id="main">
+<div class="band">
+  <div class="secthead">
+    <p class="lab">The ceiling</p>
+    <span class="dim">skills/writing-reports</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">writing-reports</h1>
+      <p class="skdesc">The decision rule first, the result last; the belief filed where the next question starts.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Writes an experiment or analysis report with the decision rule first and the result last, converts the finding into a durable belief rather than a number, and files both the knowledge-repo entry and the prior-store record before the ticket closes. Use when a test finishes, when documenting a shipped or killed decision, when writing up a null result or a rollback, or when a question needs an entry someone can find in a year.</p></details>
+    </div>
+    <div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
+<span class="p">$</span> cp -r gallop/skills/writing-reports .claude/skills/</pre></div>
+      <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/writing-reports">
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
+    </div>
+  </div>
+</div>
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#1-the-report">1 · The report</a><a href="#2-the-belief">2 · The belief</a><a href="#3-the-knowledge-repo-entry">3 · The knowledge-repo entry</a><a href="#4-the-prior-store-record">4 · The prior-store record</a><a href="#done-defined">Done, defined</a></div></nav><div class="doc">
+<p>The ceiling. A report answers one question and dies with the ticket; a
+belief is what the next three questions start from. This skill produces
+three artifacts, and the ticket does not close until all three exist: the
+report, the knowledge-repo entry, and the prior-store record. A forecast
+made once, for a plan, closes with the knowledge entry alone (Done, defined).</p>
+<p>Write the report skeleton <strong>before the numbers are final</strong>, with the
+decision rule first and the result pasted in last. Writing the
+interpretation after seeing the number is how you end up interpreting the
+number.</p>
+<h2 id="1-the-report">1 · The report</h2>
+<p>Template: <a href="#ref-report">templates/report.md</a>. The order is the
+argument:</p>
+<ol>
+<li><strong>The decision rule, verbatim from the pre-registration.</strong> The report
+is a comparison against a commitment, not a story about a number.</li>
+<li><strong>The trust gate verdict</strong> (SRM, exposure), one line each.</li>
+<li><strong>Guardrails</strong>, before the primary, in the plan's order.</li>
+<li><strong>The primary</strong>: effect, interval under the licence actually held
+(fixed-horizon or always-valid), the CUPED note, and the shrunk
+estimate beside the raw one. For causal designs: the identifying
+assumption and the falsification checks, in the same breath as the
+number.</li>
+<li><strong>The pre-registered segment.</strong> Only that one. Unregistered findings go
+in &quot;hypotheses opened&quot;, not in results.</li>
+<li><strong>The decision</strong>, as the rule dictates. If the rule and the human
+decision diverge (it happens), record both and why: that divergence is
+information about the rule.</li>
+<li><strong>The proxy bridge</strong>, if the metric is a proxy: one sentence naming
+what this result is assumed to be worth in the thing actually cared
+about.</li>
+</ol>
+<p>A null report follows the identical template. &quot;No detectable effect above
+0.4pp (MDE), interval [−0.1, +0.5]&quot; is a finding; report the interval and
+the MDE, never the word &quot;flat&quot; alone. A report that ends in &quot;interesting,
+let us think about it&quot; has failed, and the failure happened at design time
+when the decision rule was not written.</p>
+<h2 id="2-the-belief">2 · The belief</h2>
+<p>The report's number dies with the ticket. What survives is one sentence
+of knowledge: not &quot;variant B won, +2.1% on checkout completion&quot; but &quot;this
+product responds to friction removal at the payment step, worth about two
+points, and it held for six weeks.&quot; Write the belief with:</p>
+<ul>
+<li><strong>The lever</strong>, generalised one honest step beyond the variant tested.
+One step: &quot;friction at payment&quot;, not &quot;all friction everywhere&quot;.</li>
+<li><strong>The magnitude</strong>, shrunk, as an expectation for planning.</li>
+<li><strong>The conditions</strong> it held under: season, mix, market, ramp.</li>
+<li><strong>The expiry event</strong>: the ship or shift that would invalidate it, named
+concretely (&quot;expires if the checkout flow is redesigned&quot;), because a
+stale belief keeps answering a question nobody re-asked.</li>
+</ul>
+<h2 id="3-the-knowledge-repo-entry">3 · The knowledge-repo entry</h2>
+<p>Template: <a href="#ref-knowledge-entry">templates/knowledge-entry.md</a>.
+One searchable entry per question, holding the question, the decision it
+unblocked, the design, the number, the belief, and what you would do
+differently. Attach it to the question issue, not the feature ticket:
+tickets get archived by the board; the question is what someone searches
+in a year. Losses, nulls, broken tests and refusals are written with
+exactly the care of wins; an archive of wins is a marketing document,
+and an archive that records what did not work is the thing that stops
+the team paying twice for the same lesson.</p>
+<h2 id="4-the-prior-store-record">4 · The prior-store record</h2>
+<p>The write that makes the next test cheaper. Append one record to the
+prior store, never edit one:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code class="language-json">{&quot;id&quot;: &quot;2026-09-signup-form-simplify&quot;, &quot;metric&quot;: &quot;activation_rate&quot;,
+ &quot;date&quot;: &quot;2026-09-03&quot;, &quot;surface&quot;: &quot;signup&quot;, &quot;design&quot;: &quot;experiment&quot;,
+ &quot;effect&quot;: 0.0021, &quot;unit&quot;: &quot;pp&quot;, &quot;se&quot;: 0.0009, &quot;n_per_arm&quot;: 41000,
+ &quot;decision&quot;: &quot;ship&quot;,
+ &quot;conditions&quot;: &quot;September traffic mix, pre-redesign flow&quot;,
+ &quot;expires_on&quot;: &quot;signup flow redesign&quot;}
+</code></pre></div>
+<p>Rules every record follows:</p>
+<ul>
+<li><strong>The shrunk effect</strong> is what gets recorded, with its se. Recording raw
+winners re-inflates the very store that exists to deflate them.</li>
+<li><strong>Nulls and losses are appended too.</strong> A store holding only wins is a
+prior that says everything works; the honest prior mean is near zero
+and only the losses keep it there.</li>
+<li><strong>Corrections supersede.</strong> A later reanalysis appends a new record with
+<code>supersedes</code>; nothing is edited. The store is a log.</li>
+<li><strong><code>design</code> is honest</strong>: an ITS effect is recorded as <code>its</code>, so future
+sizing can weight it accordingly.</li>
+<li><strong>A provisional metric writes nothing.</strong> A number produced under the
+<code>defining-metrics</code> provisional exit is a hypothesis, not a decision: it
+states its expiry in the report and gets no store record and no
+knowledge entry. The store is what every later question reads, and a
+definition nobody validated does not get to write to it.</li>
+<li><strong>A forecast made once writes no record.</strong> It has no effect size. Its
+knowledge entry holds the forecast, its interval and the plan it set, and
+the actual goes beside them once the window closes.</li>
+</ul>
+<h2 id="done-defined">Done, defined</h2>
+<p>The ticket closes when: the report is filed on the question issue, the
+belief is in the knowledge repo with its expiry event, the record is in
+the prior store, and the decision (ship, kill, iterate, rollback,
+no-measurement) is written on the issue by name. A forecast made once, for
+a plan, closes with the knowledge entry alone: it holds the forecast and its
+interval, the actual is added once the window closes, and the plan the
+number set is written on the issue. It has no decision rule to read against
+and no effect size to store, so no report and no prior-store record. The loop
+this closes is the only object in the system that gets more valuable the
+longer it runs; measure the quarter by decisions produced and entries filed,
+not by wins.</p>
+
+<details class="refdoc" id="ref-knowledge-entry"><summary><span class="lab">template</span> <span class="rt">&lt;The question, phrased so two answers were imaginable&gt;</span> <span class="fn">knowledge-entry.md</span></summary>
+<h2>&lt;The question, phrased so two answers were imaginable&gt;</h2>
+<p>&lt;date filed · surface(s) · prior store id(s) · status: settled | superseded by <link>&gt;</p>
+<p><strong>Decision unblocked.</strong> &lt;What changed on the answer, and who made the call.
+A named person, a named choice.&gt;</p>
+<p><strong>Method.</strong> &lt;Which bucket it landed in from routing, and the design:
+experiment / its / did / synthetic_control / matching / iv /
+forecast / no-measurement. One line on why that was the right bucket.&gt;</p>
+<p><strong>The number.</strong> &lt;Shrunk effect, unit, interval, n, dates. For nulls: the
+interval and the MDE. For refusals: the reason no number exists. For a
+forecast: the point, the interval and the baseline it beat; the actual goes
+beside them once the window closes.&gt;</p>
+<p><strong>The belief.</strong></p>
+<blockquote>
+<p>&lt;The sentence that outlives the ticket: lever, magnitude, conditions,
+and the event that expires it.&gt;</p>
+</blockquote>
+<p><strong>Expires when.</strong> <The concrete ship or shift that invalidates this entry.
+Whoever does that ship should trip over this line.></p>
+<p><strong>What we would do differently.</strong> &lt;One or two honest lines: the design
+choice that cost a week, the covariate that should have been logged, the
+segment that should have been registered. This field is why losses are
+worth filing.&gt;</p>
+<p><strong>Cost.</strong> &lt;Traffic-weeks and which surface it occupied, so the next
+prioritisation knows what answers cost here.&gt;</p>
+<hr />
+<p>Filing rules: one entry per question, attached to the question issue, not
+the feature ticket. Label with every surface it touches, so &quot;every coupon
+question ever asked&quot; is one filter. Losses, nulls and refusals get the
+same care as wins. Search this repo before scoping anything; that search
+is the lookup in routing-questions.</p>
+
+</details>
+<details class="refdoc" id="ref-report"><summary><span class="lab">template</span> <span class="rt">Report · </span> <span class="fn">report.md</span></summary>
+<h2>Report · <experiment name></h2>
+<p>&lt;question issue link · flag name · dates run · report date&gt;</p>
+<h3>The decision rule, as pre-registered</h3>
+<blockquote>
+<p>If the interval excludes <X>, we ship; otherwise &lt;kill | iterate&gt;.
+Registered <date>, amended &lt;date/none&gt;.</p>
+</blockquote>
+<h3>Trust gate</h3>
+<ul>
+<li>SRM: &lt;chi2, p, pass/fail&gt; (alpha 0.001)</li>
+<li>Exposure: &lt;pooled rate, differential p, verdict&gt;</li>
+</ul>
+<h3>Guardrails (read before the primary)</h3>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Guardrail</th>
+<th>Movement</th>
+<th>Breach?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><crashes></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><latency></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><gaming guardrail from registry></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Primary metric: <registry name></h3>
+<ul>
+<li>Effect (raw): <value> <unit>, se <value></li>
+<li>Interval under the licence held: &lt;always-valid | fixed-horizon&gt; 95% CI
+[<lo>, <hi>]</li>
+<li>CUPED: rho <r>, variance reduction &lt;v%&gt; &lt;or: no pre-period covariate&gt;</li>
+<li>Shrunk toward the prior (<k> past results): <strong><value></strong> – the planning
+number</li>
+<li>MDE this test could see: <value></li>
+<li>&lt;For causal designs: identifying assumption, one sentence; falsification
+checks run and their results&gt;</li>
+</ul>
+<h3>Pre-registered segment: <segment></h3>
+<p>&lt;effect, interval. Nothing else. Unregistered observations go below.&gt;</p>
+<h3>Decision</h3>
+<p><strong>&lt;Ship | Kill | Iterate | Rollback | No-measurement&gt;</strong> – &lt;one sentence:
+how the rule dictated it, or why the human call diverged from the rule&gt;.</p>
+<p>&lt;If the metric is a proxy: the bridge sentence. &quot;This is a change in claim
+rate; we currently value a claim at <Y> redemptions, and that assumption is
+doing the work.&quot;&gt;</p>
+<h3>The belief</h3>
+<blockquote>
+<p>&lt;Lever, one step generalised · magnitude, shrunk · conditions it held
+under · the event that expires it.&gt;</p>
+</blockquote>
+<h3>Hypotheses opened</h3>
+<ul>
+<li>&lt;anything from unregistered cuts, phrased as next questions, not results&gt;</li>
+</ul>
+<h3>Filed</h3>
+<ul>
+<li>Knowledge entry: <link> · Prior store id: <id> · Decision on issue: <link></li>
+</ul>
+
+</details></div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../routing/">Routing</a>
+    <a href="../../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

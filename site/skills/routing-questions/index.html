@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>routing-questions · gallop</title>
+<meta name="description" content="Whether this becomes work at all, and which skill it becomes">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/routing-questions/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="routing-questions · gallop">
+<meta property="og:description" content="Whether this becomes work at all, and which skill it becomes">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/routing-questions/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../../assets/track.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href="../.././">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../../map/">The map</a>
+  <a href="../../routing/">Routing</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../knowledge/">Knowledge</a>
+  <a href="../../install/">Install</a>
+  <a href="../../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+<main id="main">
+<div class="band">
+  <div class="secthead">
+    <p class="lab">Routing</p>
+    <span class="dim">skills/routing-questions</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">routing-questions</h1>
+      <p class="skdesc">Whether this becomes work at all, and which skill it becomes.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Routes an incoming product question to the method it deserves before any analysis starts. Asks who decides what on the answer, checks what the team already knows, whether the metric can be trusted, whether the question is description, a forecast or causation, whether the decision is made once or continuously, and who assigned the treatment. Use when a product, analytics, or experimentation request first arrives, when someone asks for a deep dive or a dashboard, or before opening a query editor on any question about impact, lift, or whether something worked.</p></details>
+    </div>
+    <div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
+<span class="p">$</span> cp -r gallop/skills/routing-questions .claude/skills/</pre></div>
+      <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/routing-questions">
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
+    </div>
+  </div>
+</div>
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#step-0-the-decision-who-decides-what-on-this-answer">0 · The decision</a><a href="#step-1-the-lookup">1 · The lookup</a><a href="#step-2-the-gate-do-i-trust-the-metric">2 · The gate</a><a href="#step-3-description-a-forecast-or-a-change">3 · Description, a forecast, or a change?</a><a href="#step-4-decided-once-or-continuously">4 · Decided once, or continuously?</a><a href="#step-5-who-assigned-the-treatment">5 · Who assigned the treatment?</a><a href="#after-the-answer">After the answer</a><a href="#the-intake-record">The intake record</a><a href="#worked-routings">Worked routings</a><a href="#two-rules-that-close-the-pass">Two rules that close the pass</a></div></nav><div class="doc">
+<p>One decision, one lookup, three questions, one gate, run before any query is
+written. The output is a routing decision and a filled intake record, never a
+number. Many questions leave without an analysis, and that is the point: they
+exit at the lookup as already answered, after it as curiosity, or at the gate
+as metric work. Dying there is a good outcome, because the alternative was
+shipping a wrong answer.</p>
+<p>Run the whole pass even when the destination seems obvious. The pass takes a
+minute; a mis-routed question costs a sprint.</p>
+<h2 id="step-0-the-decision-who-decides-what-on-this-answer">Step 0 · The decision: who decides what, on this answer?</h2>
+<p>Ask first: <strong>who decides what differently, based on the answer?</strong> A named
+person and a named choice: &quot;Priya, the checkout PM, keeps or reverts the
+one-page checkout.&quot; The choice is what the person does in the product or
+the business, never the analysis: &quot;run an A/B test&quot; or &quot;measure it&quot; is a
+method, and the steps below choose the method. When the request already
+says who decides, or that nobody has, answer from it and ask only when it does
+not. A ticket someone filed for the work that names no decider already says:
+the person who filed it, or the team it names, decides, and what they do with
+the answer is the choice, even when the ticket does not say what that is.
+Answer it and continue; raise the decision in the hand-back, not before the
+route. The answer frames every
+step after it: what counts as settled at the lookup, and what shape the
+hand-back takes.</p>
+<p>Four answers:</p>
+<ul>
+<li><strong>Firm.</strong> The decider has named the choice. Continue.</li>
+<li><strong>Tentative.</strong> A best guess at the choice and the person, not yet
+confirmed by them. A team or &quot;leadership&quot; is tentative until one person
+owns the call, and so is a ticket someone filed for the work. Continue;
+the record stays marked tentative.</li>
+<li><strong>None.</strong> Nobody can name a choice that changes on the answer: the
+question came up in passing, or the request says nothing rides on it. The
+question is curiosity.
+Curiosity is not worthless, but it is not fundable with traffic or with
+analyst time.</li>
+<li><strong>Made.</strong> The decision the answer would inform is already taken and will
+not be revisited: a large decision already made has a value of zero. A
+launch that already shipped is not made while keeping or reverting it is
+still open.</li>
+</ul>
+<p>None and made still get the lookup, because an entry that settles the
+question costs nothing to hand back. If the lookup does not settle it, say so
+and route the question to the backlog, not to a method.</p>
+<h2 id="step-1-the-lookup">Step 1 · The lookup</h2>
+<p>Before scoping anything, search the knowledge layer: the knowledge repo (past
+reports and decisions) and the prior store (what each metric has actually
+moved by). Read the prior store's entries for the question's metric.</p>
+<p>When the project names knowledge bases, search each with your own tools (its
+connector, or Read and Grep for a folder) before you answer. A document that
+settles the question is linked in the intake record, which also says what
+you searched.</p>
+<p>Three outcomes:</p>
+<ul>
+<li><strong>Settled.</strong> An entry answers this question and nothing since has expired
+it. Hand back the entry and stop. This is a lookup, not an analysis, and it
+is the cheapest exit on the map.</li>
+<li><strong>Stale.</strong> An entry exists but the product has changed under it (check the
+entry's <code>expires_on</code> condition and <code>conditions</code> field). The question enters
+with a prior instead of a blank page; carry the old effect size forward as
+the expectation.</li>
+<li><strong>New.</strong> No entry. Continue.</li>
+</ul>
+<h2 id="step-2-the-gate-do-i-trust-the-metric">Step 2 · The gate: do I trust the metric?</h2>
+<p>Underneath everything: do I trust this metric and the definition of success?
+Signals that the answer is no:</p>
+<ul>
+<li>Two dashboards disagree on the number and nobody can say which is right.</li>
+<li>The metric has no registry entry, no owner, or no stated source of truth.</li>
+<li>The event it is built on is known to be unreliable or recently changed.
+A break someone suspects and nobody has confirmed is not yet a signal: the
+question is the move itself, and step 3 takes it.</li>
+<li>Nobody has written down how the metric gets gamed.</li>
+</ul>
+<p>If any of these hold, <strong>route to <code>defining-metrics</code></strong> and stop. The
+measurement work is the actual work; every exit above the floor inherits a
+wrong definition without ever raising an error. Do not run the analysis &quot;in
+the meantime&quot;.</p>
+<p>One narrow exception, and it never reaches a forecast or a test: exploratory work may run
+on a provisional metric when a named person signs off, the defect is bounded
+and cannot change the answer, and the result files no belief. An
+unreconciled discrepancy is not a bounded defect, so the two-dashboards case
+above is not eligible. The reason goes on the registry line as <code>blocked</code> or
+<code>deferred</code>, which is what turns the refusal into the floor's backlog rather
+than losing it. Conditions in <code>defining-metrics</code>; an experiment's primary
+metric has no such exit.</p>
+<h2 id="step-3-description-a-forecast-or-a-change">Step 3 · Description, a forecast, or a change?</h2>
+<p>Read the question's own verbs, and the time they point to.</p>
+<ul>
+<li><em>What, where, how many, who, what happened</em> → <strong>description.</strong> Exploratory
+work: funnels, segmentation, deep dives, opportunity sizing. Hands back <strong>a
+hypothesis</strong>, not an answer. Route to <strong><code>forming-hypotheses</code></strong>: the floor
+first, then the move localised and sized; the hypothesis re-enters this
+routing at step 4 as a change question, with the same decision.</li>
+<li><em>What will it be, how many will we get, where will it land</em>: one metric's
+value in a window that has not happened yet, wanted so someone can set a
+plan on it (a hiring plan, a budget, a target, stock) → <strong>a forecast.</strong>
+This is <strong>prediction</strong>: route to <strong><code>building-models</code></strong>, whether the
+forecast is made once or every period; step 4 is not asked. It hands back
+a point and an interval under no change, and the model still needs volume,
+history and a trusted floor. A change planned inside the window is a
+second question: the forecast routes here, the change through its own
+intake.</li>
+<li><em>Because, caused, lift, impact, worth it, did it work</em>, about a change
+someone made or plans to make → <strong>a change question.</strong> Continue to step 4.
+Who gets what, per user or per item (a ranking, an allocation), is a change
+question too: acting on the list is the change, and step 4 decides whether
+it recurs.</li>
+</ul>
+<p>People routinely ask a causal question in the words of a descriptive one and
+vice versa. Separating them is most of this step's value. A move with no known
+change behind it, where nothing shipped, is description even when the request
+asks what caused it: sizing localises it before anyone names a cause. So is a
+move put down to a suspected change nobody has confirmed, a release or a
+tracking change that &quot;may be related&quot;: sizing confirms and scopes the move,
+then lines it up with what changed. A request for the numbers as they stand,
+to size what a planned change puts at stake, is description too: sizing hands
+back the stakes, and the change re-enters at step 4 if anyone asks what it would
+do. A descriptive request whose number already exists in a dashboard is
+answered with the dashboard's link, not a query, even when the request asks for
+SQL. <em>How many</em> is description until it points past today: how many signups
+came in last quarter is description; how many will come in next quarter is a
+forecast.</p>
+<h2 id="step-4-decided-once-or-continuously">Step 4 · Decided once, or continuously?</h2>
+<ul>
+<li><strong>Once</strong> – a ship-or-kill call → continue to step 5.</li>
+<li><strong>Continuously</strong> – per user, per day, at volume → this is <strong>prediction</strong>:
+a ranking or an allocation. It belongs to statistical modeling,
+not to the causal branch: route to <strong><code>building-models</code></strong>. Two rules
+travel with it: the model needs volume and a trustworthy measurement
+floor, and the model itself still needs an experiment before anyone
+claims it moved anything – a churn model that predicts beautifully says
+nothing about whether the campaign works.</li>
+</ul>
+<p>A choice made per user or per item, many times, at volume (each Monday's
+recipients, each day's prices) is continuous, even when the request asks for
+one test. A keep-or-kill on a programme, even one reviewed every year, is
+once.</p>
+<h2 id="step-5-who-assigned-the-treatment">Step 5 · Who assigned the treatment?</h2>
+<p>The only true fork on the map.</p>
+<ul>
+<li><strong>You can randomise, or could still hold something back</strong> → route to
+<strong><code>designing-experiments</code></strong>. Hands back an effect size. A change that has
+not shipped is here, even one planned for everyone.</li>
+<li><strong>Assignment already happened</strong> – the change has shipped: by launch date,
+geography, self-selection, a rollout to everyone → route to
+<strong><code>choosing-causal-designs</code></strong>. Hands back an effect size plus the
+assumptions it rests on.</li>
+<li><strong>No comparison group exists and none can be reconstructed</strong> – e.g. a
+campaign that ran everywhere at once with nothing held back → the honest
+exit: say out loud that there is no defensible number at this level, refer
+the question to whoever owns the right data, and offer the one thing you
+can give: a holdout design for the next one, if they come before the plan
+is locked.</li>
+</ul>
+<p>Before a launch ships, &quot;can you randomise?&quot; is a choice, not a fact. If the
+question arrives pre-launch, push the fork upstream: hold out a slice of
+users, stagger the rollout by market or cohort, or randomise the prompt
+rather than the feature. A feature refined without a flag is a feature you
+will be reading with interrupted time series in three months.</p>
+<p>Watch for the trap case: &quot;users who do X retain better, should we push
+everyone to X?&quot; The observed gap is self-selection, not effect. Route it to
+<code>designing-experiments</code> (randomise the prompt), never to a comparison of
+adopters against non-adopters.</p>
+<h2 id="after-the-answer">After the answer</h2>
+<p>Every routed question that produces a decision closes through
+<strong><code>writing-reports</code></strong>: the report, the knowledge-repo entry, and the
+prior-store record, filed before the ticket closes. A forecast made once, for
+a plan, closes with the knowledge entry alone. Routing is not finished
+until the loop is; a finished analysis whose result goes nowhere is the loop
+staying open.</p>
+<h2 id="the-intake-record">The intake record</h2>
+<p>Fill the intake record in the team's issue tracker as you route: the
+question, the decision it informs and who makes it, the lookup result,
+the metric's registry status, the type, the assignment answer, the
+destination skill, and the expected hand-back. If a field is empty, the
+question is not ready to be ranked, which is a cheaper argument to have than
+the one about priorities.</p>
+<h2 id="worked-routings">Worked routings</h2>
+<div class="scrollx" role="region" aria-label="Table" tabindex="0"><table>
+<thead>
+<tr>
+<th>The question as it arrives</th>
+<th>Route</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Mobile checkout conversion dropped four points. What happened?&quot;</td>
+<td><code>forming-hypotheses</code></td>
+<td>Pure what-happened. The floor first, then funnel and segment until it localises; a sized hypothesis comes back</td>
+</tr>
+<tr>
+<td>&quot;Does the one-page checkout increase completion?&quot;</td>
+<td><code>designing-experiments</code></td>
+<td>You control who sees which checkout</td>
+</tr>
+<tr>
+<td>&quot;We rolled new pricing to everyone in March. Did it help?&quot;</td>
+<td><code>choosing-causal-designs</code></td>
+<td>Assignment already happened, non-randomly</td>
+</tr>
+<tr>
+<td>&quot;Users with notifications retain better. Push everyone to enable?&quot;</td>
+<td><code>designing-experiments</code></td>
+<td>The trap case: randomise the prompt, not the outcome</td>
+</tr>
+<tr>
+<td>&quot;Which users get the win-back discount this week?&quot;</td>
+<td><code>building-models</code></td>
+<td>Decided continuously at volume; uplift, not propensity; the impact is an experiment</td>
+</tr>
+<tr>
+<td>&quot;Didn't we try this two years ago?&quot;</td>
+<td>the lookup</td>
+<td>An entry, or a prior. Not an analysis</td>
+</tr>
+<tr>
+<td>&quot;Our activation number differs across two dashboards.&quot;</td>
+<td><code>defining-metrics</code></td>
+<td>A foundation crack; everything above it inherits the error</td>
+</tr>
+<tr>
+<td>&quot;What did the summer campaign do? It ran everywhere.&quot;</td>
+<td>no comparison group</td>
+<td>Say so; refer out; offer a holdout for the next one</td>
+</tr>
+<tr>
+<td>&quot;Do users in cities use us differently than rural users?&quot;</td>
+<td>the backlog</td>
+<td>It came up in a meeting; nobody decides anything differently on the answer</td>
+</tr>
+<tr>
+<td>&quot;How many trial signups will we get next quarter? The hiring plan is set on it.&quot;</td>
+<td><code>building-models</code></td>
+<td>A forecast a plan rests on: a point and an interval under no change; step 4 is not asked</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="two-rules-that-close-the-pass">Two rules that close the pass</h2>
+<p><strong>No mechanism, no test.</strong> If the requester cannot write the mechanism – if
+we change X, metric Y moves because Z – there is nothing to confirm or
+falsify, and whatever comes back will be explained after the fact.</p>
+<p><strong>No exposure log, no effect.</strong> If nothing records who actually experienced
+the change, no method downstream can recover the number. A proxy for who was
+exposed (support tickets, a list someone reconstructs from memory, the
+accounts that &quot;look like&quot; the ones picked) is no exposure log. The first rule
+kills the questions that were never going to teach anything; the second kills
+the answers that were never going to be true.</p>
+
+</div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../routing/">Routing</a>
+    <a href="../../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

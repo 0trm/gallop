@@ -1,0 +1,177 @@
+---
+name: defining-metrics
+description: Turns a metric name into a computation, a source of truth, a registry entry, and a written statement of how it will be gamed, then decides whether it is trustworthy enough to promote. Use when defining a north-star or guardrail metric, when two dashboards disagree on the same number, when arbitrating between conflicting metric definitions, or when a report depends on a metric nobody has validated.
+---
+
+# Defining metrics
+
+The floor. Not a stage: everything above it inherits its errors, and a wrong
+definition does not raise an error, it just returns the wrong number. This skill
+produces four artifacts for one metric: a computation, a source of truth, a
+registry entry, and a statement of how the metric will be gamed. A metric
+missing any of the four is not ready to carry a report.
+
+## When two numbers disagree
+
+The most common entry point: the same metric shows different values in two
+places and nobody trusts either. Do not average them, and do not pick the
+one closer to expectations. Trace each to its query and diff the definitions.
+The difference is almost always one of five things, checked in this order:
+
+1. **Window** – 7-day vs 28-day, calendar vs rolling, and the timezone the
+   day boundary uses.
+2. **Filter** – bots, internal traffic, test accounts, one market, one
+   platform; applied in one query and not the other.
+3. **Unit and dedup** – users vs sessions vs events, and whether repeats
+   within the window count once or every time.
+4. **Join** – a join that drops units with no activity, turning a rate's
+   denominator into "active units" without anyone deciding that.
+5. **Freshness** – one source lags the other; the numbers were never
+   computed over the same days.
+
+Name the discrepancy mechanically ("A excludes bounced sessions, B does
+not"), then decide which definition serves the decision the metric exists
+for, and register that one. The other query gets updated or deleted, not left
+as a second opinion.
+
+## Writing the definition
+
+A definition is precise enough when someone could reimplement it from the
+text alone and match the number. It states:
+
+- **The computation.** Numerator, denominator, window, dedup rule, filters.
+  "Activation rate: users who completed at least one core action within 7
+  days of signup / users who signed up, excluding internal and bot accounts,
+  UTC days."
+- **The unit of analysis.** What one observation is: user, session, order,
+  day. This is also what experiments randomise on, so a mismatch here
+  becomes a broken analysis later.
+- **The source of truth.** One table or model, named. When a dashboard and
+  the source disagree, the source is right by definition and the dashboard
+  is a bug.
+- **The direction.** Which way is better. Sounds trivial; guardrails and
+  automated checks need it explicit.
+
+## The proxy bridge
+
+Most product metrics stand in for an outcome the product cannot observe (a
+purchase in someone else's store, long-run retention, revenue attributed
+weeks later). If this metric is a proxy:
+
+- **Name the bridge in every report.** One sentence: this result is a
+  change in X, here is what we currently believe X is worth in Y, and here
+  is the assumption doing the work.
+- **Validate the proxy on a schedule**, against something real: cohorts,
+  panel data, whatever exists. Once a year, off-roadmap, non-negotiable.
+- **Prefer metrics whose outcome you own.** Given two candidate framings of
+  similar value, take the one that ends inside your own instrumentation.
+
+## How it will be gamed
+
+Before the metric is used to judge anything, write down how a well-meaning
+team hits the number without creating the value it stands for. Every metric
+has at least one; a metric whose gaming nobody can describe is a metric
+nobody has thought about. Common patterns and worked examples are in
+[reference/gaming.md](reference/gaming.md). The output is one or two
+sentences in the registry entry's `gaming` field, plus the guardrail metric
+that would catch it.
+
+## The promotion gate
+
+A metric is **trusted** – promotable to primary or guardrail duty in
+experiments – only when the checklist in
+[reference/promotion.md](reference/promotion.md) passes: definition,
+source of truth, instrumentation validated end to end, gaming statement,
+owner, and stability checked over enough history to know its variance.
+Until then it is **provisional**: usable for exploration, barred from
+reports. Retired definitions become **deprecated**, kept in the registry so
+old reports remain interpretable.
+
+## The provisional exit
+
+Barring provisional metrics from reports is the rule. A rule with no exit
+gets ignored rather than followed, and an ignored rule leaves no record of
+what it failed to stop. This exit is narrow, and it is logged.
+
+Work may proceed on a provisional metric when all three hold:
+
+- **A person signs off.** Named, not a team: whoever would be the registry
+  `owner` once the metric is promoted.
+- **The defect is bounded and cannot change the answer.** Name the defect,
+  bound it, and show the conclusion holds at both ends of the bound. Two
+  sources 8% apart on the level do not stop "which segment is largest";
+  they do stop "did it decline". An unreconciled discrepancy is not a
+  bounded defect: until the diff is traced to a filter or a broken join,
+  nobody knows which end is which, and nothing can be shown to hold at
+  both. If the question turns on the quantity the defect touches, the exit
+  is closed and the floor work is the work.
+- **Nothing is filed.** The result carries an expiry, not a belief: no
+  prior-store record, no knowledge-repo entry. It answers one decision and
+  dies with it.
+
+The exit opens toward description only, where a hypothesis is the hand-back
+anyway. An experiment's primary or guardrail metric comes back from the
+trusted filter or the experiment does not run; `designing-experiments` has
+no equivalent hatch, and this one does not reach it.
+
+## The exit's backlog
+
+Every use of the exit writes its reason onto the metric's registry line, in
+`provisional_reason`:
+
+- **`blocked`** – the promotion work cannot be done now. The instrumentation
+  is missing, the source table does not exist, no owner exists to arbitrate
+  the definition. The fix belongs to someone who is not in this
+  conversation, and `promotion_blocker` names the unmet checklist item and
+  who owns closing it.
+- **`deferred`** – the promotion work could be done and has not been ranked
+  high enough to do. Nobody is blocked; the metric has not been worth the
+  week.
+
+The split is what makes the registry a backlog instead of a leak. The
+`blocked` lines are a dependency list to take to the team that owns the fix.
+A `deferred` line that keeps carrying questions is the argument for ranking
+its promotion, and one nobody has used is correctly ignored.
+
+## The registry entry
+
+The registry is a file the team keeps beside the prior store, one metric
+per line. Field-by-field guidance and a worked example are in
+[reference/registry-schema.md](reference/registry-schema.md). Check every
+line against the field list before it goes in, and keep one line per metric:
+a second line for a metric makes it ambiguous, which sends every gate on it
+to the floor. A changed line, such as a promotion from provisional to
+trusted, replaces the old one.
+
+A team that defines its metrics in a dbt semantic layer, or any other layer
+(Cube, LookML, Malloy), reads each metric where it is defined and writes one
+line for it, provisional until the team trusts it. Owner, direction and the
+gaming guardrail are reviewed where the definition lives.
+
+Experiments must take their primary metric from the registry, not from a
+text box. That single rule is what makes the floor hold: it turns every
+definition argument into a one-time cost instead of a per-report one.
+
+## Maintenance
+
+The definition of success is maintained continuously, like calibrating a
+scale you weigh things on every day, not set once in January:
+
+- **Every ship changes the data.** A launched feature changes user mix and
+  event volume; after a significant ship, check that the metric still means
+  what it meant. This is the dashed loop on the method map closing.
+- **Version changes.** When a definition changes, bump it explicitly, note
+  the change date on any chart spanning it, and treat pre/post numbers as
+  different series. Metric drift in the catalog is how last year's numbers
+  stop matching without anyone deciding anything.
+- **Alert on the floor, not the ceiling.** The two failures that ruin tests
+  from below are events that stop firing on one platform and exposure logs
+  that drift; alert on event volume, not just on metric values.
+
+## Hand-back
+
+To the question that routed here: a number the rest of the map can stand on.
+State what changed (the definition, the source, or both), what the corrected
+current value is, and which past reports, if any, are now suspect. Then
+re-enter `routing-questions` with the original question, which can now be
+answered on a floor that holds.

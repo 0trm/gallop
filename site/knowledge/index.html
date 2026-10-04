@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The knowledge layer · gallop</title>
+<meta name="description" content="The prior store and the knowledge repo: the only object that compounds.">
+<link rel="canonical" href="https://0trm.github.io/gallop/knowledge/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The knowledge layer · gallop">
+<meta property="og:description" content="The prior store and the knowledge repo: the only object that compounds.">
+<meta property="og:url" content="https://0trm.github.io/gallop/knowledge/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../assets/track.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href=".././">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../map/">The map</a>
+  <a href="../routing/">Routing</a>
+  <a href="../skills/">Skills</a>
+  <a href="../knowledge/" aria-current="page">Knowledge</a>
+  <a href="../install/">Install</a>
+  <a href="../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+<main id="main">
+<div class="band">
+  <div class="cells pagehead">
+    <div>
+      <p class="lab kick">The ceiling</p>
+      <h1 class="d" style="font-size:34px">The knowledge layer</h1>
+      <p class="skdesc">The band across the top of <a href="../map/">the map</a>, drawn as a band because every
+box touches it. It is not a stage and it is not a method: it is where the map
+keeps what it learned.</p>
+    </div>
+  </div>
+</div>
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#the-knowledge-repo">The knowledge repo</a><a href="#the-prior-store">The prior store</a><a href="#why-this-is-the-part-worth-keeping">Why this is the part worth keeping</a></div></nav><div class="doc">
+<p>It is the only object in the whole system that gets more valuable the longer
+a team runs it. Everything else on the map answers a question and stops; the
+ceiling is where the answers accumulate into something the next question can
+stand on. It has two halves, and they are different kinds of object.</p>
+<h2 id="the-knowledge-repo">The knowledge repo</h2>
+<p>Prose. One searchable entry per question, holding the design, the number,
+the decision, and what you would do differently, with the losses written up
+as carefully as the wins. The repo is what a person reads before proposing
+anything.</p>
+<p>The unit is the question, not the ticket. Tickets get closed and archived by
+the board; a question outlives the feature that prompted it, and eight
+months later somebody proposes the same test. The entry is what turns that
+moment from a re-run into a lookup.</p>
+<p>What an entry has to contain:</p>
+<ul>
+<li><strong>The question</strong>, written so that two different answers were imaginable.
+If you cannot picture being surprised, it was not a question.</li>
+<li><strong>The decision it unblocked</strong>: what changed on the answer, and who made
+the call. A named person, a named choice.</li>
+<li><strong>The method</strong>: which bucket it landed in from the routing, and the
+design. Half of a roadmap's questions turn out not to be randomisable,
+and the entry is where that gets found out once instead of quarterly.</li>
+<li><strong>The number</strong>, shrunk, with its interval, or the honest statement that
+no defensible number existed.</li>
+<li><strong>The belief</strong>: the sentence that outlives the report. Not &quot;variant B
+won, +2.1% on checkout completion&quot;, which dies with the ticket, but
+&quot;this product responds to friction removal at the payment step, about
+two points, and it held for six weeks&quot;, which the next three questions
+start from.</li>
+</ul>
+<h2 id="the-prior-store">The prior store</h2>
+<figure class="fig"><svg viewBox="0 0 840 300" role="img" aria-label="A histogram of a hundred results on one metric, most within a quarter of a point of zero, with the mean marked as the honest prior and a wished-for MDE of 1.5pp marked far to the right of anything the metric has ever produced. Illustrative data.">
+<line class="grid" x1="56" y1="256.0" x2="816" y2="256.0"/>
+<text x="48.0" y="260.0" class="dimt" text-anchor="end">0</text>
+<line class="grid" x1="56" y1="199.0" x2="816" y2="199.0"/>
+<text x="48.0" y="203.0" class="dimt" text-anchor="end">10</text>
+<line class="grid" x1="56" y1="142.0" x2="816" y2="142.0"/>
+<text x="48.0" y="146.0" class="dimt" text-anchor="end">20</text>
+<line class="grid" x1="56" y1="85.0" x2="816" y2="85.0"/>
+<text x="48.0" y="89.0" class="dimt" text-anchor="end">30</text>
+<line class="grid" x1="56" y1="28.0" x2="816" y2="28.0"/>
+<text x="48.0" y="32.0" class="dimt" text-anchor="end">40</text>
+<line class="ax" x1="56" y1="256" x2="816" y2="256"/>
+<line class="ax" x1="56.0" y1="256" x2="56.0" y2="260"/>
+<text x="56.0" y="273.0" class="dimt" text-anchor="middle">-0.8</text>
+<line class="ax" x1="182.7" y1="256" x2="182.7" y2="260"/>
+<text x="182.7" y="273.0" class="dimt" text-anchor="middle">-0.4</text>
+<line class="ax" x1="309.3" y1="256" x2="309.3" y2="260"/>
+<text x="309.3" y="273.0" class="dimt" text-anchor="middle">+0.0</text>
+<line class="ax" x1="436.0" y1="256" x2="436.0" y2="260"/>
+<text x="436.0" y="273.0" class="dimt" text-anchor="middle">+0.4</text>
+<line class="ax" x1="562.7" y1="256" x2="562.7" y2="260"/>
+<text x="562.7" y="273.0" class="dimt" text-anchor="middle">+0.8</text>
+<line class="ax" x1="689.3" y1="256" x2="689.3" y2="260"/>
+<text x="689.3" y="273.0" class="dimt" text-anchor="middle">+1.2</text>
+<line class="ax" x1="816.0" y1="256" x2="816.0" y2="260"/>
+<text x="816.0" y="273.0" class="dimt" text-anchor="middle">+1.6</text>
+<text x="816.0" y="290.0" class="lab" text-anchor="end">effect each test produced, percentage points</text>
+<text x="56.0" y="16.0" class="lab" text-anchor="start">results on this metric, out of a hundred</text>
+<rect class="hbar" x="120.3" y="250.3" width="61.3" height="5.7"/>
+<rect class="hbar" x="183.7" y="187.6" width="61.3" height="68.4"/>
+<rect class="hbar" x="247.0" y="102.1" width="61.3" height="153.9"/>
+<rect class="hbar" x="310.3" y="45.1" width="61.3" height="210.9"/>
+<rect class="hbar" x="373.7" y="193.3" width="61.3" height="62.7"/>
+<rect class="hbar" x="437.0" y="221.8" width="61.3" height="34.2"/>
+<rect class="hbar" x="500.3" y="221.8" width="61.3" height="34.2"/>
+<line class="ax dash" x1="330.7" y1="28" x2="330.7" y2="256"/>
+<text x="303.3" y="48.0" text-anchor="end">mean +0.07pp: the honest prior</text>
+<line class="ax dash" x1="784.3" y1="28" x2="784.3" y2="256"/>
+<text x="776.3" y="48.0" text-anchor="end">an MDE of 1.5pp, which nothing here has ever produced</text>
+<text x="550.4" y="211.8" class="dimt" text-anchor="middle">largest ever: +0.76pp</text>
+</svg><figcaption>Illustrative: a hundred results on one metric. The mean is the honest prior; the MDE somebody wished for sits to the right of every effect the metric has ever produced.</figcaption></figure>
+<p>A table. For each metric, the distribution of effects the last hundred
+tests actually produced. The store is what sizes the next test, and what
+the last result gets shrunk toward.</p>
+<p>The store earns its keep twice per experiment:</p>
+<ol>
+<li><strong>At design time</strong>, the minimum detectable effect stops being a wish.
+The store says what this metric has actually moved by; a test powered
+for a lift nobody at this company has ever produced was decided before
+it launched. Effects are small and most ideas do nothing: seventy to
+ninety percent of experiments are killed or neutral everywhere it has
+been measured, so the honest prior mean is roughly zero, and only a
+store that records the losses keeps it there.</li>
+<li><strong>At read time</strong>, raw winners are inflated: a result reported because it
+crossed a threshold is, in expectation, an overstatement, and the
+overstatement grows as power falls. Empirical Bayes shrinkage toward
+the store's distribution is the correction, and the shrunk number is
+what gets written back, so the store deflates rather than inflates.</li>
+</ol>
+<h2 id="why-this-is-the-part-worth-keeping">Why this is the part worth keeping</h2>
+<p>Skip the knowledge layer and every quarter starts from zero: the team re-runs
+a test somebody ran two years ago, argues from memory about what a banner
+is worth, and powers each experiment as though it had never seen an effect
+size at this company before. The cost is not one wasted test; it is that
+nothing compounds.</p>
+<p>Run it, and the write-back is a condition of shipping rather than an act
+of virtue: nothing reaches every user without a link back to the
+experiment that justified it, and the report that closes the test writes
+the belief in the same motion. The skills in this repo exist to run one
+question around that loop; the layer is what makes the second question
+cheaper than the first.</p>
+
+</div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../routing/">Routing</a>
+    <a href="../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

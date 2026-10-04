@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/gallop.css">
+<link rel="stylesheet" href="../assets/doc.css">
+<title>The method map · gallop</title>
+<meta name="description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomise fork, and leaves as a decision, with measurement underneath and knowledge across the top.">
+<link rel="canonical" href="https://0trm.github.io/gallop/map/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="The method map · gallop">
+<meta property="og:description" content="Product data science on one page: a question enters at exploratory analytics, passes the can-you-randomise fork, and leaves as a decision, with measurement underneath and knowledge across the top.">
+<meta property="og:url" content="https://0trm.github.io/gallop/map/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../assets/track.js" defer></script>
+<style>
+.desk{display:flex;flex-direction:column;gap:0}
+.desk > .win{border-left:0;border-right:0;border-top:0}
+/* one centred content column; the band rules stay full-bleed. --gutter lives in gallop.css */
+.body{padding:32px var(--gutter) 40px}
+.desk > footer{padding:22px var(--gutter);border-bottom:1px solid var(--line)}
+
+h1{font-family:var(--f-chrome);font-size:38px;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
+/* prose and headings in Archivo, as doc.css sets them; code, tables and diagram edges stay mono */
+h3{font-family:var(--sans);font-size:19px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
+h4{font-family:var(--sans);font-size:15px;font-weight:700;margin:0 0 6px}
+p{margin:0}
+.lead{font-family:var(--sans);font-size:17px;line-height:1.6;max-width:78ch;color:var(--body)}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:84ch;font-family:var(--sans);color:var(--body)}
+.prose b{color:var(--fg)}
+/* the paragraph that opens a section, before the first module */
+p.intro{font-family:var(--sans);font-size:15px;line-height:1.6;max-width:84ch;margin:0 0 24px;color:var(--body)}
+/* A module label opens a block sitting on the section ground: a hairline
+   above it and the same uppercase label the bands and the foot use, so a
+   section reads as parts rather than one column of text. Cards and notes
+   carry their own border and do not take one. */
+.modlab{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--dim);border-top:1px solid var(--line);
+        margin:34px 0 18px;padding-top:20px}
+
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;padding:0 2px}
+
+/* diagram */
+figure.dg{margin:0;overflow-x:auto;background:var(--surface);
+          border:1px solid var(--line);padding:20px 22px}
+/* 1:1 with the viewBox inside the column; below 900px the figure scrolls sideways rather than shrinking its labels */
+.dg svg{display:block;width:100%;height:auto;min-width:900px}
+.dg text{font-family:var(--f-body);fill:var(--ink)}
+.dg .t-title{font-family:var(--f-chrome);font-size:14px;letter-spacing:.02em}
+.dg .t-sub{font-size:11.5px}
+.dg .t-give{font-size:10.5px;opacity:.62}
+.dg .t-q{font-size:12px}
+.dg .t-edge{font-family:var(--f-mono);font-size:10.5px}
+.dg .t-note{font-size:9.5px;opacity:.62}
+.dg .node{fill:var(--paper);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .sel{fill:var(--vellum);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .path{stroke:var(--ink);stroke-width:1;fill:none;vector-effect:non-scaling-stroke}
+.dg .feed{stroke:var(--ink);stroke-width:1;fill:none;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.dg .head{fill:var(--ink)}
+figcaption{font-family:var(--sans);font-size:13.5px;line-height:1.5;margin-top:20px;max-width:84ch;opacity:.8}
+@media (max-width:640px){ .body{padding:18px} h1{font-size:30px} }
+@media (max-width:960px){
+  /* below the column width the figure scrolls; say so, and keep the hint parked at the left edge */
+  figure.dg::before{content:"scroll sideways for the whole diagram";display:block;position:sticky;left:0;
+                    font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+                    opacity:.55;margin-bottom:6px}
+}
+
+@media print{
+  html,body{background:var(--pasture);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    figure.dg,.callouts li,tr{break-inside:avoid}
+  h3,h4,.sec{break-after:avoid}
+}
+
+@page{ size: A4; margin: 12mm; }
+.hero{display:grid;grid-template-columns:minmax(300px,.8fr) 1.2fr;gap:44px;align-items:baseline}
+.sec{margin:0 0 16px}
+.scrollx{overflow-x:auto}
+.route{width:100%;border-collapse:collapse;font-size:14px;margin-top:0;color:var(--body)}
+.route th{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+          text-transform:uppercase;color:var(--dim);padding:0 18px 12px 0;border-bottom:var(--hair);
+          vertical-align:bottom}
+.route td{padding:15px 18px 15px 0;border-bottom:1px solid var(--pasture-shade);vertical-align:top;line-height:1.6}
+.route td:first-child{width:31%}
+.route td:nth-child(2){width:20%;font-weight:700;color:var(--fg)}
+.route tr:last-child td{border-bottom:none}
+.q{font-style:italic}
+.prose a,p.intro a{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:860px){ .hero{grid-template-columns:1fr} }
+
+.dg .key{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.dg .pk{fill:var(--ink)}
+.dg .ps{stroke:var(--ink);stroke-width:1;fill:none}
+.dg .t-title{font-size:15px}
+.dg .t-sub{font-size:12.5px}
+.dg .t-give{font-size:11.5px}
+.dg .t-q{font-size:13px}
+.dg .t-edge{font-size:11.5px}
+.dg .t-note{font-size:10.5px}
+.dg .cont{fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.dg .co circle{fill:var(--ink)}
+.dg .co text{fill:var(--paper);font-family:var(--f-mono);font-size:11px;font-weight:700}
+.callouts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;border:var(--hair)}
+.callouts li{display:flex;gap:14px;padding:16px 18px;border-bottom:var(--hair);border-right:var(--hair);min-width:0}
+.callouts li:nth-child(2n){border-right:0}
+.callouts li:last-child{border-bottom:0}
+.callouts .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);
+             font-family:var(--f-mono);font-size:11px;font-weight:700;display:inline-flex;
+             align-items:center;justify-content:center;margin-top:-2px}
+.callouts h4{font-size:15px;font-weight:700;margin:0 0 6px}
+.callouts p{font-family:var(--sans);font-size:14px;line-height:1.6;margin:0;max-width:84ch;color:var(--body)}
+.callouts .prod{margin-top:9px}
+.callouts .prod span{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
+                     text-transform:uppercase;color:var(--dim);margin-right:8px}
+.callouts .prod b{font-weight:700;color:var(--fg)}
+@media (max-width:860px){.callouts{grid-template-columns:1fr}.callouts li{border-right:0}}
+.dg .band{fill:var(--pasture);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+/* The big diagram opens at actual width. Fitted to a 1440x900 viewport it ran
+   at 0.69 scale, its notes near 7px, and still started below a 374px header.
+   The top right corner of the plate carries the control that fits it to the
+   screen: the two corner glyphs, drawn in the stroke the theme switch uses,
+   with the words kept on hover. Below 961px the figure scrolls sideways at
+   full size instead. */
+.fitctl{width:24px;height:19px;margin-right:-6px;padding:0;border:0;background:none;
+        display:inline-flex;align-items:center;justify-content:center;
+        cursor:pointer;color:var(--dim)}
+.fitctl svg{display:none;width:16px;height:16px;fill:none;stroke:currentColor;
+            stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.fitctl.is-fit .out{display:block}
+.fitctl:not(.is-fit) .in{display:block}
+.fitctl:hover{color:var(--fg)}
+@media (max-width:960px){.fitctl{display:none}}
+@media (min-width:961px){
+  figure.dg.fit svg{max-height:calc(100vh - 220px);width:auto;max-width:100%;min-width:0;margin:0 auto}
+}
+
+/* the title row carries the page label, so no bar stands above it */
+.hero{align-items:end}
+.hero .kick{margin:0 0 12px}
+figure.dg{position:relative}
+figure.dg .fitctl{position:absolute;top:10px;right:12px;margin:0;z-index:1}
+/* eight callouts, four rows of two */
+@media (min-width:861px){.callouts li:nth-child(7){border-bottom:0}}
+/* the reason column is paragraphs, so it reads in Archivo; questions and routes stay mono */
+.route td:nth-child(3){font-family:var(--sans);font-size:14.5px}
+/* on a phone each routing is a card: the question, the route, the reason */
+@media (max-width:620px){
+  .route thead{display:none}
+  .route,.route tbody,.route tr,.route td{display:block;width:auto!important}
+  .route tr{padding:14px 0;border-bottom:1px solid var(--pasture-shade)}
+  .route tr:last-child{border-bottom:0}
+  .route td{border:0;padding:0}
+  .route td:nth-child(2){margin:8px 0 4px}
+  .route td:nth-child(2)::before{content:"\2192  ";font-family:var(--mono);color:var(--dim);font-weight:400}
+}
+</style>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href="../">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../map/" aria-current="page">The map</a>
+  <a href="../routing/">Routing</a>
+  <a href="../skills/">Skills</a>
+  <a href="../knowledge/">Knowledge</a>
+  <a href="../install/">Install</a>
+  <a href="../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+
+<main class="desk" id="main">
+
+<section class="win">
+  <div class="body hero">
+    <div>
+      <p class="lab kick">Field guide</p>
+      <h1>The method map</h1>
+    </div>
+    <p class="lead">Product data science on one page. A question enters at the left and leaves as a decision. Measurement is a foundation, not a phase, because what ships changes the data; knowledge is a ceiling, not a report, because what you learn has to outlive the test that produced it.</p>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Contents"><span class="lab">Contents</span><a href="#the-map">The map</a><a href="#legend">The legend</a><a href="#inside-the-box">Inside the box</a><a href="#day-to-day">Day to day</a></nav>
+
+<section class="win" id="the-map">
+  <div class="body">
+    <figure class="dg" id="map-figure"><button type="button" class="fitctl" aria-controls="map-figure" title="Fit to screen" aria-label="Fit to screen"><svg class="out" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.2H2.2V6M10 2.2h3.8V6M6 13.8H2.2V10M10 13.8h3.8V10"/></svg><svg class="in" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 6H6V2.2M13.8 6H10V2.2M2.2 10H6v3.8M13.8 10H10v3.8"/></svg></button><svg viewBox="0 -124 1200 924" role="img" aria-label="The PDS method map: a question enters at exploratory analytics, passes the can-you-randomise diamond into either experimentation or causal inference, and leaves as a decision. Statistical modeling sits below the path as a service layer, a measurement band runs underneath everything, and a knowledge layer band runs across the top, holding what each decision taught and feeding priors back down into the causal work.">
+  <defs>
+    <marker id="m" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+    <pattern id="mx-h" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" class="pk"/></pattern>
+    <pattern id="mx-v" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="3" class="pk"/></pattern>
+    <pattern id="mx-d" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" class="pk"/></pattern>
+    <pattern id="mx-x" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0,4 L4,0 M-1,1 L1,-1 M3,5 L5,3" class="ps"/></pattern>
+  </defs>
+
+  <rect x="450" y="60" width="400" height="380" class="cont"/>
+  <text class="t-edge" x="450" y="48">causal study design</text>
+  <text class="t-note" x="590" y="48">split by who assigns treatment</text>
+
+  <rect x="40" y="184" width="210" height="150" class="node"/>
+  <rect x="40" y="184" width="14" height="150" class="key" fill="url(#mx-h)"/>
+  <text class="t-title" x="76" y="212">Exploratory</text>
+  <text class="t-title" x="76" y="231">Analytics</text>
+  <text class="t-sub" x="76" y="256">deep dives · funnels</text>
+  <text class="t-sub" x="76" y="275">segmentation · retention</text>
+  <text class="t-sub" x="76" y="294">root cause · opp sizing</text>
+  <text class="t-give" x="76" y="320">what is happening?</text>
+
+  <polygon points="380,208 458,258 380,308 302,258" class="node"/>
+  <text class="t-q" x="380" y="254" text-anchor="middle">can you</text>
+  <text class="t-q" x="380" y="271" text-anchor="middle">randomise?</text>
+
+  <rect x="475" y="96" width="350" height="120" class="node"/>
+  <rect x="475" y="96" width="14" height="120" class="key" fill="url(#mx-v)"/>
+  <text class="t-title" x="511" y="126">Experimentation</text>
+  <text class="t-give" x="511" y="147">you control assignment</text>
+  <text class="t-sub" x="511" y="174">A/B · switchback · power</text>
+  <text class="t-sub" x="511" y="194">sequential tests · HTE</text>
+
+  <rect x="475" y="300" width="350" height="120" class="node"/>
+  <rect x="475" y="300" width="14" height="120" class="key" fill="url(#mx-x)"/>
+  <text class="t-title" x="511" y="330">Causal Inference</text>
+  <text class="t-give" x="511" y="351">assignment already happened</text>
+  <text class="t-sub" x="511" y="378">synthetic control · DiD</text>
+  <text class="t-sub" x="511" y="398">matching · IV · ITS</text>
+
+  <rect x="475" y="520" width="350" height="120" class="node"/>
+  <rect x="475" y="520" width="14" height="120" class="key" fill="url(#mx-d)"/>
+  <text class="t-title" x="511" y="550">Statistical Modeling</text>
+  <text class="t-sub" x="511" y="573">regression · forecasting</text>
+  <text class="t-sub" x="511" y="593">simulation · optimization</text>
+  <text class="t-sub" x="511" y="613">ML · uplift models</text>
+
+  <ellipse cx="1070" cy="258" rx="90" ry="46" class="sel"/>
+  <text class="t-title" x="1070" y="254" text-anchor="middle">Decision</text>
+  <text class="t-sub" x="1070" y="274" text-anchor="middle">ship · kill · reallocate</text>
+
+  <line x1="250" y1="259" x2="300" y2="259" class="path" marker-end="url(#m)"/>
+  <text class="t-note" x="275" y="251" text-anchor="middle">hypothesis</text>
+
+  <polyline points="380,208 380,156 473,156" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="390" y="190">yes</text>
+  <polyline points="380,308 380,360 473,360" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="390" y="330">no</text>
+
+  <polyline points="825,156 940,156 940,258" class="path"/>
+  <polyline points="825,360 940,360 940,258" class="path"/>
+  <line x1="940" y1="258" x2="978" y2="258" class="path" marker-end="url(#m)"/>
+  <text class="t-edge" x="901" y="148" text-anchor="middle">effect size</text>
+  <text class="t-edge" x="901" y="352" text-anchor="middle">effect size</text>
+
+  <line x1="620" y1="520" x2="620" y2="446" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="634" y="486">supplies estimators</text>
+
+  <polyline points="825,580 1030,580 1030,306" class="path" marker-end="url(#m)"/>
+  <text class="t-note" x="1020" y="600" text-anchor="end">automates the decision</text>
+
+  <rect x="40" y="-100" width="1120" height="62" class="band"/>
+  <rect x="40" y="-100" width="14" height="62" class="key" style="fill:var(--paper)"/>
+  <text class="t-title" x="80" y="-62">Knowledge Layer</text>
+  <text class="t-sub" x="350" y="-72">knowledge repo &#183; one searchable entry per question &#183; losses written up like wins</text>
+  <text class="t-sub" x="350" y="-50">prior store &#183; per-metric effect distribution &#183; what a realistic MDE actually is</text>
+  <text class="t-note" x="1158" y="-110" text-anchor="end">written by every decision, read before the next question</text>
+
+  <polyline points="1070,212 1070,-36" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="1084" y="120">what we learned</text>
+  <polyline points="140,-36 140,182" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="154" y="-14">what we already believe</text>
+  <text class="t-note" x="400" y="-14" text-anchor="middle">what ships changes the data</text>
+  <line x1="760" y1="-36" x2="760" y2="58" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="746" y="-14" text-anchor="end">priors: sizing and shrinkage</text>
+
+  <rect x="40" y="700" width="1120" height="62" class="band"/>
+  <rect x="40" y="700" width="14" height="62" class="key" style="fill:var(--ink)"/>
+  <text class="t-title" x="80" y="738">Measurement Framework</text>
+  <text class="t-sub" x="350" y="728">north-star &amp; core metrics · event instrumentation</text>
+  <text class="t-sub" x="350" y="750">source-of-truth reporting · the definition of success</text>
+  <line x1="140" y1="700" x2="140" y2="668" class="feed" marker-end="url(#m)"/>
+  <line x1="450" y1="700" x2="450" y2="668" class="feed" marker-end="url(#m)"/>
+  <line x1="760" y1="700" x2="760" y2="668" class="feed" marker-end="url(#m)"/>
+  <text class="t-note" x="1158" y="688" text-anchor="end">consumed by every box above</text>
+  <g class="co"><circle cx="40" cy="184" r="11"/><text x="40" y="188" text-anchor="middle">1</text></g>
+  <g class="co"><circle cx="380" cy="196" r="11"/><text x="380" y="200" text-anchor="middle">2</text></g>
+  <g class="co"><circle cx="475" cy="96" r="11"/><text x="475" y="100" text-anchor="middle">3</text></g>
+  <g class="co"><circle cx="475" cy="300" r="11"/><text x="475" y="304" text-anchor="middle">4</text></g>
+  <g class="co"><circle cx="475" cy="520" r="11"/><text x="475" y="524" text-anchor="middle">5</text></g>
+  <g class="co"><circle cx="1070" cy="212" r="11"/><text x="1070" y="216" text-anchor="middle">6</text></g>
+  <g class="co"><circle cx="40" cy="-100" r="11"/><text x="40" y="-96" text-anchor="middle">7</text></g>
+  <g class="co"><circle cx="40" cy="700" r="11"/><text x="40" y="704" text-anchor="middle">8</text></g>
+</svg>
+    </figure>
+  </div>
+</section>
+
+<section class="win" id="legend">
+  <div class="bar"><span class="close"></span><h2>2 · the legend</h2></div>
+  <div class="body">
+    <h3 class="sec">The eight objects, and what each one produces</h3>
+    <p class="intro">The map has six labelled objects, one decision point, two kinds of arrow, and two bands. Read left to right and you are following the life of a single question. Read top to bottom and you are moving down a stack: a memory runs across the top, the main path sits in the middle, a support layer sits under it, and a foundation sits under that.</p>
+    <ol class="callouts">
+      <li><span class="n">1</span><div><h4>Exploratory analytics</h4><p>Deep dives, funnels, segmentation, retention, root cause, opportunity sizing. The box states its own question: <span class='q'>what is happening?</span></p><p class="prod"><span>produces</span><b>A hypothesis worth testing.</b></p></div></li>
+      <li><span class="n">2</span><div><h4>Can you randomise?</h4><p>The only diamond on the map, so the only true fork. Everything upstream is one path; everything downstream splits on this answer.</p><p class="prod"><span>produces</span><b>A routing decision: yes or no.</b></p></div></li>
+      <li><span class="n">3</span><div><h4>Experimentation</h4><p>The one box where you decide who is treated, so the comparison is built before the data exists. Power it before launch, not after.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">4</span><div><h4>Causal inference</h4><p>A launch, a policy or a region already decided who was treated. The design recovers a comparison the data does not hand you, and states the assumption it cannot test.</p><p class="prod"><span>produces</span><b>An effect size.</b></p></div></li>
+      <li><span class="n">5</span><div><h4>Statistical modeling</h4><p>Forecasts, rankings, allocations, and the estimators the causal designs run on: below the main path, not on it.</p><p class="prod"><span>produces</span><b>Estimators, and automated decisions.</b></p></div></li>
+      <li><span class="n">6</span><div><h4>Decision</h4><p>Ship, kill, reallocate. An ellipse because it is a terminal state, not another activity.</p><p class="prod"><span>produces</span><b>A change to the product, and new data.</b></p></div></li>
+      <li><span class="n">7</span><div><h4>Knowledge layer</h4><p>Two halves. The knowledge repo is prose: one entry per question, holding the design, the number, the decision and what you would do differently. The prior store is a table: for each metric, the distribution of effects the last hundred tests produced. Not a stage; a memory, and the only object on the map that gets more valuable the longer a team runs it.</p><p class="prod"><span>produces</span><b>A prior, a realistic MDE, and a question you do not have to ask again.</b></p></div></li>
+      <li><span class="n">8</span><div><h4>Measurement framework</h4><p>The band underneath everything: north-star and core metrics, event instrumentation, the source of truth, the definition of success.</p><p class="prod"><span>produces</span><b>A number the rest of the map can stand on.</b></p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="win" id="inside-the-box">
+  <div class="bar"><span class="close"></span><h2>3 · inside the box</h2></div>
+  <div class="body">
+    <h3 class="sec">What is inside the experimentation box</h3>
+    <p class="intro">The map draws experimentation as one rectangle, which is honest at two tests a quarter and misleading at two hundred. The rectangle contains six steps, and five of them have a way of handing back a wrong number without the report looking any different. An experimentation platform is the thing that makes those five steps configuration instead of craft, and the reason mature teams describe themselves as running a learning system rather than running tests.</p>
+
+    <figure class="dg"><svg viewBox="0 0 1200 342" role="img" aria-label="The experiment lifecycle: idea, design, assignment, logging, analysis, decision, running left to right. A knowledge layer band across the top supplies priors to design and shrinkage to analysis, and is written back to by the decision. A dashed container marks design through analysis as the part a platform automates.">
+  <defs>
+    <marker id="m2" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto"
+      markerUnits="userSpaceOnUse"><polygon points="0,0 9,4 0,8" class="head"/></marker>
+  </defs>
+
+  <rect x="40" y="20" width="1120" height="62" class="band"/>
+  <rect x="40" y="20" width="14" height="62" class="key" style="fill:var(--paper)"/>
+  <text class="t-title" x="80" y="58">Knowledge Layer</text>
+  <text class="t-sub" x="350" y="48">prior store &#183; what this metric has actually done, over the last hundred tests</text>
+  <text class="t-sub" x="350" y="70">knowledge repo &#183; what was already tried, and what it taught</text>
+
+  <rect x="233" y="140" width="734" height="166" class="cont"/>
+  <text class="t-edge" x="233" y="326">what the platform automates</text>
+
+  <rect x="61" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="75" y="198">Idea</text>
+  <text class="t-sub" x="75" y="224">Problem &#183; Mechanism</text>
+  <text class="t-sub" x="75" y="244">Metric &#183; Prior</text>
+  <text class="t-give" x="75" y="272">mechanism, not a guess</text>
+  <rect x="245" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="259" y="198">Design</text>
+  <text class="t-sub" x="259" y="224">MDE &#183; duration</text>
+  <text class="t-sub" x="259" y="244">power &#183; guardrails</text>
+  <text class="t-give" x="259" y="272">sized from the priors</text>
+  <rect x="429" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="443" y="198">Assignment</text>
+  <text class="t-sub" x="443" y="224">flags &#183; randomiser</text>
+  <text class="t-sub" x="443" y="244">holdouts &#183; layers</text>
+  <text class="t-give" x="443" y="272">one test per surface</text>
+  <rect x="613" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="627" y="198">Logging</text>
+  <text class="t-sub" x="627" y="224">exposure events</text>
+  <text class="t-sub" x="627" y="244">did this user see B?</text>
+  <text class="t-give" x="627" y="272">the most common bug</text>
+  <rect x="797" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="811" y="198">Analysis</text>
+  <text class="t-sub" x="811" y="224">CUPED &#183; SRM &#183; CATE</text>
+  <text class="t-sub" x="811" y="244">sequential p-values</text>
+  <text class="t-give" x="811" y="272">shrunk toward the prior</text>
+  <rect x="981" y="170" width="158" height="120" class="node"/>
+  <text class="t-title" x="995" y="198">Decision</text>
+  <text class="t-sub" x="995" y="224">ship &#183; kill</text>
+  <text class="t-sub" x="995" y="244">guardrail rollback</text>
+  <text class="t-give" x="995" y="272">a rollback is a result</text>
+
+  <line x1="219" y1="230" x2="243" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="403" y1="230" x2="427" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="587" y1="230" x2="611" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="771" y1="230" x2="795" y2="230" class="path" marker-end="url(#m2)"/>
+  <line x1="955" y1="230" x2="979" y2="230" class="path" marker-end="url(#m2)"/>
+
+  <line x1="324" y1="84" x2="324" y2="168" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="338" y="112">prior &#183; MDE</text>
+  <line x1="876" y1="84" x2="876" y2="168" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="890" y="112">shrinkage</text>
+  <line x1="1060" y1="168" x2="1060" y2="84" class="feed" marker-end="url(#m2)"/>
+  <text class="t-note" x="1074" y="112">what it taught</text>
+</svg>
+      <figcaption>The chain runs left to right. The knowledge layer feeds it twice and is written by it once, which is the whole difference between a team that runs tests and a team that accumulates. The dashed container marks what a mature platform does for you: sizing, assignment, logging and analysis are configuration rather than judgment, and the two steps outside it are the two nobody can automate.</figcaption>
+    </figure>
+
+    <h4 class="modlab">Where each step breaks</h4>
+    <div class="prose">
+      <p>Each of the six steps has its own way of handing back a wrong number, and the corrections are the
+      skills, not the map. <a href="../skills/designing-experiments/"><b>designing-experiments</b></a> covers
+      the four choices that cannot be repaired after launch, with the MDE taken from the prior store.
+      <a href="../skills/reading-experiments/"><b>reading-experiments</b></a> covers whether the result is a
+      result: SRM, exposure, the sequential bound, CUPED, shrinkage.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win" id="day-to-day">
+  <div class="bar"><span class="close"></span><h2>4 · day to day</h2></div>
+  <div class="body">
+    <h3 class="sec">Using the map day to day</h3>
+    <p class="intro">Search the knowledge layer before you scope anything. Either the question is settled and you
+    hand back the entry, or the prior store gives you the effect size this metric has historically moved by,
+    which is what turns the MDE from a wish into a number. The lookup costs a minute and the test costs a
+    sprint. Then route the question, and underneath all of it ask whether you trust the metric at all: if you
+    do not, the measurement framework is the actual work.</p>
+    <h4 class="modlab">Worked routings</h4>
+    <div class="scrollx">
+    <table class="route">
+      <thead><tr><th>The question as it arrives</th><th>Routes to</th><th>Why, and what you get back</th></tr></thead>
+      <tbody>
+        <tr><td class="q">"Mobile checkout conversion dropped four points last month. What happened?"</td><td>Exploratory analytics</td><td>Pure description, no intervention proposed. Funnel and segmentation work until the drop localises to a step, a platform, a cohort. Output is a hypothesis, which then enters the diamond.</td></tr>
+        <tr><td class="q">"Does the new one-page checkout increase completion?"</td><td>Experimentation</td><td>You control who sees which checkout, so randomise. Power the test before you launch it, not after. Output is an effect size with a confidence interval, and the decision is ship or kill.</td></tr>
+        <tr><td class="q">"We rolled the new pricing page out to all users in March. Did it help?"</td><td>Causal inference</td><td>Assignment already happened and it was not random; everyone got it at once. That is an interrupted time series, or DiD against a comparable unaffected market. Output is still an effect size, with assumptions you must state.</td></tr>
+        <tr><td class="q">"Users who enable notifications retain better. Should we push everyone to enable them?"</td><td>Experimentation</td><td>The trap case. The observed gap is self-selection, not effect: engaged users enable notifications. Randomise the prompt, not the outcome. If you truly cannot, matching or IV in the causal inference box, with the bias acknowledged.</td></tr>
+        <tr><td class="q">"Which of our twelve million users should get the win-back discount this week?"</td><td>Statistical modeling</td><td>A decision made repeatedly at volume, so it belongs to the automation arrow. An uplift model ranks who is moved by the discount, not who is likely to return anyway. Validate the model itself with an experiment.</td></tr>
+        <tr><td class="q">"Does the new courier bonus increase deliveries completed?"</td><td>Experimentation, redesigned</td><td>Randomising couriers is the obvious move and it is wrong: pay one courier more and they take the jobs a control courier would have taken, so the control group is treated through the back door and the effect looks larger than it is. Randomise time or city rather than people. Switchback or cluster, decided before launch, because no sample size fixes interference.</td></tr>
+        <tr><td class="q">"Didn't we try something like this two years ago?"</td><td>Knowledge layer</td><td>A lookup, not an analysis. The entry says what was tested, what the effect was, and what has changed since. If it predates the redesign it is a prior rather than an answer: it sharpens the next test, sets a realistic expectation, and stops the team arguing from memory.</td></tr>
+        <tr><td class="q">"Our activation number differs in two dashboards and nobody trusts either."</td><td>Measurement framework</td><td>Not a stage on the path, a foundation crack. Fix the definition of success and the source of truth first; every analysis built on top of it inherits the error invisibly.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href=".././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../map/">The method map</a>
+    <a href="../routing/">Routing</a>
+    <a href="../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../skills/">The skills</a>
+    <a href="../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    document.querySelectorAll(".fitctl").forEach(function (b) {
+      var fig = document.getElementById(b.getAttribute("aria-controls"));
+      if (!fig) return;
+      b.addEventListener("click", function () {
+        var fit = fig.classList.toggle("fit");
+        var label = fit ? "Show at actual size" : "Fit to screen";
+        b.classList.toggle("is-fit", fit);
+        b.setAttribute("title", label);
+        b.setAttribute("aria-label", label);
+      });
+    });
+  })();
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>reading-experiments · gallop</title>
+<meta name="description" content="Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage">
+<link rel="canonical" href="https://0trm.github.io/gallop/skills/reading-experiments/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gallop">
+<meta property="og:title" content="reading-experiments · gallop">
+<meta property="og:description" content="Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage">
+<meta property="og:url" content="https://0trm.github.io/gallop/skills/reading-experiments/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#FFFFFF">
+<script>
+  /* Before paint. Read at the foot instead, a remembered dark theme arrives
+     after the light page is already on screen, on every navigation. */
+  (function () {
+    try {
+      var t = localStorage.getItem("gallop-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/gallop.css">
+<link rel="stylesheet" href="../../assets/doc.css">
+
+<script data-goatcounter="https://gallop.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="../../assets/track.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<nav class="band cells nav" aria-label="Site">
+  <a class="wm" href="../.././">gallop</a>
+  <button type="button" class="menu" aria-expanded="false" aria-label="Menu"><span class="bars"></span></button>
+  <a href="../../map/">The map</a>
+  <a href="../../routing/">Routing</a>
+  <a href="../../skills/" aria-current="page">Skills</a>
+  <a href="../../knowledge/">Knowledge</a>
+  <a href="../../install/">Install</a>
+  <a href="../../about/">About</a>
+  <span class="sw">
+    <span class="theme" role="group" aria-label="Theme">
+      <button type="button" data-set="light" aria-pressed="true" aria-label="Light theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.5v2.5M10 16v2.5M1.5 10H4M16 10h2.5M4 4l1.8 1.8M14.2 14.2 16 16M4 16l1.8-1.8M14.2 5.8 16 4"/></svg></button>
+      <button type="button" data-set="dark" aria-pressed="false" aria-label="Dark theme"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 12.6A6.8 6.8 0 0 1 7.4 4a6.8 6.8 0 1 0 8.6 8.6z"/></svg></button>
+    </span>
+  </span>
+</nav>
+<main id="main">
+<div class="band">
+  <div class="secthead">
+    <p class="lab">Causation</p>
+    <span class="dim">skills/reading-experiments</span>
+  </div>
+  <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
+    <div>
+      <h1 class="d" style="font-size:34px">reading-experiments</h1>
+      <p class="skdesc">Whether the result is a result: SRM, exposure, the sequential bound, CUPED, shrinkage.</p>
+      <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
+        <p>Runs the trust gate on a finished experiment before the result is believed: sample ratio mismatch, exposure counts, always-valid or sequential bounds, guardrails read before the primary metric, the pre-registered segment rather than the most flattering one, CUPED variance reduction, and empirical Bayes shrinkage against the prior store. Use when analysing or reviewing A/B test results, when a test looks like a winner, when someone reports a lift, or when deciding whether to ship on an experiment report.</p></details>
+    </div>
+    <div>
+      <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
+<span class="p">$</span> mkdir -p .claude/skills
+<span class="p">$</span> cp -r gallop/skills/reading-experiments .claude/skills/</pre></div>
+      <a class="btn" href="https://github.com/0trm/gallop/tree/main/skills/reading-experiments">
+        <span>Read the source on GitHub</span><span class="arr">&#8599;</span></a>
+    </div>
+  </div>
+</div>
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#1-the-trust-gate-before-any-effect">1 · The trust gate, before any effect</a><a href="#2-guardrails-before-the-primary">2 · Guardrails before the primary</a><a href="#3-the-effect-under-the-licence-you-actually-have">3 · The effect, under the licence you actually have</a><a href="#4-segments-the-one-you-registered">4 · Segments</a><a href="#5-shrink-toward-what-this-metric-actually-does">5 · Shrink toward what this metric actually does</a><a href="#6-time-novelty-and-decay">6 · Time</a><a href="#the-verdict">The verdict</a></div></nav><div class="doc">
+<p>Whether the result is a result. Five of the six steps in an experiment can
+hand back a wrong number without the report looking any different, so the reading order is fixed and the checks come before the
+number. Read against the pre-registered plan; if no plan exists, say so
+first, because everything below weakens without one.</p>
+<p>The mechanical checks need assignment and exposure counts per arm,
+unit-level data with the metric and a pre-period covariate, and, for
+shrinkage, the prior store's past effects for the metric. They run in the
+order below: trust gate, sequential correction, variance reduction,
+shrinkage.</p>
+<h2 id="1-the-trust-gate-before-any-effect">1 · The trust gate, before any effect</h2>
+<p>Two checks, and a failure at either stops the reading. Details and the
+cause taxonomy: <a href="#ref-trust-gate">reference/trust-gate.md</a>.</p>
+<ul>
+<li><strong>Sample ratio mismatch.</strong> Chi-square on assignment counts against the
+intended split, at alpha 0.001. A 0.4% imbalance at a
+million units looks like nothing on a dashboard and is a broken test.
+On SRM: stop, do not analyse, work the cause taxonomy. There is no
+correction; a biased assignment is not a smaller sample, it is a
+different population per arm.</li>
+<li><strong>Exposure.</strong> Did the variant reach anyone, at the same rate in both
+arms? Differential exposure is a trigger bug and invalidates the
+comparison. Uniform under-exposure dilutes the ITT estimate toward zero by a known factor; report both the
+diluted and scaled numbers, labelled.</li>
+</ul>
+<h2 id="2-guardrails-before-the-primary">2 · Guardrails before the primary</h2>
+<p>Read the guardrail metrics first, in the plan's order. A win on the primary
+with a guardrail breach is a rollback, not a trade-off discussion, because
+the trade was already made when the guardrail was registered. A rollback
+triggered by a guardrail is the system working and still gets a report.</p>
+<h2 id="3-the-effect-under-the-licence-you-actually-have">3 · The effect, under the licence you actually have</h2>
+<figure class="fig"><svg viewBox="0 0 840 300" role="img" aria-label="False-positive rate of a fixed-horizon test read repeatedly during the run, rising from 5% at one look to about 28% at thirty looks.">
+<line class="grid" x1="56" y1="256.0" x2="816" y2="256.0"/>
+<text x="48.0" y="260.0" class="dimt" text-anchor="end">0%</text>
+<line class="grid" x1="56" y1="218.0" x2="816" y2="218.0"/>
+<text x="48.0" y="222.0" class="dimt" text-anchor="end">5%</text>
+<line class="grid" x1="56" y1="180.0" x2="816" y2="180.0"/>
+<text x="48.0" y="184.0" class="dimt" text-anchor="end">10%</text>
+<line class="grid" x1="56" y1="142.0" x2="816" y2="142.0"/>
+<text x="48.0" y="146.0" class="dimt" text-anchor="end">15%</text>
+<line class="grid" x1="56" y1="104.0" x2="816" y2="104.0"/>
+<text x="48.0" y="108.0" class="dimt" text-anchor="end">20%</text>
+<line class="grid" x1="56" y1="66.0" x2="816" y2="66.0"/>
+<text x="48.0" y="70.0" class="dimt" text-anchor="end">25%</text>
+<line class="grid" x1="56" y1="28.0" x2="816" y2="28.0"/>
+<text x="48.0" y="32.0" class="dimt" text-anchor="end">30%</text>
+<line class="ax" x1="56" y1="256" x2="816" y2="256"/>
+<line class="ax" x1="56.0" y1="256" x2="56.0" y2="260"/>
+<text x="56.0" y="273.0" class="dimt" text-anchor="middle">1</text>
+<line class="ax" x1="160.8" y1="256" x2="160.8" y2="260"/>
+<text x="160.8" y="273.0" class="dimt" text-anchor="middle">5</text>
+<line class="ax" x1="291.9" y1="256" x2="291.9" y2="260"/>
+<text x="291.9" y="273.0" class="dimt" text-anchor="middle">10</text>
+<line class="ax" x1="422.9" y1="256" x2="422.9" y2="260"/>
+<text x="422.9" y="273.0" class="dimt" text-anchor="middle">15</text>
+<line class="ax" x1="553.9" y1="256" x2="553.9" y2="260"/>
+<text x="553.9" y="273.0" class="dimt" text-anchor="middle">20</text>
+<line class="ax" x1="816.0" y1="256" x2="816.0" y2="260"/>
+<text x="816.0" y="273.0" class="dimt" text-anchor="middle">30</text>
+<text x="816.0" y="290.0" class="lab" text-anchor="end">looks at the data during the run</text>
+<text x="56.0" y="16.0" class="lab" text-anchor="start">false positives under a true null</text>
+<path class="ln" d="M56.0 217.5 L82.2 192.9 L108.4 173.8 L134.6 159.9 L160.8 148.3 L187.0 137.8 L291.9 109.4 L344.3 98.1 L422.9 85.2 L553.9 67.9 L816.0 43.3"/>
+<line class="dash thin ax" x1="56" y1="218.0" x2="816" y2="218.0"/>
+<text x="816.0" y="212.0" class="dimt" text-anchor="end">the 5% you signed up for</text>
+<circle class="dot" cx="56.0" cy="217.5" r="3.5"/>
+<circle class="dot" cx="82.2" cy="192.9" r="3.5"/>
+<circle class="dot" cx="108.4" cy="173.8" r="3.5"/>
+<circle class="dot" cx="134.6" cy="159.9" r="3.5"/>
+<circle class="dot" cx="160.8" cy="148.3" r="3.5"/>
+<circle class="dot" cx="187.0" cy="137.8" r="3.5"/>
+<circle class="dot" cx="291.9" cy="109.4" r="3.5"/>
+<circle class="dot" cx="344.3" cy="98.1" r="3.5"/>
+<circle class="dot" cx="422.9" cy="85.2" r="3.5"/>
+<circle class="dot" cx="553.9" cy="67.9" r="3.5"/>
+<circle class="dot" cx="816.0" cy="43.3" r="3.5"/>
+<text x="62.0" y="235.5" text-anchor="start">1 look: 5%</text>
+<text x="166.8" y="166.3" text-anchor="start">5 looks: 14%</text>
+<text x="428.9" y="103.2" text-anchor="start">15 looks: 22%</text>
+<text x="802.0" y="65.3" text-anchor="end">30 looks: 28%</text>
+</svg><figcaption>Read a fixed-horizon test every day and the false-positive rate is not 5%. Simulated under a true null at alpha 0.05, 100,000 runs: about 14% at five looks, 28% at thirty.</figcaption></figure>
+<ul>
+<li><strong>If the design was fixed-horizon and nobody looked early</strong>: the plain
+interval stands.</li>
+<li><strong>If anyone peeked without a sequential design</strong>: the nominal p-value is
+broken (daily peeking roughly triples the false positive rate) and the
+reported effect is selected on noise. Recompute against always-valid
+bounds and label the result as
+salvaged, not as designed.</li>
+<li><strong>If the design was sequential</strong>: read against the pre-declared boundary
+(always-valid bounds, or O'Brien-Fleming bounds for the fixed
+schedule). A day-three crossing of an always-valid bound is a licensed stop.</li>
+</ul>
+<p>Apply <strong>CUPED</strong> if a pre-period covariate exists: the se falls by
+sqrt(1 - rho²), often the difference between a conclusive and an
+inconclusive read. Validity rule
+and failure modes: <a href="#ref-variance-reduction">reference/variance-reduction.md</a>.</p>
+<figure class="fig"><svg viewBox="0 0 840 300" role="img" aria-label="The standard error after CUPED as a share of the raw standard error, sqrt(1 minus rho squared): 0.87 at rho 0.5, 0.71 at 0.7, 0.44 at 0.9.">
+<line class="grid" x1="56" y1="256.0" x2="816" y2="256.0"/>
+<text x="48.0" y="260.0" class="dimt" text-anchor="end">0.00</text>
+<line class="grid" x1="56" y1="199.0" x2="816" y2="199.0"/>
+<text x="48.0" y="203.0" class="dimt" text-anchor="end">0.25</text>
+<line class="grid" x1="56" y1="142.0" x2="816" y2="142.0"/>
+<text x="48.0" y="146.0" class="dimt" text-anchor="end">0.50</text>
+<line class="grid" x1="56" y1="85.0" x2="816" y2="85.0"/>
+<text x="48.0" y="89.0" class="dimt" text-anchor="end">0.75</text>
+<line class="grid" x1="56" y1="28.0" x2="816" y2="28.0"/>
+<text x="48.0" y="32.0" class="dimt" text-anchor="end">1.00</text>
+<line class="ax" x1="56" y1="256" x2="816" y2="256"/>
+<line class="ax" x1="56.0" y1="256" x2="56.0" y2="260"/>
+<text x="56.0" y="273.0" class="dimt" text-anchor="middle">0.0</text>
+<line class="ax" x1="208.0" y1="256" x2="208.0" y2="260"/>
+<text x="208.0" y="273.0" class="dimt" text-anchor="middle">0.2</text>
+<line class="ax" x1="360.0" y1="256" x2="360.0" y2="260"/>
+<text x="360.0" y="273.0" class="dimt" text-anchor="middle">0.4</text>
+<line class="ax" x1="512.0" y1="256" x2="512.0" y2="260"/>
+<text x="512.0" y="273.0" class="dimt" text-anchor="middle">0.6</text>
+<line class="ax" x1="664.0" y1="256" x2="664.0" y2="260"/>
+<text x="664.0" y="273.0" class="dimt" text-anchor="middle">0.8</text>
+<line class="ax" x1="816.0" y1="256" x2="816.0" y2="260"/>
+<text x="816.0" y="273.0" class="dimt" text-anchor="middle">1.0</text>
+<text x="816.0" y="290.0" class="lab" text-anchor="end">correlation between the pre-period covariate and the outcome</text>
+<text x="56.0" y="16.0" class="lab" text-anchor="start">standard error after CUPED, as a share of before</text>
+<path class="ln" d="M56.0 28.0 L63.6 28.0 L71.2 28.0 L78.8 28.1 L86.4 28.2 L94.0 28.3 L101.6 28.4 L109.2 28.6 L116.8 28.7 L124.4 28.9 L132.0 29.1 L139.6 29.4 L147.2 29.6 L154.8 29.9 L162.4 30.2 L170.0 30.6 L177.6 30.9 L185.2 31.3 L192.8 31.7 L200.4 32.2 L208.0 32.6 L215.6 33.1 L223.2 33.6 L230.8 34.1 L238.4 34.7 L246.0 35.2 L253.6 35.8 L261.2 36.5 L268.8 37.1 L276.4 37.8 L284.0 38.5 L291.6 39.2 L299.2 40.0 L306.8 40.8 L314.4 41.6 L322.0 42.4 L329.6 43.3 L337.2 44.2 L344.8 45.1 L352.4 46.1 L360.0 47.0 L367.6 48.0 L375.2 49.1 L382.8 50.2 L390.4 51.3 L398.0 52.4 L405.6 53.6 L413.2 54.8 L420.8 56.0 L428.4 57.2 L436.0 58.5 L443.6 59.9 L451.2 61.3 L458.8 62.7 L466.4 64.1 L474.0 65.6 L481.6 67.1 L489.2 68.7 L496.8 70.3 L504.4 71.9 L512.0 73.6 L519.6 75.3 L527.2 77.1 L534.8 78.9 L542.4 80.8 L550.0 82.7 L557.6 84.7 L565.2 86.7 L572.8 88.8 L580.4 91.0 L588.0 93.2 L595.6 95.4 L603.2 97.8 L610.8 100.2 L618.4 102.6 L626.0 105.2 L633.6 107.8 L641.2 110.5 L648.8 113.3 L656.4 116.2 L664.0 119.2 L671.6 122.3 L679.2 125.5 L686.8 128.8 L694.4 132.3 L702.0 135.9 L709.6 139.7 L717.2 143.6 L724.8 147.7 L732.4 152.0 L740.0 156.6 L747.6 161.5 L755.2 166.6 L762.8 172.2 L770.4 178.2 L778.0 184.8 L785.6 192.2 L793.2 200.6 L800.8 210.6 L808.4 223.8 L816.0 256.0"/>
+<line class="grid dash" x1="436.0" y1="58.5" x2="436.0" y2="256"/>
+<circle class="dot" cx="436.0" cy="58.5" r="3.5"/>
+<text x="426.0" y="76.5" text-anchor="end">rho 0.5: se x0.87</text>
+<line class="grid dash" x1="588.0" y1="93.2" x2="588.0" y2="256"/>
+<circle class="dot" cx="588.0" cy="93.2" r="3.5"/>
+<text x="578.0" y="111.2" text-anchor="end">rho 0.7: se x0.71</text>
+<line class="grid dash" x1="740.0" y1="156.6" x2="740.0" y2="256"/>
+<circle class="dot" cx="740.0" cy="156.6" r="3.5"/>
+<text x="730.0" y="174.6" text-anchor="end">rho 0.9: se x0.44</text>
+</svg><figcaption>CUPED's whole effect in one curve: the standard error falls by sqrt(1 minus rho squared), so a pre-period covariate at rho 0.7 buys the same precision as doubling the traffic.</figcaption></figure>
+<p><strong>A null is an interval, not a zero.</strong> &quot;No difference&quot; when the MDE was
+1.4pp means &quot;we could not have seen less than 1.4pp&quot;. Report the interval
+and the MDE every time; an underpowered null read as a kill is as wrong as
+a noise spike read as a win.</p>
+<h2 id="4-segments-the-one-you-registered">4 · Segments: the one you registered</h2>
+<p>Read the pre-registered segment. Do not read the other eleven the platform
+offers; with eleven cuts at alpha 0.05, finding a &quot;significant&quot; segment is
+the expected outcome under a true null. Anything interesting in an
+unregistered cut is a hypothesis for the next test, filed as one.</p>
+<h2 id="5-shrink-toward-what-this-metric-actually-does">5 · Shrink toward what this metric actually does</h2>
+<figure class="fig"><svg viewBox="0 0 840 220" role="img" aria-label="The quickstart's raw result of +0.306pp with its interval, shrunk to +0.113pp toward a prior of +0.097pp, because the prior is tight and the result is noisy.">
+<defs><marker id="fh" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8z" class="dot"/></marker></defs>
+<line class="ax" x1="200" y1="176" x2="816" y2="176"/>
+<line class="ax" x1="200.0" y1="176" x2="200.0" y2="180"/>
+<text x="200.0" y="193.0" class="dimt" text-anchor="middle">-0.4pp</text>
+<line class="ax" x1="288.0" y1="176" x2="288.0" y2="180"/>
+<text x="288.0" y="193.0" class="dimt" text-anchor="middle">-0.2pp</text>
+<line class="ax" x1="376.0" y1="176" x2="376.0" y2="180"/>
+<text x="376.0" y="193.0" class="dimt" text-anchor="middle">+0.0pp</text>
+<line class="ax" x1="464.0" y1="176" x2="464.0" y2="180"/>
+<text x="464.0" y="193.0" class="dimt" text-anchor="middle">+0.2pp</text>
+<line class="ax" x1="552.0" y1="176" x2="552.0" y2="180"/>
+<text x="552.0" y="193.0" class="dimt" text-anchor="middle">+0.4pp</text>
+<line class="ax" x1="640.0" y1="176" x2="640.0" y2="180"/>
+<text x="640.0" y="193.0" class="dimt" text-anchor="middle">+0.6pp</text>
+<line class="ax" x1="728.0" y1="176" x2="728.0" y2="180"/>
+<text x="728.0" y="193.0" class="dimt" text-anchor="middle">+0.8pp</text>
+<line class="ax" x1="816.0" y1="176" x2="816.0" y2="180"/>
+<text x="816.0" y="193.0" class="dimt" text-anchor="middle">+1.0pp</text>
+<text x="816.0" y="210.0" class="lab" text-anchor="end">effect on the metric, percentage points</text>
+<rect class="wash" x="361.5" y="24" width="114.4" height="152"/>
+<line class="ax dash" x1="418.7" y1="24" x2="418.7" y2="176"/>
+<text x="418.7" y="16.0" class="dimt" text-anchor="middle">what this metric usually does: +0.10pp, tau 0.065</text>
+<text x="186.0" y="66.0" text-anchor="end">raw result</text>
+<line class="ln" x1="314.9" y1="62" x2="706.4" y2="62"/>
+<circle class="dot-o" cx="510.6" cy="62" r="5"/>
+<text x="510.6" y="50.0" class="mono" text-anchor="middle">+0.306pp</text>
+<text x="186.0" y="126.0" text-anchor="end">shrunk toward the prior</text>
+<line class="ln" x1="371.8" y1="122" x2="479.5" y2="122"/>
+<circle class="dot-o" cx="425.6" cy="122" r="5"/>
+<text x="425.6" y="110.0" class="mono" text-anchor="middle">+0.113pp</text>
+<path class="ax" marker-end="url(#fh)" d="M510.6 70 L425.6 112"/>
+<text x="816.0" y="148.0" class="dimt" text-anchor="end">weight on the data 0.08; the result overstated by +0.193pp</text>
+</svg><figcaption>The quickstart's own numbers. The prior is tight and the result is noisy, so the weight on the data is 0.08 and the planning number is a third of the reported one.</figcaption></figure>
+<p>Raw winners are inflated: conditioning on crossing a threshold selects the
+draws noise helped. Shrink the estimate toward the prior store's
+distribution for this metric; the shrunk
+number is the planning number and the one that gets written back. Mechanics
+and when shrinkage is not available:
+<a href="#ref-shrinkage">reference/shrinkage.md</a>.</p>
+<h2 id="6-time-novelty-and-decay">6 · Time: novelty and decay</h2>
+<p>If the daily lift trends down across the run (regress daily lift on day; a
+negative slope with a positive intercept), the effect is novelty and the
+horizon-end average overstates the long run. A decay slower than the
+horizon is invisible to any test you can afford; the only instrument for
+that is a long-term holdback, so recommend one when the decision is
+expensive and the mechanism is plausibly novelty-driven.</p>
+<h2 id="the-verdict">The verdict</h2>
+<p>One of four, stated plainly with the decision rule beside it:</p>
+<ul>
+<li><strong>Trustworthy and clears the rule</strong> → ship; hand to <code>writing-reports</code>.</li>
+<li><strong>Trustworthy and misses the rule</strong> → kill or iterate; hand to
+<code>writing-reports</code> (nulls are filed with the same care as wins).</li>
+<li><strong>Trust gate failed</strong> → no result exists. Diagnose, fix, rerun. Also
+filed: a broken test is a lesson about the pipeline.</li>
+<li><strong>Salvage</strong> (peeked without licence, diluted exposure): a labelled,
+weaker number with its caveat attached in the same sentence, and a note
+in the report that the next design fixes the licence.</li>
+</ul>
+<p>Every verdict flows to <code>writing-reports</code>; the prior store only stays
+honest if losses and broken tests are written back as faithfully as wins.</p>
+
+<details class="refdoc" id="ref-shrinkage"><summary><span class="lab">reference</span> <span class="rt">Empirical Bayes shrinkage</span> <span class="fn">shrinkage.md</span></summary>
+<h2>Empirical Bayes shrinkage</h2>
+<p>The winner's-curse correction, and the moment the prior store pays for
+itself.</p>
+<h3>Why raw winners are inflated</h3>
+<p>A result is reported because it crossed a threshold. Conditioning on
+crossing selects the realisations noise pushed up, so the expected reported
+effect exceeds the true one, and the excess grows as power falls. An
+underpowered test that &quot;wins big&quot; is the most inflated object in the
+building: with 20% power, a just-significant result overstates the true
+effect by roughly a factor of two or more. The sign is usually right; the
+magnitude is not, which is worse for planning than a clean false positive.</p>
+<h3>The model</h3>
+<p>Normal-normal. The prior is what this metric has actually done, estimated
+from the store by method of moments:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>mu   = mean of past effects
+tau² = max( var(past effects) − mean(past se²), 0 )
+</code></pre></div>
+<p>Posterior mean = w·effect + (1−w)·mu, with w = tau²/(tau² + se²).
+Inputs: the effect, its se, and the prior store's past effects for the
+metric in the same unit.</p>
+<p>Reading the output:</p>
+<ul>
+<li><strong>w near 1</strong>: the test was precise relative to how much true effects
+vary; the data mostly stands.</li>
+<li><strong>w near 0</strong>: the test was noisy relative to the metric's history; the
+estimate collapses toward the prior mean. This is not the method being
+timid, it is the observation carrying little information.</li>
+<li><strong>tau² = 0</strong>: past effects are indistinguishable from noise around their
+mean; the model is saying this metric has never produced a
+distinguishable effect, and the new result shrinks all the way to mu.
+That verdict is itself worth surfacing in the report.</li>
+</ul>
+<p>The shrunk number is the planning number: what to forecast from, what to
+write into the prior store, what to tell the roadmap. The raw number and
+interval are still reported beside it, labelled.</p>
+<h3>Preconditions</h3>
+<ul>
+<li><strong>At least 3 past effects</strong> for the metric (refuse fewer;
+below ~8 the prior itself is noisy, so say so).</li>
+<li><strong>One unit.</strong> Effects in <code>pp</code> do not pool with effects in <code>relative</code>;
+refuse mixed units rather than averaging them.</li>
+<li><strong>Comparable results.</strong> The store should hold effects from the same
+metric under comparable designs; a store polluted with one 10x outlier
+from a pricing change will inflate tau² and under-shrink. <code>supersedes</code>
+exists for corrections; use it.</li>
+</ul>
+<h3>When there is no store</h3>
+<p>First tests at a company have no prior. Options, in honesty order: borrow
+the published base rate (most experiments do nothing; the honest prior mean
+is roughly zero, so at minimum discount the raw estimate mentally and say
+the result is unshrunk); or start the store with this result and accept
+that shrinkage begins from test four. What is not available is treating the
+raw number as a forecast: that is the exact error the correction exists for.</p>
+
+</details>
+<details class="refdoc" id="ref-trust-gate"><summary><span class="lab">reference</span> <span class="rt">The trust gate</span> <span class="fn">trust-gate.md</span></summary>
+<h2>The trust gate</h2>
+<p>Two mechanical checks that run before any effect is read. Both exist because
+their failure modes produce results indistinguishable from healthy ones.</p>
+<h3>Sample ratio mismatch</h3>
+<p>The check: chi-square goodness of fit of assignment counts against the
+intended split. Input: assignment counts per arm.</p>
+<p><strong>Alpha is 0.001, not 0.05, deliberately.</strong> The check runs on every
+experiment ever analysed; at 0.05 it would fire on one healthy test in
+twenty, be ignored within a quarter, and protect nothing. At 0.001 a firing
+means the test is broken, with high confidence.</p>
+<p><strong>Why there is no correction.</strong> An SRM means units left (or never entered)
+one arm non-randomly. The remaining populations differ in whatever made
+those units leave, which is usually correlated with the outcome. Reweighting
+cannot recover a comparison that randomisation no longer underwrites.</p>
+<p><strong>The cause taxonomy</strong> (Fabijan et al.), worked in order, stopping at the
+first that fits:</p>
+<ol>
+<li><strong>Assignment</strong> – bucketing bug, hash collision, a variant filter upstream.</li>
+<li><strong>Execution</strong> – one variant errors or times out; its events never arrive.</li>
+<li><strong>Logging</strong> – telemetry differs by variant; a slower page fires fewer
+beacons.</li>
+<li><strong>Experiment definition</strong> – the ramp changed mid-flight and the expected
+ratio was not updated. (The one benign cause: fix the expectation, not
+the test.)</li>
+<li><strong>Triggering</strong> – the trigger condition is itself affected by treatment.</li>
+<li><strong>Interference</strong> – units move between variants or share state.</li>
+<li><strong>Filtering</strong> – a bot or outlier filter removes units at different rates
+by variant.</li>
+</ol>
+<p>Check daily during the run, not once at the end: an SRM caught on day two
+costs two days; caught at read time it costs the whole test.</p>
+<h3>Exposure versus eligibility</h3>
+<p>The check: exposure counts per arm against assignment counts. Input: assigned and exposed counts per arm.</p>
+<p>Two distinct failures:</p>
+<p><strong>Differential exposure</strong> (the exposed counts fail an SRM at the assignment
+split): the arms trigger unequally, which is a bug in the trigger or the
+surface, and the comparison is invalid outright. Treat exactly like an SRM.</p>
+<p><strong>Uniform dilution</strong> (both arms under-exposed at the same rate r): the
+intention-to-treat estimate is attenuated by roughly r. Two honest readings:</p>
+<ul>
+<li>ITT as measured, labelled &quot;diluted by exposure at r&quot;.</li>
+<li>The exposed-only comparison, if exposure is logged symmetrically in both
+arms (control fires the event on seeing the control surface). If only the
+treatment arm logs exposure, the exposed subsets are not comparable and
+scaling ITT by 1/r is the safer statement.</li>
+</ul>
+<p>The deeper fix belongs to design: log exposure, not eligibility, and alert
+on event volume so a dark platform or country is visible within a day. A
+test that &quot;ran fine&quot; with a 60% exposure rate was a test on a 40% smaller
+effect than anyone thought they were testing.</p>
+
+</details>
+<details class="refdoc" id="ref-variance-reduction"><summary><span class="lab">reference</span> <span class="rt">Variance reduction at read time</span> <span class="fn">variance-reduction.md</span></summary>
+<h2>Variance reduction at read time</h2>
+<h3>CUPED</h3>
+<p>Deng, Xu, Kohavi &amp; Walker (2013). Adjust the metric by a pre-experiment
+covariate that treatment cannot have touched:</p>
+<div class="codecopy"><button type="button" class="copy">Copy</button><pre><code>Y_adj = Y - theta (X - mean(X)),   theta = Cov(Y,X) / Var(X)
+</code></pre></div>
+<p>Var(Y_adj) = Var(Y)(1 - rho²): the entire benefit is the squared pre/post
+correlation, so measure rho before promising anyone a number. At rho 0.7 the
+required sample halves; at rho 0.2 the gain is cosmetic.</p>
+<p><strong>The validity rule, in one sentence:</strong> the covariate must be fully
+determined before the first unit was exposed, and defined identically for
+every unit, including units with no history (impute a constant, usually the
+mean; never drop them).</p>
+<p><strong>Failure modes, in order of danger:</strong></p>
+<ol>
+<li><strong>Contaminated covariate.</strong> X computed over a window that overlaps the
+experiment, or otherwise touched by treatment. The only failure that
+biases the estimate rather than weakening it: CUPED then subtracts part
+of the true effect. If the covariate window's end is not provably before
+first exposure, do not use it.</li>
+<li><strong>Per-arm theta.</strong> Theta and mean(X) must be estimated pooled across
+arms. Estimated per arm, each theta fits its own arm's noise and most of
+the variance reduction is thrown away. A hand-rolled version often
+estimates per arm.</li>
+<li><strong>Missing pre-period.</strong> New users have no history. Coverage c of the
+covariate cuts the reduction by roughly c²; with 40% coverage, expect
+~16% of the nominal gain. Report the effective rho, not the rho among
+covered users.</li>
+</ol>
+<p>The natural covariate is the same metric over an equal-length pre-period.
+Anything pre-treatment and correlated works; the same metric is usually the
+most correlated thing available.</p>
+<h3>The alternatives</h3>
+<p><strong>Post-stratification</strong> on a discrete covariate (platform, country,
+tenure): weight each stratum by its pooled share. Wins over CUPED only when
+the covariate is genuinely categorical or must be fixed before launch.</p>
+<p><strong>Triggered analysis</strong>: restrict to units that could have been affected at
+all. Not a variance trick on the same population; it changes the estimand
+to the effect on the triggered subset. Legitimate and often what the
+decision wants, but say which population the number is about.</p>
+<p><strong>What is not on the list:</strong> collecting more traffic. At read time the sample
+is what it is; the levers above are the only ones left, which is why the
+covariate is planned at design time.</p>
+
+</details></div></div>
+</main>
+
+<footer class="band cells foot">
+  <div>
+    <a class="wm" href="../.././">gallop</a>
+    <p>Route the question before it becomes an analysis. Product data science as
+    agent skills.</p>
+  </div>
+  <div>
+    <p class="lab">Read</p>
+    <a href="../../map/">The method map</a>
+    <a href="../../routing/">Routing</a>
+    <a href="../../knowledge/">The knowledge layer</a>
+  </div>
+  <div>
+    <p class="lab">Use</p>
+    <a href="../../skills/">The skills</a>
+    <a href="../../install/">Install</a>
+    <a href="https://github.com/0trm/gallop">Source on GitHub &#8599;</a>
+  </div>
+  <div>
+    <p class="lab">Project</p>
+    <span class="dim">MIT License &middot; 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll(".snip .copy, .codecopy .copy").forEach(function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      var box = b.closest(".snip, .codecopy");
+      var pre = box.querySelector("pre").cloneNode(true);
+      pre.querySelectorAll(".p").forEach(function (g) { g.remove(); });
+      // a prompt snippet loses the space its glyph left; a code block keeps its indentation
+      var text = box.classList.contains("snip") ? pre.textContent.replace(/^ /gm, "") : pre.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+  (function () {
+    var nav = document.querySelector(".nav"), btn = nav && nav.querySelector(".menu");
+    if (!btn) return;
+    function set(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", function () { set(!nav.classList.contains("open")); });
+    nav.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) { set(false); btn.focus(); }
+    });
+  })();
+  (function () {
+    // a link into a reference document lands on a collapsed block, which the
+    // browser scrolls to and leaves shut. Open the one being pointed at.
+    function openTarget() {
+      var el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el && el.tagName === "DETAILS" && !el.open) {
+        el.open = true;
+        el.scrollIntoView();
+      }
+    }
+    addEventListener("hashchange", openTarget);
+    openTarget();
+  })();
+  (function () {
+    // the contents mark the section the reader is in: the last heading to have
+    // crossed the top of the viewport, rechecked on a frame rather than on
+    // every scroll event.
+    var rail = document.querySelector(".rail");
+    if (!rail) return;
+    var links = [].slice.call(rail.querySelectorAll("a"));
+    var heads = links.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+    var queued = false;
+    function mark() {
+      queued = false;
+      var at = -1;   // above the first heading nothing is marked
+      for (var j = 0; j < heads.length; j++) {
+        if (heads[j] && heads[j].getBoundingClientRect().top <= 96) at = j;
+      }
+      links.forEach(function (a, k) {
+        if (k === at) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(mark); }
+    }, {passive: true});
+    mark();
+  })();
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll(".theme button");
+    function apply(theme) {
+      root.dataset.theme = theme;
+      // the phone toolbar takes the ground of the theme in force
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(root).getPropertyValue("--bg").trim();
+      buttons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.set === theme));
+      });
+    }
+    apply(root.dataset.theme === "dark" ? "dark" : "light");   // the head set it
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        apply(b.dataset.set);
+        try { localStorage.setItem("gallop-theme", b.dataset.set); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
