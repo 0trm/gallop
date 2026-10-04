@@ -175,11 +175,15 @@ img,svg{max-width:100%}
 .term .run p{margin:0}
 .term .run b{font-weight:700}
 .term .q{margin-bottom:1.2em}
-.term .row{display:grid;grid-template-columns:9ch 24ch 1fr;padding-left:2ch}
+.term .row{display:grid;grid-template-columns:9ch 35ch 1fr;padding-left:2ch}
 .term .to{margin-top:1.2em;padding-left:2ch}
 .term .to a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .term .sub{padding-left:5ch}
 .term .run[hidden]{display:none}
+/* the hand-back: where the question goes, boxed so it reads as the outcome */
+.term .out{width:fit-content;max-width:100%;margin:1.2em 0 0 2ch;padding:8px 14px 9px;border:1px solid var(--line-2)}
+.term .out .to{margin-top:0;padding-left:0}
+.term .out .sub{padding-left:3ch}
 @keyframes blink{50%{opacity:0}}
 .cursor{display:inline-block;width:8px;height:1.05em;background:var(--fg);
         vertical-align:-2px;animation:blink 1s step-end infinite}
@@ -285,4 +289,5 @@ img,svg{max-width:100%}
   .term .row{grid-template-columns:8ch 1fr;padding-left:0}
   .term .row span:last-child{grid-column:2}
   .term .to,.term .sub{padding-left:0}
+  .term .out{margin-left:0}
 }
