@@ -22,9 +22,7 @@
 
 ## Why
 
-Statistics libraries assume you already know which question you are answering. Product management skill packs know which question matters and carry no statistics. Things go wrong in the gap: a lookup becomes a deep dive, an unvalidated metric becomes a report, a launch with no comparison group gets an effect size anyway.
-
-**gallop** puts the routing and the rigor in one place. Every question passes routing first before any query runs, and many leave at the gate. The rest go to one of three method buckets, on a measurement floor and under a knowledge ceiling.
+Statistics libraries assume you already know which question you are answering. Product management skill packs know which question matters and carry no statistics. With **gallop**, every question passes routing first before any query runs, and goes to one of three method buckets, on a measurement floor and under a knowledge ceiling.
 
 | Bucket | Asks | Hands back |
 |---|---|---|
