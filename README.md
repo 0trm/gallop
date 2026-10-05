@@ -17,7 +17,8 @@
 
 <p align="center">
   <strong>Skills that make your coding agent think like a product data scientist.</strong><br>
-  A framework for deciding if a question deserves an analysis, picking the method, and checking the result.
+  A framework for deciding if a question deserves an analysis, picking the method, and checking the result.<br>
+  <sub>by <a href="https://www.linkedin.com/in/0trm/">Tomás Ravalli</a></sub>
 </p>
 
 ## Why

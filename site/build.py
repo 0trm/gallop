@@ -47,6 +47,18 @@ ANALYTICS = (
     ' async src="https://gc.zgo.at/count.js"></script>'
 )
 
+# The author, on every page: a meta tag for readers that take one, and a
+# schema.org Person whose sameAs ties the name to the profiles that confirm it.
+AUTHOR = "Tomás Ravalli"
+AUTHOR_URL = "https://www.linkedin.com/in/0trm/"
+IDENTITY = f"""<meta name="author" content="{AUTHOR}">
+<script type="application/ld+json">
+{{"@context": "https://schema.org", "@type": "WebSite", "name": "gallop",
+ "url": "{SITE_URL}",
+ "author": {{"@type": "Person", "name": "{AUTHOR}", "url": "{AUTHOR_URL}",
+  "sameAs": ["{AUTHOR_URL}", "https://github.com/0trm"]}}}}
+</script>"""
+
 # (page, h2 text prefix) -> (figure file, caption). Inlined right after that h2.
 FIGURES = {
     ("skills/reading-experiments", "3 · The effect"): ("peeking.svg",
@@ -240,6 +252,7 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Project</p>
+    <a href="{AUTHOR_URL}">by {AUTHOR} &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
 </footer>"""
@@ -272,6 +285,7 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
 <meta property="og:url" content="{SITE_URL}{url}">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#FFFFFF">
+{IDENTITY}
 <script>
   /* Before paint. Read at the foot instead, a remembered dark theme arrives
      after the light page is already on screen, on every navigation. */
