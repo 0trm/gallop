@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use gallop, please cite it as below."
+type: software
+title: "gallop: product data science as agent skills"
+abstract: >-
+  Eight agent skills that route a product question to the method it deserves
+  (description, causation or prediction), on a measurement floor and under a
+  knowledge ceiling, and run the checks a wrong number fails before anything
+  ships.
+authors:
+  - given-names: Tomás
+    family-names: Ravalli
+    alias: 0trm
+    website: "https://www.linkedin.com/in/0trm/"
+repository-code: "https://github.com/0trm/gallop"
+url: "https://0trm.github.io/gallop/"
+license: MIT
+keywords:
+  - product data science
+  - experimentation
+  - causal inference
+  - product analytics
+  - statistical modeling
+  - agent skills
