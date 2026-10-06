@@ -34,7 +34,7 @@ total, not the size of its own swing.
   it; the traffic did. The hypothesis is about who arrives, and the owner
   is upstream of the surface.
 - **Simpson's case.** Every segment improved and the total fell. This is
-  a pure mix move and the function flags it by name, because it is the
+  a pure mix move. Name it as such in the write-up, because it is the
   case most often reported backwards.
 
 One cut at a time. A decomposition by channel and another by platform
