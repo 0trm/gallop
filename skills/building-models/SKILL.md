@@ -102,6 +102,8 @@ whom to treat: fraud, capacity, support routing.
 
 The order is fixed and the checks come before the number. Mechanics and
 the leakage taxonomy: [reference/validation.md](reference/validation.md).
+Every check below, run on a real pricing model:
+[reference/worked-example.md](reference/worked-example.md).
 
 - **Split by time.** Fit on rows before a cutoff, score rows after it.
   Random folds on time-ordered data leak the future into the training set
@@ -129,7 +131,8 @@ base rate of 8%, a lift of 3.9, out of time on July", never "AUC 0.91".
 
 A forecast is conditional on nothing changing. It has to beat the seasonal
 naive: at a MASE of 1 or above, last season's value did as well
-and is the forecast. Baselines and intervals:
+and is the forecast. Over a multi-step horizon, judge it against the naive
+made at the cutoff and scored on the same dates. Baselines and intervals:
 [reference/forecast-baselines.md](reference/forecast-baselines.md).
 
 A launch inside the horizon is the failure mode in its purest form. The

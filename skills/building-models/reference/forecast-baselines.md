@@ -20,8 +20,16 @@ error on the training window (Hyndman and Koehler's MASE):
   forecast, and the model is retired or reworked. This is a verdict, not
   a tuning note.
 
-The function also reports the naive's error on the test window itself,
-which is the baseline the model is actually competing with on those dates.
+Report the naive's error on the test window as well: the naive forecast
+made at the cutoff, scored on the same dates as the model. That is the
+baseline the model is actually competing with. On a multi-step horizon
+the two can disagree. MASE's scale is a one-step error on the training
+window, and when the test window sits where the series is more volatile
+(the last days before a sell-out, a peak season), a model can post a MASE
+above 1 while beating the cutoff naive by a wide margin. Read MASE as the
+verdict only when the horizon is one step; otherwise the verdict is the
+model's error divided by the cutoff naive's on the test window. A worked
+case: [worked-example.md](worked-example.md).
 
 ## Intervals
 
