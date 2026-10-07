@@ -6,13 +6,13 @@
 </p>
 
 <p align="center">
-  <a href="#map">map</a> &middot; <a href="#skills">skills</a> &middot; <a href="#install">install</a> &middot; <a href="https://0trm.github.io/gallop/">docs</a>
+  <a href="#map">map</a> &middot; <a href="#skills">skills</a> &middot; <a href="#install">install</a> &middot; <a href="https://0trm.dev/gallop/">docs</a>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-999999?labelColor=555555" alt="MIT license" /></a>
   <a href="https://agentskills.io/specification"><img src="https://img.shields.io/badge/format-agent%20skills-999999?labelColor=555555" alt="Agent Skills format" /></a>
-  <a href="https://0trm.github.io/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-999999?labelColor=555555&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
+  <a href="https://0trm.dev/gallop/"><img src="https://img.shields.io/badge/docs-github%20pages-999999?labelColor=555555&logo=github&logoColor=white" alt="documentation site on GitHub Pages" /></a>
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ A question enters at the left and leaves as a decision. Measurement is a foundat
   <img src="site/figures/skills-map-light.svg" width="100%" alt="The eight skills placed on the method map: routing at the entry, a can-you-randomise diamond, experimentation and causal inference to the right, exploratory analytics and statistical modeling below the path, the measurement framework as the floor and the knowledge layer as the ceiling">
 </picture>
 
-> [Read the full map](https://0trm.github.io/gallop/map/)
+> [Read the full map](https://0trm.dev/gallop/map/)
 
 ## Skills
 

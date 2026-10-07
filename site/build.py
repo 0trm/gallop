@@ -33,7 +33,7 @@ from pathlib import Path
 from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE_URL = "https://0trm.github.io/gallop/"
+SITE_URL = "https://0trm.dev/gallop/"
 CHECK_ONLY = False   # set by --check; write() renders to memory instead of disk
 SITE = ROOT / "site"
 SKILLS = ROOT / "skills"
