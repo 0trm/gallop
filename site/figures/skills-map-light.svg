@@ -16,21 +16,21 @@ text{font-family:Archivo,Arial,Helvetica,sans-serif;font-size:11.5px;fill:#00000
 <rect class="node" x="40" y="20" width="12" height="56"/>
 <text x="64.0" y="44.0" class="t-title" text-anchor="start">Knowledge layer</text>
 <text x="64.0" y="64.0" class="dimt" text-anchor="start">the ceiling: what each decision taught, and the prior it left</text>
-<a href="https://0trm.github.io/gallop/skills/writing-reports/"><text class="sk" x="780" y="54" text-anchor="end">writing-reports</text></a>
+<a href="https://0trm.dev/gallop/skills/writing-reports/"><text class="sk" x="780" y="54" text-anchor="end">writing-reports</text></a>
 <rect class="node" x="40" y="484" width="760" height="56"/>
 <rect class="dot" x="40" y="484" width="12" height="56"/>
 <text x="64.0" y="508.0" class="t-title" text-anchor="start">Measurement framework</text>
 <text x="64.0" y="528.0" class="dimt" text-anchor="start">the floor: the definition of success, and whether the number can be trusted</text>
-<a href="https://0trm.github.io/gallop/skills/defining-metrics/"><text class="sk" x="780" y="518" text-anchor="end">defining-metrics</text></a>
+<a href="https://0trm.dev/gallop/skills/defining-metrics/"><text class="sk" x="780" y="518" text-anchor="end">defining-metrics</text></a>
 <rect class="node" x="40" y="172" width="224" height="116"/>
 <text x="64.0" y="196.0" class="t-title" text-anchor="start">Routing</text>
-<a href="https://0trm.github.io/gallop/skills/routing-questions/"><text class="sk" x="64" y="220">routing-questions</text></a>
+<a href="https://0trm.dev/gallop/skills/routing-questions/"><text class="sk" x="64" y="220">routing-questions</text></a>
 <text x="64.0" y="250.0" class="dimt" text-anchor="start">one decision, one lookup,</text>
 <text x="64.0" y="268.0" class="dimt" text-anchor="start">three questions, one gate</text>
 <rect class="node" x="40" y="364" width="260" height="84"/>
 <rect class="node" x="40" y="364" width="12" height="84" fill="url(#ph)"/>
 <text x="64.0" y="388.0" class="t-title" text-anchor="start">Exploratory analytics</text>
-<a href="https://0trm.github.io/gallop/skills/forming-hypotheses/"><text class="sk" x="64" y="412">forming-hypotheses</text></a>
+<a href="https://0trm.dev/gallop/skills/forming-hypotheses/"><text class="sk" x="64" y="412">forming-hypotheses</text></a>
 <text x="64.0" y="432.0" class="dimt" text-anchor="start">the question, localised and sized</text>
 <polygon class="node" points="356,230 420,190 484,230 420,270"/>
 <text x="420.0" y="226.0" class="t-q" text-anchor="middle">can you</text>
@@ -38,16 +38,16 @@ text{font-family:Archivo,Arial,Helvetica,sans-serif;font-size:11.5px;fill:#00000
 <rect class="node" x="540" y="112" width="260" height="96"/>
 <rect class="node" x="540" y="112" width="12" height="96" fill="url(#pv)"/>
 <text x="564.0" y="136.0" class="t-title" text-anchor="start">Experimentation</text>
-<a href="https://0trm.github.io/gallop/skills/designing-experiments/"><text class="sk" x="564" y="160">designing-experiments</text></a>
-<a href="https://0trm.github.io/gallop/skills/reading-experiments/"><text class="sk" x="564" y="180">reading-experiments</text></a>
+<a href="https://0trm.dev/gallop/skills/designing-experiments/"><text class="sk" x="564" y="160">designing-experiments</text></a>
+<a href="https://0trm.dev/gallop/skills/reading-experiments/"><text class="sk" x="564" y="180">reading-experiments</text></a>
 <rect class="node" x="540" y="260" width="260" height="76"/>
 <rect class="node" x="540" y="260" width="12" height="76" fill="url(#px)"/>
 <text x="564.0" y="284.0" class="t-title" text-anchor="start">Causal inference</text>
-<a href="https://0trm.github.io/gallop/skills/choosing-causal-designs/"><text class="sk" x="564" y="308">choosing-causal-designs</text></a>
+<a href="https://0trm.dev/gallop/skills/choosing-causal-designs/"><text class="sk" x="564" y="308">choosing-causal-designs</text></a>
 <rect class="node" x="540" y="364" width="260" height="84"/>
 <rect class="node" x="540" y="364" width="12" height="84" fill="url(#pd)"/>
 <text x="564.0" y="388.0" class="t-title" text-anchor="start">Statistical modeling</text>
-<a href="https://0trm.github.io/gallop/skills/building-models/"><text class="sk" x="564" y="412">building-models</text></a>
+<a href="https://0trm.dev/gallop/skills/building-models/"><text class="sk" x="564" y="412">building-models</text></a>
 <text x="564.0" y="432.0" class="dimt" text-anchor="start">the decision, made at volume</text>
 <path class="ax" marker-end="url(#sm)" d="M264 230H350"/>
 <path class="ax" marker-end="url(#sm)" d="M484 230H512V160H534"/>
