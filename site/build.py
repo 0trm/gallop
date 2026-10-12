@@ -259,9 +259,9 @@ def footer(root):
 
 
 def new_tab(doc):
-    """Every link off the site opens in a new tab, so the reader keeps the page
-    they were on. Links within the site, relative or #anchors, stay in place."""
-    return re.sub(r'<a (?![^>]*\btarget=)([^>]*\bhref="https?://[^"]*"[^>]*)>',
+    """Every link opens in a new tab, so the reader keeps the page they were on.
+    Only #anchors (the skip link, headings, footnotes) stay in place."""
+    return re.sub(r'<a (?![^>]*\btarget=)([^>]*\bhref="(?!#)[^"]*"[^>]*)>',
                   r'<a \1 target="_blank" rel="noopener">', doc)
 
 
