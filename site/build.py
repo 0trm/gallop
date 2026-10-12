@@ -258,6 +258,13 @@ def footer(root):
 </footer>"""
 
 
+def new_tab(doc):
+    """Every link off the site opens in a new tab, so the reader keeps the page
+    they were on. Links within the site, relative or #anchors, stay in place."""
+    return re.sub(r'<a (?![^>]*\btarget=)([^>]*\bhref="https?://[^"]*"[^>]*)>',
+                  r'<a \1 target="_blank" rel="noopener">', doc)
+
+
 def page(*, title, description, body, root, url="", active=None, extra_style=""):
     """The shared chrome: skip link, nav band, foot band, theme switch. The
     contents belong to the document, so they are built into the body."""
@@ -270,7 +277,7 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
         cur = ' aria-current="page"' if active == href else ""
         links.append(f'<a href="{root}{href}"{cur}>{label}</a>')
     nav = "\n  ".join(links)
-    return f"""<!doctype html>
+    return new_tab(f"""<!doctype html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
@@ -418,7 +425,7 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
 
 </body>
 </html>
-"""
+""")
 
 
 RENDERED: dict[Path, str] = {}   # every page this run built, path -> html
