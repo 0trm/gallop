@@ -71,7 +71,7 @@
       <h1 class="d" style="font-size:34px">building-models</h1>
       <p class="skdesc">Whether a forecast or a repeated decision belongs to a model, validated out of time, and the holdout that measures its impact.</p>
       <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
-        <p>Decides whether a forecast a plan rests on, or a repeated, at-volume decision, belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.</p></details>
+        <p>Decides whether a forecast a plan rests on, or a repeated, at-volume decision, belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention. When the model will run inside the product, is not an uplift model and bluML is installed, bluML's framing-models takes it after steps 0 to 2; an uplift model stays here.</p></details>
     </div>
     <div>
       <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
@@ -82,7 +82,7 @@
     </div>
   </div>
 </div>
-<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#0-is-this-a-model-s-decision">0 · Is this a model's decision?</a><a href="#1-what-will-happen-or-who-gets-what">1 · What will happen, or who gets what?</a><a href="#2-propensity-or-uplift">2 · Propensity or uplift</a><a href="#3-validate-out-of-time-against-the-base-rate">3 · Validate out of time, against the base rate</a><a href="#4-forecasts-and-interventions">4 · Forecasts and interventions</a><a href="#5-the-holdout-that-measures-impact">5 · The holdout that measures impact</a><a href="#6-drift-and-expiry">6 · Drift and expiry</a><a href="#the-verdict">The verdict</a><a href="#worked-requests">Worked requests</a></div></nav><div class="doc">
+<div class="band docgrid"><nav class="rail" aria-label="Contents"><div class="railin"><p class="lab">Contents</p><a href="#0-is-this-a-model-s-decision">0 · Is this a model's decision?</a><a href="#1-what-will-happen-or-who-gets-what">1 · What will happen, or who gets what?</a><a href="#2-propensity-or-uplift">2 · Propensity or uplift</a><a href="#handing-the-build-to-bluml">Handing the build to bluML</a><a href="#3-validate-out-of-time-against-the-base-rate">3 · Validate out of time, against the base rate</a><a href="#4-forecasts-and-interventions">4 · Forecasts and interventions</a><a href="#5-the-holdout-that-measures-impact">5 · The holdout that measures impact</a><a href="#6-drift-and-expiry">6 · Drift and expiry</a><a href="#the-verdict">The verdict</a><a href="#worked-requests">Worked requests</a></div></nav><div class="doc">
 <p>The prediction position on the map: a forecast a plan rests on, or a
 decision made repeatedly, per user or per day, by a system rather than by a
 person reading a report. A forecast
@@ -167,6 +167,18 @@ randomise the offer across the eligible population with exposure logged,
 and train the uplift model on that experiment's rows. Propensity is still
 the right model when the question is who will do something rather than
 whom to treat: fraud, capacity, support routing.</p>
+<h2 id="handing-the-build-to-bluml">Handing the build to bluML</h2>
+<p>When the model will run inside the product, scored on a schedule or served
+on request and kept live, and bluML is installed, steps 0 to 2 are where
+this skill ends. They have settled that the question is a model's, which
+output it needs and, for a ranking or an allocation that picks who gets an
+intervention, propensity or uplift. An uplift model stays here to the end,
+because bluML does not validate uplift. Anything else goes to bluML's
+<code>framing-models</code>, and steps 3, 4 and 6 are bluML's from there: the
+validation, the forecast bar and drift. Its launch test comes to
+<code>designing-experiments</code>, as step 5 asks, with the current rule as the
+control and a permanent holdout when the decision runs continuously.
+Without bluML, carry on below.</p>
 <h2 id="3-validate-out-of-time-against-the-base-rate">3 · Validate out of time, against the base rate</h2>
 <p>The order is fixed and the checks come before the number. Mechanics and
 the leakage taxonomy: <a href="#ref-validation">reference/validation.md</a>.
