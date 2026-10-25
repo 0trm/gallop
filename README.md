@@ -30,6 +30,8 @@ Statistics libraries assume you already know which question you are answering. P
 | Causation | Did this change cause that? | An effect size |
 | Prediction | What will happen? Who gets what? | A forecast, a ranking, an allocation |
 
+gallop's sibling, [bluML](https://github.com/0trm/bluml), builds and runs the models that will live inside the product, from framing to monitoring, when it is installed; gallop keeps the questions around them: whether a model fits the question, uplift targeting, and whether the model moved anything.
+
 ## Map
 
 A question enters at the left and leaves as a decision. Measurement is a foundation because what ships changes the data. Knowledge is a ceiling because what you learn has to outlive the test that produced it.

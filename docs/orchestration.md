@@ -25,7 +25,11 @@ question arrives
        ├─ building-models         a forecast a plan rests on, made once or every
        │                          period, or a ranking or an allocation decided
        │                          continuously. Validated out of time, then
-       │                          designing-experiments before it claims impact
+       │                          designing-experiments before it claims impact.
+       │                          With bluML installed, a model that will run
+       │                          inside the product goes to bluML after steps
+       │                          0 to 2, uplift excepted; its launch test
+       │                          comes back to designing-experiments
        ├─ designing-experiments   you control assignment
        ├─ choosing-causal-designs assignment already happened
        │      └─ (or the exit: no comparison group; say so; stop, and file the refusal)

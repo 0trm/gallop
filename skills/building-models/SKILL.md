@@ -1,6 +1,6 @@
 ---
 name: building-models
-description: Decides whether a forecast a plan rests on, or a repeated, at-volume decision, belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention.
+description: Decides whether a forecast a plan rests on, or a repeated, at-volume decision, belongs to a model, which output it needs (a forecast, a ranking, an allocation) and whether targeting needs propensity or uplift, validates the model out of time against the base rate and the naive baseline, and hands the impact claim to an experiment. Use when someone asks for a churn, propensity, LTV, scoring, forecasting, uplift, recommendation or allocation model, when a model's offline accuracy is offered as evidence that something worked, or when deciding who gets an offer, a discount or an intervention. When the model will run inside the product, is not an uplift model and bluML is installed, bluML's framing-models takes it after steps 0 to 2; an uplift model stays here.
 ---
 
 # Building models
@@ -97,6 +97,20 @@ randomise the offer across the eligible population with exposure logged,
 and train the uplift model on that experiment's rows. Propensity is still
 the right model when the question is who will do something rather than
 whom to treat: fraud, capacity, support routing.
+
+## Handing the build to bluML
+
+When the model will run inside the product, scored on a schedule or served
+on request and kept live, and bluML is installed, steps 0 to 2 are where
+this skill ends. They have settled that the question is a model's, which
+output it needs and, for a ranking or an allocation that picks who gets an
+intervention, propensity or uplift. An uplift model stays here to the end,
+because bluML does not validate uplift. Anything else goes to bluML's
+`framing-models`, and steps 3, 4 and 6 are bluML's from there: the
+validation, the forecast bar and drift. Its launch test comes to
+`designing-experiments`, as step 5 asks, with the current rule as the
+control and a permanent holdout when the decision runs continuously.
+Without bluML, carry on below.
 
 ## 3 · Validate out of time, against the base rate
 
