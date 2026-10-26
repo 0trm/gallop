@@ -101,7 +101,8 @@ whom to treat: fraud, capacity, support routing.
 ## Handing the build to bluML
 
 When the model will run inside the product, scored on a schedule or served
-on request and kept live, and bluML is installed, steps 0 to 2 are where
+on request and kept live, and
+[bluML](https://github.com/0trm/bluml) is installed, steps 0 to 2 are where
 this skill ends. They have settled that the question is a model's, which
 output it needs and, for a ranking or an allocation that picks who gets an
 intervention, propensity or uplift. An uplift model stays here to the end,
