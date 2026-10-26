@@ -1,6 +1,6 @@
 ---
 name: forming-hypotheses
-description: Turns a what-happened question into a localised, sized hypothesis: rules out the measurement floor before any behavioural story, decomposes a moved metric into mix and rate, splits the change across funnel steps, scans segments with the number of cuts declared, and sizes the opportunity as a ceiling and a prior-anchored estimate against the MDE, then hands the hypothesis back to routing as a change question. Use when a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it.
+description: "Turns a what-happened question into a localised, sized hypothesis: rules out the measurement floor before any behavioural story, decomposes a moved metric into mix and rate, splits the change across funnel steps, scans segments with the number of cuts declared, and sizes the opportunity as a ceiling and a prior-anchored estimate against the MDE, then hands the hypothesis back to routing as a change question. Use when a metric moved and someone asks what happened, when asked for a deep dive, a funnel or segment analysis, a root cause, or an opportunity size before a roadmap commitment, or when an observed gap between two groups is about to be quoted as the value of closing it."
 ---
 
 # Forming hypotheses
