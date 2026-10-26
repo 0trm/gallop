@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import json
 import re
 import sys
 from pathlib import Path
@@ -104,7 +105,11 @@ def frontmatter(text):
     for line in m.group(1).splitlines():
         if ":" in line:
             k, _, v = line.partition(":")
-            meta[k.strip()] = v.strip()
+            v = v.strip()
+            # A double-quoted value is YAML's escaped form; JSON reads the same escapes
+            if len(v) >= 2 and v[0] == v[-1] == '"':
+                v = json.loads(v)
+            meta[k.strip()] = v
     return meta, m.group(2)
 
 
