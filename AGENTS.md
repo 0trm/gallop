@@ -28,7 +28,9 @@ accommodated.
 
 `site/build.py` renders the skill pages, the knowledge, install and about pages,
 and the README skills table from the skills and `site/content/`. Run it after
-changing a skill, and `python3 site/build.py --check` before committing.
+changing a skill, and `python3 site/build.py --check` before committing. Its
+one dependency is pinned in `requirements.txt`: `pip install -r requirements.txt`.
+CI runs the same check on every pull request.
 
 ## Assets
 

@@ -3,19 +3,34 @@ name: Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
+  # Runs on every pull request too, so stale generated pages are caught before
+  # they merge rather than after they reach main.
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse stale generated pages
+        run: |
+          pip install -r requirements.txt
+          python3 site/build.py --check
+
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: check
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -23,10 +38,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Refuse to deploy stale generated pages
-        run: |
-          pip install markdown-it-py
-          python3 site/build.py --check
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

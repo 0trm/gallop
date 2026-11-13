@@ -15,11 +15,13 @@ Figures from site/figures/ are inlined after the
 heading named in FIGURES, so they take the page's ink and theme with it.
 
 The build fails when a skills/ directory has no SKILL.md, when the position
-table here and the directories on disk disagree, or (with --check) when the
-committed output differs from a fresh build, which is how CI catches drift.
+table here and the directories on disk disagree, when a skill's frontmatter
+name is not its directory, when a skill links a .md file the site cannot
+resolve, or (with --check) when the committed output differs from a fresh
+build, which is how CI catches drift.
 
 Run:  python3 site/build.py [--check]
-Needs: markdown-it-py (the one dependency beyond the stdlib).
+Needs: markdown-it-py, pinned in requirements.txt (pip install -r requirements.txt).
 """
 
 from __future__ import annotations
@@ -97,19 +99,35 @@ md = MarkdownIt("commonmark", {"typographer": False}).enable("table")
 # %% ---------------------------------------------------------------- helpers
 
 
-def frontmatter(text):
+def frontmatter(path):
+    """Read a SKILL.md header: one `key: value` per line, the value plain or
+    double-quoted. That is the whole subset the skills use, so anything else
+    (a block scalar, a value over several lines, a single-quoted value, a plain
+    value strict YAML would reject) stops the build instead of rendering wrong."""
+    text = path.read_text()
+    path = path.relative_to(ROOT)
     m = re.match(r"^---\n(.*?)\n---\n(.*)$", text, re.DOTALL)
     if not m:
-        return {}, text
+        sys.exit(f"build: {path} has no --- frontmatter block")
     meta = {}
     for line in m.group(1).splitlines():
-        if ":" in line:
-            k, _, v = line.partition(":")
-            v = v.strip()
-            # A double-quoted value is YAML's escaped form; JSON reads the same escapes
-            if len(v) >= 2 and v[0] == v[-1] == '"':
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        k, sep, v = line.partition(":")
+        v = v.strip()
+        bad = (not sep or not re.fullmatch(r"[a-z][a-z0-9_-]*", k) or not v
+               or v[0] in "|>'" or (v[0] != '"' and (": " in v or " #" in v)))
+        if bad:
+            sys.exit(f"build: {path}: frontmatter line {line[:60]!r} is not one `key: value`; "
+                     "write the value on one line, and double-quote it if it holds ': ' or ' #'")
+        if v[0] == '"':
+            # A double-quoted value is YAML's escaped form; JSON reads the same
+            # escapes, and the ones it lacks raise here rather than pass through.
+            try:
                 v = json.loads(v)
-            meta[k.strip()] = v
+            except json.JSONDecodeError as e:
+                sys.exit(f"build: {path}: cannot read the quoted {k} value ({e})")
+        meta[k] = v
     return meta, m.group(2)
 
 
@@ -440,8 +458,8 @@ def write(path, content, emitted):
     """Record the render; only touch disk outside --check.
 
     --check used to call the same builders and let them write, so it repaired
-    the staleness it was reporting: the run failed, the tree was silently
-    fixed, and a second run passed with nothing committed.
+    the staleness it was reporting: the run failed, the same run rewrote the
+    tree to match, and a second run passed with nothing committed.
     """
     RENDERED[path] = content
     emitted.append(path)
@@ -463,16 +481,22 @@ def skill_dirs():
     for d in dirs:
         if not (d / "SKILL.md").exists():
             sys.exit(f"build: {d} has no SKILL.md")
+        meta, _ = frontmatter(d / "SKILL.md")
+        if meta.get("name") != d.name:
+            sys.exit(f"build: skills/{d.name}/SKILL.md has name {meta.get('name')!r}; "
+                     f"it must be the directory name, {d.name!r}")
     return dirs
 
 
 def build_skill_page(d, emitted):
-    meta, body = frontmatter((d / "SKILL.md").read_text())
-    name = meta.get("name", d.name)
+    meta, body = frontmatter(d / "SKILL.md")
+    name = meta["name"]
     position, decides = POSITIONS[name]
     sections = []
+    inlined = set()
     for sub in ("reference", "templates"):
         for f in sorted((d / sub).glob("*.md")):
+            inlined.add(f.stem)
             inner = demote(render(f.read_text()))
             label = "template" if sub == "templates" else "reference"
             m = re.search(r"<h2>(.*?)</h2>", inner)
@@ -489,9 +513,9 @@ def build_skill_page(d, emitted):
   <div class="cells skillhead" style="grid-template-columns:2fr 1fr">
     <div>
       <h1 class="d" style="font-size:34px">{name}</h1>
-      <p class="skdesc">{decides}.</p>
+      <p class="skdesc">{html.escape(decides, quote=False)}.</p>
       <details class="trig"><summary><span class="lab">When your agent loads it</span></summary>
-        <p>{meta.get("description", "")}</p></details>
+        <p>{html.escape(meta.get("description", ""), quote=False)}</p></details>
     </div>
     <div>
       <div class="snip"><div class="bar"><span class="path"><span class="cur"></span>shell</span><button type="button" class="copy">Copy</button></div><pre><span class="p">$</span> git clone https://github.com/0trm/gallop
@@ -512,8 +536,15 @@ def build_skill_page(d, emitted):
     doc = (f'<div class="band docgrid{"" if contents else " norail"}">{contents}<div class="doc">\n{main_html}\n'
            + "\n".join(sections) + "</div></div>")
     # Cross-references between the markdown files become anchors to the
-    # collapsed sections inlined above.
-    doc = re.sub(r'href="(?:reference/|templates/)?([\w-]+)\.md"', r'href="#ref-\1"', doc)
+    # collapsed sections inlined above. Any other relative .md link would 404
+    # on the site, so it stops the build.
+    def ref(m):
+        own = re.fullmatch(r"(?:reference/|templates/)?([\w-]+)\.md", m.group(1))
+        if not own or own.group(1) not in inlined:
+            sys.exit(f"build: skills/{name} links {m.group(1)}, which is not one of its "
+                     "reference or template files; link one of those or a full URL")
+        return f'href="#ref-{own.group(1)}"'
+    doc = re.sub(r'href="([^":]*\.md(?:#[^"]*)?)"', ref, doc)
     out = page(title=f"{name} · gallop", description=decides, root="../../",
                url=f"skills/{name}/", active="skills/",
                body=header + "\n" + doc)
@@ -523,13 +554,13 @@ def build_skill_page(d, emitted):
 def build_skills_index(dirs, emitted):
     rows = []
     for d in dirs:
-        meta, _ = frontmatter((d / "SKILL.md").read_text())
+        meta, _ = frontmatter(d / "SKILL.md")
         name = meta["name"]
         position, decides = POSITIONS[name]
         rows.append(f"""    <a class="skrow" href="{name}/">
       <span class="pos dim">{position}</span>
       <h2>{name}</h2>
-      <p>{decides}.</p>
+      <p>{html.escape(decides, quote=False)}.</p>
     </a>""")
 
     def sk(name):
@@ -656,13 +687,18 @@ README_END = "<!-- skills-table:end -->"
 def readme_table(dirs):
     lines = ["| Skill | What it decides | Reach for it when |", "|---|---|---|"]
     for d in dirs:
-        meta, _ = frontmatter((d / "SKILL.md").read_text())
+        meta, _ = frontmatter(d / "SKILL.md")
         name = meta["name"]
         _, decides = POSITIONS[name]
         desc = meta.get("description", "")
-        m = re.search(r"Use when ([^.]*)\.", desc)
-        when = m.group(1) if m else ""
-        lines.append(f"| [`{name}`](skills/{name}/SKILL.md) | {decides} | {when} |")
+        # The sentence runs to a period that ends it (followed by a capital or
+        # the end), so "e.g." and "0.5" inside it do not cut it short.
+        m = re.search(r"Use when (.*?)\.(?=\s+[A-Z]|\s*$)", desc, re.S)
+        if not m:
+            sys.exit(f"build: skills/{name} description has no 'Use when ...' sentence "
+                     "for the README table")
+        cells = [c.replace("|", r"\|") for c in (decides, m.group(1))]
+        lines.append(f"| [`{name}`](skills/{name}/SKILL.md) | {cells[0]} | {cells[1]} |")
     return "\n".join(lines)
 
 

@@ -176,7 +176,7 @@ The only true fork on the map.
 Before a launch ships, "can you randomise?" is a choice, not a fact. If the
 question arrives pre-launch, push the fork upstream: hold out a slice of
 users, stagger the rollout by market or cohort, or randomise the prompt
-rather than the feature. A feature refined without a flag is a feature you
+rather than the feature. A feature shipped without a flag is a feature you
 will be reading with interrupted time series in three months.
 
 Watch for the trap case: "users who do X retain better, should we push

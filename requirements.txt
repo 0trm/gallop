@@ -1,0 +1,4 @@
+# The site build's dependencies, pinned: build.py --check compares its HTML
+# byte for byte with the committed pages, so a new release must not change it.
+markdown-it-py==4.2.0
+mdurl==0.1.2
