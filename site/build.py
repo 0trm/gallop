@@ -275,7 +275,7 @@ def footer(root):
   </div>
   <div>
     <p class="lab">Project</p>
-    <a href="{AUTHOR_URL}">by {AUTHOR} &#8599;</a>
+    <a href="https://0trm.dev/">by {AUTHOR} &#8599;</a>
     <span class="dim">MIT License &middot; 2026</span>
   </div>
 </footer>"""
@@ -313,7 +313,11 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
 <meta property="og:title" content="{html.escape(title, quote=True)}">
 <meta property="og:description" content="{html.escape(description, quote=True)}">
 <meta property="og:url" content="{SITE_URL}{url}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://0trm.dev/img/flow-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Short dashes laid along a flowing field">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFFFFF">
 {IDENTITY}
 <script>
@@ -321,16 +325,15 @@ def page(*, title, description, body, root, url="", active=None, extra_style="")
      after the light page is already on screen, on every navigation. */
   (function () {{
     try {{
-      var t = localStorage.getItem("gallop-theme");
-      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+      var t = localStorage.getItem("gallop-theme") || localStorage.getItem("0trm-theme");
+      if (t !== "dark" && t !== "light") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = t;
     }} catch (e) {{}}
   }})();
 </script>
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="{root}assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{root}assets/gallop.css">
 <link rel="stylesheet" href="{root}assets/doc.css">
 {f'<style>{extra_style}</style>' if extra_style else ''}

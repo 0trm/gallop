@@ -150,7 +150,7 @@
 .snip pre{margin:0;padding:12px 14px 14px;font-size:12.5px;line-height:1.6;background:var(--surface);
           white-space:pre-wrap;overflow-wrap:anywhere}
 .snip pre .p{color:var(--dim)}
-.snip .copy{border:0;background:none;padding:0;color:var(--dim);cursor:pointer;
+.snip .copy{border:0;background:none;padding:6px 8px;margin:-6px -8px;color:var(--dim);cursor:pointer;
             font-family:var(--sans);text-transform:uppercase;font-size:11px;
             letter-spacing:.14em;font-weight:600}
 .snip .copy:hover{color:var(--fg)}

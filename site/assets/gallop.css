@@ -1,9 +1,15 @@
 /* gallop: the locked design system.
-   A hairline cell grid, one ink, one ground and one grey, two faces. Light is the
-   default; dark is opt-in from the switch in the nav and is remembered per
-   browser. prefers-color-scheme is deliberately not consulted, because the
-   default is a design decision rather than a preference to inherit.
+   A hairline cell grid, one ink, one ground and one grey, two faces. A first
+   visit follows the system's light or dark setting, as the rest of 0trm.dev
+   does; the switch in the nav overrides it and is remembered per browser, and
+   a choice made on 0trm.dev carries over. The head script sets data-theme
+   before paint; without scripts the page is light.
    The written version is gallop-aesthetic.md. */
+
+/* the two faces, served from here (OFL; licences beside the files) */
+@font-face{font-family:"Archivo";font-style:normal;font-weight:400 700;font-display:swap;src:url("fonts/archivo.woff2") format("woff2")}
+@font-face{font-family:"Courier Prime";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/courier-prime-400.woff2") format("woff2")}
+@font-face{font-family:"Courier Prime";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/courier-prime-700.woff2") format("woff2")}
 
 :root{
   /* native controls and scrollbars follow the switch, not the operating system */
@@ -213,7 +219,7 @@ img,svg{max-width:100%}
 .foot .wm{font-size:22px;display:block;margin-bottom:8px}
 .foot p{margin:0;max-width:34ch;font-family:var(--sans);color:var(--body);line-height:1.6}
 .foot .lab{margin-bottom:10px;color:var(--dim)}
-.foot a,.foot span{display:block;line-height:1.95}
+.foot a,.foot span{display:block;line-height:1.95;min-height:24px}
 .foot .dim{color:var(--dim)}
 
 /* --- figures: inline SVG that wears the page's ink ------------------------ */
@@ -286,7 +292,7 @@ img,svg{max-width:100%}
   .foot > :first-child .wm{margin:0;flex:none}
   :root{--gutter:16px}
   .term .run{padding:14px 16px 16px;font-size:13px}
-  .term .row{grid-template-columns:8ch 1fr;padding-left:0}
+  .term .row{grid-template-columns:9ch 1fr;padding-left:0}
   .term .row span:last-child{grid-column:2}
   .term .to,.term .sub{padding-left:0}
   .term .out{margin-left:0}
